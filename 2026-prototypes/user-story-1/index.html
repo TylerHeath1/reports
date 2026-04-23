@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OS Hub — Change Intelligence · Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navigation: #FCCF3F;
+    --jet-black: #191919;
+    --near-black: #0D1128;
+    --white: #fff;
+    --light-grey: #F9F7F7;
+    --lightest-grey: #f9fafb;
+    --dark-grey: #6E707E;
+    --medium-grey: #666;
+    --light-border-grey: #e5e7eb;
+    --navy: #0427a4;
+    --material-blue: #1976d2;
+    --dark-blue: #0d47a1;
+    --red: #F44336;
+    --light-red: #FFEAEA;
+    --material-red: #d32f2f;
+    --green: #E0F5E3;
+    --dark-green: #4A9957;
+    --amber-50: #fffbeb;
+    --amber-300: #fde68a;
+    --amber-800: #92400e;
+    --orange: #f57c00;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--light-grey); color: var(--jet-black); font-family: 'Darker Grotesque', sans-serif; font-size: 16px; line-height: 1.45; }
+  a { color: var(--material-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.85em; background: var(--lightest-grey); padding: 1px 5px; border-radius: 3px; color: var(--near-black); }
+
+  /* ===== OS Hub Navbar ===== */
+  nav.oshub-nav {
+    background: var(--white); border-bottom: 1px solid var(--light-border-grey);
+    padding: 0 32px; display: flex; align-items: center; height: 76px; position: sticky; top: 0; z-index: 100;
+  }
+  .logo { display: flex; align-items: center; font-weight: 800; font-size: 22px; color: var(--jet-black); letter-spacing: -0.3px; }
+  .logo-mark { width: 34px; height: 34px; background: var(--navigation); border-radius: 4px; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: var(--jet-black); }
+  .nav-links { display: flex; gap: 24px; margin-left: 48px; }
+  .nav-links a { color: var(--jet-black); font-weight: 600; font-size: 15px; padding: 6px 2px; position: relative; }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -26px; left: 0; right: 0; height: 3px; background: var(--navigation); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .user-pill { background: var(--jet-black); color: var(--white); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; }
+  .plus-badge { background: var(--navigation); color: var(--jet-black); font-weight: 800; font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px; }
+
+  /* ===== Subnav / concept switcher ===== */
+  .subnav { background: var(--white); border-bottom: 1px solid var(--light-border-grey); padding: 0 32px; display: flex; align-items: center; height: 52px; gap: 4px; overflow-x: auto; }
+  .subnav a.tab { padding: 0 16px; height: 52px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--dark-grey); border-bottom: 3px solid transparent; white-space: nowrap; }
+  .subnav a.tab:hover { color: var(--jet-black); text-decoration: none; }
+  .subnav a.tab.active { color: var(--jet-black); border-bottom-color: var(--navigation); }
+  .subnav .badge { background: var(--navigation); color: var(--jet-black); padding: 1px 7px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 6px; }
+
+  /* ===== Page layout ===== */
+  .page { max-width: 1260px; margin: 0 auto; padding: 32px 32px 80px; }
+  h1 { font-size: 36px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.5px; }
+  h2 { font-size: 24px; font-weight: 700; margin: 40px 0 14px; letter-spacing: -0.3px; }
+  h3 { font-size: 16px; font-weight: 700; margin: 0 0 6px; }
+  p { margin: 0 0 12px; }
+  .sub { color: var(--dark-grey); font-size: 16px; margin-bottom: 20px; }
+
+  /* ===== Hero card ===== */
+  .hero {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-left: 5px solid var(--navigation);
+    padding: 22px 26px; border-radius: 4px; margin-bottom: 24px;
+  }
+  .hero .eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--navigation); text-transform: uppercase; background: var(--jet-black); display: inline-block; padding: 3px 10px; border-radius: 3px; margin-bottom: 10px; }
+  .hero h2 { margin: 0 0 8px; font-size: 22px; }
+  .hero p { font-size: 15px; color: var(--medium-grey); margin: 0; max-width: 820px; }
+  .hero p strong { color: var(--jet-black); }
+
+  .kpi-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .kpi-pill { background: var(--lightest-grey); border: 1px solid var(--light-border-grey); padding: 5px 12px; border-radius: 16px; font-size: 12.5px; font-weight: 600; color: var(--near-black); }
+
+  /* ===== Concept cards grid ===== */
+  .concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .concept-card {
+    background: var(--white); border: 1.5px solid var(--light-border-grey); border-radius: 6px; padding: 20px; display: flex; flex-direction: column;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .concept-card:hover { border-color: var(--jet-black); box-shadow: 0 4px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
+  .concept-card .rank {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%; background: var(--jet-black); color: var(--white);
+    font-size: 13px; font-weight: 800; margin-bottom: 10px;
+  }
+  .concept-card.mvp .rank { background: var(--navigation); color: var(--jet-black); }
+  .concept-card h3 { font-size: 18px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.2px; }
+  .concept-card .persona { font-size: 13px; color: var(--dark-grey); font-weight: 500; margin-bottom: 14px; }
+  .concept-card .kv { font-size: 13.5px; margin-bottom: 10px; }
+  .concept-card .kv .k { font-weight: 700; color: var(--jet-black); display: block; margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--dark-grey); }
+  .concept-card .kv .v { color: var(--medium-grey); }
+  .concept-card .footer-row { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--light-border-grey); display: flex; justify-content: space-between; align-items: center; }
+  .concept-card .risk-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-300); font-weight: 600; }
+  .btn { font-family: inherit; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 4px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
+  .btn-primary { background: var(--navigation); color: var(--jet-black); }
+  .btn-primary:hover { background: #e6b92e; text-decoration: none; }
+  .btn-secondary { background: var(--white); color: var(--jet-black); border: 1.5px solid var(--jet-black); }
+  .btn-secondary:hover { background: var(--lightest-grey); text-decoration: none; }
+
+  /* ===== Architecture strip ===== */
+  .arch-strip { background: var(--jet-black); color: var(--white); border-radius: 6px; padding: 24px 28px; margin-top: 12px; }
+  .arch-strip .eyebrow { color: var(--navigation); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .arch-strip h2 { color: var(--white); margin: 0 0 8px; font-size: 22px; }
+  .arch-strip p { color: #c9cbd0; max-width: 820px; font-size: 15px; }
+  .arch-strip p strong { color: var(--navigation); }
+  .arch-layers { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 18px; }
+  .arch-layer { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 14px 16px; }
+  .arch-layer .step { color: var(--navigation); font-weight: 800; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .arch-layer h4 { margin: 0 0 4px; color: var(--white); font-size: 14px; }
+  .arch-layer p { margin: 0; font-size: 13px; color: #a7a9b0; }
+
+  /* ===== MVP ranking ===== */
+  .ranking { display: flex; flex-direction: column; gap: 10px; }
+  .rank-row { background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px; padding: 16px 20px; display: flex; gap: 16px; align-items: flex-start; }
+  .rank-row .rank-badge { width: 36px; height: 36px; border-radius: 50%; background: var(--lightest-grey); color: var(--jet-black); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; border: 1.5px solid var(--light-border-grey); }
+  .rank-row.mvp .rank-badge { background: var(--navigation); border-color: var(--navigation); }
+  .rank-row h3 { margin: 0 0 4px; font-size: 16px; }
+  .rank-row p { margin: 0; font-size: 14px; color: var(--medium-grey); }
+
+  /* ===== Pitches ===== */
+  .pitch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pitch-card { background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 6px; padding: 20px 22px; }
+  .pitch-card h3 { font-size: 16px; margin: 0 0 4px; }
+  .pitch-card .persona-label { font-size: 12px; color: var(--dark-grey); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 14px; }
+  .pitch-card blockquote { margin: 0; padding: 14px 16px; background: var(--lightest-grey); border-left: 4px solid var(--navigation); border-radius: 0 4px 4px 0; font-size: 14px; color: var(--near-black); line-height: 1.55; }
+  .pitch-card blockquote strong { color: var(--jet-black); }
+  .pitch-card blockquote em { color: var(--material-red); font-style: normal; font-weight: 600; }
+  .pitch-card .pitch-hook { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--jet-black); border-left: 4px solid var(--jet-black); padding-left: 12px; }
+
+  /* ===== Risk table ===== */
+  .risks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .risk-card { background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px; padding: 14px 16px; }
+  .risk-card h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+  .risk-card .tag-row { margin-bottom: 8px; }
+  .risk-card .sev { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sev-high { background: var(--light-red); color: var(--material-red); }
+  .sev-med { background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-300); }
+  .risk-card p { font-size: 13px; color: var(--medium-grey); margin: 0; }
+
+  @media (max-width: 900px) {
+    .concept-grid, .arch-layers, .pitch-grid, .risks { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== OS Hub top nav ========== -->
+<nav class="oshub-nav">
+  <div class="logo">
+    <div class="logo-mark">⌘</div>
+    <span>Open Supply Hub</span>
+  </div>
+  <div class="nav-links">
+    <a href="#">Search</a>
+    <a href="#">Contribute</a>
+    <a href="#" class="active">My Suppliers</a>
+    <a href="#">Claimed Facilities</a>
+    <a href="#">API</a>
+    <a href="#">About</a>
+  </div>
+  <div class="nav-right">
+    <span style="font-weight:600; color:var(--jet-black); font-size:14px;">ASDA Sourcing<span class="plus-badge">Plus</span></span>
+    <div class="user-pill">SC</div>
+  </div>
+</nav>
+
+<!-- ========== Subnav: concept switcher ========== -->
+<div class="subnav">
+  <a href="index.html" class="tab active">Overview<span class="badge">Start here</span></a>
+  <a href="concept-1-alert-first.html" class="tab">Concept 1 · Alert-first</a>
+  <a href="concept-2-change-feed.html" class="tab">Concept 2 · Change feed</a>
+  <a href="concept-3-supplier-table.html" class="tab">Concept 3 · Supplier table + diff</a>
+</div>
+
+<!-- ========== Page ========== -->
+<div class="page">
+
+  <h1>Change Intelligence</h1>
+  <div class="sub">Three product concepts for the OS Hub Plus tier · User Story 1 · Prototype v0.1</div>
+
+  <!-- Hero brief -->
+  <div class="hero">
+    <span class="eyebrow">User Story 1</span>
+    <h2>"Tell me when my supplier data changes in a way that matters."</h2>
+    <p>Brands pay for OS Hub data to monitor their supplier networks continuously — not just at onboarding. When a meaningful change happens (a certification is revoked, an ownership transfer lands a facility under an unvetted entity, an NGO reports an unregistered production site), there is no reliable mechanism to surface it to the right person at the right moment. <strong>Success metric:</strong> a user opens this product and identifies the one thing they need to act on today in under 90 seconds. <strong>Biggest risk:</strong> alert fatigue — this product fails if users learn to ignore it.</p>
+    <div class="kpi-row">
+      <span class="kpi-pill">Primary persona: compliance / responsible sourcing manager</span>
+      <span class="kpi-pill">Price: $15K–$30K / year</span>
+      <span class="kpi-pill">Target ARR: $500K across 20–35 customers</span>
+      <span class="kpi-pill">Pilots: Amazon · Disney · ASDA · Worldly</span>
+    </div>
+  </div>
+
+  <!-- Three concept cards -->
+  <h2>The three concepts</h2>
+  <div class="sub">Same underlying data. Three different philosophies about how users consume and act on change information. Click into each to see a working OS Hub-styled wireframe.</div>
+
+  <div class="concept-grid">
+
+    <div class="concept-card mvp">
+      <span class="rank">1</span>
+      <h3>Change feed</h3>
+      <div class="persona">For the user who checks in daily.</div>
+      <div class="kv"><span class="k">Hypothesis</span><span class="v">Recency + severity is enough to drive attention. Let the user be the triage engine; give them great filters and inline actions.</span></div>
+      <div class="kv"><span class="k">Serves best</span><span class="v">Daily ritual persona. Small-to-mid supplier networks where a scroll is feasible.</span></div>
+      <div class="kv"><span class="k">Breaks down</span><span class="v">At 3,000+ facilities, even a filtered feed becomes noise. Severity without triage bias returns the alert fatigue problem.</span></div>
+      <div class="footer-row">
+        <span class="risk-tag">Top risk: contributor frequency</span>
+        <a href="concept-2-change-feed.html" class="btn btn-primary">Open →</a>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <span class="rank">2</span>
+      <h3>Alert-first</h3>
+      <div class="persona">For the user who has 5 minutes.</div>
+      <div class="kv"><span class="k">Hypothesis</span><span class="v">Users want a pre-made decision, not a list. Pre-triage the universe into Action today / Monitor / Background using starred suppliers + Tier 1 lists + recent searches.</span></div>
+      <div class="kv"><span class="k">Serves best</span><span class="v">Weekly check-in persona. Time-pressured VP-level report-ups.</span></div>
+      <div class="kv"><span class="k">Breaks down</span><span class="v">When the triage model is wrong, the high-signal thing is buried and the user never sees it.</span></div>
+      <div class="footer-row">
+        <span class="risk-tag">Top risk: field-level detection</span>
+        <a href="concept-1-alert-first.html" class="btn btn-secondary">Open →</a>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <span class="rank">3</span>
+      <h3>Supplier table + diff</h3>
+      <div class="persona">For the auditor who documents.</div>
+      <div class="kv"><span class="k">Hypothesis</span><span class="v">The buyer isn't the user. Procurement buys; auditors use. Auditors need evidence trails and systematic coverage, not curation.</span></div>
+      <div class="kv"><span class="k">Serves best</span><span class="v">Third-party auditors. ESG reporting leads preparing CSRD / LkSG filings.</span></div>
+      <div class="kv"><span class="k">Breaks down</span><span class="v">Fails the 90-second test. Rewards thoroughness, not speed. Wrong product for the time-pressured primary.</span></div>
+      <div class="footer-row">
+        <span class="risk-tag">Top risk: pricing resistance</span>
+        <a href="concept-3-supplier-table.html" class="btn btn-secondary">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Architecture strip -->
+  <h2>We're not building three products. We're building one.</h2>
+  <div class="arch-strip">
+    <div class="eyebrow">Architecture insight</div>
+    <h2 style="margin-top:0;">One foundation. Three surfaces. Two delivery channels.</h2>
+    <p>The change feed is the primitive. The alert dashboard is the feed with <strong>rules + personalization</strong> layered on top. The supplier table is the feed <strong>grouped by supplier</strong> with a before/after join. The API and CSV export are the same events in different packaging. We don't build three products — we build one event log and five thin adapters.</p>
+    <div class="arch-layers">
+      <div class="arch-layer">
+        <div class="step">Layer 1 · Foundation</div>
+        <h4>Change event log</h4>
+        <p>Every edit becomes a structured event: <code style="background: rgba(255,255,255,0.1); color: #fde68a;">{os_id, field, before, after, contributor, timestamp}</code>.</p>
+      </div>
+      <div class="arch-layer">
+        <div class="step">Layer 2 · Context</div>
+        <h4>Rules + personalization</h4>
+        <p>Severity rules tag events High/Med/Low. Personalization scopes them to starred suppliers, Tier 1 lists, recent searches.</p>
+      </div>
+      <div class="arch-layer">
+        <div class="step">Layer 3 · Surfaces</div>
+        <h4>Feed · Alert · Table · API · CSV</h4>
+        <p>Five thin adapters over the same stream. Each customer can use one, two, or all five depending on workflow.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MVP ranking -->
+  <h2>MVP sequencing</h2>
+  <div class="ranking">
+    <div class="rank-row mvp">
+      <div class="rank-badge">1</div>
+      <div>
+        <h3>Change feed (Concept 2) — build first</h3>
+        <p>The only concept that can ship on current data infrastructure without new engineering. The system already tracks <em>that</em> something changed; a feed only needs to render events in order with severity. It buys time to collect real user behavior before committing to a triage model. It also hedges the field-level detection kill criterion — if engineering confirms more than one quarter of build, we can still ship the feed and sell against it.</p>
+      </div>
+    </div>
+    <div class="rank-row">
+      <div class="rank-badge">2</div>
+      <div>
+        <h3>Alert-first (Concept 1) — build second</h3>
+        <p>Once behavioral data from the feed tells us which change types correlate with user action, the triage model has a foundation. Shipping it cold means guessing, and the cost of being wrong is the product's core failure mode (alert fatigue). Concept 1 is Concept 2 after twelve months of telemetry and field-level detection live.</p>
+      </div>
+    </div>
+    <div class="rank-row">
+      <div class="rank-badge">3</div>
+      <div>
+        <h3>Supplier table + diff (Concept 3) — ship as a power-user view inside the above</h3>
+        <p>Valuable to auditors, but auditors are not the economic buyer — VP Sustainability writes the cheque. Package the diff expansion and audit trail as the "evidence export" feature of Concepts 1 or 2 and use it to unlock the Worldly / service-provider reseller channel.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risks -->
+  <h2>Risks to design against</h2>
+  <div class="risks">
+    <div class="risk-card">
+      <div class="tag-row"><span class="sev sev-high">High severity · High likelihood</span></div>
+      <h4>Field-level change detection not yet built</h4>
+      <p>The system tracks that something changed, not what or why. Engineering build required; not on current roadmap. Confirm feasibility before advancing.</p>
+    </div>
+    <div class="risk-card">
+      <div class="tag-row"><span class="sev sev-high">High severity · Medium likelihood</span></div>
+      <h4>Pricing resistance from existing customers</h4>
+      <p>Customers may expect change signals as part of their current subscription. Requires clear tier differentiation before launch.</p>
+    </div>
+    <div class="risk-card">
+      <div class="tag-row"><span class="sev sev-med">Medium severity · Medium likelihood</span></div>
+      <h4>Contributor update frequency is inconsistent</h4>
+      <p>Change alerts only work if contributors update regularly. MSI mandates help but don't guarantee frequency across all sectors.</p>
+    </div>
+  </div>
+
+  <!-- Sales pitches -->
+  <h2>Sales pitches</h2>
+  <div class="sub">Core positioning: <strong>"You're already paying for the data. This tells you when it matters."</strong></div>
+
+  <div class="pitch-grid">
+    <div class="pitch-card">
+      <div class="persona-label">For the Head of Sustainability</div>
+      <h3 style="display:none;">Head of Sustainability</h3>
+      <div class="pitch-hook">"You're already paying for the data. This tells you when it matters."</div>
+      <blockquote>
+        Your team doesn't have a data problem. You have a <em>"what's worth reading today"</em> problem. Every regulator — CSDDD, LkSG, CSRD — is moving from annual disclosure to continuous monitoring. The question auditors will ask in 18 months is not "did you have the data?" You had it. It's <strong>"what was your process for noticing when it changed?"</strong><br /><br />
+        Change Intelligence is that process. When a supplier's WRAP certification lapses, when an ownership transfer lands a facility under a sanctioned entity, when an NGO reports a site you didn't know existed — we surface it the day it happens, not the quarter you renew your report. One subscription, one inbox, one defensible audit trail.<br /><br />
+        If we had turned this on for your network last January, here are the five things you would have caught. Can I walk you through them?
+      </blockquote>
+    </div>
+    <div class="pitch-card">
+      <div class="persona-label">For the VP of Sourcing</div>
+      <div class="pitch-hook">"You're already paying for the data. This tells you when it matters."</div>
+      <blockquote>
+        You have 2,000 suppliers. You are going to lose one this year — an ownership flip, a capacity collapse, a sanctions list you missed. That loss costs you nine-figure fulfillment disruption or a headline in the <em>Guardian</em>. Either way it lands on your desk unannounced.<br /><br />
+        Change Intelligence is an early-warning system for the five or six things that actually disrupt supply: ownership changes to unvetted entities, unregistered subcontracting sites, capacity cuts of 30%+, certification revocations, and contributor conflicts where two independent sources disagree. Every signal is <strong>scoped to your supplier list, triaged by severity, and actionable in one click</strong>.<br /><br />
+        Your team is already in OS Hub. This is the upgrade that turns static data into live sourcing intelligence. Let me show you a before/after for three of your Tier 1 suppliers.
+      </blockquote>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

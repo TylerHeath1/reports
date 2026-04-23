@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OS Hub — Supplier Changes</title>
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navigation: #FCCF3F;
+    --jet-black: #191919;
+    --near-black: #0D1128;
+    --almost-black: #111827;
+    --white: #fff;
+    --light-grey: #F9F7F7;
+    --lightest-grey: #f9fafb;
+    --dark-grey: #6E707E;
+    --medium-grey: #666;
+    --light-border: #ccc;
+    --light-border-grey: #e5e7eb;
+    --accent-grey: #E7E8EA;
+    --navy: #0427a4;
+    --material-blue: #1976d2;
+    --dark-blue: #0d47a1;
+    --red: #F44336;
+    --light-red: #FFEAEA;
+    --material-red: #d32f2f;
+    --amber-50: #fffbeb;
+    --amber-300: #fde68a;
+    --amber-800: #92400e;
+    --orange: #f57c00;
+    --crowdsourced-bg: #FFF7ED80;
+    --crowdsourced-text: #C2410C;
+    --green: #E0F5E3;
+    --dark-green: #4A9957;
+    --green-text: #2e7d32;
+    --claimed-bg: #F0FDF480;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--light-grey); color: var(--jet-black); font-family: 'Darker Grotesque', sans-serif; font-size: 16px; line-height: 1.45; }
+  code { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.85em; background: var(--lightest-grey); padding: 1px 5px; border-radius: 3px; color: var(--near-black); }
+  a { color: var(--material-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===== OS Hub Navbar ===== */
+  nav.oshub-nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--light-border-grey);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    height: 76px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { display: flex; align-items: center; font-weight: 800; font-size: 22px; color: var(--jet-black); letter-spacing: -0.3px; }
+  .logo .logo-mark {
+    width: 34px; height: 34px; background: var(--navigation); border-radius: 4px; margin-right: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: var(--jet-black);
+  }
+  .nav-links { display: flex; gap: 24px; margin-left: 48px; }
+  .nav-links a { color: var(--jet-black); font-weight: 600; font-size: 15px; padding: 6px 2px; position: relative; }
+  .nav-links a.active::after {
+    content: ''; position: absolute; bottom: -26px; left: 0; right: 0; height: 3px; background: var(--navigation);
+  }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .nav-right .user-pill {
+    background: var(--jet-black); color: var(--white); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px;
+  }
+  .plus-badge {
+    background: var(--navigation); color: var(--jet-black); font-weight: 800; font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px;
+  }
+
+  /* ===== Subnav / concept switcher ===== */
+  .subnav { background: var(--white); border-bottom: 1px solid var(--light-border-grey); padding: 0 32px; display: flex; align-items: center; height: 52px; gap: 4px; overflow-x: auto; }
+  .subnav a.tab { padding: 0 16px; height: 52px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--dark-grey); border-bottom: 3px solid transparent; white-space: nowrap; text-decoration: none; }
+  .subnav a.tab:hover { color: var(--jet-black); text-decoration: none; }
+  .subnav a.tab.active { color: var(--jet-black); border-bottom-color: var(--navigation); }
+  .subnav .badge { background: var(--navigation); color: var(--jet-black); padding: 1px 7px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 6px; }
+
+  /* ===== Page layout ===== */
+  .page {
+    max-width: 1260px; margin: 0 auto; padding: 24px 32px 80px;
+  }
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-size: 32px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.4px;
+  }
+  .page-header .sub { color: var(--dark-grey); font-size: 15px; font-weight: 500; }
+  .page-header .header-right { display: flex; gap: 8px; align-items: center; }
+
+  /* ===== Logic banner — explains the personalization ===== */
+  .logic-banner {
+    background: var(--white);
+    border: 1px solid var(--light-border-grey);
+    border-left: 4px solid var(--navigation);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 20px 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .logic-banner .logic-title {
+    font-weight: 700; font-size: 15px; margin-bottom: 2px;
+  }
+  .logic-banner .logic-body {
+    font-size: 14px; color: var(--medium-grey);
+  }
+  .logic-banner .logic-body strong { color: var(--jet-black); }
+  .logic-banner .logic-body .inline-chip {
+    display: inline-block; background: var(--lightest-grey); border: 1px solid var(--light-border-grey);
+    padding: 1px 7px; border-radius: 10px; font-size: 12px; font-weight: 600; color: var(--near-black); margin: 0 2px;
+  }
+
+  /* ===== Filter / scope bar (OS Hub style) ===== */
+  .scope-bar {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px;
+    padding: 12px 16px; display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .scope-bar label { font-size: 13px; font-weight: 600; color: var(--dark-grey); margin-right: 2px; }
+  .scope-bar select, .scope-bar input {
+    font-family: inherit; font-size: 14px; padding: 7px 10px; border: 1px solid var(--light-border-grey);
+    border-radius: 4px; background: var(--white); color: var(--jet-black);
+  }
+  .scope-bar .spacer { margin-left: auto; color: var(--medium-grey); font-size: 13px; }
+
+  /* ===== Tier sections ===== */
+  .tier-header {
+    display: flex; align-items: baseline; gap: 12px; margin: 28px 0 12px;
+  }
+  .tier-header h2 {
+    font-size: 22px; font-weight: 700; margin: 0; letter-spacing: -0.2px;
+  }
+  .tier-header .count {
+    background: var(--jet-black); color: var(--white); font-weight: 700; font-size: 12px;
+    padding: 2px 10px; border-radius: 12px;
+  }
+  .tier-header .tier-note { color: var(--dark-grey); font-size: 14px; margin-left: auto; font-weight: 500; }
+
+  /* ===== Alert card (Immediate Attention) ===== */
+  .alert-card {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-left: 5px solid var(--material-red);
+    border-radius: 4px; padding: 20px 22px; margin-bottom: 12px;
+  }
+  .alert-card .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .alert-card h3 { font-size: 19px; font-weight: 700; margin: 0 0 4px; color: var(--jet-black); letter-spacing: -0.2px; }
+  .alert-card .facility-meta {
+    font-size: 14px; color: var(--dark-grey); margin-bottom: 14px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  }
+  .alert-card .facility-meta .sep { color: var(--light-border); }
+  .star-flag { color: var(--navigation); font-weight: 800; font-size: 14px; margin-right: 4px; }
+  .chip {
+    display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .chip-high { background: var(--light-red); color: var(--material-red); }
+  .chip-med { background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-300); }
+  .chip-low { background: var(--lightest-grey); color: var(--dark-grey); border: 1px solid var(--light-border-grey); }
+  .chip-claimed { background: var(--claimed-bg); color: var(--dark-green); border: 1px solid var(--green); font-weight: 600; }
+  .chip-crowd { background: var(--crowdsourced-bg); color: var(--crowdsourced-text); font-weight: 600; }
+  .chip-verified { background: #e8f0fe; color: var(--dark-blue); font-weight: 600; }
+  .chip-tier1 { background: var(--jet-black); color: var(--white); }
+
+  .why-flagged {
+    background: var(--light-grey); border-radius: 4px; padding: 10px 14px; margin: 12px 0; font-size: 14px; color: var(--near-black);
+  }
+  .why-flagged strong { color: var(--material-red); }
+  .why-flagged .why-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--dark-grey); font-weight: 700; display: block; margin-bottom: 2px;
+  }
+
+  .alert-card .actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+  /* ===== OS Hub buttons ===== */
+  .btn {
+    font-family: inherit; font-weight: 700; font-size: 14px; padding: 8px 18px; border-radius: 4px; cursor: pointer;
+    border: none; transition: background 0.15s;
+  }
+  .btn-primary { background: var(--navigation); color: var(--jet-black); }
+  .btn-primary:hover { background: #e6b92e; }
+  .btn-secondary { background: var(--white); color: var(--jet-black); border: 1.5px solid var(--jet-black); }
+  .btn-secondary:hover { background: var(--lightest-grey); }
+  .btn-ghost { background: transparent; color: var(--dark-grey); border: none; font-weight: 600; padding: 8px 10px; cursor: pointer; font-size: 14px; }
+  .btn-ghost:hover { color: var(--jet-black); }
+
+  /* ===== Monitor list (tier 2) ===== */
+  .monitor-list { background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px; overflow: hidden; }
+  .monitor-row {
+    padding: 14px 18px; border-bottom: 1px solid var(--light-border-grey); display: flex; gap: 14px; align-items: center;
+  }
+  .monitor-row:last-child { border-bottom: none; }
+  .monitor-row .info { flex: 1; min-width: 0; }
+  .monitor-row .info .name-line { display: flex; gap: 8px; align-items: center; font-weight: 600; font-size: 15px; color: var(--jet-black); margin-bottom: 2px; }
+  .monitor-row .info .detail-line { font-size: 13.5px; color: var(--medium-grey); }
+  .monitor-row .info .detail-line code { font-size: 12px; }
+  .monitor-row .reasons { font-size: 12px; color: var(--dark-grey); }
+  .monitor-row .reasons .tag {
+    display: inline-block; background: var(--lightest-grey); border: 1px solid var(--light-border-grey); padding: 1px 7px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-right: 3px; color: var(--dark-grey);
+  }
+  .monitor-row .right { display: flex; gap: 8px; align-items: center; }
+
+  /* ===== Background activity ===== */
+  .background-collapsed {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px;
+    padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    font-size: 14px; color: var(--dark-grey);
+  }
+  .background-collapsed:hover { background: var(--lightest-grey); }
+  .background-collapsed strong { color: var(--jet-black); }
+  .bg-detail { display: none; margin-top: 8px; }
+  .bg-detail.open { display: block; }
+  .bg-detail .monitor-row { padding: 11px 18px; }
+  .bg-detail .monitor-row .info .name-line { font-weight: 500; font-size: 14px; }
+
+  /* ===== Right-side OS Hub footer/summary ===== */
+  .summary-footer {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px;
+    padding: 18px 20px; margin-top: 32px; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  }
+  .summary-footer .summary-copy { font-size: 14px; color: var(--dark-grey); max-width: 700px; }
+  .summary-footer .summary-copy strong { color: var(--jet-black); }
+
+  /* ===== Annotations (wireframe call-outs) ===== */
+  .annotation {
+    background: #fffde7; border: 1px dashed var(--amber-300); border-radius: 4px;
+    padding: 10px 14px; font-size: 13px; color: var(--amber-800); margin: 14px 0;
+  }
+  .annotation strong { color: var(--amber-800); }
+
+  /* ===== OS Hub-like small icons via unicode ===== */
+  .flag-icon::before { content: '⚑'; color: var(--material-red); font-size: 14px; margin-right: 3px; }
+  .star-icon::before { content: '★'; color: var(--navigation); font-size: 14px; margin-right: 3px; }
+  .globe-icon::before { content: '◎'; color: var(--dark-grey); margin-right: 3px; }
+
+  /* Responsive small tweaks */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .page-header h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== OS Hub top nav ========== -->
+<nav class="oshub-nav">
+  <div class="logo">
+    <div class="logo-mark">⌘</div>
+    <span>Open Supply Hub</span>
+  </div>
+  <div class="nav-links">
+    <a href="#">Search</a>
+    <a href="#">Contribute</a>
+    <a href="#" class="active">My Suppliers</a>
+    <a href="#">Claimed Facilities</a>
+    <a href="#">API</a>
+    <a href="#">About</a>
+  </div>
+  <div class="nav-right">
+    <span style="font-weight:600; color:var(--jet-black); font-size:14px;">ASDA Sourcing<span class="plus-badge">Plus</span></span>
+    <div class="user-pill">SC</div>
+  </div>
+</nav>
+
+<!-- ========== Subnav: concept switcher ========== -->
+<div class="subnav">
+  <a href="index.html" class="tab">Overview</a>
+  <a href="concept-1-alert-first.html" class="tab active">Concept 1 · Alert-first<span class="badge">Viewing</span></a>
+  <a href="concept-2-change-feed.html" class="tab">Concept 2 · Change feed</a>
+  <a href="concept-3-supplier-table.html" class="tab">Concept 3 · Supplier table + diff</a>
+</div>
+
+<!-- ========== Page ========== -->
+<div class="page">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1>Supplier Changes</h1>
+      <div class="sub">Thursday, 23 April 2026 · Changes since your last visit on 21 April</div>
+    </div>
+    <div class="header-right">
+      <button class="btn btn-secondary" style="padding:8px 14px;">⟳ Refresh</button>
+    </div>
+  </div>
+
+  <!-- Logic banner: explain the personalization -->
+  <div class="logic-banner">
+    <div>
+      <div class="logic-title">Tailored to your 312 starred suppliers</div>
+      <div class="logic-body">
+        Priority is based on
+        <span class="inline-chip">★ starred facilities (312)</span>
+        <span class="inline-chip">Tier 1 list (47)</span>
+        <span class="inline-chip">recent searches (14)</span>
+        <span class="inline-chip">CSDDD risk categories</span>
+        and the severity rules you can tune in settings.
+      </div>
+    </div>
+    <button class="btn-ghost" style="white-space:nowrap;">⚙ Adjust logic</button>
+  </div>
+
+  <div class="annotation">
+    <strong>Wireframe note:</strong> The logic banner is how we tell the user why <em>these</em> items. It is what makes this feel like a pre-made decision rather than a random ranked list. Without it, users will distrust the triage.
+  </div>
+
+  <!-- Scope bar -->
+  <div class="scope-bar">
+    <label>View:</label>
+    <select>
+      <option>My starred suppliers (312)</option>
+      <option>All ASDA network (1,847)</option>
+      <option>Tier 1 suppliers (47)</option>
+      <option>Bangladesh region (428)</option>
+    </select>
+    <label>Period:</label>
+    <select>
+      <option>Since last visit (2 days)</option>
+      <option>Last 7 days</option>
+      <option>Last 30 days</option>
+    </select>
+    <div class="spacer">Last indexed: 06:12 UTC · Next run in 5h 48m</div>
+  </div>
+
+  <!-- =========================================================
+       TIER 1 — IMMEDIATE ATTENTION
+       ========================================================= -->
+  <div class="tier-header">
+    <h2>Action today</h2>
+    <span class="count">2</span>
+    <span class="tier-note">Flagged because these changes affect starred Tier 1 suppliers.</span>
+  </div>
+
+  <div class="alert-card">
+    <div class="head">
+      <div>
+        <h3><span class="star-flag">★</span>Ha-Meem Sportswear Ltd</h3>
+        <div class="facility-meta">
+          <code>BGD2023001ABC01</code>
+          <span class="sep">·</span>
+          <span class="globe-icon">Dhaka, Bangladesh</span>
+          <span class="sep">·</span>
+          <span class="chip chip-tier1">Tier 1</span>
+          <span class="chip chip-claimed">Claimed</span>
+          <span class="chip chip-verified">Verified contributor</span>
+        </div>
+      </div>
+      <span class="chip chip-high">High severity</span>
+    </div>
+
+    <div class="why-flagged">
+      <span class="why-label">Why this is at the top</span>
+      <strong>Certification revoked.</strong> WRAP Gold certification expired on <strong>18 Apr 2026</strong> (5 days ago). No renewal documentation has been submitted. Three previous renewal cycles completed on time. Flagged by contributor <strong>WRAP Compliance Services</strong>.
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary">Open facility page →</button>
+      <button class="btn btn-secondary">⚑ Assign to teammate</button>
+      <button class="btn btn-secondary">✎ Add review note</button>
+      <button class="btn-ghost">Snooze 7 days</button>
+      <button class="btn-ghost">Mark as not applicable</button>
+    </div>
+  </div>
+
+  <div class="alert-card">
+    <div class="head">
+      <div>
+        <h3><span class="star-flag">★</span>Vina Export Apparel JSC</h3>
+        <div class="facility-meta">
+          <code>VNM2022047PQR05</code>
+          <span class="sep">·</span>
+          <span class="globe-icon">Bình Dương, Vietnam</span>
+          <span class="sep">·</span>
+          <span class="chip chip-tier1">Tier 1</span>
+          <span class="chip chip-claimed">Claimed</span>
+        </div>
+      </div>
+      <span class="chip chip-high">High severity</span>
+    </div>
+
+    <div class="why-flagged">
+      <span class="why-label">Why this is at the top</span>
+      <strong>Parent entity changed.</strong> Ownership transferred from Vina Holdings Ltd (Vietnam) to <strong>Meridian Apparel Holdings (Cayman Islands)</strong> on 22 Apr. The new parent has no prior records in OS Hub and no beneficial ownership disclosure on file.
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary">Open facility page →</button>
+      <button class="btn btn-secondary">⚑ Flag for legal review</button>
+      <button class="btn btn-secondary">✎ Add review note</button>
+      <button class="btn-ghost">Snooze 7 days</button>
+      <button class="btn-ghost">Mark as not applicable</button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       TIER 2 — MONITOR THIS WEEK
+       ========================================================= -->
+  <div class="tier-header">
+    <h2>Monitor this week</h2>
+    <span class="count">5</span>
+    <span class="tier-note">Signals on starred suppliers that can wait until Friday.</span>
+  </div>
+
+  <div class="monitor-list">
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line"><span class="star-flag">★</span>Karachi Knitting Mills <span class="chip chip-tier1">Tier 1</span></div>
+        <div class="detail-line"><code>PAK2023156DEF01</code> · Karachi, Pakistan · Fire safety certification revoked by Alliance after re-inspection</div>
+      </div>
+      <div class="reasons"><span class="tag">starred</span> <span class="tag">Tier 1</span></div>
+      <div class="right">
+        <span class="chip chip-med">Medium</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;">Review</button>
+      </div>
+    </div>
+
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line"><span class="star-flag">★</span>Dongguan Precision Components</div>
+        <div class="detail-line"><code>CHN2024189XYZ02</code> · Dongguan, China · Contributor conflict — Worldly reports BSCI Pass, Fair Labor Watch reports open violation</div>
+      </div>
+      <div class="reasons"><span class="tag">starred</span> <span class="tag">conflict</span></div>
+      <div class="right">
+        <span class="chip chip-med">Medium</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;">Review</button>
+      </div>
+    </div>
+
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line"><span class="star-flag">★</span>Tirupur Textiles Pvt Ltd</div>
+        <div class="detail-line"><code>IND2023211LMN04</code> · Tirupur, India · Unregistered sub-contracting site (Salem) reported by Clean Clothes Campaign</div>
+      </div>
+      <div class="reasons"><span class="tag">starred</span> <span class="tag">NGO source</span></div>
+      <div class="right">
+        <span class="chip chip-med">Medium</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;">Review</button>
+      </div>
+    </div>
+
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line">Istanbul Leatherworks <span class="chip chip-crowd">Recently searched</span></div>
+        <div class="detail-line"><code>TUR2024067JKL03</code> · Istanbul, Turkey · Workforce dropped 48% (1,200 → 620) over 60 days</div>
+      </div>
+      <div class="reasons"><span class="tag">searched 14 Apr</span> <span class="tag">capacity</span></div>
+      <div class="right">
+        <span class="chip chip-med">Medium</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;">Review</button>
+      </div>
+    </div>
+
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line"><span class="star-flag">★</span>Phnom Penh Garment Co</div>
+        <div class="detail-line"><code>KHM2024099GHI02</code> · Phnom Penh, Cambodia · BSCI audit lapsed 60 days ago, renewal not yet scheduled</div>
+      </div>
+      <div class="reasons"><span class="tag">starred</span> <span class="tag">cert lapsed</span></div>
+      <div class="right">
+        <span class="chip chip-med">Medium</span>
+        <button class="btn btn-secondary" style="padding:6px 12px;">Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       TIER 3 — BACKGROUND ACTIVITY
+       ========================================================= -->
+  <div class="tier-header">
+    <h2>Background activity</h2>
+    <span class="count">142</span>
+    <span class="tier-note">No action needed. Here for completeness and audit evidence.</span>
+  </div>
+
+  <div id="bg-toggle" class="background-collapsed">
+    <div>
+      Address corrections, OS ID merges, self-reported minor field updates, and changes on suppliers you do not follow. <strong>Click to expand.</strong>
+    </div>
+    <span style="color:var(--jet-black); font-weight:700;">+ Show 142</span>
+  </div>
+  <div id="bg-detail" class="bg-detail monitor-list">
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line">Selangor Electronics Ltd</div>
+        <div class="detail-line"><code>MYS2024011UVW08</code> · Malaysia · Address format correction</div>
+      </div>
+      <span class="chip chip-low">Background</span>
+    </div>
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line">Colombo Apparel (Pvt) Ltd</div>
+        <div class="detail-line"><code>LKA2023088RST04</code> · Sri Lanka · Name change to "Serendib Garments Ltd" (self-reported, no ownership change)</div>
+      </div>
+      <span class="chip chip-low">Background</span>
+    </div>
+    <div class="monitor-row">
+      <div class="info">
+        <div class="name-line">Bandung Textile Industries</div>
+        <div class="detail-line"><code>IDN2024022MNO07</code> · Indonesia · Duplicate OS ID merged into parent record</div>
+      </div>
+      <span class="chip chip-low">Background</span>
+    </div>
+    <div style="padding: 12px 18px; text-align: center; color: var(--dark-grey); font-size: 13px; border-top: 1px solid var(--light-border-grey);">
+      139 more background items · <button class="btn-ghost" style="display:inline;">Download CSV</button>
+    </div>
+  </div>
+
+  <!-- Summary / next steps footer -->
+  <div class="summary-footer">
+    <div class="summary-copy">
+      <strong>How this list is built:</strong> Every 12 hours we re-index all facilities in your account. A change becomes <em>Action today</em> only if it affects a starred or Tier 1 supplier and matches a high-severity rule (certification revoked, ownership to unvetted entity, fire/safety revocation, unregistered production site, major capacity loss, contributor conflict). Everything else is Monitor or Background. You can tune the rules in <a href="#">Settings → Alert thresholds</a>.
+    </div>
+    <button class="btn btn-secondary">⚙ Alert settings</button>
+  </div>
+
+</div>
+
+<script>
+  // Background list expand/collapse
+  const tog = document.getElementById('bg-toggle');
+  const det = document.getElementById('bg-detail');
+  if (tog && det) {
+    tog.addEventListener('click', () => {
+      det.classList.toggle('open');
+      const isOpen = det.classList.contains('open');
+      tog.querySelector('span').textContent = isOpen ? '– Collapse' : '+ Show 142';
+    });
+  }
+
+  // Non-functional buttons: no-op but prevent default
+  document.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', e => {
+      if (b.id === 'bg-toggle' || b.closest('#bg-toggle')) return;
+      e.preventDefault();
+    });
+  });
+</script>
+</body>
+</html>

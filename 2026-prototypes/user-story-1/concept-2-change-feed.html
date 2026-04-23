@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OS Hub — Change Feed</title>
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navigation: #FCCF3F;
+    --jet-black: #191919;
+    --near-black: #0D1128;
+    --white: #fff;
+    --light-grey: #F9F7F7;
+    --lightest-grey: #f9fafb;
+    --dark-grey: #6E707E;
+    --medium-grey: #666;
+    --light-border: #ccc;
+    --light-border-grey: #e5e7eb;
+    --navy: #0427a4;
+    --material-blue: #1976d2;
+    --dark-blue: #0d47a1;
+    --red: #F44336;
+    --light-red: #FFEAEA;
+    --material-red: #d32f2f;
+    --amber-50: #fffbeb;
+    --amber-300: #fde68a;
+    --amber-800: #92400e;
+    --orange: #f57c00;
+    --crowdsourced-bg: #FFF7ED80;
+    --crowdsourced-text: #C2410C;
+    --green: #E0F5E3;
+    --dark-green: #4A9957;
+    --claimed-bg: #F0FDF480;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--light-grey); color: var(--jet-black); font-family: 'Darker Grotesque', sans-serif; font-size: 16px; line-height: 1.45; }
+  code { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.85em; background: var(--lightest-grey); padding: 1px 5px; border-radius: 3px; color: var(--near-black); }
+  a { color: var(--material-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===== OS Hub Navbar ===== */
+  nav.oshub-nav { background: var(--white); border-bottom: 1px solid var(--light-border-grey); padding: 0 32px; display: flex; align-items: center; height: 76px; position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; align-items: center; font-weight: 800; font-size: 22px; color: var(--jet-black); letter-spacing: -0.3px; }
+  .logo .logo-mark { width: 34px; height: 34px; background: var(--navigation); border-radius: 4px; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: var(--jet-black); }
+  .nav-links { display: flex; gap: 24px; margin-left: 48px; }
+  .nav-links a { color: var(--jet-black); font-weight: 600; font-size: 15px; padding: 6px 2px; position: relative; }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -26px; left: 0; right: 0; height: 3px; background: var(--navigation); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .user-pill { background: var(--jet-black); color: var(--white); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; }
+  .plus-badge { background: var(--navigation); color: var(--jet-black); font-weight: 800; font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px; }
+
+  /* ===== Subnav / concept switcher ===== */
+  .subnav { background: var(--white); border-bottom: 1px solid var(--light-border-grey); padding: 0 32px; display: flex; align-items: center; height: 52px; gap: 4px; overflow-x: auto; }
+  .subnav a.tab { padding: 0 16px; height: 52px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--dark-grey); border-bottom: 3px solid transparent; white-space: nowrap; text-decoration: none; }
+  .subnav a.tab:hover { color: var(--jet-black); text-decoration: none; }
+  .subnav a.tab.active { color: var(--jet-black); border-bottom-color: var(--navigation); }
+  .subnav .badge { background: var(--navigation); color: var(--jet-black); padding: 1px 7px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 6px; }
+
+  /* ===== Page layout ===== */
+  .page { max-width: 1100px; margin: 0 auto; padding: 24px 32px 80px; }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+  .page-header h1 { font-size: 32px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.4px; }
+  .page-header .sub { color: var(--dark-grey); font-size: 15px; font-weight: 500; }
+
+  /* ===== Buttons ===== */
+  .btn { font-family: inherit; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 4px; cursor: pointer; border: none; }
+  .btn-primary { background: var(--navigation); color: var(--jet-black); }
+  .btn-primary:hover { background: #e6b92e; }
+  .btn-secondary { background: var(--white); color: var(--jet-black); border: 1.5px solid var(--jet-black); }
+  .btn-secondary:hover { background: var(--lightest-grey); }
+  .btn-ghost { background: transparent; color: var(--dark-grey); border: none; font-weight: 600; padding: 8px 10px; cursor: pointer; font-size: 14px; }
+  .btn-ghost:hover { color: var(--jet-black); }
+
+  /* ===== Filter bar ===== */
+  .filter-bar {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px;
+    padding: 12px 16px; margin: 20px 0 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .chip-filter {
+    background: var(--lightest-grey); border: 1px solid var(--light-border-grey); padding: 6px 14px; border-radius: 18px; font-size: 13px; font-weight: 600; color: var(--near-black); cursor: pointer; transition: all 0.1s;
+  }
+  .chip-filter:hover { background: var(--light-grey); }
+  .chip-filter.active { background: var(--jet-black); color: var(--white); border-color: var(--jet-black); }
+  .filter-bar .spacer { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .filter-bar input, .filter-bar select { font-family: inherit; font-size: 13px; padding: 6px 10px; border: 1px solid var(--light-border-grey); border-radius: 4px; background: var(--white); color: var(--jet-black); }
+  .filter-bar input { width: 200px; }
+
+  /* ===== Feed ===== */
+  .day-header {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--dark-grey); margin: 20px 0 8px; padding-left: 4px;
+  }
+  .day-header.today { color: var(--jet-black); }
+  .day-header.today::before { content: '●'; color: var(--navigation); margin-right: 6px; font-size: 10px; }
+
+  .feed-group {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px; overflow: hidden;
+  }
+  .feed-item { padding: 16px 20px; border-bottom: 1px solid var(--light-border-grey); }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+  .feed-item .title-line { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .feed-item .title { font-size: 16px; font-weight: 700; color: var(--jet-black); letter-spacing: -0.1px; }
+  .feed-item .ts { font-size: 12px; color: var(--dark-grey); white-space: nowrap; font-weight: 500; }
+  .feed-item .body { font-size: 14px; color: var(--medium-grey); margin-top: 4px; }
+  .feed-item .body code { font-size: 12px; }
+  .feed-item .meta-line { font-size: 13px; color: var(--dark-grey); margin-top: 4px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .feed-item .actions { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .feed-item .actions .btn { padding: 6px 14px; font-size: 13px; }
+
+  /* Severity dot */
+  .sev-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; flex-shrink: 0; }
+  .sev-dot.high { background: var(--material-red); }
+  .sev-dot.med { background: var(--orange); }
+  .sev-dot.low { background: var(--light-border); }
+
+  /* chips */
+  .chip {
+    display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .chip-high { background: var(--light-red); color: var(--material-red); }
+  .chip-med { background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-300); }
+  .chip-low { background: var(--lightest-grey); color: var(--dark-grey); border: 1px solid var(--light-border-grey); }
+  .chip-claimed { background: var(--claimed-bg); color: var(--dark-green); border: 1px solid var(--green); font-weight: 600; text-transform: none; letter-spacing: 0; font-size: 11px; padding: 1px 8px; }
+  .chip-tier1 { background: var(--jet-black); color: var(--white); text-transform: none; letter-spacing: 0; font-size: 11px; padding: 1px 8px; }
+  .chip-crowd { background: var(--crowdsourced-bg); color: var(--crowdsourced-text); text-transform: none; letter-spacing: 0; font-size: 11px; padding: 1px 8px; font-weight: 600; }
+  .star-flag { color: var(--navigation); font-weight: 800; font-size: 14px; }
+
+  /* Empty-day filler */
+  .empty-day { background: var(--lightest-grey); border: 1px dashed var(--light-border-grey); border-radius: 4px; padding: 14px 20px; text-align: center; color: var(--dark-grey); font-size: 13px; }
+
+  /* Annotations */
+  .annotation { background: #fffde7; border: 1px dashed var(--amber-300); border-radius: 4px; padding: 10px 14px; font-size: 13px; color: var(--amber-800); margin: 14px 0; }
+  .annotation strong { color: var(--amber-800); }
+
+  /* Summary sidebar */
+  .layout-2col { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
+  .sidebar-card { background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px; padding: 16px 18px; margin-bottom: 14px; }
+  .sidebar-card h4 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--dark-grey); font-weight: 700; }
+  .sidebar-card .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 14px; }
+  .sidebar-card .stat-row .k { color: var(--medium-grey); }
+  .sidebar-card .stat-row .v { font-weight: 700; color: var(--jet-black); }
+  .sidebar-card .stat-row.big .v { font-size: 22px; }
+
+  .load-more { text-align: center; padding: 20px 0; }
+
+  @media (max-width: 900px) {
+    .layout-2col { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== OS Hub top nav ========== -->
+<nav class="oshub-nav">
+  <div class="logo">
+    <div class="logo-mark">⌘</div>
+    <span>Open Supply Hub</span>
+  </div>
+  <div class="nav-links">
+    <a href="#">Search</a>
+    <a href="#">Contribute</a>
+    <a href="#" class="active">My Suppliers</a>
+    <a href="#">Claimed Facilities</a>
+    <a href="#">API</a>
+    <a href="#">About</a>
+  </div>
+  <div class="nav-right">
+    <span style="font-weight:600; color:var(--jet-black); font-size:14px;">ASDA Sourcing<span class="plus-badge">Plus</span></span>
+    <div class="user-pill">SC</div>
+  </div>
+</nav>
+
+<!-- ========== Subnav: concept switcher ========== -->
+<div class="subnav">
+  <a href="index.html" class="tab">Overview</a>
+  <a href="concept-1-alert-first.html" class="tab">Concept 1 · Alert-first</a>
+  <a href="concept-2-change-feed.html" class="tab active">Concept 2 · Change feed<span class="badge">Viewing</span></a>
+  <a href="concept-3-supplier-table.html" class="tab">Concept 3 · Supplier table + diff</a>
+</div>
+
+<!-- ========== Page ========== -->
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1>Change Feed</h1>
+      <div class="sub">Everything that changed across your supplier network · 47 events in the last 7 days</div>
+    </div>
+    <div class="header-right" style="display:flex; gap:8px;">
+      <button class="btn btn-secondary" style="padding:8px 14px;">⚙ Digest settings</button>
+      <button class="btn btn-secondary" style="padding:8px 14px;">⇩ Export CSV</button>
+    </div>
+  </div>
+
+  <div class="annotation">
+    <strong>Wireframe note:</strong> The feed's job is to let the user skim <em>fast</em>. Severity dots + 8-word titles + relative timestamps. Three inline actions max. Dismissing trains the underlying rules. This is the only concept that can ship on current OS Hub data infrastructure — no field-level detection required to launch.
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="chip-filter active">All events</span>
+    <span class="chip-filter">High only</span>
+    <span class="chip-filter">★ Starred only</span>
+    <span class="chip-filter">Certifications</span>
+    <span class="chip-filter">Ownership</span>
+    <span class="chip-filter">Capacity</span>
+    <span class="chip-filter">Contributor conflicts</span>
+    <div class="spacer">
+      <input type="text" placeholder="Search supplier or OS ID…" />
+      <select>
+        <option>Last 7 days</option>
+        <option>Last 30 days</option>
+        <option>Last 90 days</option>
+        <option>Since last visit</option>
+        <option>Custom range…</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="layout-2col">
+    <!-- Feed column -->
+    <div>
+
+      <!-- TODAY -->
+      <div class="day-header today">Today · Thursday, 23 April 2026</div>
+      <div class="feed-group">
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot high"></span>
+                <span class="title"><span class="star-flag">★</span> Ownership transfer — Vina Export Apparel JSC</span>
+                <span class="chip chip-high">High</span>
+              </div>
+              <div class="body">Parent entity changed to <strong>Meridian Apparel Holdings (Cayman Islands)</strong>. No prior OS Hub records. Beneficial ownership not disclosed.</div>
+              <div class="meta-line"><code>VNM2022047PQR05</code> · Bình Dương, Vietnam · <span class="chip chip-tier1">Tier 1</span> <span class="chip chip-claimed">Claimed</span></div>
+            </div>
+            <div class="ts">2h ago · 04:18 UTC</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Open facility →</button>
+            <button class="btn btn-secondary">⚑ Flag for legal</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot med"></span>
+                <span class="title">Capacity reduction — Istanbul Leatherworks</span>
+                <span class="chip chip-med">Medium</span>
+                <span class="chip chip-crowd">Recently searched</span>
+              </div>
+              <div class="body">Worker headcount fell from <strong>1,200 → 620</strong> over the last 60 days. Self-reported.</div>
+              <div class="meta-line"><code>TUR2024067JKL03</code> · Istanbul, Turkey</div>
+            </div>
+            <div class="ts">5h ago · 01:42 UTC</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary">Open facility</button>
+            <button class="btn btn-secondary">⚑ Notify sourcing lead</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- YESTERDAY -->
+      <div class="day-header">Yesterday · Wednesday, 22 April 2026</div>
+      <div class="feed-group">
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot high"></span>
+                <span class="title"><span class="star-flag">★</span> Certification revoked — Ha-Meem Sportswear Ltd</span>
+                <span class="chip chip-high">High</span>
+              </div>
+              <div class="body"><strong>WRAP Gold certification</strong> expired 18 Apr, no renewal submitted. Three previous cycles renewed on time.</div>
+              <div class="meta-line"><code>BGD2023001ABC01</code> · Dhaka, Bangladesh · <span class="chip chip-tier1">Tier 1</span> <span class="chip chip-claimed">Claimed</span></div>
+            </div>
+            <div class="ts">1d ago · 14:02 UTC</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Open facility →</button>
+            <button class="btn btn-secondary">✉ Email supplier</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot high"></span>
+                <span class="title"><span class="star-flag">★</span> Contributor conflict — Dongguan Precision Components</span>
+                <span class="chip chip-high">High</span>
+              </div>
+              <div class="body"><strong>Worldly</strong> reports BSCI Pass (14 Apr). <strong>Fair Labor Watch</strong> reports open child-labor violation (19 Apr). Both sources verified.</div>
+              <div class="meta-line"><code>CHN2024189XYZ02</code> · Dongguan, China</div>
+            </div>
+            <div class="ts">1d ago · 09:37 UTC</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">View both sources →</button>
+            <button class="btn btn-secondary">⚑ Escalate</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot low"></span>
+                <span class="title">Name change — Colombo Apparel (Pvt) Ltd → Serendib Garments Ltd</span>
+                <span class="chip chip-low">Low</span>
+              </div>
+              <div class="body">Self-reported corporate rebrand. Registration number unchanged. No ownership change.</div>
+              <div class="meta-line"><code>LKA2023088RST04</code> · Colombo, Sri Lanka</div>
+            </div>
+            <div class="ts">1d ago · 08:15 UTC</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary">Open facility</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TUESDAY -->
+      <div class="day-header">Tuesday, 21 April 2026</div>
+      <div class="feed-group">
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot med"></span>
+                <span class="title"><span class="star-flag">★</span> Unregistered site detected — Tirupur Textiles Pvt Ltd</span>
+                <span class="chip chip-med">Medium</span>
+              </div>
+              <div class="body">NGO contributor flagged production at a <strong>Salem-based site</strong> not listed in the facility's registered operations.</div>
+              <div class="meta-line"><code>IND2023211LMN04</code> · Tirupur, India</div>
+            </div>
+            <div class="ts">2d ago</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Open facility →</button>
+            <button class="btn btn-secondary">📄 Request contributor evidence</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot high"></span>
+                <span class="title"><span class="star-flag">★</span> Fire safety certification revoked — Karachi Knitting Mills</span>
+                <span class="chip chip-high">High</span>
+              </div>
+              <div class="body">Alliance for Bangladesh Worker Safety revoked certification after re-inspection. Findings: blocked egress, stairwell obstruction.</div>
+              <div class="meta-line"><code>PAK2023156DEF01</code> · Karachi, Pakistan · <span class="chip chip-tier1">Tier 1</span></div>
+            </div>
+            <div class="ts">2d ago</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Open facility →</button>
+            <button class="btn btn-secondary">⚑ Pause sourcing</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MONDAY -->
+      <div class="day-header">Monday, 20 April 2026</div>
+      <div class="feed-group">
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot med"></span>
+                <span class="title"><span class="star-flag">★</span> BSCI audit lapsed — Phnom Penh Garment Co</span>
+                <span class="chip chip-med">Medium</span>
+              </div>
+              <div class="body">Audit expired 60 days ago. Renewal not yet scheduled.</div>
+              <div class="meta-line"><code>KHM2024099GHI02</code> · Phnom Penh, Cambodia</div>
+            </div>
+            <div class="ts">3d ago</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary">Open facility</button>
+            <button class="btn btn-secondary">✉ Email supplier</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot low"></span>
+                <span class="title">Address format correction — Selangor Electronics Ltd</span>
+                <span class="chip chip-low">Low</span>
+              </div>
+              <div class="body">Minor formatting standardization. Coordinates unchanged.</div>
+              <div class="meta-line"><code>MYS2024011UVW08</code> · Selangor, Malaysia</div>
+            </div>
+            <div class="ts">3d ago</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary">Open facility</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="head">
+            <div style="flex:1;">
+              <div class="title-line">
+                <span class="sev-dot low"></span>
+                <span class="title">OS ID merge — Bandung Textile Industries</span>
+                <span class="chip chip-low">Low</span>
+              </div>
+              <div class="body">Duplicate OS ID <code>IDN2024022MNO08</code> consolidated into parent record <code>IDN2024022MNO07</code>.</div>
+              <div class="meta-line"><code>IDN2024022MNO07</code> · Bandung, Indonesia</div>
+            </div>
+            <div class="ts">3d ago</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-secondary">Open facility</button>
+            <button class="btn-ghost">Dismiss</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="load-more">
+        <button class="btn btn-secondary">Load earlier changes →</button>
+      </div>
+    </div>
+
+    <!-- Sidebar column -->
+    <div>
+      <div class="sidebar-card">
+        <h4>This week</h4>
+        <div class="stat-row big"><span class="k">Total events</span><span class="v">47</span></div>
+        <div class="stat-row"><span class="k">★ On starred suppliers</span><span class="v">18</span></div>
+        <div class="stat-row"><span class="k">High severity</span><span class="v" style="color:var(--material-red);">6</span></div>
+        <div class="stat-row"><span class="k">Medium severity</span><span class="v" style="color:var(--orange);">11</span></div>
+        <div class="stat-row"><span class="k">Dismissed</span><span class="v">9</span></div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Event types</h4>
+        <div class="stat-row"><span class="k">Certification</span><span class="v">14</span></div>
+        <div class="stat-row"><span class="k">Ownership</span><span class="v">3</span></div>
+        <div class="stat-row"><span class="k">Capacity</span><span class="v">6</span></div>
+        <div class="stat-row"><span class="k">Contributor conflict</span><span class="v">4</span></div>
+        <div class="stat-row"><span class="k">Unregistered site</span><span class="v">2</span></div>
+        <div class="stat-row"><span class="k">Low-signal</span><span class="v">18</span></div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Industry-wide context</h4>
+        <div style="font-size: 13px; color: var(--medium-grey); line-height: 1.5;">
+          <strong style="color: var(--jet-black);">47 WRAP certifications</strong> expired industry-wide this month without renewal. Your network saw <strong style="color: var(--jet-black);">2</strong>.
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Digest email</h4>
+        <div style="font-size: 13px; color: var(--medium-grey); margin-bottom: 10px;">A weekly summary of high-severity events lands in your inbox every Monday 07:00.</div>
+        <button class="btn btn-secondary" style="width: 100%; padding: 6px 10px;">Manage digest →</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Filter chips — visual toggling only
+  document.querySelectorAll('.chip-filter').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip-filter').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // Dismiss buttons: fade the feed item
+  document.querySelectorAll('.btn-ghost').forEach(b => {
+    if (b.textContent.trim() === 'Dismiss') {
+      b.addEventListener('click', e => {
+        e.preventDefault();
+        const item = b.closest('.feed-item');
+        if (item) {
+          item.style.transition = 'opacity 0.3s';
+          item.style.opacity = '0.35';
+          b.textContent = 'Dismissed ✓';
+          b.disabled = true;
+        }
+      });
+    }
+  });
+
+  // Prevent other buttons from reloading
+  document.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', e => {
+      if (b.textContent.trim().startsWith('Dismiss')) return;
+      e.preventDefault();
+    });
+  });
+</script>
+</body>
+</html>

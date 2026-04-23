@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OS Hub — Supplier Changes Table</title>
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navigation: #FCCF3F;
+    --jet-black: #191919;
+    --near-black: #0D1128;
+    --white: #fff;
+    --light-grey: #F9F7F7;
+    --lightest-grey: #f9fafb;
+    --dark-grey: #6E707E;
+    --medium-grey: #666;
+    --light-border: #ccc;
+    --light-border-grey: #e5e7eb;
+    --navy: #0427a4;
+    --material-blue: #1976d2;
+    --dark-blue: #0d47a1;
+    --red: #F44336;
+    --light-red: #FFEAEA;
+    --material-red: #d32f2f;
+    --amber-50: #fffbeb;
+    --amber-300: #fde68a;
+    --amber-800: #92400e;
+    --orange: #f57c00;
+    --green: #E0F5E3;
+    --dark-green: #4A9957;
+    --claimed-bg: #F0FDF480;
+    --crowdsourced-bg: #FFF7ED80;
+    --crowdsourced-text: #C2410C;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--light-grey); color: var(--jet-black); font-family: 'Darker Grotesque', sans-serif; font-size: 16px; line-height: 1.45; }
+  code { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.85em; background: var(--lightest-grey); padding: 1px 5px; border-radius: 3px; color: var(--near-black); }
+  a { color: var(--material-blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===== OS Hub Navbar ===== */
+  nav.oshub-nav { background: var(--white); border-bottom: 1px solid var(--light-border-grey); padding: 0 32px; display: flex; align-items: center; height: 76px; position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; align-items: center; font-weight: 800; font-size: 22px; color: var(--jet-black); letter-spacing: -0.3px; }
+  .logo .logo-mark { width: 34px; height: 34px; background: var(--navigation); border-radius: 4px; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: var(--jet-black); }
+  .nav-links { display: flex; gap: 24px; margin-left: 48px; }
+  .nav-links a { color: var(--jet-black); font-weight: 600; font-size: 15px; padding: 6px 2px; position: relative; }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -26px; left: 0; right: 0; height: 3px; background: var(--navigation); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+  .user-pill { background: var(--jet-black); color: var(--white); padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; }
+  .plus-badge { background: var(--navigation); color: var(--jet-black); font-weight: 800; font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px; }
+
+  /* ===== Subnav / concept switcher ===== */
+  .subnav { background: var(--white); border-bottom: 1px solid var(--light-border-grey); padding: 0 32px; display: flex; align-items: center; height: 52px; gap: 4px; overflow-x: auto; }
+  .subnav a.tab { padding: 0 16px; height: 52px; display: flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--dark-grey); border-bottom: 3px solid transparent; white-space: nowrap; text-decoration: none; }
+  .subnav a.tab:hover { color: var(--jet-black); text-decoration: none; }
+  .subnav a.tab.active { color: var(--jet-black); border-bottom-color: var(--navigation); }
+  .subnav .badge { background: var(--navigation); color: var(--jet-black); padding: 1px 7px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 6px; }
+
+  /* ===== Page layout ===== */
+  .page { max-width: 1360px; margin: 0 auto; padding: 24px 32px 80px; }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; }
+  .page-header h1 { font-size: 32px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.4px; }
+  .page-header .sub { color: var(--dark-grey); font-size: 15px; font-weight: 500; }
+  .page-header .header-right { display: flex; gap: 8px; align-items: center; }
+
+  /* ===== Buttons ===== */
+  .btn { font-family: inherit; font-weight: 700; font-size: 14px; padding: 8px 16px; border-radius: 4px; cursor: pointer; border: none; }
+  .btn-primary { background: var(--navigation); color: var(--jet-black); }
+  .btn-primary:hover { background: #e6b92e; }
+  .btn-secondary { background: var(--white); color: var(--jet-black); border: 1.5px solid var(--jet-black); }
+  .btn-secondary:hover { background: var(--lightest-grey); }
+  .btn-ghost { background: transparent; color: var(--dark-grey); border: none; font-weight: 600; padding: 8px 10px; cursor: pointer; font-size: 14px; }
+  .btn-ghost:hover { color: var(--jet-black); }
+
+  /* ===== Annotation ===== */
+  .annotation { background: #fffde7; border: 1px dashed var(--amber-300); border-radius: 4px; padding: 10px 14px; font-size: 13px; color: var(--amber-800); margin: 14px 0; }
+  .annotation strong { color: var(--amber-800); }
+
+  /* ===== Filter bar ===== */
+  .filter-bar {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px;
+    padding: 12px 16px; display: flex; gap: 12px; align-items: center; margin: 20px 0 16px; flex-wrap: wrap;
+  }
+  .filter-bar label { font-size: 13px; font-weight: 600; color: var(--dark-grey); }
+  .filter-bar select, .filter-bar input {
+    font-family: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--light-border-grey); border-radius: 4px; background: var(--white); color: var(--jet-black);
+  }
+  .filter-bar .spacer { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+  /* ===== Review counter strip ===== */
+  .review-strip {
+    background: var(--jet-black); color: var(--white); border-radius: 4px; padding: 14px 20px;
+    margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .review-strip .stats { display: flex; gap: 28px; }
+  .review-strip .stat .val { color: var(--navigation); font-size: 24px; font-weight: 800; line-height: 1; }
+  .review-strip .stat .lab { font-size: 12px; color: #c9cbd0; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .review-strip .progress-wrap { flex: 1; max-width: 320px; }
+  .review-strip .progress { background: rgba(255,255,255,0.15); height: 8px; border-radius: 4px; overflow: hidden; }
+  .review-strip .progress .fill { background: var(--navigation); height: 100%; width: 51%; }
+  .review-strip .progress-label { font-size: 12px; color: #c9cbd0; margin-bottom: 6px; }
+
+  /* ===== Table ===== */
+  table.diff-table {
+    width: 100%; background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px;
+    border-collapse: separate; border-spacing: 0; overflow: hidden;
+  }
+  table.diff-table th {
+    text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--dark-grey);
+    padding: 12px 14px; background: var(--lightest-grey); border-bottom: 1.5px solid var(--light-border-grey); font-weight: 700;
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  table.diff-table th:hover { background: var(--light-grey); color: var(--jet-black); }
+  table.diff-table th.sorted { color: var(--jet-black); }
+  table.diff-table th.sorted::after { content: ' ↓'; color: var(--jet-black); }
+  table.diff-table td { padding: 14px; border-bottom: 1px solid var(--light-border-grey); font-size: 14px; vertical-align: middle; }
+  table.diff-table tr.data-row { cursor: pointer; transition: background 0.1s; }
+  table.diff-table tr.data-row:hover { background: var(--lightest-grey); }
+  table.diff-table tr.data-row.expanded { background: var(--lightest-grey); }
+  table.diff-table tr.data-row td.supplier-cell { font-weight: 600; color: var(--jet-black); }
+  table.diff-table tr.data-row td.supplier-cell .star-flag { color: var(--navigation); font-weight: 800; margin-right: 4px; }
+
+  /* chips */
+  .chip {
+    display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .chip-high { background: var(--light-red); color: var(--material-red); }
+  .chip-med { background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-300); }
+  .chip-low { background: var(--lightest-grey); color: var(--dark-grey); border: 1px solid var(--light-border-grey); }
+  .chip-tier1 { background: var(--jet-black); color: var(--white); text-transform: none; letter-spacing: 0; font-size: 11px; padding: 1px 8px; }
+  .chip-claimed { background: var(--claimed-bg); color: var(--dark-green); border: 1px solid var(--green); text-transform: none; letter-spacing: 0; font-size: 11px; padding: 1px 8px; font-weight: 600; }
+
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;
+  }
+  .status-unreviewed { background: #e7f0ff; color: #1e4dd8; }
+  .status-unreviewed::before { content: '●'; color: #1e4dd8; font-size: 8px; }
+  .status-progress { background: var(--amber-50); color: var(--amber-800); border: 1px solid var(--amber-300); }
+  .status-progress::before { content: '●'; color: var(--amber-800); font-size: 8px; }
+  .status-resolved { background: var(--green); color: var(--dark-green); }
+  .status-resolved::before { content: '✓'; font-size: 10px; }
+  .status-escalated { background: var(--light-red); color: var(--material-red); }
+  .status-escalated::before { content: '↑'; font-size: 10px; }
+
+  .caret { color: var(--dark-grey); font-size: 11px; transition: transform 0.15s; display: inline-block; }
+  .caret.open { transform: rotate(90deg); color: var(--jet-black); }
+
+  /* ===== Diff row ===== */
+  table.diff-table tr.diff-row td {
+    background: #fbfaf6; padding: 0; border-bottom: 2px solid var(--light-border-grey);
+  }
+  .diff-inner { padding: 20px 26px; }
+  .diff-inner .field-label { font-size: 12px; color: var(--dark-grey); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 10px; }
+  .diff-inner .field-label code { font-family: 'SF Mono', Menlo, Consolas, monospace; background: var(--white); border: 1px solid var(--light-border-grey); padding: 2px 7px; border-radius: 3px; color: var(--jet-black); font-size: 11px; text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+  .diff-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .diff-side {
+    background: var(--white); border: 1px solid var(--light-border-grey); border-radius: 4px; padding: 14px 18px;
+  }
+  .diff-side.before { border-left: 4px solid var(--light-border); }
+  .diff-side.after { border-left: 4px solid var(--material-red); }
+  .diff-side h5 { margin: 0 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--dark-grey); font-weight: 700; }
+  .diff-side.after h5 { color: var(--material-red); }
+  .kv-pair {
+    display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--light-border-grey); font-size: 13px;
+  }
+  .kv-pair:last-child { border-bottom: none; }
+  .kv-pair .k { color: var(--dark-grey); font-weight: 500; }
+  .kv-pair .v { color: var(--jet-black); text-align: right; }
+  .kv-pair .v.changed { color: var(--material-red); font-weight: 700; }
+
+  /* Review capture */
+  .review-actions {
+    margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--light-border-grey);
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .review-actions .note-input {
+    flex: 1; min-width: 220px; padding: 9px 12px; border: 1px solid var(--light-border-grey); border-radius: 4px; font-family: inherit; font-size: 13px;
+  }
+  .review-actions select { padding: 9px 12px; border: 1.5px solid var(--jet-black); border-radius: 4px; background: var(--white); font-family: inherit; font-size: 13px; font-weight: 600; color: var(--jet-black); cursor: pointer; }
+
+  .metadata-row {
+    display: flex; gap: 16px; align-items: center; font-size: 12px; color: var(--dark-grey);
+    margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--light-border-grey);
+  }
+  .metadata-row strong { color: var(--jet-black); }
+
+  /* Bottom pagination */
+  .pagination { text-align: center; padding: 16px; color: var(--dark-grey); font-size: 13px; }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .diff-panel { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== OS Hub top nav ========== -->
+<nav class="oshub-nav">
+  <div class="logo">
+    <div class="logo-mark">⌘</div>
+    <span>Open Supply Hub</span>
+  </div>
+  <div class="nav-links">
+    <a href="#">Search</a>
+    <a href="#">Contribute</a>
+    <a href="#" class="active">My Suppliers</a>
+    <a href="#">Claimed Facilities</a>
+    <a href="#">API</a>
+    <a href="#">About</a>
+  </div>
+  <div class="nav-right">
+    <span style="font-weight:600; color:var(--jet-black); font-size:14px;">ASDA Sourcing<span class="plus-badge">Plus</span></span>
+    <div class="user-pill">SC</div>
+  </div>
+</nav>
+
+<!-- ========== Subnav: concept switcher ========== -->
+<div class="subnav">
+  <a href="index.html" class="tab">Overview</a>
+  <a href="concept-1-alert-first.html" class="tab">Concept 1 · Alert-first</a>
+  <a href="concept-2-change-feed.html" class="tab">Concept 2 · Change feed</a>
+  <a href="concept-3-supplier-table.html" class="tab active">Concept 3 · Supplier table + diff<span class="badge">Viewing</span></a>
+</div>
+
+<!-- ========== Page ========== -->
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1>Supplier Changes · Audit Review</h1>
+      <div class="sub">Systematic review of all changes across your supplier network. Review status is captured on every row for audit evidence.</div>
+    </div>
+    <div class="header-right">
+      <button class="btn btn-secondary" style="padding:8px 14px;">⇩ Export review log (CSV)</button>
+      <button class="btn btn-primary" style="padding:8px 14px;">📄 Generate audit report</button>
+    </div>
+  </div>
+
+  <div class="annotation">
+    <strong>Wireframe note:</strong> Click any row to expand the before/after diff. Every expansion + status change is timestamped and exportable — that's the audit trail. Designed for auditors working through a list systematically, not for time-pressured skimmers.
+  </div>
+
+  <!-- Review progress strip -->
+  <div class="review-strip">
+    <div class="stats">
+      <div class="stat">
+        <div class="val">47</div>
+        <div class="lab">Changes in period</div>
+      </div>
+      <div class="stat">
+        <div class="val">24</div>
+        <div class="lab">Reviewed</div>
+      </div>
+      <div class="stat">
+        <div class="val">23</div>
+        <div class="lab">Unreviewed</div>
+      </div>
+      <div class="stat">
+        <div class="val">3</div>
+        <div class="lab">Escalated</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">Review completion · 24 of 47 (51%)</div>
+      <div class="progress"><div class="fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <label>Show:</label>
+    <select>
+      <option>All changes (47)</option>
+      <option>Unreviewed only (23)</option>
+      <option>High severity only (6)</option>
+      <option>★ Starred suppliers only (18)</option>
+      <option>Escalated (3)</option>
+    </select>
+    <label>Country:</label>
+    <select>
+      <option>All countries</option>
+      <option>Bangladesh</option>
+      <option>Vietnam</option>
+      <option>China</option>
+      <option>India</option>
+      <option>Pakistan</option>
+      <option>Turkey</option>
+      <option>Cambodia</option>
+    </select>
+    <label>Change type:</label>
+    <select>
+      <option>All types</option>
+      <option>Certification</option>
+      <option>Ownership</option>
+      <option>Capacity</option>
+      <option>Contributor conflict</option>
+      <option>Unregistered site</option>
+    </select>
+    <label>Period:</label>
+    <select>
+      <option>Last 30 days</option>
+      <option>Last 7 days</option>
+      <option>Last 90 days</option>
+      <option>Custom…</option>
+    </select>
+    <div class="spacer">
+      <input type="text" placeholder="Search…" style="width: 180px;" />
+    </div>
+  </div>
+
+  <!-- Table -->
+  <table class="diff-table">
+    <thead>
+      <tr>
+        <th style="width: 28px;"></th>
+        <th>Supplier</th>
+        <th>OS ID</th>
+        <th>Country</th>
+        <th>Change type</th>
+        <th class="sorted">Severity</th>
+        <th>Change date</th>
+        <th>Review status</th>
+        <th>Reviewer</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- Row 1: Ha-Meem Sportswear -->
+      <tr class="data-row" data-row="r1">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell"><span class="star-flag">★</span>Ha-Meem Sportswear Ltd <span class="chip chip-tier1">Tier 1</span></td>
+        <td><code>BGD2023001ABC01</code></td>
+        <td>Bangladesh</td>
+        <td>Certification</td>
+        <td><span class="chip chip-high">High</span></td>
+        <td>22 Apr 2026</td>
+        <td><span class="status-chip status-unreviewed">Unreviewed</span></td>
+        <td style="color:var(--dark-grey);">—</td>
+      </tr>
+      <tr class="diff-row" data-diff="r1" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Field changed · <code>wrap_certification_status</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Before · 18 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Status</span><span class="v">Gold — Valid</span></div>
+                <div class="kv-pair"><span class="k">Expiry</span><span class="v">18 Apr 2026</span></div>
+                <div class="kv-pair"><span class="k">Certificate ID</span><span class="v">WRAP-2024-BGD-00891</span></div>
+                <div class="kv-pair"><span class="k">Last audit</span><span class="v">11 Feb 2026</span></div>
+                <div class="kv-pair"><span class="k">Renewal pattern</span><span class="v">3 of 3 on time</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>After · 22 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Status</span><span class="v changed">Expired — no renewal</span></div>
+                <div class="kv-pair"><span class="k">Expiry</span><span class="v changed">18 Apr 2026 (lapsed 4d)</span></div>
+                <div class="kv-pair"><span class="k">Certificate ID</span><span class="v">WRAP-2024-BGD-00891</span></div>
+                <div class="kv-pair"><span class="k">Last audit</span><span class="v">11 Feb 2026</span></div>
+                <div class="kv-pair"><span class="k">Renewal pattern</span><span class="v changed">Broken — first missed</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" placeholder="Add review note (e.g. 'Contacted supplier 23 Apr, renewal in progress')" />
+              <select>
+                <option>Mark as…</option>
+                <option>Reviewed — in progress</option>
+                <option>Reviewed — resolved</option>
+                <option>Reviewed — no action needed</option>
+                <option>Escalated to audit team</option>
+              </select>
+              <button class="btn btn-primary">Save review</button>
+            </div>
+            <div class="metadata-row">
+              <span>Source: <strong>WRAP Compliance Services</strong></span>
+              <span>•</span>
+              <span>Last expanded: never</span>
+              <span>•</span>
+              <span>Event ID: <code>evt_01HS8V2A3F</code></span>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 2: Vina Export Apparel -->
+      <tr class="data-row" data-row="r2">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell"><span class="star-flag">★</span>Vina Export Apparel JSC <span class="chip chip-tier1">Tier 1</span></td>
+        <td><code>VNM2022047PQR05</code></td>
+        <td>Vietnam</td>
+        <td>Ownership</td>
+        <td><span class="chip chip-high">High</span></td>
+        <td>22 Apr 2026</td>
+        <td><span class="status-chip status-unreviewed">Unreviewed</span></td>
+        <td style="color:var(--dark-grey);">—</td>
+      </tr>
+      <tr class="diff-row" data-diff="r2" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Fields changed · <code>parent_entity</code>, <code>jurisdiction</code>, <code>beneficial_owner</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Before · 21 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Parent entity</span><span class="v">Vina Holdings Ltd</span></div>
+                <div class="kv-pair"><span class="k">Jurisdiction</span><span class="v">Vietnam</span></div>
+                <div class="kv-pair"><span class="k">Beneficial owner</span><span class="v">Disclosed (3 individuals)</span></div>
+                <div class="kv-pair"><span class="k">Other linked facilities</span><span class="v">14 in OS Hub</span></div>
+                <div class="kv-pair"><span class="k">Sanctions check</span><span class="v">Clean</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>After · 22 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Parent entity</span><span class="v changed">Meridian Apparel Holdings</span></div>
+                <div class="kv-pair"><span class="k">Jurisdiction</span><span class="v changed">Cayman Islands</span></div>
+                <div class="kv-pair"><span class="k">Beneficial owner</span><span class="v changed">Not disclosed</span></div>
+                <div class="kv-pair"><span class="k">Other linked facilities</span><span class="v changed">0 — new entity</span></div>
+                <div class="kv-pair"><span class="k">Sanctions check</span><span class="v changed">Unknown (entity too new)</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" placeholder="Add review note…" />
+              <select>
+                <option>Mark as…</option>
+                <option>Reviewed — in progress</option>
+                <option>Reviewed — resolved</option>
+                <option>Reviewed — no action needed</option>
+                <option>Escalated to audit team</option>
+              </select>
+              <button class="btn btn-primary">Save review</button>
+            </div>
+            <div class="metadata-row">
+              <span>Source: <strong>Corporate registry filing</strong></span>
+              <span>•</span>
+              <span>Event ID: <code>evt_01HS8V4B7K</code></span>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 3: Dongguan Precision -->
+      <tr class="data-row" data-row="r3">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell"><span class="star-flag">★</span>Dongguan Precision Components</td>
+        <td><code>CHN2024189XYZ02</code></td>
+        <td>China</td>
+        <td>Contributor conflict</td>
+        <td><span class="chip chip-high">High</span></td>
+        <td>22 Apr 2026</td>
+        <td><span class="status-chip status-unreviewed">Unreviewed</span></td>
+        <td style="color:var(--dark-grey);">—</td>
+      </tr>
+      <tr class="diff-row" data-diff="r3" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Conflict between two contributors · no single field to diff</div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Contributor A · Worldly</h5>
+                <div class="kv-pair"><span class="k">Source type</span><span class="v">Commercial (Higg FSLM)</span></div>
+                <div class="kv-pair"><span class="k">Finding</span><span class="v">BSCI Pass — no open issues</span></div>
+                <div class="kv-pair"><span class="k">Dated</span><span class="v">14 Apr 2026</span></div>
+                <div class="kv-pair"><span class="k">Evidence</span><span class="v">Self-assessment + on-site audit</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>Contributor B · Fair Labor Watch</h5>
+                <div class="kv-pair"><span class="k">Source type</span><span class="v">NGO</span></div>
+                <div class="kv-pair"><span class="k">Finding</span><span class="v changed">Open child-labor violation</span></div>
+                <div class="kv-pair"><span class="k">Dated</span><span class="v">19 Apr 2026</span></div>
+                <div class="kv-pair"><span class="k">Evidence</span><span class="v changed">Worker interviews (n=22)</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" placeholder="Add review note…" />
+              <select>
+                <option>Mark as…</option>
+                <option>Reviewed — trust Worldly</option>
+                <option>Reviewed — trust NGO source</option>
+                <option>Escalated to audit team</option>
+              </select>
+              <button class="btn btn-primary">Save review</button>
+            </div>
+            <div class="metadata-row">
+              <span>Event ID: <code>evt_01HS8WA1M2</code></span>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 4: Karachi Knitting -->
+      <tr class="data-row" data-row="r4">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell"><span class="star-flag">★</span>Karachi Knitting Mills <span class="chip chip-tier1">Tier 1</span></td>
+        <td><code>PAK2023156DEF01</code></td>
+        <td>Pakistan</td>
+        <td>Certification</td>
+        <td><span class="chip chip-high">High</span></td>
+        <td>21 Apr 2026</td>
+        <td><span class="status-chip status-progress">In progress</span></td>
+        <td>SC · 22 Apr</td>
+      </tr>
+      <tr class="diff-row" data-diff="r4" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Field changed · <code>alliance_fire_safety_status</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Before · 15 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Status</span><span class="v">Certified</span></div>
+                <div class="kv-pair"><span class="k">Last inspection</span><span class="v">02 Oct 2025</span></div>
+                <div class="kv-pair"><span class="k">Findings</span><span class="v">Minor — remediation complete</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>After · 21 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Status</span><span class="v changed">Revoked</span></div>
+                <div class="kv-pair"><span class="k">Last inspection</span><span class="v changed">14 Apr 2026 (re-inspection)</span></div>
+                <div class="kv-pair"><span class="k">Findings</span><span class="v changed">Major — blocked egress, stairwell</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" value="Sourcing paused 22 Apr. CAP requested from supplier." />
+              <select><option>Reviewed — in progress ✓</option></select>
+              <button class="btn btn-primary">Update</button>
+            </div>
+            <div class="metadata-row">
+              <span>Reviewer: <strong>Sarah Chen (SC)</strong></span>
+              <span>•</span>
+              <span>First reviewed: 22 Apr 16:08 UTC</span>
+              <span>•</span>
+              <span>Event ID: <code>evt_01HS8T9X2N</code></span>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 5: Tirupur -->
+      <tr class="data-row" data-row="r5">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell"><span class="star-flag">★</span>Tirupur Textiles Pvt Ltd</td>
+        <td><code>IND2023211LMN04</code></td>
+        <td>India</td>
+        <td>Unregistered site</td>
+        <td><span class="chip chip-med">Medium</span></td>
+        <td>21 Apr 2026</td>
+        <td><span class="status-chip status-unreviewed">Unreviewed</span></td>
+        <td style="color:var(--dark-grey);">—</td>
+      </tr>
+      <tr class="diff-row" data-diff="r5" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">New record · <code>associated_production_site</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Registered sites · before 21 Apr</h5>
+                <div class="kv-pair"><span class="k">Primary</span><span class="v">Tirupur (main)</span></div>
+                <div class="kv-pair"><span class="k">Secondary</span><span class="v">Coimbatore (dye house)</span></div>
+                <div class="kv-pair"><span class="k">Total registered</span><span class="v">2 sites</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>Added · 21 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">New site</span><span class="v changed">Salem — CMT, ~140 workers</span></div>
+                <div class="kv-pair"><span class="k">Reported by</span><span class="v">Clean Clothes Campaign</span></div>
+                <div class="kv-pair"><span class="k">Verification</span><span class="v changed">Unverified — evidence photo + testimony</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" placeholder="Add review note…" />
+              <select><option>Mark as…</option><option>Reviewed — in progress</option><option>Reviewed — resolved</option><option>Escalated to audit team</option></select>
+              <button class="btn btn-primary">Save review</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 6: Istanbul Leatherworks -->
+      <tr class="data-row" data-row="r6">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell">Istanbul Leatherworks</td>
+        <td><code>TUR2024067JKL03</code></td>
+        <td>Turkey</td>
+        <td>Capacity</td>
+        <td><span class="chip chip-med">Medium</span></td>
+        <td>20 Apr 2026</td>
+        <td><span class="status-chip status-unreviewed">Unreviewed</span></td>
+        <td style="color:var(--dark-grey);">—</td>
+      </tr>
+      <tr class="diff-row" data-diff="r6" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Field changed · <code>workforce_size</code>, <code>shift_count</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>60 days ago · 21 Feb 2026</h5>
+                <div class="kv-pair"><span class="k">Workers</span><span class="v">1,200</span></div>
+                <div class="kv-pair"><span class="k">Shifts</span><span class="v">2</span></div>
+                <div class="kv-pair"><span class="k">Monthly output</span><span class="v">~84,000 units</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>Current · 20 Apr 2026</h5>
+                <div class="kv-pair"><span class="k">Workers</span><span class="v changed">620 (-48%)</span></div>
+                <div class="kv-pair"><span class="k">Shifts</span><span class="v changed">1</span></div>
+                <div class="kv-pair"><span class="k">Monthly output</span><span class="v changed">~38,000 units (-55%)</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" placeholder="Add review note…" />
+              <select><option>Mark as…</option><option>Reviewed — in progress</option><option>Reviewed — resolved</option><option>Escalated</option></select>
+              <button class="btn btn-primary">Save review</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 7: Phnom Penh -->
+      <tr class="data-row" data-row="r7">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell"><span class="star-flag">★</span>Phnom Penh Garment Co</td>
+        <td><code>KHM2024099GHI02</code></td>
+        <td>Cambodia</td>
+        <td>Certification</td>
+        <td><span class="chip chip-med">Medium</span></td>
+        <td>19 Apr 2026</td>
+        <td><span class="status-chip status-resolved">Resolved</span></td>
+        <td>SC · 21 Apr</td>
+      </tr>
+      <tr class="diff-row" data-diff="r7" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Field changed · <code>bsci_audit_status</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Before</h5>
+                <div class="kv-pair"><span class="k">Status</span><span class="v">Valid</span></div>
+                <div class="kv-pair"><span class="k">Expiry</span><span class="v">17 Feb 2026</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>After</h5>
+                <div class="kv-pair"><span class="k">Status</span><span class="v changed">Lapsed 60d</span></div>
+                <div class="kv-pair"><span class="k">Renewal scheduled</span><span class="v">12 May 2026</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" value="Confirmed renewal booked for 12 May. No further action." />
+              <select><option>Resolved — no action ✓</option></select>
+              <button class="btn btn-primary">Update</button>
+            </div>
+            <div class="metadata-row">
+              <span>Reviewer: <strong>Sarah Chen (SC)</strong></span>
+              <span>•</span>
+              <span>Resolved: 21 Apr 11:42 UTC</span>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Row 8: Colombo -->
+      <tr class="data-row" data-row="r8">
+        <td><span class="caret">▸</span></td>
+        <td class="supplier-cell">Colombo Apparel (Pvt) Ltd</td>
+        <td><code>LKA2023088RST04</code></td>
+        <td>Sri Lanka</td>
+        <td>Name / branding</td>
+        <td><span class="chip chip-low">Low</span></td>
+        <td>19 Apr 2026</td>
+        <td><span class="status-chip status-resolved">Resolved</span></td>
+        <td>MH · 20 Apr</td>
+      </tr>
+      <tr class="diff-row" data-diff="r8" style="display:none;">
+        <td colspan="9">
+          <div class="diff-inner">
+            <div class="field-label">Field changed · <code>facility_name</code></div>
+            <div class="diff-panel">
+              <div class="diff-side before">
+                <h5>Before</h5>
+                <div class="kv-pair"><span class="k">Name</span><span class="v">Colombo Apparel (Pvt) Ltd</span></div>
+                <div class="kv-pair"><span class="k">Registration</span><span class="v">PV 00123456</span></div>
+              </div>
+              <div class="diff-side after">
+                <h5>After</h5>
+                <div class="kv-pair"><span class="k">Name</span><span class="v changed">Serendib Garments Ltd</span></div>
+                <div class="kv-pair"><span class="k">Registration</span><span class="v">PV 00123456 (unchanged)</span></div>
+              </div>
+            </div>
+            <div class="review-actions">
+              <input class="note-input" value="Rebrand confirmed with supplier. Internal systems updated." />
+              <select><option>Resolved ✓</option></select>
+              <button class="btn btn-primary">Update</button>
+            </div>
+            <div class="metadata-row">
+              <span>Reviewer: <strong>Mark Hassan (MH)</strong></span>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="pagination">Showing 8 of 47 changes · <button class="btn-ghost" style="display:inline; padding: 2px 6px;">Show all</button> · <button class="btn-ghost" style="display:inline; padding: 2px 6px;">Load next 10</button></div>
+
+</div>
+
+<script>
+  // Expand/collapse rows
+  document.querySelectorAll('tr.data-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.dataset.row;
+      const diff = document.querySelector(`tr.diff-row[data-diff="${id}"]`);
+      const caret = row.querySelector('.caret');
+      if (!diff) return;
+      const isOpen = diff.style.display !== 'none';
+      diff.style.display = isOpen ? 'none' : 'table-row';
+      caret.classList.toggle('open', !isOpen);
+      row.classList.toggle('expanded', !isOpen);
+    });
+  });
+
+  // Stop clicks inside the diff panel from closing the row
+  document.querySelectorAll('tr.diff-row input, tr.diff-row select, tr.diff-row button').forEach(el => {
+    el.addEventListener('click', e => e.stopPropagation());
+  });
+
+  // Prevent button default actions
+  document.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', e => e.preventDefault());
+  });
+</script>
+</body>
+</html>
