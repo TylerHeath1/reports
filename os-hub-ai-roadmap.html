@@ -190,11 +190,9 @@ const streams=[
           "External free stakeholder: 3 free builds for non-profits / local unions — build what they need"
         ],
         items:[
-          {text:"All engineering activities run through collective building processes",start:25,end:100},
+          {text:"All engineering activities run through collective building processes (Programs: 26 days LOE allocated; BD: 3 days allocated to support)",start:25,end:100},
           {text:"1–2 external hackathons",start:50,end:100,stewards:["Tyler + Emily O + Hannah"]},
-          {text:"Programs: 26 days LOE supporting prototyping sessions",start:25,end:100},
-          {text:"BD: 1.5 days / person for prototyping team sessions",start:25,end:100},
-          {text:"Live prototyping sessions WITH contributors",start:50,end:100,isNew:true}
+          {text:"Live prototyping sessions with external contributors",start:50,end:100,isNew:true}
         ]
       },
       {
@@ -202,7 +200,7 @@ const streams=[
         name:"AI Tech Stack Enablement",
         stewards:["Tyler"],
         status:"On Track",
-        start:25, end:50,
+        start:25, end:62,
         endGoals:[
           "Everyone on the stack",
           "Each teammate has automated 1 process",
@@ -211,7 +209,7 @@ const streams=[
         items:[
           {text:"Org-wide tool rollout (WhisperFlow, Granola, Claude Code, Cowork, OS Hub Local)",start:25,end:42},
           {text:"“Automate 1 process” sprint",start:32,end:50},
-          {text:"Tyler 1:1s with each teammate — meet them where they’re at, co-build their AI plan",start:25,end:50}
+          {text:"Tyler 1:1s with each teammate — meet them where they’re at, co-build their AI plan",start:37,end:62}
         ]
       },
       {
@@ -219,17 +217,16 @@ const streams=[
         name:"PM & Upskilling Meetings",
         stewards:["Columbus + Tyler (scheduling)","Bus","Pranali"],
         status:"On Track",
-        start:37, end:63,
+        start:30, end:73,
         endGoals:[
-          "Every teammate can think like a PM",
-          "Meetings scheduled by June 15"
+          "Every teammate can think like a PM"
         ],
         items:[
-          {text:"Prototyping lifecycle / milestones intro",start:37,end:42,meeting:true},
-          {text:"Product management & user stories",start:42,end:47,meeting:true},
-          {text:"Jira as a tool",start:47,end:52,meeting:true},
-          {text:"Product execution check-in",start:52,end:57,meeting:true},
-          {text:"PMing at OS Hub training",start:57,end:63,meeting:true}
+          {text:"Prototyping lifecycle / milestones intro",start:30,end:36,meeting:true},
+          {text:"Product management & user stories",start:40,end:46,meeting:true},
+          {text:"Jira as a tool",start:50,end:56,meeting:true},
+          {text:"Product execution check-in",start:60,end:66,meeting:true},
+          {text:"PMing at OS Hub training",start:67,end:73,meeting:true}
         ]
       },
       {
@@ -242,27 +239,9 @@ const streams=[
           "Values-based AI policy approved org-wide"
         ],
         items:[
-          {text:"Values-based internal AI policy",start:45,end:75},
-          {text:"AI slop prevention",start:50,end:68,isChild:true},
-          {text:"AI crisis moment plan",start:55,end:72,isChild:true},
-          {text:"AI use guidelines & expectations",start:45,end:68,isChild:true},
+          {text:"Values-based internal AI policy (includes AI slop prevention, AI crisis moment plan, and AI use guidelines & expectations)",start:45,end:75},
           {text:"“Won’t Do” list — 3 bullets of what OS Hub will explicitly not use AI for, published externally",start:48,end:65,isNew:true},
           {text:"AI question on annual survey",start:60,end:75,stewards:["Hannah"]}
-        ]
-      },
-      {
-        id:"1-5",
-        name:"External Positioning & Comms",
-        stewards:["Lauren","Natalie","Hannah + Nandita"],
-        status:"On Track",
-        start:75, end:100,
-        endGoals:[
-          "Clear external posture on how OS Hub uses AI"
-        ],
-        items:[
-          {text:"External AI comms doc",start:75,end:92,stewards:["Lauren"]},
-          {text:"Bring AI policy to board, TSC, CSO union",start:80,end:100,stewards:["Natalie"]},
-          {text:"CSO Union trainings with AI component",start:85,end:100,stewards:["Hannah + Nandita"]}
         ]
       },
       {
@@ -271,14 +250,14 @@ const streams=[
         isNew:true,
         stewards:["Ria + Natalie"],
         status:"On Track",
-        start:75, end:100,
+        start:50, end:75,
         endGoals:[
           "OS Hub’s AI practices honor the workers and contributors at the heart of the mission"
         ],
         items:[
-          {text:"Worker-facing use cases — what AI does FOR workers, not just about them",start:80,end:100,isNew:true},
-          {text:"Contributor consent policy on AI use of their data",start:75,end:95,isNew:true},
-          {text:"Attribution / licensing for AI-derived work",start:82,end:100,isNew:true}
+          {text:"Worker-facing use cases — what AI does FOR workers, not just about them",start:55,end:75,isNew:true},
+          {text:"Contributor consent policy on AI use of their data",start:50,end:70,isNew:true},
+          {text:"Attribution / licensing for AI-derived work",start:58,end:75,isNew:true}
         ]
       },
       {
@@ -292,9 +271,7 @@ const streams=[
           "We learn with peer orgs, not in a silo"
         ],
         items:[
-          {text:"Peer learning touchpoints (NGOs, unions, transparency orgs)",start:75,end:100,isNew:true},
-          {text:"Coalition opportunity exploration",start:80,end:95,isNew:true},
-          {text:"Cross-org AI learnings published",start:90,end:100,isNew:true}
+          {text:"Peer learning touchpoints (NGOs, unions, transparency orgs)",start:75,end:100,isNew:true}
         ]
       },
       {
@@ -357,12 +334,12 @@ const streams=[
         name:"Wrapper Prototype",
         stewards:["Bus + Columbus"],
         status:"On Track",
-        start:45, end:75,
+        start:50, end:75,
         endGoals:[
           "1 shipped read-only customer-facing prototype"
         ],
         items:[
-          {text:"15-user research sprint BEFORE build",start:45,end:55,isNew:true},
+          {text:"15-user research sprint BEFORE build",start:50,end:60,isNew:true},
           {text:"Prompted dashboard",start:55,end:75},
           {text:"Data inspiration prompts for using OS Hub",start:60,end:75}
         ]
@@ -380,9 +357,9 @@ const streams=[
         items:[
           {text:"AI pre-screening on data pipelines (PJM grant)",start:15,end:68},
           {text:"Satellite / image recognition",start:10,end:68},
-          {text:"Agent user story",start:60,end:100},
+          {text:"Agent user story",start:55,end:75},
           {text:"Train agents to find missing data",start:50,end:100,stewards:["Emily O"]},
-          {text:"Protections against AI injections & AI-generated data submissions",start:40,end:90,isNew:true}
+          {text:"Protections against AI injections & AI-generated data submissions",start:55,end:100,isNew:true}
         ]
       },
       {
@@ -390,15 +367,15 @@ const streams=[
         name:"Strategic Exploration",
         stewards:["Tyler + Bus","Ria","JO"],
         status:"On Track",
-        start:50, end:100,
+        start:25, end:50,
         endGoals:[
           "Written direction for AI-era business model"
         ],
         items:[
-          {text:"Business model + AI implications + marketplace position",start:50,end:100,stewards:["Tyler + Bus"]},
-          {text:"Risk model with AI futuring",start:60,end:100,stewards:["Ria"]},
-          {text:"Pay workers to partner with engineers on data tools",start:75,end:100},
-          {text:"Revisit AI concept note for funding",start:50,end:75,stewards:["JO"]}
+          {text:"Business model + AI implications",start:25,end:50,stewards:["Tyler + Bus"]},
+          {text:"Risk model with AI futuring",start:30,end:50,stewards:["Ria"]},
+          {text:"Pay workers to partner with engineers on data tools",start:30,end:50},
+          {text:"Revisit AI concept note for funding",start:25,end:45,stewards:["JO"]}
         ]
       }
     ]
