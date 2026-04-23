@@ -80,21 +80,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .epic-bar.epic-platform{background:#eff6ff;border-left:3px solid #93c5fd;}
 .epic-bar.epic-individual{background:#f5f3ff;border-left:3px solid #c4b5fd;}
 
-/* Milestone panel (3rd tier) */
-.milestone-panel{display:none;background:#ffffff;border:1px solid #e5e7eb;border-radius:0 0 6px 6px;margin:-2px 14px 4px;padding:8px 12px 10px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.03);}
+/* Milestone panel (3rd tier — mini timeline) */
+.milestone-panel{display:none;background:#ffffff;border:1px solid #e5e7eb;border-radius:0 0 6px 6px;margin:-2px 14px 6px;padding:8px 0 10px;}
 .milestone-panel.open{display:block;}
-.milestone-panel .end-goals{padding:2px 0 8px;border-bottom:1px dashed #e5e7eb;margin-bottom:8px;}
+.milestone-panel .end-goals{padding:2px 14px 8px;border-bottom:1px dashed #e5e7eb;margin-bottom:6px;}
 .milestone-panel .end-goal{font-size:10.5px;color:#1a1a2e;padding:2px 0;display:flex;gap:6px;align-items:flex-start;line-height:1.35;font-weight:600;}
 .milestone-panel .end-goal::before{content:"⭐";flex-shrink:0;font-size:10px;}
-.milestone-panel .items-list{list-style:none;padding:0;margin:0;}
-.milestone-panel .items-list li{font-size:10.5px;color:#333;padding:2px 0 2px 14px;position:relative;line-height:1.45;}
-.milestone-panel .items-list li::before{content:"•";position:absolute;left:4px;color:#999;}
-.milestone-panel .items-list ul.nested{list-style:none;padding:0;margin:2px 0 2px 16px;}
-.milestone-panel .items-list ul.nested li{color:#555;}
-.milestone-panel .items-list li.milestone-item{font-weight:600;color:#1a1a2e;}
-.milestone-panel .items-list li.milestone-item::before{content:"";}
-.meeting-chip{display:inline-block;font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:600;background:#e0e7ff;color:#3730a3;margin-left:6px;vertical-align:middle;}
-.new-badge{display:inline-block;font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:800;background:#fef08a;color:#854d0e;margin-left:6px;vertical-align:middle;letter-spacing:0.3px;}
+
+.ms-timeline{position:relative;min-height:16px;}
+.ms-q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none;z-index:0;}
+.ms-q-grid div{border-right:1px solid #f3f4f6;}
+.ms-q-grid div:last-child{border-right:none;}
+.ms-row{position:relative;z-index:2;padding:2px 6px;}
+.ms-bar{position:relative;border-radius:5px;padding:3px 8px;min-height:26px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 1px rgba(0,0,0,0.04);}
+.ms-bar .mb-title{font-size:9.5px;font-weight:600;color:#333;line-height:1.25;display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.ms-bar .mb-meta{display:flex;gap:2px;margin-top:2px;flex-wrap:wrap;}
+.ms-bar .mb-meta .bar-chip{font-size:7.5px;padding:0 4px;}
+
+/* Milestone palette (lightest) */
+.ms-bar.ms-ways{background:#fffbeb;border-left:2px solid #fde68a;}
+.ms-bar.ms-platform{background:#f8fbff;border-left:2px solid #bfdbfe;}
+.ms-bar.ms-individual{background:#faf9ff;border-left:2px solid #ddd6fe;}
+
+/* Special marker overrides */
+.ms-bar.is-meeting{background:#eef2ff;border-left:2px solid #818cf8;}
+.ms-bar.is-milestone{background:#fef9c3;border-left:2px solid #eab308;}
+.ms-bar.is-child{opacity:0.85;}
+
+.meeting-chip{display:inline-block;font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:600;background:#e0e7ff;color:#3730a3;vertical-align:middle;}
+.new-badge{display:inline-block;font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:800;background:#fef08a;color:#854d0e;vertical-align:middle;letter-spacing:0.3px;}
+.star-icon{color:#eab308;font-size:10px;}
 
 .legend{padding:12px 40px;display:flex;gap:14px;font-size:10px;color:#999;flex-wrap:wrap;align-items:center;}
 .legend-item{display:flex;align-items:center;gap:4px;}
@@ -125,7 +140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="filters" id="filterBar"></div>
 
 <div class="intro">
-  <strong>Value streams, in priority order:</strong> (1) Ways of Working &mdash; how we build together; (2) Platform &amp; Products &mdash; AI in what we ship; (3) Individual Use &mdash; personal fluency. Each stream expands to show its initiatives. Each initiative expands again to show end goals, meetings, and milestones.
+  <strong>Value streams, in priority order:</strong> (1) Ways of Working &mdash; how we build together; (2) Platform &amp; Products &mdash; AI in what we ship; (3) Individual Use &mdash; personal fluency. Each stream expands to show its initiatives. Each initiative expands again to show end goals, meetings, and milestones as a mini-timeline.
 </div>
 
 <div class="year-bar">2026</div>
@@ -148,6 +163,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <span class="legend-item"><span class="legend-dot" style="background:#60a5fa;"></span>Platform &amp; Products</span>
   <span class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>Individual Use</span>
   <span class="f-divider"></span>
+  <span class="legend-item"><span class="legend-dot" style="background:#818cf8;"></span>Meeting</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#eab308;"></span>Milestone ⭐</span>
   <span class="legend-item"><span class="new-badge" style="margin-left:0;">NEW</span> = added in this draft</span>
 </div>
 
@@ -160,7 +177,6 @@ const streams=[
     subtitle:"Highest value — how we build together, internally and externally",
     color:"c-ways",
     start:25, end:100,
-    status:"On Track",
     initiatives:[
       {
         id:"1-1",
@@ -174,11 +190,11 @@ const streams=[
           "External audacious: 3 free builds for non-profits / local unions — build what they need"
         ],
         items:[
-          {text:"All engineering activities run through collective building processes"},
-          {text:"1–2 external hackathons (Q3–Q4)"},
-          {text:"Programs: 26 days LOE supporting prototyping sessions"},
-          {text:"BD: 1.5 days / person for prototyping team sessions"},
-          {text:"Live prototyping sessions WITH contributors",isNew:true}
+          {text:"All engineering activities run through collective building processes",start:25,end:100},
+          {text:"1–2 external hackathons",start:50,end:100,stewards:["Tyler + Emily O + Hannah"]},
+          {text:"Programs: 26 days LOE supporting prototyping sessions",start:25,end:100},
+          {text:"BD: 1.5 days / person for prototyping team sessions",start:25,end:100},
+          {text:"Live prototyping sessions WITH contributors",start:50,end:100,isNew:true}
         ]
       },
       {
@@ -193,9 +209,9 @@ const streams=[
           "Each person has an individualized AI plan"
         ],
         items:[
-          {text:"Org-wide tool rollout (WhisperFlow, Granola, Claude Code, Cowork, OS Hub Local)"},
-          {text:"“Automate 1 process” sprint"},
-          {text:"Tyler 1:1s with each teammate — meet them where they’re at, co-build their AI plan"}
+          {text:"Org-wide tool rollout (WhisperFlow, Granola, Claude Code, Cowork, OS Hub Local)",start:25,end:42},
+          {text:"“Automate 1 process” sprint",start:32,end:50},
+          {text:"Tyler 1:1s with each teammate — meet them where they’re at, co-build their AI plan",start:25,end:50}
         ]
       },
       {
@@ -209,11 +225,11 @@ const streams=[
           "Meetings scheduled by June 15"
         ],
         items:[
-          {text:"Prototyping lifecycle / milestones intro",meeting:true},
-          {text:"Product management & user stories",meeting:true},
-          {text:"Jira as a tool",meeting:true},
-          {text:"Product execution check-in",meeting:true},
-          {text:"PMing at OS Hub training",meeting:true}
+          {text:"Prototyping lifecycle / milestones intro",start:25,end:30,meeting:true},
+          {text:"Product management & user stories",start:30,end:35,meeting:true},
+          {text:"Jira as a tool",start:34,end:39,meeting:true},
+          {text:"Product execution check-in",start:38,end:43,meeting:true},
+          {text:"PMing at OS Hub training",start:42,end:47,meeting:true}
         ]
       },
       {
@@ -226,13 +242,12 @@ const streams=[
           "Values-based AI policy approved org-wide"
         ],
         items:[
-          {text:"Values-based internal AI policy",children:[
-            {text:"AI slop prevention"},
-            {text:"AI crisis moment plan"},
-            {text:"AI use guidelines & expectations"}
-          ]},
-          {text:"“Won’t Do” list — 3 bullets of what OS Hub will explicitly not use AI for, published externally",isNew:true},
-          {text:"AI question on annual survey (Hannah)"}
+          {text:"Values-based internal AI policy",start:25,end:75},
+          {text:"AI slop prevention",start:30,end:60,isChild:true},
+          {text:"AI crisis moment plan",start:40,end:70,isChild:true},
+          {text:"AI use guidelines & expectations",start:25,end:65,isChild:true},
+          {text:"“Won’t Do” list — 3 bullets of what OS Hub will explicitly not use AI for, published externally",start:25,end:55,isNew:true},
+          {text:"AI question on annual survey",start:55,end:75,stewards:["Hannah"]}
         ]
       },
       {
@@ -245,10 +260,10 @@ const streams=[
           "Clear external posture on how OS Hub uses AI"
         ],
         items:[
-          {text:"OS Hub’s AI position + philosophy + competitive advantage (Bus)"},
-          {text:"External AI comms doc (Lauren)"},
-          {text:"Bring AI policy to board, TSC, CSO union (Natalie)"},
-          {text:"CSO Union trainings with AI component (Hannah + Nandita)"}
+          {text:"OS Hub’s AI position + philosophy + competitive advantage",start:50,end:85,stewards:["Bus"]},
+          {text:"External AI comms doc",start:60,end:90,stewards:["Lauren"]},
+          {text:"Bring AI policy to board, TSC, CSO union",start:70,end:100,stewards:["Natalie"]},
+          {text:"CSO Union trainings with AI component",start:75,end:100,stewards:["Hannah + Nandita"]}
         ]
       },
       {
@@ -262,9 +277,9 @@ const streams=[
           "OS Hub’s AI practices honor the workers and contributors at the heart of the mission"
         ],
         items:[
-          {text:"Worker-facing use cases — what AI does FOR workers, not just about them",isNew:true},
-          {text:"Contributor consent policy on AI use of their data",isNew:true},
-          {text:"Attribution / licensing for AI-derived work",isNew:true}
+          {text:"Worker-facing use cases — what AI does FOR workers, not just about them",start:50,end:100,isNew:true},
+          {text:"Contributor consent policy on AI use of their data",start:25,end:75,isNew:true},
+          {text:"Attribution / licensing for AI-derived work",start:50,end:100,isNew:true}
         ]
       },
       {
@@ -278,9 +293,9 @@ const streams=[
           "We learn with peer orgs, not in a silo"
         ],
         items:[
-          {text:"Peer learning touchpoints (NGOs, unions, transparency orgs)",isNew:true},
-          {text:"Coalition opportunity exploration",isNew:true},
-          {text:"Cross-org AI learnings published",isNew:true}
+          {text:"Peer learning touchpoints (NGOs, unions, transparency orgs)",start:25,end:100,isNew:true},
+          {text:"Coalition opportunity exploration",start:40,end:85,isNew:true},
+          {text:"Cross-org AI learnings published",start:70,end:100,isNew:true}
         ]
       },
       {
@@ -294,9 +309,9 @@ const streams=[
           "Roadmap stays honest; course-correct every quarter"
         ],
         items:[
-          {text:"Q2 review + budget/usage check-in",isNew:true},
-          {text:"Q3 review + budget/usage check-in",isNew:true},
-          {text:"Q4 review + budget/usage check-in",isNew:true}
+          {text:"Q2 review + budget/usage check-in",start:48,end:52,milestone:true,isNew:true},
+          {text:"Q3 review + budget/usage check-in",start:73,end:77,milestone:true,isNew:true},
+          {text:"Q4 review + budget/usage check-in",start:96,end:100,milestone:true,isNew:true}
         ]
       }
     ]
@@ -307,7 +322,6 @@ const streams=[
     subtitle:"AI integrated into what OS Hub actually ships",
     color:"c-platform",
     start:25, end:100,
-    status:"On Track",
     initiatives:[
       {
         id:"2-1",
@@ -319,8 +333,8 @@ const streams=[
           "Engineering works from the same GitHub-based source of truth"
         ],
         items:[
-          {text:"AI architecture guide MD (Bus)"},
-          {text:"Data context guide + API response MD (Stefan)"}
+          {text:"AI architecture guide MD",start:25,end:60,stewards:["Bus"]},
+          {text:"Data context guide + API response MD",start:30,end:75,stewards:["Stefan"]}
         ]
       },
       {
@@ -333,9 +347,9 @@ const streams=[
           "1 shipped read-only customer-facing prototype"
         ],
         items:[
-          {text:"15-user research sprint BEFORE build (Q2)",isNew:true},
-          {text:"Prompted dashboard"},
-          {text:"Data inspiration prompts for using OS Hub"}
+          {text:"15-user research sprint BEFORE build",start:25,end:45,isNew:true},
+          {text:"Prompted dashboard",start:50,end:100},
+          {text:"Data inspiration prompts for using OS Hub",start:60,end:100}
         ]
       },
       {
@@ -349,11 +363,11 @@ const streams=[
           "Agent foundations laid"
         ],
         items:[
-          {text:"AI pre-screening on data pipelines (PJM grant)"},
-          {text:"Satellite / image recognition"},
-          {text:"Agent user story"},
-          {text:"Train agents to find missing data (Emily O)"},
-          {text:"Protections against AI injections & AI-generated data submissions",isNew:true}
+          {text:"AI pre-screening on data pipelines (PJM grant)",start:30,end:68},
+          {text:"Satellite / image recognition",start:25,end:68},
+          {text:"Agent user story",start:60,end:100},
+          {text:"Train agents to find missing data",start:50,end:100,stewards:["Emily O"]},
+          {text:"Protections against AI injections & AI-generated data submissions",start:40,end:85,isNew:true}
         ]
       },
       {
@@ -366,11 +380,11 @@ const streams=[
           "Written direction for AI-era business model"
         ],
         items:[
-          {text:"Business model + AI implications + marketplace position (Tyler + Bus)"},
-          {text:"“Buy 3 hours from us” solutions engineering"},
-          {text:"Risk model with AI futuring (Ria)"},
-          {text:"Pay workers to partner with engineers on data tools"},
-          {text:"Revisit AI concept note for funding (JO)"}
+          {text:"Business model + AI implications + marketplace position",start:50,end:100,stewards:["Tyler + Bus"]},
+          {text:"“Buy 3 hours from us” solutions engineering",start:75,end:100},
+          {text:"Risk model with AI futuring",start:60,end:100,stewards:["Ria"]},
+          {text:"Pay workers to partner with engineers on data tools",start:75,end:100},
+          {text:"Revisit AI concept note for funding",start:50,end:75,stewards:["JO"]}
         ]
       }
     ]
@@ -381,7 +395,6 @@ const streams=[
     subtitle:"How each of us uses AI to optimize our own work",
     color:"c-individual",
     start:25, end:100,
-    status:"On Track",
     initiatives:[
       {
         id:"3-1",
@@ -394,13 +407,13 @@ const streams=[
           "By end of 2026: everyone can use Claude Code to build on OS Hub"
         ],
         items:[
-          {text:"Programs: 1 day LOE / team member for AI experiments"},
-          {text:"BD: 1.5 days / person for AI experiments"},
-          {text:"Milestone: everyone uses AI tools to search internal info",milestone:true},
-          {text:"Milestone: everyone can prompt the Knowledge Brain",milestone:true},
-          {text:"Milestone: each person opens a PR with AI assistance",milestone:true},
-          {text:"Milestone: by end of 2026 — everyone can use Claude Code to build on OS Hub",milestone:true},
-          {text:"Annual review of systems for value alignment"}
+          {text:"Programs: 1 day LOE / team member for AI experiments",start:25,end:100},
+          {text:"BD: 1.5 days / person for AI experiments",start:25,end:100},
+          {text:"Everyone uses AI tools to search internal info",start:45,end:60,milestone:true},
+          {text:"Everyone can prompt the Knowledge Brain",start:55,end:75,milestone:true},
+          {text:"Each person opens a PR with AI assistance",start:65,end:85,milestone:true},
+          {text:"Everyone can use Claude Code to build on OS Hub",start:90,end:100,milestone:true},
+          {text:"Annual review of systems for value alignment",start:85,end:100}
         ]
       },
       {
@@ -414,9 +427,9 @@ const streams=[
           "Internal ops runs lighter"
         ],
         items:[
-          {text:"Curated Claude projects (specs, roadmap, KPIs, meeting notes)"},
-          {text:"Granola integration"},
-          {text:"Google Drive cleanup with Claude"}
+          {text:"Curated Claude projects (specs, roadmap, KPIs, meeting notes)",start:25,end:65},
+          {text:"Granola integration",start:25,end:50},
+          {text:"Google Drive cleanup with Claude",start:25,end:55}
         ]
       }
     ]
@@ -466,29 +479,37 @@ function toggle(type,val,el){
   render();
 }
 
-function streamVisible(s){
-  return activeStatuses.has(s.status)&&activeStreamIds.has(s.id);
-}
-function initiativeVisible(init){
-  return activeStatuses.has(init.status);
-}
+function streamVisible(s){return activeStreamIds.has(s.id);}
+function initiativeVisible(init){return activeStatuses.has(init.status);}
 
 function toggleStream(id){if(openStreams.has(id))openStreams.delete(id);else openStreams.add(id);render();}
 function toggleInitiative(id,ev){if(ev)ev.stopPropagation();if(openInitiatives.has(id))openInitiatives.delete(id);else openInitiatives.add(id);render();}
 function expandAll(){streams.forEach(s=>{openStreams.add(s.id);s.initiatives.forEach(i=>openInitiatives.add(i.id));});render();}
 function collapseAll(){openStreams.clear();openInitiatives.clear();render();}
 
-function renderItem(item){
-  let html=`<li${item.milestone?' class="milestone-item"':''}>`;
-  html+=item.milestone?`⭐ ${item.text}`:item.text;
-  if(item.meeting) html+=`<span class="meeting-chip">Meeting</span>`;
-  if(item.isNew) html+=`<span class="new-badge">NEW</span>`;
-  if(item.children&&item.children.length){
-    html+=`<ul class="nested">`;
-    item.children.forEach(c=>{html+=renderItem(c);});
-    html+=`</ul>`;
+function renderMsBar(item,streamColor){
+  const msBase='ms-'+streamColor.replace('c-','');
+  let specialCls='';
+  if(item.meeting) specialCls=' is-meeting';
+  else if(item.milestone) specialCls=' is-milestone';
+  const childCls=item.isChild?' is-child':'';
+  const start=item.start;
+  const end=item.end;
+  let html=`<div class="ms-row">`;
+  html+=`<div class="ms-bar ${msBase}${specialCls}${childCls}" style="margin-left:${start}%;width:${end-start}%;">`;
+  html+=`<div class="mb-title">`;
+  if(item.milestone) html+=`<span class="star-icon">⭐</span>`;
+  if(item.isChild) html+=`<span style="color:#999;">└</span>`;
+  html+=item.text;
+  if(item.meeting) html+=` <span class="meeting-chip">Meeting</span>`;
+  if(item.isNew) html+=` <span class="new-badge">NEW</span>`;
+  html+=`</div>`;
+  if(item.stewards&&item.stewards.length){
+    html+=`<div class="mb-meta">`;
+    item.stewards.forEach(st=>{html+=`<span class="bar-chip steward-chip">${st}</span>`;});
+    html+=`</div>`;
   }
-  html+=`</li>`;
+  html+=`</div></div>`;
   return html;
 }
 
@@ -502,7 +523,6 @@ function render(){
   streams.forEach(s=>{
     if(!streamVisible(s)) return;
     const isOpen=openStreams.has(s.id);
-    const chipCls=s.status==='On Track'?'chip-on':s.status==='At Risk'?'chip-risk':'chip-off';
     const initCount=s.initiatives.filter(initiativeVisible).length;
 
     html+=`<div class="us-row">`;
@@ -510,7 +530,6 @@ function render(){
     html+=`<div class="want">${s.name}</div>`;
     html+=`<div class="so-that">${s.subtitle}</div>`;
     html+=`<div class="bar-meta">`;
-    html+=`<span class="bar-chip ${chipCls}">${s.status}</span>`;
     html+=`<span class="bar-chip chip-ws-count">${initCount} initiative${initCount!==1?'s':''}</span>`;
     html+=`</div></div>`;
 
@@ -545,9 +564,10 @@ function render(){
             init.endGoals.forEach(g=>{html+=`<div class="end-goal">${g}</div>`;});
             html+=`</div>`;
           }
-          html+=`<ul class="items-list">`;
-          init.items.forEach(item=>{html+=renderItem(item);});
-          html+=`</ul>`;
+          html+=`<div class="ms-timeline">`;
+          html+=`<div class="ms-q-grid"><div></div><div></div><div></div><div></div></div>`;
+          init.items.forEach(item=>{html+=renderMsBar(item,s.color);});
+          html+=`</div>`;
           html+=`</div>`;
         }
 
