@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Hub Working Product Roadmap 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1a1a2e;}
+
+.header{background:white;padding:24px 40px 16px;border-bottom:1px solid #ddd;}
+.header h1{font-size:26px;font-weight:800;color:#1a1a2e;letter-spacing:-0.5px;}
+.header h1 span{font-weight:400;}
+.header-row{display:flex;justify-content:space-between;align-items:flex-start;}
+.header-sub{font-size:12px;color:#888;margin-top:3px;}
+.header-actions{display:flex;gap:8px;margin-top:4px;}
+.btn{background:white;border:1px solid #ccc;padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-weight:500;}
+.btn:hover{background:#f5f5f5;}
+
+.filters{padding:8px 40px;background:white;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.filter-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#999;}
+.f-chip{padding:2px 9px;border-radius:10px;font-size:11px;font-weight:500;cursor:pointer;border:1.5px solid transparent;transition:all 0.12s;opacity:0.45;user-select:none;}
+.f-chip.active{opacity:1;border-color:currentColor;}
+.f-divider{width:1px;height:18px;background:#ddd;margin:0 4px;}
+
+.year-bar{background:#ffd54f;text-align:center;padding:7px;font-weight:700;font-size:14px;margin:16px 40px 0;border-radius:8px 8px 0 0;}
+.quarter-row{display:grid;grid-template-columns:repeat(4,1fr);margin:0 40px;background:white;border:1px solid #ddd;border-top:none;}
+.q-cell{text-align:center;padding:7px;font-weight:600;font-size:13px;border-right:1px solid #eee;}
+.q-cell:last-child{border-right:none;}
+.q-cell.current{background:rgba(37,99,235,0.05);color:#2563eb;}
+
+.roadmap{margin:0 40px 40px;border:1px solid #ddd;border-top:none;background:white;}
+.timeline-area{position:relative;padding:6px 0 12px;}
+.q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none;z-index:0;}
+.q-grid div{border-right:1px solid #f0f0f0;}
+.q-grid div:last-child{border-right:none;}
+.today-line{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:12;pointer-events:none;}
+.today-dot{position:absolute;top:-3px;left:-3px;width:8px;height:8px;background:#ef4444;border-radius:50%;}
+
+/* User story bars */
+.us-row{position:relative;z-index:2;padding:4px 8px;}
+.us-bar{position:relative;border-radius:8px;padding:8px 12px;cursor:pointer;transition:all 0.12s;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);min-height:64px;}
+.us-bar:hover{box-shadow:0 3px 10px rgba(0,0,0,0.18);transform:translateY(-1px);}
+.us-bar .want{font-size:11.5px;font-weight:700;color:#222;line-height:1.3;margin-bottom:2px;}
+.us-bar .so-that{font-size:10px;font-weight:400;color:#555;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.us-bar .bar-meta{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;align-items:center;}
+.bar-chip{font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:600;white-space:nowrap;line-height:1.4;}
+.chip-on{background:#c8e6c9;color:#1b5e20;}
+.chip-risk{background:#fff3cd;color:#e65100;border:1px solid #ffe082;}
+.chip-off{background:#ffcdd2;color:#b71c1c;}
+.chip-tbd{background:#f3f4f6;color:#999;font-style:italic;}
+.chip-ws-count{background:rgba(0,0,0,0.08);color:#444;}
+.chip-theme{background:#e3f2fd;color:#0d47a1;}
+
+/* Color palette for user stories */
+.us-bar.c-spotlight{background:#fff3cd;border-left:5px solid #f59e0b;}
+.us-bar.c-moderation{background:#fce7d6;border-left:5px solid #f59e42;}
+.us-bar.c-newprod{background:#ccfbf1;border-left:5px solid #14b8a6;}
+.us-bar.c-ai{background:#dbeafe;border-left:5px solid #60a5fa;}
+.us-bar.c-trust{background:#ede9fe;border-left:5px solid #a78bfa;}
+.us-bar.c-soc{background:#fce4ec;border-left:5px solid #f06292;}
+
+/* Expanded epics panel */
+.expand-panel{display:none;background:#f8f9fb;border:1px solid #e0e0e0;border-radius:0 0 8px 8px;margin:-2px 8px 4px;padding:8px 0 10px;z-index:10;position:relative;box-shadow:inset 0 2px 4px rgba(0,0,0,0.04);}
+.expand-panel.open{display:block;}
+.expand-panel h4{font-size:10px;font-weight:700;color:#888;margin:0 12px 6px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:0.4px;}
+.expand-panel h4 .count{background:#e0e0e0;color:#666;font-size:9px;padding:1px 6px;border-radius:8px;}
+
+/* Epic sub-timeline */
+.epic-timeline{position:relative;min-height:20px;}
+.epic-q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none;z-index:0;}
+.epic-q-grid div{border-right:1px solid #eee;}
+.epic-q-grid div:last-child{border-right:none;}
+.epic-row{position:relative;z-index:2;padding:2px 8px;}
+.epic-bar{position:relative;border-radius:6px;padding:4px 8px;min-height:34px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);transition:all 0.1s;}
+.epic-bar:hover{box-shadow:0 2px 6px rgba(0,0,0,0.12);}
+.epic-bar .epic-title{font-size:10px;font-weight:600;color:#333;line-height:1.25;}
+.epic-bar .epic-meta{display:flex;gap:3px;margin-top:2px;flex-wrap:wrap;align-items:center;}
+.epic-bar .epic-meta .bar-chip{font-size:7.5px;padding:0px 4px;}
+
+/* Lighter epic bar colors (lighter than parent user story) */
+.epic-bar.epic-spotlight{background:#fff8e1;border-left:3px solid #fbbf24;}
+.epic-bar.epic-moderation{background:#fef3ec;border-left:3px solid #fb923c;}
+.epic-bar.epic-newprod{background:#e6fcf5;border-left:3px solid #5eead4;}
+.epic-bar.epic-ai{background:#eff6ff;border-left:3px solid #93c5fd;}
+.epic-bar.epic-trust{background:#f5f3ff;border-left:3px solid #c4b5fd;}
+.epic-bar.epic-soc{background:#fdf2f8;border-left:3px solid #f9a8d4;}
+
+.legend{padding:12px 40px;display:flex;gap:14px;font-size:10px;color:#999;flex-wrap:wrap;align-items:center;}
+.legend-item{display:flex;align-items:center;gap:4px;}
+.legend-dot{width:7px;height:7px;border-radius:2px;}
+
+@media print{.filters,.header-actions{display:none;}body{background:white;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div>
+      <h1>OS Hub <span>Working Product Roadmap</span></h1>
+      <div class="header-sub">2026 &middot; Organized by User Story &middot; Click any bar to see affiliated epics</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="expandAll()">Expand All</button>
+      <button class="btn" onclick="collapseAll()">Collapse All</button>
+      <button class="btn" onclick="window.print()">Print</button>
+    </div>
+  </div>
+</div>
+
+<div class="filters" id="filterBar"></div>
+
+<div class="year-bar">2026</div>
+<div class="quarter-row">
+  <div class="q-cell">Q1</div>
+  <div class="q-cell current">Q2</div>
+  <div class="q-cell">Q3</div>
+  <div class="q-cell">Q4</div>
+</div>
+
+<div class="roadmap">
+  <div class="timeline-area" id="roadmap">
+    <div class="q-grid"><div></div><div></div><div></div><div></div></div>
+  </div>
+</div>
+
+<div class="legend">
+  <span style="font-weight:600;color:#666;">User Stories:</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span>Spotlight / Data Integration</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#f59e42;"></span>Moderation Efficiency</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#14b8a6;"></span>New Product</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#60a5fa;"></span>AI Pre-screening</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>Data Trust & Quality</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#f06292;"></span>SOC 2 / Security</span>
+</div>
+
+<script>
+
+const stories=[
+  {
+    id:"us-a",
+    want:"I want to combine OS Hub data with other supply chain, labor, environmental, and risk datasets to build a fuller picture",
+    soThat:"So that I can connect multiple data sources and show how supply chain problems are interconnected — telling a more evidence-based story than any single dataset allows",
+    color:"c-spotlight",
+    start:0, end:100,
+    status:"At Risk",
+    themes:["Collaboration","Usability","Data Breadth","Data Quality"],
+    workstreams:[
+      {name:"Launch Spotlight",steward:"Pranali",status:"On Track",grant:null,start:0,end:33},
+      {name:"Onboard Addtl. Spotlight Partners",steward:"Pranali",status:"On Track",grant:null,start:34,end:50},
+      {name:"Possible Data Contribution Pause",steward:"Pranali",status:"At Risk",grant:null,start:55,end:75},
+      {name:"Finding, Processing and Importing Public Data",steward:"TBD",status:"On Track",grant:null,start:63,end:100},
+    ]
+  },
+  {
+    id:"us-b",
+    want:"I want to spend my moderation time on quality review — not on admin tasks, system-switching, one-at-a-time workflows, and manual tracking",
+    soThat:"So that I can process more submissions faster and clear backlogs without repetitive overhead slowing me down",
+    color:"c-moderation",
+    start:0, end:58,
+    status:"On Track",
+    themes:["Data Quality","Usability"],
+    workstreams:[
+      {name:"Automate Aspects of Data Pipeline",steward:"Bus",status:"On Track",grant:null,start:0,end:28},
+      {name:"Productionize Claims Moderation Automation",steward:"James",status:"On Track",grant:null,start:25,end:58},
+    ]
+  },
+  {
+    id:"us-c",
+    want:"TBD — New Product user story to be defined",
+    soThat:"TBD",
+    color:"c-newprod",
+    start:28, end:80,
+    status:"On Track",
+    themes:["Usability","Collaboration"],
+    workstreams:[
+      {name:"NEW PRODUCT – Platform Functionality to Support Sales",steward:"Carman",status:"On Track",grant:null,start:28,end:80},
+    ]
+  },
+  {
+    id:"us-d",
+    want:"I want to receive automated pre-screening flags for likely data quality issues before beginning my moderation review",
+    soThat:"So that I can prioritize my review time on the most problematic submissions and work through lower-risk submissions faster",
+    color:"c-ai",
+    start:30, end:68,
+    status:"On Track",
+    themes:["Data Quality","Usability"],
+    workstreams:[
+      {name:"Integrate AI into Platform Data Pipelines (PJM)",steward:"Bus",status:"On Track",grant:"PJM",start:30,end:68},
+    ]
+  },
+  {
+    id:"us-e",
+    want:"I want to trust that the data I find on OS Hub is credible, consolidated, and accurate",
+    soThat:"So that I can incorporate it confidently into my work, systems, programming, and reports — without second-guessing whether I'm looking at the right record",
+    color:"c-trust",
+    start:18, end:100,
+    status:"On Track",
+    themes:["Data Quality","Transparency","Data Breadth"],
+    workstreams:[
+      {name:"Data Quality Initiatives (DQ Metrics)",steward:"James",status:"On Track",grant:null,start:33,end:100},
+      {name:"Satellite / AI Image Recognition for Slaughterhouse / Agricultural Facilities",steward:"Emily T",status:"On Track",grant:"PJM",start:18,end:68},
+      {name:"Data Center Facility Data Search and Ingestion (HSF)",steward:"Emily O",status:"On Track",grant:"HSF",start:18,end:62},
+      {name:"Data Quality Dashboard",steward:"James",status:"On Track",grant:null,start:52,end:72},
+    ]
+  },
+  {
+    id:"us-f",
+    want:"I want to know that OS Hub meets recognized security and data handling standards before I integrate it into my compliance workflows or share sensitive supplier data",
+    soThat:"So that my legal, IT, and procurement teams approve OS Hub as a trusted vendor — and I can share data without risking a security review failure",
+    color:"c-soc",
+    start:42, end:85,
+    status:"On Track",
+    themes:["Compliance"],
+    workstreams:[
+      {name:"SOC 2 Compliance Work",steward:"Tyler",status:"On Track",grant:null,start:42,end:85},
+    ]
+  },
+];
+
+// Collect unique values for filters
+const allStatuses=new Set(["On Track","At Risk"]);
+const allStewards=new Set();
+const allThemes=new Set();
+stories.forEach(us=>{
+  us.themes.forEach(t=>allThemes.add(t));
+  us.workstreams.forEach(ws=>allStewards.add(ws.steward));
+});
+
+let activeStatuses=new Set(allStatuses);
+let activeStewards=new Set(allStewards);
+let activeThemes=new Set(allThemes);
+let openPanels=new Set();
+
+function buildFilters(){
+  let h='';
+  h+=`<span class="filter-label">Status:</span>`;
+  h+=`<span class="f-chip active f-status" data-v="all" onclick="toggle('status','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  h+=`<span class="f-chip active f-status" data-v="On Track" onclick="toggle('status','On Track',this)" style="background:#c8e6c9;color:#1b5e20;">On Track</span>`;
+  h+=`<span class="f-chip active f-status" data-v="At Risk" onclick="toggle('status','At Risk',this)" style="background:#fff3cd;color:#e65100;">At Risk</span>`;
+  h+=`<span class="f-divider"></span>`;
+  h+=`<span class="filter-label">Steward:</span>`;
+  h+=`<span class="f-chip active f-steward" data-v="all" onclick="toggle('steward','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  allStewards.forEach(s=>{
+    h+=`<span class="f-chip active f-steward" data-v="${s}" onclick="toggle('steward','${s}',this)" style="background:#f3f4f6;color:#374151;">${s}</span>`;
+  });
+  h+=`<span class="f-divider"></span>`;
+  h+=`<span class="filter-label">Themes:</span>`;
+  h+=`<span class="f-chip active f-theme" data-v="all" onclick="toggle('theme','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  allThemes.forEach(t=>{
+    h+=`<span class="f-chip active f-theme" data-v="${t}" onclick="toggle('theme','${t}',this)" style="background:#e3f2fd;color:#0d47a1;">${t}</span>`;
+  });
+  document.getElementById('filterBar').innerHTML=h;
+}
+
+function toggle(type,val,el){
+  const map={status:{active:activeStatuses,all:allStatuses,cls:'.f-status'},steward:{active:activeStewards,all:allStewards,cls:'.f-steward'},theme:{active:activeThemes,all:allThemes,cls:'.f-theme'}};
+  const m=map[type];
+  if(val==='all'){
+    const full=m.active.size===m.all.size;
+    if(full){m.active.clear();document.querySelectorAll(m.cls).forEach(c=>c.classList.remove('active'));}
+    else{m.all.forEach(x=>m.active.add(x));document.querySelectorAll(m.cls).forEach(c=>c.classList.add('active'));}
+  } else {
+    if(m.active.has(val)){m.active.delete(val);el.classList.remove('active');}
+    else{m.active.add(val);el.classList.add('active');}
+    const ac=document.querySelector(m.cls+'[data-v="all"]');
+    m.active.size===m.all.size?ac.classList.add('active'):ac.classList.remove('active');
+  }
+  render();
+}
+
+function usVisible(us){
+  const statusOk=activeStatuses.has(us.status);
+  const themeOk=us.themes.some(t=>activeThemes.has(t))||activeThemes.size===allThemes.size;
+  const stewardOk=us.workstreams.some(ws=>activeStewards.has(ws.steward))||activeStewards.size===allStewards.size;
+  return statusOk&&themeOk&&stewardOk;
+}
+
+function togglePanel(id){if(openPanels.has(id))openPanels.delete(id);else openPanels.add(id);render();}
+function expandAll(){stories.forEach(us=>openPanels.add(us.id));render();}
+function collapseAll(){openPanels.clear();render();}
+
+function render(){
+  const c=document.getElementById('roadmap');
+  const todayPct=((3+13/30)/12*100);
+  let html='';
+  html+=`<div class="q-grid"><div></div><div></div><div></div><div></div></div>`;
+  html+=`<div class="today-line" style="left:${todayPct}%"><div class="today-dot"></div></div>`;
+
+  stories.forEach(us=>{
+    if(!usVisible(us)) return;
+    const isOpen=openPanels.has(us.id);
+    const chipCls=us.status==='On Track'?'chip-on':us.status==='At Risk'?'chip-risk':'chip-off';
+    const isTbd=us.want.startsWith('TBD');
+
+    html+=`<div class="us-row">`;
+    html+=`<div class="us-bar ${us.color}" style="margin-left:${us.start}%;width:${us.end-us.start}%;" onclick="togglePanel('${us.id}')">`;
+    html+=`<div class="want">${us.want}</div>`;
+    if(!isTbd) html+=`<div class="so-that">${us.soThat}</div>`;
+    html+=`<div class="bar-meta">`;
+    html+=`<span class="bar-chip ${chipCls}">${us.status}</span>`;
+    html+=`<span class="bar-chip chip-ws-count">${us.workstreams.length} epic${us.workstreams.length>1?'s':''}</span>`;
+    us.themes.forEach(t=>{html+=`<span class="bar-chip chip-theme">${t}</span>`;});
+    html+=`</div></div>`;
+
+    // Expanded epics panel with mini timeline bars
+    if(isOpen){
+      html+=`<div class="expand-panel open">`;
+      html+=`<h4>Epics <span class="count">${us.workstreams.length}</span></h4>`;
+      html+=`<div class="epic-timeline">`;
+      html+=`<div class="epic-q-grid"><div></div><div></div><div></div><div></div></div>`;
+      us.workstreams.forEach((ws,wi)=>{
+        const wsCls=ws.status==='On Track'?'chip-on':ws.status==='At Risk'?'chip-risk':'chip-off';
+        const barBg=us.color.replace('c-','');
+        html+=`<div class="epic-row">`;
+        html+=`<div class="epic-bar epic-${barBg}" style="margin-left:${ws.start}%;width:${ws.end-ws.start}%;">`;
+        html+=`<div class="epic-title">${ws.name}</div>`;
+        html+=`<div class="epic-meta">`;
+        html+=`<span class="bar-chip ${wsCls}">${ws.status}</span>`;
+        html+=`<span class="bar-chip" style="background:rgba(0,0,0,0.06);color:#444;">${ws.steward}</span>`;
+        if(ws.grant) html+=`<span class="bar-chip" style="background:#e8d5f5;color:#4a148c;">${ws.grant}</span>`;
+        html+=`</div></div>`;
+        html+=`</div>`;
+      });
+      html+=`</div></div>`;
+    }
+    html+=`</div>`;
+  });
+
+  c.innerHTML=html;
+}
+
+buildFilters();
+render();
+</script>
+</body>
+</html>
