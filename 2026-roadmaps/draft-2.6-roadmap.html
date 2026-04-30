@@ -3,19 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OS Hub Working Product Roadmap 2026</title>
+<title>OS Hub Working Product Roadmap 2026 — Draft 2.6</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1a1a2e;}
+a{color:inherit;text-decoration:none;}
+a:hover{text-decoration:underline;}
 
 .header{background:white;padding:24px 40px 16px;border-bottom:1px solid #ddd;}
 .header h1{font-size:26px;font-weight:800;color:#1a1a2e;letter-spacing:-0.5px;}
 .header h1 span{font-weight:400;}
+.header h1 .draft-tag{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;letter-spacing:0;}
 .header-row{display:flex;justify-content:space-between;align-items:flex-start;}
 .header-sub{font-size:12px;color:#888;margin-top:3px;}
+.header-sub strong{color:#444;}
 .header-actions{display:flex;gap:8px;margin-top:4px;}
 .btn{background:white;border:1px solid #ccc;padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-weight:500;}
 .btn:hover{background:#f5f5f5;}
+
+.source-banner{background:#eff6ff;border-bottom:1px solid #dbeafe;padding:8px 40px;font-size:11px;color:#1e40af;display:flex;align-items:center;gap:6px;}
+.source-banner .dot{width:6px;height:6px;background:#3b82f6;border-radius:50%;}
 
 .filters{padding:8px 40px;background:white;border-bottom:1px solid #ddd;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .filter-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#999;}
@@ -37,34 +44,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .today-line{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:12;pointer-events:none;}
 .today-dot{position:absolute;top:-3px;left:-3px;width:8px;height:8px;background:#ef4444;border-radius:50%;}
 
-/* User story bars */
-.us-row{position:relative;z-index:2;padding:4px 8px;}
-.us-bar{position:relative;border-radius:8px;padding:8px 12px;cursor:pointer;transition:all 0.12s;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);min-height:64px;}
-.us-bar:hover{box-shadow:0 3px 10px rgba(0,0,0,0.18);transform:translateY(-1px);}
-.us-bar .want{font-size:11.5px;font-weight:700;color:#222;line-height:1.3;margin-bottom:2px;}
-.us-bar .so-that{font-size:10px;font-weight:400;color:#555;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.us-bar .bar-meta{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;align-items:center;}
+/* Initiative bars (top level) */
+.init-row{position:relative;z-index:2;padding:4px 8px;}
+.init-bar{position:relative;border-radius:8px;padding:8px 12px;cursor:pointer;transition:all 0.12s;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);min-height:64px;}
+.init-bar:hover{box-shadow:0 3px 10px rgba(0,0,0,0.18);transform:translateY(-1px);}
+.init-bar .init-title{font-size:11.5px;font-weight:700;color:#222;line-height:1.3;margin-bottom:2px;}
+.init-bar .init-title a{color:#222;}
+.init-bar .init-key{font-size:9px;font-weight:600;color:#666;background:rgba(255,255,255,0.6);padding:1px 5px;border-radius:3px;margin-right:6px;}
+.init-bar .bar-meta{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;align-items:center;}
 .bar-chip{font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:600;white-space:nowrap;line-height:1.4;}
 .chip-on{background:#c8e6c9;color:#1b5e20;}
 .chip-risk{background:#fff3cd;color:#e65100;border:1px solid #ffe082;}
 .chip-off{background:#ffcdd2;color:#b71c1c;}
 .chip-tbd{background:#f3f4f6;color:#999;font-style:italic;}
+.chip-status-todo{background:#e5e7eb;color:#374151;}
+.chip-status-prog{background:#dbeafe;color:#1e40af;}
+.chip-status-done{background:#d1fae5;color:#065f46;}
 .chip-ws-count{background:rgba(0,0,0,0.08);color:#444;}
 .chip-theme{background:#e3f2fd;color:#0d47a1;}
+.chip-funding{background:#e8d5f5;color:#4a148c;}
+.chip-owner{background:rgba(0,0,0,0.06);color:#444;}
 
-/* Color palette for user stories */
-.us-bar.c-spotlight{background:#fff3cd;border-left:5px solid #f59e0b;}
-.us-bar.c-moderation{background:#fce7d6;border-left:5px solid #f59e42;}
-.us-bar.c-newprod{background:#ccfbf1;border-left:5px solid #14b8a6;}
-.us-bar.c-ai{background:#dbeafe;border-left:5px solid #60a5fa;}
-.us-bar.c-trust{background:#ede9fe;border-left:5px solid #a78bfa;}
-.us-bar.c-soc{background:#fce4ec;border-left:5px solid #f06292;}
+/* Color palette per Initiative (assigned by index) */
+.init-bar.c0{background:#fff3cd;border-left:5px solid #f59e0b;}
+.init-bar.c1{background:#fce7d6;border-left:5px solid #f59e42;}
+.init-bar.c2{background:#ccfbf1;border-left:5px solid #14b8a6;}
+.init-bar.c3{background:#dbeafe;border-left:5px solid #60a5fa;}
+.init-bar.c4{background:#ede9fe;border-left:5px solid #a78bfa;}
+.init-bar.c5{background:#fce4ec;border-left:5px solid #f06292;}
 
 /* Expanded epics panel */
 .expand-panel{display:none;background:#f8f9fb;border:1px solid #e0e0e0;border-radius:0 0 8px 8px;margin:-2px 8px 4px;padding:8px 0 10px;z-index:10;position:relative;box-shadow:inset 0 2px 4px rgba(0,0,0,0.04);}
 .expand-panel.open{display:block;}
 .expand-panel h4{font-size:10px;font-weight:700;color:#888;margin:0 12px 6px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:0.4px;}
 .expand-panel h4 .count{background:#e0e0e0;color:#666;font-size:9px;padding:1px 6px;border-radius:8px;}
+.expand-panel .empty-note{font-size:11px;color:#999;font-style:italic;padding:4px 12px;}
 
 /* Epic sub-timeline */
 .epic-timeline{position:relative;min-height:20px;}
@@ -72,25 +86,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .epic-q-grid div{border-right:1px solid #eee;}
 .epic-q-grid div:last-child{border-right:none;}
 .epic-row{position:relative;z-index:2;padding:2px 8px;}
-.epic-bar{position:relative;border-radius:6px;padding:4px 8px;min-height:34px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);transition:all 0.1s;}
+.epic-bar{position:relative;border-radius:6px;padding:5px 8px;min-height:36px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);transition:all 0.1s;cursor:pointer;}
 .epic-bar:hover{box-shadow:0 2px 6px rgba(0,0,0,0.12);}
-.epic-bar .epic-title{font-size:10px;font-weight:600;color:#333;line-height:1.25;}
-.epic-bar .epic-meta{display:flex;gap:3px;margin-top:2px;flex-wrap:wrap;align-items:center;}
-.epic-bar .epic-meta .bar-chip{font-size:7.5px;padding:0px 4px;}
+.epic-bar .epic-title{font-size:10.5px;font-weight:600;color:#333;line-height:1.25;}
+.epic-bar .epic-title a{color:#1d4ed8;}
+.epic-bar .epic-key{font-size:9px;font-weight:600;color:#666;background:rgba(255,255,255,0.7);padding:0px 4px;border-radius:3px;margin-right:5px;}
+.epic-bar .epic-meta{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap;align-items:center;}
+.epic-bar .epic-meta .bar-chip{font-size:8px;padding:0px 4px;}
 
-/* Lighter epic bar colors (lighter than parent user story) */
-.epic-bar.epic-spotlight{background:#fff8e1;border-left:3px solid #fbbf24;}
-.epic-bar.epic-moderation{background:#fef3ec;border-left:3px solid #fb923c;}
-.epic-bar.epic-newprod{background:#e6fcf5;border-left:3px solid #5eead4;}
-.epic-bar.epic-ai{background:#eff6ff;border-left:3px solid #93c5fd;}
-.epic-bar.epic-trust{background:#f5f3ff;border-left:3px solid #c4b5fd;}
-.epic-bar.epic-soc{background:#fdf2f8;border-left:3px solid #f9a8d4;}
+/* Lighter epic colors per parent Initiative */
+.epic-bar.c0{background:#fff8e1;border-left:3px solid #fbbf24;}
+.epic-bar.c1{background:#fef3ec;border-left:3px solid #fb923c;}
+.epic-bar.c2{background:#e6fcf5;border-left:3px solid #5eead4;}
+.epic-bar.c3{background:#eff6ff;border-left:3px solid #93c5fd;}
+.epic-bar.c4{background:#f5f3ff;border-left:3px solid #c4b5fd;}
+.epic-bar.c5{background:#fdf2f8;border-left:3px solid #f9a8d4;}
+.epic-bar.tbd-bar{background:#fafafa;border-left:3px dashed #d1d5db;color:#9ca3af;}
+
+/* Product Execution Update reveal */
+.exec-panel{display:none;margin:4px 8px 0 24px;padding:8px 12px;background:white;border:1px solid #e5e7eb;border-radius:6px;font-size:11.5px;color:#374151;line-height:1.45;white-space:pre-wrap;}
+.exec-panel.open{display:block;}
+.exec-panel .exec-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#9ca3af;margin-bottom:4px;}
+.exec-panel .exec-empty{color:#9ca3af;font-style:italic;}
 
 .legend{padding:12px 40px;display:flex;gap:14px;font-size:10px;color:#999;flex-wrap:wrap;align-items:center;}
 .legend-item{display:flex;align-items:center;gap:4px;}
 .legend-dot{width:7px;height:7px;border-radius:2px;}
 
-@media print{.filters,.header-actions{display:none;}body{background:white;}}
+.field-checklist{margin:0 40px 24px;padding:14px 18px;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;font-size:12px;color:#78350f;line-height:1.5;}
+.field-checklist h3{font-size:13px;margin-bottom:6px;color:#78350f;}
+.field-checklist ul{margin:6px 0 0 18px;}
+.field-checklist code{background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;font-size:11px;}
+
+@media print{.filters,.header-actions,.source-banner{display:none;}body{background:white;}}
 </style>
 </head>
 <body>
@@ -98,8 +126,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="header">
   <div class="header-row">
     <div>
-      <h1>OS Hub <span>Working Product Roadmap</span></h1>
-      <div class="header-sub">2026 &middot; Organized by User Story &middot; Click any bar to see affiliated epics</div>
+      <h1>OS Hub <span>Working Product Roadmap</span><span class="draft-tag">DRAFT 2.6</span></h1>
+      <div class="header-sub">2026 &middot; Organized by Initiative &middot; Click an Initiative to see its Epics &middot; Click an Epic to see its Product Execution Update</div>
     </div>
     <div class="header-actions">
       <button class="btn" onclick="expandAll()">Expand All</button>
@@ -107,6 +135,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <button class="btn" onclick="window.print()">Print</button>
     </div>
   </div>
+</div>
+
+<div class="source-banner">
+  <span class="dot"></span>
+  <span><strong>Source of truth: Jira.</strong> All data on this page comes from Jira Initiatives &amp; Epics in <code style="background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">project = OSDEV</code>. To update what's shown, edit the Jira issue. <span id="lastSync"></span></span>
 </div>
 
 <div class="filters" id="filterBar"></div>
@@ -126,209 +159,414 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <div class="legend">
-  <span style="font-weight:600;color:#666;">User Stories:</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span>Spotlight / Data Integration</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#f59e42;"></span>Moderation Efficiency</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#14b8a6;"></span>New Product</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#60a5fa;"></span>AI Pre-screening</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>Data Trust & Quality</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#f06292;"></span>SOC 2 / Security</span>
+  <span style="font-weight:600;color:#666;">Project Health:</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#c8e6c9;"></span>On Track</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#fff3cd;"></span>At Risk</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#ffcdd2;"></span>Off Track</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#f3f4f6;"></span>Not Set</span>
+  <span style="font-weight:600;color:#666;margin-left:16px;">Status:</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#e5e7eb;"></span>To Do</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#dbeafe;"></span>In Progress</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#d1fae5;"></span>Done</span>
+</div>
+
+<div class="field-checklist">
+  <h3>📋 Required Jira fields per Epic (so this page renders fully)</h3>
+  <p>Each Epic owner please populate these fields directly in Jira. The roadmap reads them on each refresh.</p>
+  <ul>
+    <li><code>Start date</code> + <code>Due date</code> — controls the bar's start and end positions on the timeline</li>
+    <li><code>Project Health</code> — <em>On Track / At Risk / Off Track</em></li>
+    <li><code>Product Execution Update</code> — short narrative shown when someone clicks the Epic bar</li>
+    <li><code>Funding Mechanism</code> — funder/grant tag (e.g., PJM, HSF, General No Donor)</li>
+    <li><code>Assignee</code> — Epic owner</li>
+    <li><code>Parent</code> — must be linked to an Initiative (the user-story-level row above it)</li>
+  </ul>
 </div>
 
 <script>
 
-const stories=[
+// ---------- LIVE DATA — pulled from Jira on the date stamped below ----------
+// Source: project = OSDEV, issuetype in (Initiative, Epic)
+const LAST_SYNC = "2026-04-30";
+
+const themesByInitKey = {
+  "OSDEV-2565": "Data Breadth (Quantity)",
+  "OSDEV-2556": "Usability",
+  "OSDEV-2516": "Transparency"
+};
+
+const initiatives = [
   {
-    id:"us-a",
-    want:"I want to combine OS Hub data with other supply chain, labor, environmental, and risk datasets to build a fuller picture",
-    soThat:"So that I can connect multiple data sources and show how supply chain problems are interconnected — telling a more evidence-based story than any single dataset allows",
-    color:"c-spotlight",
-    start:0, end:100,
-    status:"At Risk",
-    themes:["Collaboration","Usability","Data Breadth","Data Quality"],
-    workstreams:[
-      {name:"Launch Spotlight",steward:"Pranali",status:"On Track",grant:null,start:0,end:33},
-      {name:"Onboard Addtl. Spotlight Partners",steward:"Pranali",status:"On Track",grant:null,start:34,end:50},
-      {name:"Possible Data Contribution Pause",steward:"Pranali",status:"At Risk",grant:null,start:55,end:75},
-      {name:"Finding, Processing and Importing Public Data",steward:"TBD",status:"On Track",grant:null,start:63,end:100},
+    key: "OSDEV-2565",
+    url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2565",
+    title: "I want OS Hub to reach 3M OS IDs through multi-stakeholder contributions and public data ingestion",
+    theme: "Data Breadth (Quantity)",
+    status: "To Do",
+    health: null,
+    funding: ["General No Donor"],
+    color: 0,
+    epics: [
+      {
+        key: "OSDEV-2566",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2566",
+        title: "Satellite Image Processing and Detection -- Earth Genome/PJM",
+        owner: "Emily Tanabe",
+        status: "To Do",
+        health: null,
+        funding: ["PJM"],
+        startDate: null,
+        dueDate: "2026-06-01",
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-2554",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2554",
+        title: "Grant Support & Technical Deliverables — Ongoing",
+        owner: null,
+        status: "To Do",
+        health: null,
+        funding: ["PJM","HSF"],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      }
     ]
   },
   {
-    id:"us-b",
-    want:"I want to spend my moderation time on quality review — not on admin tasks, system-switching, one-at-a-time workflows, and manual tracking",
-    soThat:"So that I can process more submissions faster and clear backlogs without repetitive overhead slowing me down",
-    color:"c-moderation",
-    start:0, end:58,
-    status:"On Track",
-    themes:["Data Quality","Usability"],
-    workstreams:[
-      {name:"Automate Aspects of Data Pipeline",steward:"Bus",status:"On Track",grant:null,start:0,end:28},
-      {name:"Productionize Claims Moderation Automation",steward:"James",status:"On Track",grant:null,start:25,end:58},
+    key: "OSDEV-2556",
+    url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2556",
+    title: "I want to ensure that the OS Hub Platform is performant, secure, and reliable as an integral part of my business workflow",
+    theme: "Usability",
+    status: "To Do",
+    health: null,
+    funding: ["General No Donor"],
+    color: 3,
+    epics: [
+      {
+        key: "OSDEV-2638",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2638",
+        title: "[CI/CD] Faster delivery pipeline",
+        owner: "Vlad Shapik",
+        status: "To Do",
+        health: null,
+        funding: ["General No Donor"],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-2194",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2194",
+        title: "[Test Automation] Create E2E Tests for Regression testing of Moderation queue",
+        owner: "Anna Bondar",
+        status: "In Progress",
+        health: null,
+        funding: [],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-2193",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2193",
+        title: "[Test Automation] Create E2E Tests for Regression testing of SLC",
+        owner: null,
+        status: "To Do",
+        health: null,
+        funding: [],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-2192",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2192",
+        title: "[Test Automation] Create E2E Tests for Regression testing of Data Download Limits",
+        owner: null,
+        status: "To Do",
+        health: null,
+        funding: [],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-1847",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-1847",
+        title: "Test Documentation",
+        owner: "Anna Bondar",
+        status: "To Do",
+        health: null,
+        funding: [],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-1047",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-1047",
+        title: "[TBD] Test Automation. Add Playwright to be run within Code Quality pipelines",
+        owner: null,
+        status: "To Do",
+        health: null,
+        funding: [],
+        startDate: null,
+        dueDate: null,
+        execUpdate: null
+      },
+      {
+        key: "OSDEV-838",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-838",
+        title: "Tech debt",
+        owner: null,
+        status: "To Do",
+        health: null,
+        funding: [],
+        startDate: "2024-07-05",
+        dueDate: "2024-12-27",
+        execUpdate: null
+      }
     ]
   },
   {
-    id:"us-c",
-    want:"TBD — New Product user story to be defined",
-    soThat:"TBD",
-    color:"c-newprod",
-    start:28, end:80,
-    status:"On Track",
-    themes:["Usability","Collaboration"],
-    workstreams:[
-      {name:"NEW PRODUCT – Platform Functionality to Support Sales",steward:"Carman",status:"On Track",grant:null,start:28,end:80},
-    ]
-  },
-  {
-    id:"us-d",
-    want:"I want to receive automated pre-screening flags for likely data quality issues before beginning my moderation review",
-    soThat:"So that I can prioritize my review time on the most problematic submissions and work through lower-risk submissions faster",
-    color:"c-ai",
-    start:30, end:68,
-    status:"On Track",
-    themes:["Data Quality","Usability"],
-    workstreams:[
-      {name:"Integrate AI into Platform Data Pipelines (PJM)",steward:"Bus",status:"On Track",grant:"PJM",start:30,end:68},
-    ]
-  },
-  {
-    id:"us-e",
-    want:"I want to trust that the data I find on OS Hub is credible, consolidated, and accurate",
-    soThat:"So that I can incorporate it confidently into my work, systems, programming, and reports — without second-guessing whether I'm looking at the right record",
-    color:"c-trust",
-    start:18, end:100,
-    status:"On Track",
-    themes:["Data Quality","Transparency","Data Breadth"],
-    workstreams:[
-      {name:"Data Quality Initiatives (DQ Metrics)",steward:"James",status:"On Track",grant:null,start:33,end:100},
-      {name:"Satellite / AI Image Recognition for Slaughterhouse / Agricultural Facilities",steward:"Emily T",status:"On Track",grant:"PJM",start:18,end:68},
-      {name:"Data Center Facility Data Search and Ingestion (HSF)",steward:"Emily O",status:"On Track",grant:"HSF",start:18,end:62},
-      {name:"Data Quality Dashboard",steward:"James",status:"On Track",grant:null,start:52,end:72},
-    ]
-  },
-  {
-    id:"us-f",
-    want:"I want to know that OS Hub meets recognized security and data handling standards before I integrate it into my compliance workflows or share sensitive supplier data",
-    soThat:"So that my legal, IT, and procurement teams approve OS Hub as a trusted vendor — and I can share data without risking a security review failure",
-    color:"c-soc",
-    start:42, end:85,
-    status:"On Track",
-    themes:["Compliance"],
-    workstreams:[
-      {name:"SOC 2 Compliance Work",steward:"Tyler",status:"On Track",grant:null,start:42,end:85},
-    ]
-  },
+    key: "OSDEV-2516",
+    url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2516",
+    title: "I want to ensure that trade union–contributed data is not accessible to anti-union actors — protecting vulnerable workers and union organizing",
+    theme: "Transparency",
+    status: "To Do",
+    health: null,
+    funding: [],
+    color: 4,
+    epics: []
+  }
 ];
 
-// Collect unique values for filters
-const allStatuses=new Set(["On Track","At Risk"]);
-const allStewards=new Set();
-const allThemes=new Set();
-stories.forEach(us=>{
-  us.themes.forEach(t=>allThemes.add(t));
-  us.workstreams.forEach(ws=>allStewards.add(ws.steward));
+// ---------- Date → percent of 2026 ----------
+const YEAR_START = new Date('2026-01-01').getTime();
+const YEAR_END = new Date('2026-12-31').getTime();
+const YEAR_LEN = YEAR_END - YEAR_START;
+
+function dateToPct(dateStr){
+  if (!dateStr) return null;
+  const t = new Date(dateStr).getTime();
+  const pct = (t - YEAR_START) / YEAR_LEN * 100;
+  return Math.max(0, Math.min(100, pct));
+}
+
+// Compute Initiative bar span = min(epic.start) → max(epic.end)
+function initSpan(init){
+  let s = null, e = null;
+  init.epics.forEach(ep => {
+    const sp = dateToPct(ep.startDate);
+    const ep_ = dateToPct(ep.dueDate);
+    if (sp !== null) s = (s === null) ? sp : Math.min(s, sp);
+    if (ep_ !== null) e = (e === null) ? ep_ : Math.max(e, ep_);
+  });
+  return {start: s, end: e};
+}
+
+// Epic span: if both → real span; if only end → small bar near end; if neither → full-row TBD bar
+function epicSpan(ep){
+  const s = dateToPct(ep.startDate);
+  const e = dateToPct(ep.dueDate);
+  if (s !== null && e !== null && e > s) return {start: s, end: e, mode:'full'};
+  if (e !== null) return {start: Math.max(0, e - 4), end: e, mode:'end-only'};
+  if (s !== null) return {start: s, end: Math.min(100, s + 4), mode:'start-only'};
+  return {start: 5, end: 95, mode:'tbd'};
+}
+
+// ---------- Filter state ----------
+const allStatuses = new Set();
+const allOwners = new Set();
+const allThemes = new Set();
+const allHealth = new Set(["On Track","At Risk","Off Track","Not Set"]);
+initiatives.forEach(init => {
+  if (init.theme) allThemes.add(init.theme);
+  init.epics.forEach(ep => {
+    if (ep.status) allStatuses.add(ep.status);
+    if (ep.owner) allOwners.add(ep.owner);
+  });
 });
 
-let activeStatuses=new Set(allStatuses);
-let activeStewards=new Set(allStewards);
-let activeThemes=new Set(allThemes);
-let openPanels=new Set();
+let activeStatuses = new Set(allStatuses);
+let activeOwners = new Set(allOwners);
+let activeThemes = new Set(allThemes);
+let activeHealth = new Set(allHealth);
+let openInits = new Set();
+let openEpics = new Set();
 
 function buildFilters(){
-  let h='';
-  h+=`<span class="filter-label">Status:</span>`;
-  h+=`<span class="f-chip active f-status" data-v="all" onclick="toggle('status','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
-  h+=`<span class="f-chip active f-status" data-v="On Track" onclick="toggle('status','On Track',this)" style="background:#c8e6c9;color:#1b5e20;">On Track</span>`;
-  h+=`<span class="f-chip active f-status" data-v="At Risk" onclick="toggle('status','At Risk',this)" style="background:#fff3cd;color:#e65100;">At Risk</span>`;
-  h+=`<span class="f-divider"></span>`;
-  h+=`<span class="filter-label">Steward:</span>`;
-  h+=`<span class="f-chip active f-steward" data-v="all" onclick="toggle('steward','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
-  allStewards.forEach(s=>{
-    h+=`<span class="f-chip active f-steward" data-v="${s}" onclick="toggle('steward','${s}',this)" style="background:#f3f4f6;color:#374151;">${s}</span>`;
+  let h = '';
+  h += `<span class="filter-label">Health:</span>`;
+  h += `<span class="f-chip active f-health" data-v="all" onclick="toggle('health','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  [["On Track","#c8e6c9","#1b5e20"],["At Risk","#fff3cd","#e65100"],["Off Track","#ffcdd2","#b71c1c"],["Not Set","#f3f4f6","#888"]].forEach(([v,bg,fg])=>{
+    h += `<span class="f-chip active f-health" data-v="${v}" onclick="toggle('health','${v}',this)" style="background:${bg};color:${fg};">${v}</span>`;
   });
-  h+=`<span class="f-divider"></span>`;
-  h+=`<span class="filter-label">Themes:</span>`;
-  h+=`<span class="f-chip active f-theme" data-v="all" onclick="toggle('theme','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
-  allThemes.forEach(t=>{
-    h+=`<span class="f-chip active f-theme" data-v="${t}" onclick="toggle('theme','${t}',this)" style="background:#e3f2fd;color:#0d47a1;">${t}</span>`;
+  h += `<span class="f-divider"></span>`;
+  h += `<span class="filter-label">Status:</span>`;
+  h += `<span class="f-chip active f-status" data-v="all" onclick="toggle('status','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  Array.from(allStatuses).sort().forEach(s=>{
+    const cls = s === 'In Progress' ? 'chip-status-prog' : s === 'Done' ? 'chip-status-done' : 'chip-status-todo';
+    const styles = {'chip-status-prog':'background:#dbeafe;color:#1e40af;','chip-status-done':'background:#d1fae5;color:#065f46;','chip-status-todo':'background:#e5e7eb;color:#374151;'};
+    h += `<span class="f-chip active f-status" data-v="${s}" onclick="toggle('status','${s}',this)" style="${styles[cls]}">${s}</span>`;
   });
-  document.getElementById('filterBar').innerHTML=h;
+  h += `<span class="f-divider"></span>`;
+  h += `<span class="filter-label">Theme:</span>`;
+  h += `<span class="f-chip active f-theme" data-v="all" onclick="toggle('theme','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  Array.from(allThemes).sort().forEach(t=>{
+    h += `<span class="f-chip active f-theme" data-v="${t}" onclick="toggle('theme','${t}',this)" style="background:#e3f2fd;color:#0d47a1;">${t}</span>`;
+  });
+  h += `<span class="f-divider"></span>`;
+  h += `<span class="filter-label">Owner:</span>`;
+  h += `<span class="f-chip active f-owner" data-v="all" onclick="toggle('owner','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
+  Array.from(allOwners).sort().forEach(s=>{
+    h += `<span class="f-chip active f-owner" data-v="${s}" onclick="toggle('owner','${s}',this)" style="background:#f3f4f6;color:#374151;">${s}</span>`;
+  });
+  document.getElementById('filterBar').innerHTML = h;
 }
 
 function toggle(type,val,el){
-  const map={status:{active:activeStatuses,all:allStatuses,cls:'.f-status'},steward:{active:activeStewards,all:allStewards,cls:'.f-steward'},theme:{active:activeThemes,all:allThemes,cls:'.f-theme'}};
-  const m=map[type];
-  if(val==='all'){
-    const full=m.active.size===m.all.size;
-    if(full){m.active.clear();document.querySelectorAll(m.cls).forEach(c=>c.classList.remove('active'));}
-    else{m.all.forEach(x=>m.active.add(x));document.querySelectorAll(m.cls).forEach(c=>c.classList.add('active'));}
+  const map = {
+    status:{active:activeStatuses,all:allStatuses,cls:'.f-status'},
+    owner:{active:activeOwners,all:allOwners,cls:'.f-owner'},
+    theme:{active:activeThemes,all:allThemes,cls:'.f-theme'},
+    health:{active:activeHealth,all:allHealth,cls:'.f-health'}
+  };
+  const m = map[type];
+  if (val === 'all') {
+    const full = m.active.size === m.all.size;
+    if (full) { m.active.clear(); document.querySelectorAll(m.cls).forEach(c => c.classList.remove('active')); }
+    else { m.all.forEach(x => m.active.add(x)); document.querySelectorAll(m.cls).forEach(c => c.classList.add('active')); }
   } else {
-    if(m.active.has(val)){m.active.delete(val);el.classList.remove('active');}
-    else{m.active.add(val);el.classList.add('active');}
-    const ac=document.querySelector(m.cls+'[data-v="all"]');
-    m.active.size===m.all.size?ac.classList.add('active'):ac.classList.remove('active');
+    if (m.active.has(val)) { m.active.delete(val); el.classList.remove('active'); }
+    else { m.active.add(val); el.classList.add('active'); }
+    const ac = document.querySelector(m.cls + '[data-v="all"]');
+    m.active.size === m.all.size ? ac.classList.add('active') : ac.classList.remove('active');
   }
   render();
 }
 
-function usVisible(us){
-  const statusOk=activeStatuses.has(us.status);
-  const themeOk=us.themes.some(t=>activeThemes.has(t))||activeThemes.size===allThemes.size;
-  const stewardOk=us.workstreams.some(ws=>activeStewards.has(ws.steward))||activeStewards.size===allStewards.size;
-  return statusOk&&themeOk&&stewardOk;
+function epicHealthLabel(ep){ return ep.health || 'Not Set'; }
+
+function epicVisible(ep){
+  if (!activeStatuses.has(ep.status)) return false;
+  if (!activeHealth.has(epicHealthLabel(ep))) return false;
+  if (ep.owner) { if (!activeOwners.has(ep.owner)) return false; }
+  // owner null is always shown if any owner is active (don't hide unowned epics)
+  return true;
 }
 
-function togglePanel(id){if(openPanels.has(id))openPanels.delete(id);else openPanels.add(id);render();}
-function expandAll(){stories.forEach(us=>openPanels.add(us.id));render();}
-function collapseAll(){openPanels.clear();render();}
+function initVisible(init){
+  if (init.theme && !activeThemes.has(init.theme)) return false;
+  // Initiative shows if at least one epic is visible OR it has no epics
+  if (init.epics.length === 0) return true;
+  return init.epics.some(epicVisible);
+}
+
+function togglePanel(key){ if (openInits.has(key)) openInits.delete(key); else openInits.add(key); render(); }
+function toggleEpic(key){ if (openEpics.has(key)) openEpics.delete(key); else openEpics.add(key); render(); }
+function expandAll(){ initiatives.forEach(i => openInits.add(i.key)); render(); }
+function collapseAll(){ openInits.clear(); openEpics.clear(); render(); }
+
+function healthChip(h){
+  if (!h) return `<span class="bar-chip chip-tbd">Health: Not Set</span>`;
+  const t = h.toLowerCase();
+  if (t.startsWith('on')) return `<span class="bar-chip chip-on">On Track</span>`;
+  if (t.startsWith('at') || t.includes('risk')) return `<span class="bar-chip chip-risk">At Risk</span>`;
+  if (t.startsWith('off')) return `<span class="bar-chip chip-off">Off Track</span>`;
+  return `<span class="bar-chip chip-tbd">${h}</span>`;
+}
+
+function statusChip(s){
+  const cls = s === 'In Progress' ? 'chip-status-prog' : s === 'Done' ? 'chip-status-done' : 'chip-status-todo';
+  return `<span class="bar-chip ${cls}">${s}</span>`;
+}
+
+function escHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]); }
 
 function render(){
-  const c=document.getElementById('roadmap');
-  const todayPct=((3+13/30)/12*100);
-  let html='';
-  html+=`<div class="q-grid"><div></div><div></div><div></div><div></div></div>`;
-  html+=`<div class="today-line" style="left:${todayPct}%"><div class="today-dot"></div></div>`;
+  document.getElementById('lastSync').textContent = `Last sync: ${LAST_SYNC}.`;
+  const c = document.getElementById('roadmap');
+  // today line — for now hardcode based on current date
+  const today = new Date();
+  const todayPct = Math.max(0, Math.min(100, (today.getTime() - YEAR_START) / YEAR_LEN * 100));
+  let html = '';
+  html += `<div class="q-grid"><div></div><div></div><div></div><div></div></div>`;
+  html += `<div class="today-line" style="left:${todayPct}%"><div class="today-dot"></div></div>`;
 
-  stories.forEach(us=>{
-    if(!usVisible(us)) return;
-    const isOpen=openPanels.has(us.id);
-    const chipCls=us.status==='On Track'?'chip-on':us.status==='At Risk'?'chip-risk':'chip-off';
-    const isTbd=us.want.startsWith('TBD');
+  initiatives.forEach((init, idx) => {
+    if (!initVisible(init)) return;
+    const isOpen = openInits.has(init.key);
+    const span = initSpan(init);
+    const start = (span.start !== null) ? span.start : 5;
+    const end = (span.end !== null) ? span.end : 95;
+    const colorCls = `c${init.color !== undefined ? init.color : (idx % 6)}`;
 
-    html+=`<div class="us-row">`;
-    html+=`<div class="us-bar ${us.color}" style="margin-left:${us.start}%;width:${us.end-us.start}%;" onclick="togglePanel('${us.id}')">`;
-    html+=`<div class="want">${us.want}</div>`;
-    if(!isTbd) html+=`<div class="so-that">${us.soThat}</div>`;
-    html+=`<div class="bar-meta">`;
-    html+=`<span class="bar-chip ${chipCls}">${us.status}</span>`;
-    html+=`<span class="bar-chip chip-ws-count">${us.workstreams.length} epic${us.workstreams.length>1?'s':''}</span>`;
-    us.themes.forEach(t=>{html+=`<span class="bar-chip chip-theme">${t}</span>`;});
-    html+=`</div></div>`;
+    html += `<div class="init-row">`;
+    html += `<div class="init-bar ${colorCls}" style="margin-left:${start}%;width:${end-start}%;" onclick="togglePanel('${init.key}')">`;
+    html += `<div class="init-title">`;
+    html += `<span class="init-key">${init.key}</span>`;
+    html += `<a href="${init.url}" target="_blank" onclick="event.stopPropagation();">${escHtml(init.title)}</a>`;
+    html += `</div>`;
+    html += `<div class="bar-meta">`;
+    if (init.theme) html += `<span class="bar-chip chip-theme">${escHtml(init.theme)}</span>`;
+    html += statusChip(init.status);
+    html += healthChip(init.health);
+    html += `<span class="bar-chip chip-ws-count">${init.epics.length} epic${init.epics.length === 1 ? '' : 's'}</span>`;
+    (init.funding || []).forEach(f => { html += `<span class="bar-chip chip-funding">${escHtml(f)}</span>`; });
+    if (span.start === null && span.end === null) html += `<span class="bar-chip chip-tbd">No dates yet</span>`;
+    html += `</div></div>`;
 
-    // Expanded epics panel with mini timeline bars
-    if(isOpen){
-      html+=`<div class="expand-panel open">`;
-      html+=`<h4>Epics <span class="count">${us.workstreams.length}</span></h4>`;
-      html+=`<div class="epic-timeline">`;
-      html+=`<div class="epic-q-grid"><div></div><div></div><div></div><div></div></div>`;
-      us.workstreams.forEach((ws,wi)=>{
-        const wsCls=ws.status==='On Track'?'chip-on':ws.status==='At Risk'?'chip-risk':'chip-off';
-        const barBg=us.color.replace('c-','');
-        html+=`<div class="epic-row">`;
-        html+=`<div class="epic-bar epic-${barBg}" style="margin-left:${ws.start}%;width:${ws.end-ws.start}%;">`;
-        html+=`<div class="epic-title">${ws.name}</div>`;
-        html+=`<div class="epic-meta">`;
-        html+=`<span class="bar-chip ${wsCls}">${ws.status}</span>`;
-        html+=`<span class="bar-chip" style="background:rgba(0,0,0,0.06);color:#444;">${ws.steward}</span>`;
-        if(ws.grant) html+=`<span class="bar-chip" style="background:#e8d5f5;color:#4a148c;">${ws.grant}</span>`;
-        html+=`</div></div>`;
-        html+=`</div>`;
-      });
-      html+=`</div></div>`;
+    if (isOpen) {
+      html += `<div class="expand-panel open">`;
+      html += `<h4>Epics <span class="count">${init.epics.length}</span></h4>`;
+      if (init.epics.length === 0) {
+        html += `<div class="empty-note">No Epics linked to this Initiative yet in Jira.</div>`;
+      } else {
+        html += `<div class="epic-timeline">`;
+        html += `<div class="epic-q-grid"><div></div><div></div><div></div><div></div></div>`;
+        init.epics.forEach(ep => {
+          if (!epicVisible(ep)) return;
+          const sp = epicSpan(ep);
+          const epicCls = sp.mode === 'tbd' ? 'tbd-bar' : colorCls;
+          const isExecOpen = openEpics.has(ep.key);
+          html += `<div class="epic-row">`;
+          html += `<div class="epic-bar ${epicCls}" style="margin-left:${sp.start}%;width:${sp.end-sp.start}%;" onclick="toggleEpic('${ep.key}')">`;
+          html += `<div class="epic-title">`;
+          html += `<span class="epic-key">${ep.key}</span>`;
+          html += `<a href="${ep.url}" target="_blank" onclick="event.stopPropagation();">${escHtml(ep.title)}</a>`;
+          html += `</div>`;
+          html += `<div class="epic-meta">`;
+          html += statusChip(ep.status);
+          html += healthChip(ep.health);
+          if (ep.owner) html += `<span class="bar-chip chip-owner">${escHtml(ep.owner)}</span>`;
+          else html += `<span class="bar-chip chip-tbd">Owner: TBD</span>`;
+          (ep.funding || []).forEach(f => { html += `<span class="bar-chip chip-funding">${escHtml(f)}</span>`; });
+          if (sp.mode === 'tbd') html += `<span class="bar-chip chip-tbd">Dates: TBD</span>`;
+          else if (sp.mode !== 'full') html += `<span class="bar-chip chip-tbd">${sp.mode === 'end-only' ? 'No start date' : 'No due date'}</span>`;
+          html += `</div></div>`;
+          // Product Execution Update reveal
+          if (isExecOpen) {
+            html += `<div class="exec-panel open">`;
+            html += `<div class="exec-label">Product Execution Update</div>`;
+            if (ep.execUpdate) html += `<div>${escHtml(ep.execUpdate)}</div>`;
+            else html += `<div class="exec-empty">No update yet — Epic owner can fill in the <strong>Product Execution Update</strong> field on <a href="${ep.url}" target="_blank">${ep.key}</a> in Jira.</div>`;
+            html += `</div>`;
+          }
+          html += `</div>`;
+        });
+        html += `</div>`;
+      }
+      html += `</div>`;
     }
-    html+=`</div>`;
+    html += `</div>`;
   });
 
-  c.innerHTML=html;
+  if (html.indexOf('init-row') === -1) {
+    html += `<div style="padding:30px;text-align:center;color:#999;font-size:13px;">No initiatives match the current filters.</div>`;
+  }
+
+  c.innerHTML = html;
 }
 
 buildFilters();
