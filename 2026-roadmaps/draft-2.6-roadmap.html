@@ -43,34 +43,43 @@ a:hover{text-decoration:underline;}
 
 .roadmap{margin:0 40px 40px;border:1px solid #ddd;border-top:none;background:white;}
 .timeline-area{position:relative;padding:6px 0 12px;}
-.q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none;z-index:0;}
+.q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;pointer-events:none;z-index:0;}
 .q-grid div{border-right:1px solid #f0f0f0;}
 .q-grid div:last-child{border-right:none;}
 .today-line{position:absolute;top:0;bottom:0;width:2px;background:#ef4444;z-index:12;pointer-events:none;}
 .today-dot{position:absolute;top:-3px;left:-3px;width:8px;height:8px;background:#ef4444;border-radius:50%;}
 
-/* Initiative bars (top level) */
+/* Initiative bars (top level — Tyler asked: clean, minimal chips) */
 .init-row{position:relative;z-index:2;padding:4px 8px;}
-.init-bar{position:relative;border-radius:8px;padding:8px 12px;cursor:pointer;transition:all 0.12s;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);min-height:64px;}
+.init-bar{position:relative;border-radius:8px;padding:8px 12px;cursor:pointer;transition:all 0.12s;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);min-height:54px;}
 .init-bar:hover{box-shadow:0 3px 10px rgba(0,0,0,0.18);transform:translateY(-1px);}
-.init-bar .init-title{font-size:11.5px;font-weight:700;color:#222;line-height:1.3;margin-bottom:2px;}
+.init-bar .init-title{font-size:11.5px;font-weight:700;color:#222;line-height:1.3;}
 .init-bar .init-title a{color:#222;}
 .init-bar .init-key{font-size:9px;font-weight:600;color:#666;background:rgba(255,255,255,0.6);padding:1px 5px;border-radius:3px;margin-right:6px;}
-.init-bar .bar-meta{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;align-items:center;}
+.init-bar .bar-meta{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;align-items:center;}
+.init-bar.standalone{background:repeating-linear-gradient(135deg,#fdf2f8,#fdf2f8 8px,#fce7f3 8px,#fce7f3 14px);border-left:5px dashed #f06292;}
+
+/* Generic chips */
 .bar-chip{font-size:8.5px;padding:1px 5px;border-radius:3px;font-weight:600;white-space:nowrap;line-height:1.4;}
 .chip-on{background:#c8e6c9;color:#1b5e20;}
 .chip-risk{background:#fff3cd;color:#e65100;border:1px solid #ffe082;}
 .chip-off{background:#ffcdd2;color:#b71c1c;}
+.chip-complete{background:#bfdbfe;color:#1e3a8a;}
+.chip-notstarted{background:#e5e7eb;color:#4b5563;}
 .chip-tbd{background:#f3f4f6;color:#999;font-style:italic;}
-.chip-status-todo{background:#e5e7eb;color:#374151;}
-.chip-status-prog{background:#dbeafe;color:#1e40af;}
+.chip-status-todo{background:#fafafa;color:#6b7280;border:1px solid #e5e7eb;}
+.chip-status-prog{background:#fef3c7;color:#92400e;}
 .chip-status-done{background:#d1fae5;color:#065f46;}
+.chip-status-ideation{background:#ede9fe;color:#5b21b6;}
 .chip-ws-count{background:rgba(0,0,0,0.08);color:#444;}
 .chip-theme{background:#e3f2fd;color:#0d47a1;}
 .chip-funding{background:#e8d5f5;color:#4a148c;}
-.chip-owner{background:rgba(0,0,0,0.06);color:#444;}
 
-/* Color palette per Initiative (assigned by index) */
+/* Owner chip — most prominent on the Epic row */
+.chip-owner{background:#1f2937;color:#fff;font-size:10.5px;padding:2px 8px;border-radius:10px;letter-spacing:0.2px;}
+.chip-owner-tbd{background:#fef3c7;color:#92400e;font-size:10.5px;padding:2px 8px;border-radius:10px;font-style:italic;}
+
+/* Color palette per Initiative */
 .init-bar.c0{background:#fff3cd;border-left:5px solid #f59e0b;}
 .init-bar.c1{background:#fce7d6;border-left:5px solid #f59e42;}
 .init-bar.c2{background:#ccfbf1;border-left:5px solid #14b8a6;}
@@ -87,17 +96,16 @@ a:hover{text-decoration:underline;}
 
 /* Epic sub-timeline */
 .epic-timeline{position:relative;min-height:20px;}
-.epic-q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none;z-index:0;}
+.epic-q-grid{position:absolute;top:0;left:0;right:0;bottom:0;display:grid;pointer-events:none;z-index:0;}
 .epic-q-grid div{border-right:1px solid #eee;}
 .epic-q-grid div:last-child{border-right:none;}
-.epic-row{position:relative;z-index:2;padding:2px 8px;}
-.epic-bar{position:relative;border-radius:6px;padding:5px 8px;min-height:36px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);transition:all 0.1s;cursor:pointer;}
+.epic-row{position:relative;z-index:2;padding:3px 8px;}
+.epic-bar{position:relative;border-radius:6px;padding:6px 9px;min-height:42px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.06);transition:all 0.1s;cursor:pointer;}
 .epic-bar:hover{box-shadow:0 2px 6px rgba(0,0,0,0.12);}
 .epic-bar .epic-title{font-size:10.5px;font-weight:600;color:#333;line-height:1.25;}
 .epic-bar .epic-title a{color:#1d4ed8;}
 .epic-bar .epic-key{font-size:9px;font-weight:600;color:#666;background:rgba(255,255,255,0.7);padding:0px 4px;border-radius:3px;margin-right:5px;}
-.epic-bar .epic-meta{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap;align-items:center;}
-.epic-bar .epic-meta .bar-chip{font-size:8px;padding:0px 4px;}
+.epic-bar .epic-meta{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;align-items:center;}
 
 /* Lighter epic colors per parent Initiative */
 .epic-bar.c0{background:#fff8e1;border-left:3px solid #fbbf24;}
@@ -109,7 +117,7 @@ a:hover{text-decoration:underline;}
 .epic-bar.tbd-bar{background:#fafafa;border-left:3px dashed #d1d5db;color:#9ca3af;}
 
 /* Product Execution Update reveal */
-.exec-panel{display:none;margin:4px 8px 0 24px;padding:8px 12px;background:white;border:1px solid #e5e7eb;border-radius:6px;font-size:11.5px;color:#374151;line-height:1.45;white-space:pre-wrap;}
+.exec-panel{display:none;margin:4px 8px 0 24px;padding:10px 14px;background:white;border:1px solid #e5e7eb;border-radius:6px;font-size:11.5px;color:#374151;line-height:1.5;white-space:pre-wrap;}
 .exec-panel.open{display:block;}
 .exec-panel .exec-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#9ca3af;margin-bottom:4px;}
 .exec-panel .exec-empty{color:#9ca3af;font-style:italic;}
@@ -118,12 +126,7 @@ a:hover{text-decoration:underline;}
 .legend-item{display:flex;align-items:center;gap:4px;}
 .legend-dot{width:7px;height:7px;border-radius:2px;}
 
-.field-checklist{margin:0 40px 24px;padding:14px 18px;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;font-size:12px;color:#78350f;line-height:1.5;}
-.field-checklist h3{font-size:13px;margin-bottom:6px;color:#78350f;}
-.field-checklist ul{margin:6px 0 0 18px;}
-.field-checklist code{background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px;font-size:11px;}
-
-@media print{.filters,.header-actions,.source-banner{display:none;}body{background:white;}}
+@media print{.filters,.header-actions,.source-banner,.view-switch{display:none;}body{background:white;}}
 </style>
 </head>
 <body>
@@ -132,7 +135,7 @@ a:hover{text-decoration:underline;}
   <div class="header-row">
     <div>
       <h1>OS Hub <span>Working Product Roadmap</span><span class="draft-tag">DRAFT 2.6</span></h1>
-      <div class="header-sub">2026 &middot; Organized by Initiative &middot; Click an Initiative to see its Epics &middot; Click an Epic to see its Product Execution Update</div>
+      <div class="header-sub">2026 &middot; Q2 plan view &middot; Click an Initiative to see its Epics &middot; Click an Epic to see its Product Execution Update</div>
     </div>
     <div class="header-actions">
       <button class="btn" onclick="expandAll()">Expand All</button>
@@ -144,7 +147,7 @@ a:hover{text-decoration:underline;}
 
 <div class="source-banner">
   <span class="dot"></span>
-  <span><strong>Source of truth: Jira.</strong> All data on this page comes from Jira Initiatives &amp; Epics in <code style="background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">project = OSDEV</code>. To update what's shown, edit the Jira issue. <span id="lastSync"></span></span>
+  <span><strong>Source of truth: Jira.</strong> All data on this page comes from Jira Initiatives &amp; Epics in <code style="background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px;">project = OSDEV</code>. Showing Epics in the Q2 2026 plan. To update what's shown, edit the Jira issue. <span id="lastSync"></span></span>
 </div>
 
 <div class="filters" id="filterBar"></div>
@@ -168,37 +171,21 @@ a:hover{text-decoration:underline;}
   <span class="legend-item"><span class="legend-dot" style="background:#c8e6c9;"></span>On Track</span>
   <span class="legend-item"><span class="legend-dot" style="background:#fff3cd;"></span>At Risk</span>
   <span class="legend-item"><span class="legend-dot" style="background:#ffcdd2;"></span>Off Track</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#bfdbfe;"></span>Complete</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#e5e7eb;"></span>Not Started</span>
   <span class="legend-item"><span class="legend-dot" style="background:#f3f4f6;"></span>Not Set</span>
   <span style="font-weight:600;color:#666;margin-left:16px;">Status:</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#e5e7eb;"></span>To Do</span>
-  <span class="legend-item"><span class="legend-dot" style="background:#dbeafe;"></span>In Progress</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#fafafa;border:1px solid #e5e7eb;"></span>Open / To Do</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#ede9fe;"></span>Ideation</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#fef3c7;"></span>In Progress</span>
   <span class="legend-item"><span class="legend-dot" style="background:#d1fae5;"></span>Done</span>
-</div>
-
-<div class="field-checklist">
-  <h3>📋 Required Jira fields per Epic (so this page renders fully)</h3>
-  <p>Each Epic owner please populate these fields directly in Jira. The roadmap reads them on each refresh.</p>
-  <ul>
-    <li><code>Start date</code> + <code>Due date</code> — controls the bar's start and end positions on the timeline</li>
-    <li><code>Project Health</code> — <em>On Track / At Risk / Off Track</em></li>
-    <li><code>Product Execution Update</code> — short narrative shown when someone clicks the Epic bar</li>
-    <li><code>Funding Mechanism</code> — funder/grant tag (e.g., PJM, HSF, General No Donor)</li>
-    <li><code>Assignee</code> — Epic owner</li>
-    <li><code>Parent</code> — must be linked to an Initiative (the user-story-level row above it)</li>
-  </ul>
 </div>
 
 <script>
 
 // ---------- LIVE DATA — pulled from Jira on the date stamped below ----------
-// Source: project = OSDEV, issuetype in (Initiative, Epic)
-const LAST_SYNC = "2026-04-30";
-
-const themesByInitKey = {
-  "OSDEV-2565": "Data Breadth (Quantity)",
-  "OSDEV-2556": "Usability",
-  "OSDEV-2516": "Transparency"
-};
+// Source: project = OSDEV, Epics in the Q2 2026 plan (active + due in Q2/Q3, not abandoned)
+const LAST_SYNC = "2026-05-05";
 
 const initiatives = [
   {
@@ -206,9 +193,6 @@ const initiatives = [
     url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2565",
     title: "I want OS Hub to reach 3M OS IDs through multi-stakeholder contributions and public data ingestion",
     theme: "Data Breadth (Quantity)",
-    status: "To Do",
-    health: null,
-    funding: ["General No Donor"],
     color: 0,
     epics: [
       {
@@ -216,24 +200,12 @@ const initiatives = [
         url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2566",
         title: "Satellite Image Processing and Detection -- Earth Genome/PJM",
         owner: "Emily Tanabe",
-        status: "To Do",
-        health: null,
+        status: "Open",
+        health: "On Track",
         funding: ["PJM"],
         startDate: null,
         dueDate: "2026-06-01",
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-2554",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2554",
-        title: "Grant Support & Technical Deliverables — Ongoing",
-        owner: null,
-        status: "To Do",
-        health: null,
-        funding: ["PJM","HSF"],
-        startDate: null,
-        dueDate: null,
-        execUpdate: null
+        execUpdate: "5/4/2026:\nIn the midst of prototyping a bigger scope idea for the human-in-the-loop portion of the grant while Earth Genome continues to experiment with our data."
       }
     ]
   },
@@ -242,112 +214,138 @@ const initiatives = [
     url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2556",
     title: "I want to ensure that the OS Hub Platform is performant, secure, and reliable as an integral part of my business workflow",
     theme: "Usability",
-    status: "To Do",
-    health: null,
-    funding: ["General No Donor"],
     color: 3,
     epics: [
+      {
+        key: "OSDEV-2628",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2628",
+        title: "FY26Q2 — Data Monitoring and Uploads",
+        owner: "Bhagyashree Joshi",
+        status: "Open",
+        health: "On Track",
+        funding: ["General No Donor"],
+        startDate: null,
+        dueDate: "2026-06-30",
+        execUpdate: "The data moderation is an ongoing activity and involves 4 areas of work.\n1. Customer Claims tracking\n2. SLC management\n3. Contributor Lists Management\n4. Data Inbox Management"
+      },
       {
         key: "OSDEV-2638",
         url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2638",
         title: "[CI/CD] Faster delivery pipeline",
         owner: "Vlad Shapik",
-        status: "To Do",
-        health: null,
+        status: "Open",
+        health: "Not Started",
         funding: ["General No Donor"],
         startDate: null,
-        dueDate: null,
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-2194",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2194",
-        title: "[Test Automation] Create E2E Tests for Regression testing of Moderation queue",
-        owner: "Anna Bondar",
-        status: "In Progress",
-        health: null,
-        funding: [],
-        startDate: null,
-        dueDate: null,
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-2193",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2193",
-        title: "[Test Automation] Create E2E Tests for Regression testing of SLC",
-        owner: null,
-        status: "To Do",
-        health: null,
-        funding: [],
-        startDate: null,
-        dueDate: null,
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-2192",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2192",
-        title: "[Test Automation] Create E2E Tests for Regression testing of Data Download Limits",
-        owner: null,
-        status: "To Do",
-        health: null,
-        funding: [],
-        startDate: null,
-        dueDate: null,
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-1847",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-1847",
-        title: "Test Documentation",
-        owner: "Anna Bondar",
-        status: "To Do",
-        health: null,
-        funding: [],
-        startDate: null,
-        dueDate: null,
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-1047",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-1047",
-        title: "[TBD] Test Automation. Add Playwright to be run within Code Quality pipelines",
-        owner: null,
-        status: "To Do",
-        health: null,
-        funding: [],
-        startDate: null,
-        dueDate: null,
-        execUpdate: null
-      },
-      {
-        key: "OSDEV-838",
-        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-838",
-        title: "Tech debt",
-        owner: null,
-        status: "To Do",
-        health: null,
-        funding: [],
-        startDate: "2024-07-05",
-        dueDate: "2024-12-27",
-        execUpdate: null
+        dueDate: "2026-06-30",
+        execUpdate: "No implementation has started yet. This epic is a lower priority in the PDE team's quarterly planning, which is why Project Health is marked as Not Started. Work will probably not begin this quarter (Q2 2026) unless priorities change."
       }
     ]
   },
   {
-    key: "OSDEV-2516",
-    url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2516",
-    title: "I want to ensure that trade union–contributed data is not accessible to anti-union actors — protecting vulnerable workers and union organizing",
-    theme: "Transparency",
-    status: "To Do",
-    health: null,
-    funding: [],
-    color: 4,
-    epics: []
+    key: "OSDEV-2505",
+    url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2505",
+    title: "I want to spend my moderation time on quality review — not on data entry, duplicate detection, or administrative work",
+    theme: "Usability",
+    color: 1,
+    epics: [
+      {
+        key: "OSDEV-2559",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2559",
+        title: "Automate Claims Moderation Process",
+        owner: "Emily Tanabe",
+        status: "Open",
+        health: "On Track",
+        funding: ["PJM"],
+        startDate: null,
+        dueDate: "2026-05-15",
+        execUpdate: "5/4/2026:\n\nClaims prompt has been tweaked to achieve promising initial results: Accuracy of 61%, with precision at 100%. This is a good starting point to work from, and we are currently testing on live data with the LLM reviewing claims and making posts about them on the claim itself for human moderators to review. Once we have sufficient trust in the system, we can commence with allowing the LLM identified claims to be auto-approved."
+      },
+      {
+        key: "OSDEV-2546",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2546",
+        title: "Automate SLC Moderation Process",
+        owner: "James Johnson",
+        status: "Ideation",
+        health: "On Track",
+        funding: ["PJM"],
+        startDate: null,
+        dueDate: "2026-05-15",
+        execUpdate: "Built out a scalable framework to add more tests and warnings to the SLC submission process. Once accepted, I can start building out the rest of the warnings we'd like to implement for now."
+      }
+    ]
+  },
+  {
+    key: "OSDEV-2475",
+    url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2475",
+    title: "I want to get better data back from OS Hub than what I put in — so that my OS Hub profile becomes a valuable source for other users",
+    theme: "Data Depth (Quality)",
+    color: 2,
+    epics: [
+      {
+        key: "OSDEV-2548",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2548",
+        title: "Data Quality Investment User Story",
+        owner: "James Johnson",
+        status: "Open",
+        health: "Not Started",
+        funding: ["General No Donor"],
+        startDate: "2026-06-01",
+        dueDate: "2026-06-30",
+        execUpdate: "Not Started"
+      }
+    ]
+  },
+  {
+    // Container row for Epics that are not yet linked to an Initiative in Jira
+    key: "_orphans",
+    url: null,
+    title: "Standalone Epics — not yet linked to an Initiative parent in Jira",
+    theme: "Needs Initiative Parent",
+    color: 5,
+    standalone: true,
+    epics: [
+      {
+        key: "OSDEV-2543",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2543",
+        title: "Spotlight Launch on Production Location Pages",
+        owner: "Pranali Chhatbar",
+        status: "Done",
+        health: "Complete",
+        funding: ["General Paying Customer(s)"],
+        startDate: null,
+        dueDate: "2026-04-29",
+        execUpdate: "5/4/26 Update: The Spotlight project launched in April as planned with the first 10 integration partners."
+      },
+      {
+        key: "OSDEV-2270",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2270",
+        title: "Spotlight Enhancements",
+        owner: null,
+        status: "Open",
+        health: "On Track",
+        funding: ["General Paying Customer(s)"],
+        startDate: null,
+        dueDate: "2026-06-30",
+        execUpdate: "5/4/26 Update: Spotlights has launched and now we are evaluating what enhancements need to be taken forward and picked up. (This review is occurring between Product & Programs.)"
+      },
+      {
+        key: "OSDEV-2633",
+        url: "https://opensupplyhub.atlassian.net/browse/OSDEV-2633",
+        title: "Claims Review Streamlining / Automation",
+        owner: "Columbus Leonard",
+        status: "Ideation",
+        health: null,
+        funding: ["General No Donor"],
+        startDate: "2026-02-16",
+        dueDate: "2026-06-30",
+        execUpdate: null
+      }
+    ]
   }
 ];
 
-// ---------- Timeline view (Year vs. current quarter) ----------
-// Default: full year. Q2 view zooms to Apr-Jun.
+// ---------- Timeline view (Year vs. Q2) ----------
 const VIEWS = {
   year:    { label: '2026 (Full Year)',  start: '2026-01-01', end: '2026-12-31', cols: ['Q1','Q2','Q3','Q4'] },
   q2:      { label: 'Q2 2026 (focused)', start: '2026-04-01', end: '2026-06-30', cols: ['April','May','June'] }
@@ -356,26 +354,19 @@ let currentView = 'year';
 
 function viewBounds(){
   const v = VIEWS[currentView];
-  return {
-    startMs: new Date(v.start).getTime(),
-    endMs:   new Date(v.end).getTime(),
-    cols:    v.cols
-  };
+  return { startMs: new Date(v.start).getTime(), endMs: new Date(v.end).getTime(), cols: v.cols };
 }
 
-// Min bar width so titles don't wrap vertically — about 1/4 of the visible timeline
 const MIN_BAR_PCT = 18;
 
 function dateToPct(dateStr){
   if (!dateStr) return null;
   const t = new Date(dateStr).getTime();
   const {startMs, endMs} = viewBounds();
-  if (t < startMs || t > endMs) return null;            // out-of-window dates ignored
+  if (t < startMs || t > endMs) return null;
   return (t - startMs) / (endMs - startMs) * 100;
 }
 
-// Compute Initiative bar span using ONLY valid (in-window) child dates.
-// Falls back to a sensible full-window bar if no dates are usable.
 function initSpan(init){
   let s = null, e = null;
   init.epics.forEach(ep => {
@@ -391,7 +382,6 @@ function initSpan(init){
   return {start: s, end: e, fallback: false};
 }
 
-// Epic span. Always at least MIN_BAR_PCT wide so labels read cleanly.
 function epicSpan(ep){
   const s = dateToPct(ep.startDate);
   const e = dateToPct(ep.dueDate);
@@ -408,7 +398,7 @@ function epicSpan(ep){
 const allStatuses = new Set();
 const allOwners = new Set();
 const allThemes = new Set();
-const allHealth = new Set(["On Track","At Risk","Off Track","Not Set"]);
+const allHealth = new Set(["On Track","At Risk","Off Track","Complete","Not Started","Not Set"]);
 initiatives.forEach(init => {
   if (init.theme) allThemes.add(init.theme);
   init.epics.forEach(ep => {
@@ -428,15 +418,20 @@ function buildFilters(){
   let h = '';
   h += `<span class="filter-label">Health:</span>`;
   h += `<span class="f-chip active f-health" data-v="all" onclick="toggle('health','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
-  [["On Track","#c8e6c9","#1b5e20"],["At Risk","#fff3cd","#e65100"],["Off Track","#ffcdd2","#b71c1c"],["Not Set","#f3f4f6","#888"]].forEach(([v,bg,fg])=>{
+  [["On Track","#c8e6c9","#1b5e20"],["At Risk","#fff3cd","#e65100"],["Off Track","#ffcdd2","#b71c1c"],["Complete","#bfdbfe","#1e3a8a"],["Not Started","#e5e7eb","#4b5563"],["Not Set","#f3f4f6","#888"]].forEach(([v,bg,fg])=>{
     h += `<span class="f-chip active f-health" data-v="${v}" onclick="toggle('health','${v}',this)" style="background:${bg};color:${fg};">${v}</span>`;
   });
   h += `<span class="f-divider"></span>`;
   h += `<span class="filter-label">Status:</span>`;
   h += `<span class="f-chip active f-status" data-v="all" onclick="toggle('status','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
   Array.from(allStatuses).sort().forEach(s=>{
-    const cls = s === 'In Progress' ? 'chip-status-prog' : s === 'Done' ? 'chip-status-done' : 'chip-status-todo';
-    const styles = {'chip-status-prog':'background:#dbeafe;color:#1e40af;','chip-status-done':'background:#d1fae5;color:#065f46;','chip-status-todo':'background:#e5e7eb;color:#374151;'};
+    const cls = statusClassFor(s);
+    const styles = {
+      'chip-status-prog':'background:#fef3c7;color:#92400e;',
+      'chip-status-done':'background:#d1fae5;color:#065f46;',
+      'chip-status-ideation':'background:#ede9fe;color:#5b21b6;',
+      'chip-status-todo':'background:#fafafa;color:#6b7280;border:1px solid #e5e7eb;'
+    };
     h += `<span class="f-chip active f-status" data-v="${s}" onclick="toggle('status','${s}',this)" style="${styles[cls]}">${s}</span>`;
   });
   h += `<span class="f-divider"></span>`;
@@ -449,7 +444,7 @@ function buildFilters(){
   h += `<span class="filter-label">Owner:</span>`;
   h += `<span class="f-chip active f-owner" data-v="all" onclick="toggle('owner','all',this)" style="background:#f3f4f6;color:#374151;">All</span>`;
   Array.from(allOwners).sort().forEach(s=>{
-    h += `<span class="f-chip active f-owner" data-v="${s}" onclick="toggle('owner','${s}',this)" style="background:#f3f4f6;color:#374151;">${s}</span>`;
+    h += `<span class="f-chip active f-owner" data-v="${s}" onclick="toggle('owner','${s}',this)" style="background:#1f2937;color:#fff;">${s}</span>`;
   });
   document.getElementById('filterBar').innerHTML = h;
 }
@@ -481,13 +476,11 @@ function epicVisible(ep){
   if (!activeStatuses.has(ep.status)) return false;
   if (!activeHealth.has(epicHealthLabel(ep))) return false;
   if (ep.owner) { if (!activeOwners.has(ep.owner)) return false; }
-  // owner null is always shown if any owner is active (don't hide unowned epics)
   return true;
 }
 
 function initVisible(init){
   if (init.theme && !activeThemes.has(init.theme)) return false;
-  // Initiative shows if at least one epic is visible OR it has no epics
   if (init.epics.length === 0) return true;
   return init.epics.some(epicVisible);
 }
@@ -503,12 +496,24 @@ function healthChip(h){
   if (t.startsWith('on')) return `<span class="bar-chip chip-on">On Track</span>`;
   if (t.startsWith('at') || t.includes('risk')) return `<span class="bar-chip chip-risk">At Risk</span>`;
   if (t.startsWith('off')) return `<span class="bar-chip chip-off">Off Track</span>`;
-  return `<span class="bar-chip chip-tbd">${h}</span>`;
+  if (t.startsWith('complete') || t === 'completed' || t === 'done') return `<span class="bar-chip chip-complete">Complete</span>`;
+  if (t.startsWith('not started') || t === 'notstarted' || t === 'not-started') return `<span class="bar-chip chip-notstarted">Not Started</span>`;
+  return `<span class="bar-chip chip-tbd">${escHtml(h)}</span>`;
 }
 
-function statusChip(s){
-  const cls = s === 'In Progress' ? 'chip-status-prog' : s === 'Done' ? 'chip-status-done' : 'chip-status-todo';
-  return `<span class="bar-chip ${cls}">${s}</span>`;
+function statusClassFor(s){
+  const v = (s || '').toLowerCase();
+  if (v === 'done') return 'chip-status-done';
+  if (v === 'in progress' || v === 'in-progress') return 'chip-status-prog';
+  if (v === 'ideation') return 'chip-status-ideation';
+  return 'chip-status-todo';
+}
+
+function statusChip(s){ return `<span class="bar-chip ${statusClassFor(s)}">${escHtml(s)}</span>`; }
+
+function ownerChip(name){
+  if (name) return `<span class="bar-chip chip-owner">${escHtml(name)}</span>`;
+  return `<span class="bar-chip chip-owner-tbd">Owner: TBD</span>`;
 }
 
 function escHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]); }
@@ -517,17 +522,15 @@ function setView(v){
   if (!VIEWS[v]) return;
   currentView = v;
   document.querySelectorAll('.vs-btn').forEach(b => b.classList.toggle('active', b.dataset.view === v));
-  // rebuild header bar + quarter row
   const v_ = VIEWS[v];
   document.getElementById('yearBar').textContent = v_.label;
   const qr = document.getElementById('quarterRow');
   qr.style.gridTemplateColumns = `repeat(${v_.cols.length},1fr)`;
   qr.innerHTML = v_.cols.map((c,i) => {
-    // mark current column (current month for Q2 view, current quarter for year)
     const today = new Date();
     let isCurrent = false;
     if (v === 'year') isCurrent = (Math.floor(today.getMonth()/3) === i);
-    else if (v === 'q2') isCurrent = (today.getMonth() === 3 + i); // Apr=3, May=4, Jun=5
+    else if (v === 'q2') isCurrent = (today.getMonth() === 3 + i);
     return `<div class="q-cell${isCurrent ? ' current' : ''}">${c}</div>`;
   }).join('');
   render();
@@ -551,21 +554,21 @@ function render(){
     const span = initSpan(init);
     const start = span.start;
     const end = span.end;
-    const colorCls = `c${init.color !== undefined ? init.color : (idx % 6)}`;
+    const standalone = !!init.standalone;
+    const colorCls = standalone ? 'standalone' : `c${init.color !== undefined ? init.color : (idx % 6)}`;
 
     html += `<div class="init-row">`;
     html += `<div class="init-bar ${colorCls}" style="margin-left:${start}%;width:${end-start}%;" onclick="togglePanel('${init.key}')">`;
     html += `<div class="init-title">`;
-    html += `<span class="init-key">${init.key}</span>`;
-    html += `<a href="${init.url}" target="_blank" onclick="event.stopPropagation();">${escHtml(init.title)}</a>`;
+    if (!standalone) html += `<span class="init-key">${init.key}</span>`;
+    if (init.url) html += `<a href="${init.url}" target="_blank" onclick="event.stopPropagation();">${escHtml(init.title)}</a>`;
+    else html += `${escHtml(init.title)}`;
     html += `</div>`;
+    // Initiative chips: stripped per Tyler's feedback — keep ONLY Theme + epic count + dates fallback note
     html += `<div class="bar-meta">`;
     if (init.theme) html += `<span class="bar-chip chip-theme">${escHtml(init.theme)}</span>`;
-    html += statusChip(init.status);
-    html += healthChip(init.health);
     html += `<span class="bar-chip chip-ws-count">${init.epics.length} epic${init.epics.length === 1 ? '' : 's'}</span>`;
-    (init.funding || []).forEach(f => { html += `<span class="bar-chip chip-funding">${escHtml(f)}</span>`; });
-    if (span.fallback) html += `<span class="bar-chip chip-tbd">No dates yet</span>`;
+    if (span.fallback) html += `<span class="bar-chip chip-tbd">No Epic dates yet</span>`;
     html += `</div></div>`;
 
     if (isOpen) {
@@ -579,7 +582,7 @@ function render(){
         init.epics.forEach(ep => {
           if (!epicVisible(ep)) return;
           const sp = epicSpan(ep);
-          const epicCls = sp.mode === 'tbd' ? 'tbd-bar' : colorCls;
+          const epicCls = sp.mode === 'tbd' ? 'tbd-bar' : `c${init.color !== undefined ? init.color : (idx % 6)}`;
           const isExecOpen = openEpics.has(ep.key);
           html += `<div class="epic-row">`;
           html += `<div class="epic-bar ${epicCls}" style="margin-left:${sp.start}%;width:${sp.end-sp.start}%;" onclick="toggleEpic('${ep.key}')">`;
@@ -587,16 +590,16 @@ function render(){
           html += `<span class="epic-key">${ep.key}</span>`;
           html += `<a href="${ep.url}" target="_blank" onclick="event.stopPropagation();">${escHtml(ep.title)}</a>`;
           html += `</div>`;
+          // Tag order per Tyler: Owner FIRST → Health → Status → Funding
           html += `<div class="epic-meta">`;
-          html += statusChip(ep.status);
+          html += ownerChip(ep.owner);
           html += healthChip(ep.health);
-          if (ep.owner) html += `<span class="bar-chip chip-owner">${escHtml(ep.owner)}</span>`;
-          else html += `<span class="bar-chip chip-tbd">Owner: TBD</span>`;
+          html += statusChip(ep.status);
           (ep.funding || []).forEach(f => { html += `<span class="bar-chip chip-funding">${escHtml(f)}</span>`; });
           if (sp.mode === 'tbd') html += `<span class="bar-chip chip-tbd">Dates: TBD</span>`;
-          else if (sp.mode !== 'full') html += `<span class="bar-chip chip-tbd">${sp.mode === 'end-only' ? 'No start date' : 'No due date'}</span>`;
+          else if (sp.mode === 'end-only') html += `<span class="bar-chip chip-tbd">Due ${escHtml(ep.dueDate)} · no start date</span>`;
+          else if (sp.mode === 'start-only') html += `<span class="bar-chip chip-tbd">Started ${escHtml(ep.startDate)} · no due date</span>`;
           html += `</div></div>`;
-          // Product Execution Update reveal
           if (isExecOpen) {
             html += `<div class="exec-panel open">`;
             html += `<div class="exec-label">Product Execution Update</div>`;
@@ -614,14 +617,14 @@ function render(){
   });
 
   if (html.indexOf('init-row') === -1) {
-    html += `<div style="padding:30px;text-align:center;color:#999;font-size:13px;">No initiatives match the current filters.</div>`;
+    html += `<div style="padding:30px;text-align:center;color:#999;font-size:13px;">No Initiatives match the current filters.</div>`;
   }
 
   c.innerHTML = html;
 }
 
 buildFilters();
-setView('year');  // also calls render()
+setView('year');
 </script>
 </body>
 </html>
