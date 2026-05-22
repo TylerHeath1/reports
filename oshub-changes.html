@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Hub · What's Changing & Why</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FDFCFA;
+    --border: #E0DDD6;
+    --border-strong: #C8C4BB;
+    --text: #1C1B18;
+    --text-muted: #6B6860;
+    --text-faint: #9A9890;
+    --c1: #5A52C8; --c1-light: #EEEDFE; --c1-border: #C4C1F0;
+    --c2: #0F6E56; --c2-light: #E1F5EE; --c2-border: #8ED4BF;
+    --c3: #B07010; --c3-light: #FDF0D8; --c3-border: #F0C870;
+    --c4: #185FA5; --c4-light: #E6F1FB; --c4-border: #90C4F0;
+    --radius: 12px;
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+  .page { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 16px; }
+  h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 300; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 12px; }
+  h1 em { font-style: normal; font-weight: 500; }
+  .subtitle { font-size: 15px; color: var(--text-muted); line-height: 1.65; max-width: 540px; margin-bottom: 40px; }
+  .subtitle strong { color: var(--text); font-weight: 500; }
+
+  /* ── SECTIONS ── */
+  .section { margin-bottom: 10px; border: 0.5px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow: hidden; transition: border-color 0.2s; animation: fadeIn 0.4s ease both; }
+  .section.open { border-color: var(--border-strong); }
+  .section-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background 0.15s; border-left: 3px solid transparent; }
+  .section-header:hover { background: var(--bg); }
+  .s1 .section-header { border-left-color: var(--c1); }
+  .s2 .section-header { border-left-color: var(--c2); }
+  .s3 .section-header { border-left-color: var(--c3); }
+  .s4 .section-header { border-left-color: var(--c4); }
+  .num { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .s1 .num { background: var(--c1-light); color: var(--c1); }
+  .s2 .num { background: var(--c2-light); color: var(--c2); }
+  .s3 .num { background: var(--c3-light); color: var(--c3); }
+  .s4 .num { background: var(--c4-light); color: var(--c4); }
+  .section-title { flex: 1; font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .section-sub { font-size: 12px; font-weight: 400; color: var(--text-muted); margin-top: 2px; }
+  .chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--text-faint); transition: transform 0.25s ease; }
+  .open .chevron { transform: rotate(180deg); }
+  .section-body { display: none; padding: 0 22px 20px; border-top: 0.5px solid var(--border); }
+  .section-body.open { display: block; }
+  .row { padding: 14px 0; border-bottom: 0.5px solid var(--border); }
+  .row:last-child { border-bottom: none; }
+  .row-label { font-size: 13.5px; color: var(--text); line-height: 1.55; margin-bottom: 8px; }
+  .row-label strong { font-weight: 500; }
+  .row-who { font-size: 11px; font-family: var(--mono); color: var(--text-faint); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 4px 10px; border-radius: 20px; text-decoration: none; border: 0.5px solid; transition: opacity 0.15s, transform 0.1s; line-height: 1; }
+  .chip:hover { opacity: 0.75; transform: translateY(-1px); }
+  .chip svg { width: 11px; height: 11px; flex-shrink: 0; }
+  .slack-chip svg { width: 12px; height: 12px; }
+  .s1 .chip { background: var(--c1-light); color: var(--c1); border-color: var(--c1-border); }
+  .s2 .chip { background: var(--c2-light); color: var(--c2); border-color: var(--c2-border); }
+  .s3 .chip { background: var(--c3-light); color: var(--c3); border-color: var(--c3-border); }
+  .s4 .chip { background: var(--c4-light); color: var(--c4); border-color: var(--c4-border); }
+  .divider { height: 0.5px; background: var(--border); margin: 40px 0; }
+  .footer { font-size: 12px; color: var(--text-faint); font-family: var(--mono); letter-spacing: 0.04em; }
+  .meeting-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; font-size: 13.5px; line-height: 1.5; }
+  .meeting-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c4); flex-shrink: 0; margin-top: 6px; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.10s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.20s; }
+  @media (max-width: 520px) {
+    .page { padding: 36px 16px 60px; }
+    .section-header { padding: 16px; }
+    .section-body { padding: 0 16px 16px; }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1917; --surface: #222120; --border: #2E2D2A; --border-strong: #3E3D39;
+      --text: #EDEBD4; --text-muted: #9A9780; --text-faint: #5E5D55;
+      --c1: #8880D8; --c1-light: #26215C; --c1-border: #534AB7;
+      --c2: #1D9E75; --c2-light: #04342C; --c2-border: #0F6E56;
+      --c3: #E8A020; --c3-light: #412402; --c3-border: #854F0B;
+      --c4: #378ADD; --c4-light: #042C53; --c4-border: #185FA5;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="eyebrow">Open Supply Hub · May 2026</p>
+  <h1>What's <em>changing</em>,<br>and why.</h1>
+  <p class="subtitle">Two forces are shaping how we need to operate. Here's what's driving the change — and the four things we're doing in response.</p>
+
+  <!-- FLOW DIAGRAM -->
+  <div style="margin-bottom: 36px;">
+    <svg width="100%" viewBox="0 0 680 280" role="img">
+      <title>What's driving change at OS Hub and our response</title>
+      <desc>Philanthropy shifting and AI and tech landscape converge into a single flow, then fan out to four responses: product development, product prioritization, AI utilization, and ways of working.</desc>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Column labels -->
+      <text font-family="'DM Mono', monospace" font-size="10" fill="#9A9890" x="20" y="24">what's changing</text>
+      <text font-family="'DM Mono', monospace" font-size="10" fill="#9A9890" x="430" y="24">our response</text>
+
+      <!-- Driver boxes — vertically centered around y=115 -->
+      <rect x="20" y="44" width="176" height="44" rx="8" fill="#F3EEF9" stroke="#C9B2E0" stroke-width="0.5"/>
+      <text font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#6B4C8A" x="108" y="66" text-anchor="middle" dominant-baseline="central">Philanthropy shifting</text>
+
+      <rect x="20" y="140" width="176" height="44" rx="8" fill="#FDF0D8" stroke="#F0C870" stroke-width="0.5"/>
+      <text font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#7A4F00" x="108" y="162" text-anchor="middle" dominant-baseline="central">AI + tech landscape</text>
+
+      <!-- Two lines converge to midpoint at (268, 142) — center of all 4 boxes -->
+      <path d="M196 66 C 234 66, 234 142, 268 142" fill="none" stroke="#C8C4BB" stroke-width="1.2"/>
+      <path d="M196 162 C 234 162, 234 142, 268 142" fill="none" stroke="#C8C4BB" stroke-width="1.2"/>
+      <circle cx="268" cy="142" r="3.5" fill="#C8C4BB"/>
+
+      <!-- Single arrow from convergence point to fan spine -->
+      <line x1="268" y1="142" x2="316" y2="142" stroke="#C8C4BB" stroke-width="1.2" marker-end="url(#arr)"/>
+
+      <!-- Fan spine (vertical) from box1 mid y=66 to box4 mid y=218 -->
+      <line x1="328" y1="66" x2="328" y2="218" stroke="#C8C4BB" stroke-width="0.5"/>
+
+      <!-- Fan arms: spine out to each box -->
+      <line x1="328" y1="66"  x2="430" y2="66"  stroke="#C8C4BB" stroke-width="0.75" marker-end="url(#arr)"/>
+      <line x1="328" y1="114" x2="430" y2="114" stroke="#C8C4BB" stroke-width="0.75" marker-end="url(#arr)"/>
+      <line x1="328" y1="162" x2="430" y2="162" stroke="#C8C4BB" stroke-width="0.75" marker-end="url(#arr)"/>
+      <line x1="328" y1="218" x2="430" y2="218" stroke="#C8C4BB" stroke-width="0.75" marker-end="url(#arr)"/>
+
+      <!-- Response box 1 -->
+      <rect x="430" y="44" width="210" height="44" rx="8" fill="#EEEDFE" stroke="#C4C1F0" stroke-width="0.5"/>
+      <text font-family="'DM Sans', sans-serif" font-size="10.5" fill="#7F77DD" x="446" y="66" dominant-baseline="central">01</text>
+      <text font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#3C3489" x="535" y="66" text-anchor="middle" dominant-baseline="central">Product development</text>
+
+      <!-- Response box 2 -->
+      <rect x="430" y="92" width="210" height="44" rx="8" fill="#E1F5EE" stroke="#8ED4BF" stroke-width="0.5"/>
+      <text font-family="'DM Sans', sans-serif" font-size="10.5" fill="#1D9E75" x="446" y="114" dominant-baseline="central">02</text>
+      <text font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#085041" x="535" y="114" text-anchor="middle" dominant-baseline="central">Product prioritization</text>
+
+      <!-- Response box 3 -->
+      <rect x="430" y="140" width="210" height="44" rx="8" fill="#FDF0D8" stroke="#F0C870" stroke-width="0.5"/>
+      <text font-family="'DM Sans', sans-serif" font-size="10.5" fill="#EF9F27" x="446" y="162" dominant-baseline="central">03</text>
+      <text font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#633806" x="535" y="162" text-anchor="middle" dominant-baseline="central">AI utilization</text>
+
+      <!-- Response box 4 -->
+      <rect x="430" y="196" width="210" height="44" rx="8" fill="#E6F1FB" stroke="#90C4F0" stroke-width="0.5"/>
+      <text font-family="'DM Sans', sans-serif" font-size="10.5" fill="#378ADD" x="446" y="218" dominant-baseline="central">04</text>
+      <text font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#0C447C" x="535" y="218" text-anchor="middle" dominant-baseline="central">Ways of working</text>
+
+      <text font-family="'DM Sans', sans-serif" font-size="11" fill="#9A9890" x="430" y="260" dominant-baseline="central">↓ see details below</text>
+    </svg>
+  </div>
+
+  <!-- 1. Product Development -->
+  <div class="section s1" id="s1">
+    <div class="section-header" onclick="toggle('s1')">
+      <div class="num">01</div>
+      <div>
+        <div class="section-title">Product development</div>
+        <div class="section-sub">How we build features — the new process</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body" id="body-s1">
+      <div class="row">
+        <div class="row-who">Our updated process</div>
+        <div class="row-label"><strong>Ideation → milestone 1 → refinement → prototype → milestone 2 → productionize.</strong> Every feature moves through these stages so we can review and course-correct before full build.</div>
+        <div class="chips">
+          <a class="chip" href="https://opensupplyhub.atlassian.net/wiki/spaces/SD/pages/1245708292/Product+Development+--+Feature+Refinement+Review+Exec+Review+Milestone+1" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Milestone 1 guide
+          </a>
+          <a class="chip" href="https://opensupplyhub.atlassian.net/wiki/spaces/SD/pages/1247215624/Product+Development+--+Prototype+Review+Exec+Review+Milestone+2" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Milestone 2 guide
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-label">Watch a live prototyping session to see the process in action.</div>
+        <div class="chips">
+          <a class="chip" href="https://drive.google.com/file/d/1FTBsycP4CuqETzrTtyE8L4shJ4ElPQ0B/view" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Prototyping session recording
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Product Prioritization -->
+  <div class="section s2" id="s2">
+    <div class="section-header" onclick="toggle('s2')">
+      <div class="num">02</div>
+      <div>
+        <div class="section-title">Product prioritization</div>
+        <div class="section-sub">How we decide what to build</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body" id="body-s2">
+      <div class="row">
+        <div class="row-label">We're shifting toward a <strong>product-led, user-story-driven approach</strong> — smaller cross-functional teams working on prioritized work streams, not just reacting to requests. The roadmap is the live source of truth.</div>
+        <div class="chips">
+          <a class="chip" href="https://opensupplyhub.github.io/open-supply-hub/" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Roadmap
+          </a>
+          <span class="chip" style="opacity:0.5; cursor:default;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Intro to User Story Driven Product Thinking deck <span style="font-size:10px;">(coming soon)</span>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-who">→ Bus · June 3</div>
+        <div class="row-label">PM &amp; user story training — 1.5hr session on why a PM mindset matters at OS Hub and how to write user stories. Deck goes out June 1.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. AI Utilization -->
+  <div class="section s3" id="s3">
+    <div class="section-header" onclick="toggle('s3')">
+      <div class="num">03</div>
+      <div>
+        <div class="section-title">AI utilization</div>
+        <div class="section-sub">How we're adopting AI as a team</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body" id="body-s3">
+      <div class="row">
+        <div class="row-label">We have an AI vision memo, roadmap, and direct next actions for you. Within you will learn what is happening, how we are responding, and your specific role to play.</div>
+        <div class="chips">
+          <a class="chip" href="https://docs.google.com/spreadsheets/d/1WoTFztmeXHNBTQbe7NPDsxgywAXxLFhaoxbGyDoURdI/edit?gid=1038605035#gid=1038605035" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            AI roadmap
+          </a>
+          <a class="chip" href="https://docs.google.com/document/d/1Yibf83rclpFaqq8K5Sw-03Seed1GG63nR-vdIQdTh1w/edit?tab=t.0" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            AI memo
+          </a>
+          <a class="chip" href="https://opensupplyhub.atlassian.net/wiki/spaces/SD/pages/edit-v2/1278738437" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Q2 direct next actions
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-who">→ All team · June 16</div>
+        <div class="row-label">At the team monthly, we present the AI roadmap and open space for live feedback from everyone.</div>
+      </div>
+      <div class="row">
+        <div class="row-label">Tool stack &amp; safety — sign up for access and read the short safety thread before using new tools.</div>
+        <div class="chips">
+          <a class="chip slack-chip" href="https://opensupplyhub.slack.com/archives/C0AUJBTBQ9W/p1778816622182609" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+            Tool stack + safety (Slack thread)
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-label">AI policy is being built out in June. Drop your thoughts in the doc.</div>
+        <div class="chips">
+          <a class="chip" href="https://docs.google.com/document/d/1PmwBw6h1APvvLiLGxlMGKjhuSfDTc7l61_JOQtRvxyM/edit?tab=t.0" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            AI policy notes doc
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Ways of Working -->
+  <div class="section s4" id="s4">
+    <div class="section-header" onclick="toggle('s4')">
+      <div class="num">04</div>
+      <div>
+        <div class="section-title">Ways of working</div>
+        <div class="section-sub">New meeting structure, tools, and coordination</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="section-body" id="body-s4">
+      <div class="row">
+        <div class="row-label">Cross-collaborative projects now have a standard structure: one Slack channel + canvas as the front door, linked to a Drive folder, Sheet, Granola folder, and Claude project — all sharing the same name.</div>
+        <div class="chips">
+          <a class="chip" href="https://docs.google.com/document/d/1v7n7BxBbr33IYKNDdw_66Rv3j_tUV5yLeWC7l5sK3iM/edit?tab=t.0" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Where things live memo
+          </a>
+          <a class="chip slack-chip" href="https://opensupplyhub.slack.com/archives/C0AUJBTBQ9W/p1778713843029329" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+            Training video (Slack thread)
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-label">Four recurring touchpoints now keep cross-functional work moving.</div>
+        <div style="margin: 10px 0 10px;">
+          <div class="meeting-row"><span class="meeting-dot"></span><div><strong>Product delivery meeting</strong> — the pipes: provides status on all roadmap items and surfaces dependencies so we can see exactly where the work flows and where it gets stuck</div></div>
+          <div class="meeting-row"><span class="meeting-dot"></span><div><strong>Data pipeline meeting</strong> — the water: brings programs and product together around the actual data moving through the org — what's flowing, what's blocked, what needs attention</div></div>
+          <div class="meeting-row"><span class="meeting-dot"></span><div><strong>Programs team meeting</strong> — updated to include broader team transparency; examples include community feedback sessions and programs reporting out on stakeholder engagement</div></div>
+          <div class="meeting-row"><span class="meeting-dot"></span><div><strong>Product, engineering &amp; data</strong> — formerly separate team meetings, now merged into one shared touchpoint</div></div>
+        </div>
+        <div class="chips">
+          <a class="chip" href="https://docs.google.com/spreadsheets/d/1USB2AsF3fsvCyZL_f6Bx1bbUhP82BhcD/edit?gid=361222267#gid=361222267" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Meetings audit
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <p class="footer">Open Supply Hub · questions? reach out to Tyler or Bus</p>
+
+</div>
+<script>
+  function toggle(id) {
+    const section = document.getElementById(id);
+    const body = document.getElementById('body-' + id);
+    const isOpen = section.classList.contains('open');
+    section.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
