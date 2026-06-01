@@ -3,694 +3,1055 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Power to the Floor — Open Supply Hub</title>
+<title>Open Supply Hub — Power to the Floor (Prototype v4)</title>
 <style>
   :root {
-    --navy: #0a1530;
-    --navy-2: #0d1c36;
-    --navy-3: #1a2c4d;
-    --yellow: #ffcd00;
-    --purple: #8428fa;
-    --coral: #ff6363;
-    --mint: #00d68f;
+    --osh-navy: #0d1c36;
+    --osh-navy-2: #1a2c4d;
+    --osh-yellow: #ffcd00;
+    --osh-purple: #8428fa;
+    --osh-coral: #ff6363;
+    --osh-mint: #00d68f;
+    --new-bg: #f5edff;
+    --new-border: #d6b8fa;
+    --new-text: #8428fa;
     --ink: #1a1a1a;
     --ink-soft: #4a5366;
     --ink-faint: #8892a8;
-    --paper: #fafbfd;
     --line: #e3e7ee;
-    --bg-soft: #f6f8fb;
+    --bg-page: #f6f8fb;
+    --bg-card: #ffffff;
+    --shadow-sm: 0 1px 2px rgba(13,28,54,0.06);
+    --shadow: 0 1px 3px rgba(13,28,54,0.06), 0 4px 16px rgba(13,28,54,0.05);
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
   body {
     margin: 0; padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
     color: var(--ink);
-    background: var(--paper);
-    line-height: 1.5;
-    font-size: 16px;
+    background: var(--bg-page);
+    line-height: 1.45;
+    font-size: 14px;
   }
+  a { color: var(--osh-purple); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
-  /* ============== TOP NAV ============== */
-  .topnav {
-    background: var(--navy); color: #fff;
+  /* ===== OS Hub site chrome ===== */
+  .osh-topnav {
+    background: var(--osh-navy); color: #fff;
     padding: 14px 36px;
     display: flex; align-items: center; justify-content: space-between;
     font-size: 14px;
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.5px; }
-  .brand-mark { width: 28px; height: 28px; background: var(--yellow); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: var(--navy); font-weight: 900; font-size: 13px; }
+  .brand-mark { width: 28px; height: 28px; background: var(--osh-yellow); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: var(--osh-navy); font-weight: 900; font-size: 13px; }
   .navlinks { display: flex; gap: 22px; color: #d8def0; }
-  .navlinks a { color: inherit; text-decoration: none; }
-  .navlinks a:hover { color: var(--yellow); }
+  .navlinks a { color: inherit; }
+  .navlinks a:hover { color: var(--osh-yellow); text-decoration: none; }
+  .navactions { display: flex; gap: 10px; align-items: center; }
   .pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 12px; border-radius: 999px; font-size: 13px; cursor: pointer; }
-  .pill.cta { background: var(--yellow); color: var(--navy); border: none; font-weight: 600; }
-  .navactions { display: flex; gap: 10px; }
-
-  /* Chapter nav — replaces stepper */
-  .chapter-nav {
-    background: var(--navy-2);
-    padding: 10px 36px;
-    display: flex; gap: 22px;
-    font-size: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    position: sticky; top: 56px; z-index: 99;
-    overflow-x: auto;
-  }
-  .chapter-nav a {
-    color: #c5cce0; text-decoration: none;
-    display: flex; gap: 8px; align-items: center;
-    white-space: nowrap;
-  }
-  .chapter-nav a:hover, .chapter-nav a.on { color: var(--yellow); }
-  .chapter-nav .num {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    color: #c5cce0;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700;
-  }
-  .chapter-nav a:hover .num, .chapter-nav a.on .num { background: var(--yellow); color: var(--navy); }
-
-  /* ============== SECTION SCAFFOLDING ============== */
-  section {
-    padding: 72px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  section.dark {
-    background: var(--navy);
-    color: white;
-    border-bottom-color: rgba(255,255,255,0.06);
-  }
-  section.darker {
-    background: var(--navy-2);
-    color: white;
-  }
-  section.contrast {
-    background: linear-gradient(180deg, #0a1530 0%, #1a0e3a 100%);
-    color: white;
-  }
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 36px;
-  }
-  .eyebrow {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    font-weight: 700;
-    color: var(--purple);
-    margin-bottom: 16px;
-  }
-  section.dark .eyebrow, section.darker .eyebrow, section.contrast .eyebrow {
-    color: var(--yellow);
-  }
-  .display {
-    font-size: 56px;
-    line-height: 1.1;
-    font-weight: 800;
-    letter-spacing: -1.2px;
-    color: var(--navy);
-    margin: 0 0 20px;
-  }
-  section.dark .display, section.darker .display, section.contrast .display { color: white; }
-  .display .accent { color: var(--purple); }
-  section.dark .display .accent, section.darker .display .accent, section.contrast .display .accent { color: var(--yellow); }
-  .lede {
-    font-size: 22px;
-    line-height: 1.5;
-    color: var(--ink-soft);
-    margin: 0 0 36px;
-    max-width: 780px;
-    font-weight: 400;
-  }
-  section.dark .lede, section.darker .lede, section.contrast .lede { color: #c5cce0; }
-
-  /* ============== HERO ============== */
-  .hero {
-    background: radial-gradient(ellipse at 70% 30%, #2a1b50 0%, #0a1530 60%);
-    color: white;
-    padding: 84px 0 56px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero .container { position: relative; z-index: 2; }
-  .hero .eyebrow { color: var(--yellow); }
-  .hero .display { color: white; font-size: 64px; max-width: 920px; }
-  .hero .display em { font-style: normal; color: var(--yellow); }
-  .hero .lede { color: #c5cce0; font-size: 22px; max-width: 720px; }
-  .hero-bg-dots {
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: 26px 26px;
-    z-index: 1;
-  }
-  .hero-thesis {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 48px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 32px;
-  }
-  .thesis-card .num {
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--yellow);
-    line-height: 1;
-  }
-  .thesis-card .label {
-    font-size: 14px;
-    color: #c5cce0;
-    margin-top: 8px;
-    line-height: 1.4;
-  }
-  .thesis-card .label b { color: white; }
-
-  /* ============== SECTION 1: SILOS ============== */
-  .silos-canvas {
-    position: relative;
-    background: var(--navy-2);
-    border-radius: 18px;
-    padding: 48px 36px;
-    margin-top: 40px;
-    min-height: 420px;
-    overflow: hidden;
-  }
-  .silos-canvas .silo {
-    position: absolute;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: white;
-    font-size: 13px;
-    font-weight: 500;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-  }
-  .silos-canvas .silo .sublab {
-    font-size: 10px;
-    color: var(--ink-faint);
-    margin-top: 2px;
-    letter-spacing: 0.3px;
-  }
-  .silos-canvas .worker-center {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--coral);
-    color: white;
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    font-weight: 700;
-    box-shadow: 0 0 40px rgba(255,99,99,0.5);
-    z-index: 3;
-  }
-  .silos-canvas .worker-center .big { font-size: 17px; }
-  .silos-canvas .worker-center .small { font-size: 10px; opacity: 0.9; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
-  .silos-canvas .x-mark {
-    position: absolute;
-    color: var(--coral);
-    font-size: 14px;
-    font-weight: 700;
-    z-index: 2;
-  }
-  .silos-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    margin-top: 56px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 32px;
-  }
-  .silos-stats .num {
-    font-size: 48px;
-    font-weight: 800;
-    color: var(--coral);
-    line-height: 1;
-  }
-  .silos-stats .label {
-    font-size: 14px;
-    color: #c5cce0;
-    margin-top: 10px;
-  }
-  .silos-stats .label b { color: white; }
-
-  .objection {
-    background: rgba(255,255,255,0.04);
-    border-left: 3px solid var(--coral);
-    padding: 16px 20px;
-    margin-top: 32px;
-    font-size: 14px;
-    color: #c5cce0;
-  }
-  .objection b { color: white; }
-
-  /* ============== SECTION 2: COMMUNITY POWER ============== */
-  .testimony-block {
-    background: white;
-    border-radius: 18px;
-    padding: 48px 56px;
-    box-shadow: 0 1px 3px rgba(13,28,54,0.06), 0 12px 32px rgba(13,28,54,0.06);
-    border: 1px solid var(--line);
-    margin: 40px 0;
-    position: relative;
-  }
-  .testimony-block .quote-mark {
-    position: absolute;
-    top: 20px; left: 28px;
-    font-family: Georgia, serif;
-    font-size: 96px;
-    line-height: 1;
-    color: var(--purple);
-    opacity: 0.2;
-    font-weight: 700;
-  }
-  .testimony-block .quote {
-    font-size: 30px;
-    line-height: 1.35;
-    color: var(--navy);
-    font-weight: 500;
-    margin: 0 0 24px;
-    position: relative;
-    z-index: 2;
-  }
-  .testimony-block .quote-orig {
-    font-size: 18px;
-    color: var(--ink-soft);
-    direction: rtl;
-    font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif;
-    margin: 0 0 24px;
-  }
-  .testimony-block .attribution {
-    display: flex; align-items: center; gap: 14px;
-    border-top: 1px solid var(--line);
-    padding-top: 20px;
-  }
-  .avatar-circ {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--coral));
-    color: white;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .testimony-block .who { font-weight: 600; color: var(--navy); }
-  .testimony-block .where { font-size: 13px; color: var(--ink-soft); }
-
-  /* Network growth */
-  .network-frame {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin: 32px 0;
-  }
-  .net-step {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(13,28,54,0.04);
-  }
-  .net-step .dots {
-    display: flex; justify-content: center; align-items: center;
-    height: 80px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 3px;
-  }
-  .net-step .dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--purple);
-    box-shadow: 0 0 6px rgba(132,40,250,0.4);
-  }
-  .net-step .dot.cluster {
-    width: 5px; height: 5px;
-  }
-  .net-step .big-num { font-size: 28px; font-weight: 800; color: var(--navy); line-height: 1; }
-  .net-step .lbl { font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
-  .net-step .lbl b { color: var(--navy); }
-  .net-step .stage {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--purple);
-    margin-bottom: 10px;
-    font-weight: 700;
-  }
-
-  /* Community body — who feeds the network */
-  .community-body {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 36px;
-  }
-  .cb-card {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 1px 3px rgba(13,28,54,0.04);
-  }
-  .cb-card .role {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--purple);
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .cb-card h4 { margin: 0 0 6px; font-size: 17px; color: var(--navy); font-weight: 700; }
-  .cb-card p { margin: 0; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
-  .cb-card .partner-list { font-size: 11px; color: var(--ink-faint); margin-top: 10px; font-style: italic; }
-
-  /* ============== SECTION 3: CONVERGENCE ============== */
-  .converge-viz {
-    background: linear-gradient(180deg, #0a1530, #1a0e3a);
-    border-radius: 18px;
-    padding: 48px 36px;
-    margin: 40px 0;
-    position: relative;
-    min-height: 480px;
-    overflow: hidden;
-  }
-  .converge-viz .source {
-    position: absolute;
+  .pill.cta { background: var(--osh-yellow); color: var(--osh-navy); border: none; font-weight: 600; }
+  .user-pill {
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 6px;
-    padding: 8px 12px;
-    color: white;
+    padding: 4px 10px 4px 4px;
+    border-radius: 999px;
+    display: flex; align-items: center; gap: 8px;
     font-size: 12px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    white-space: nowrap;
-  }
-  .converge-viz .source .src-cat {
-    font-size: 9px;
-    color: var(--yellow);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 2px;
-  }
-  .converge-viz .ocean {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--yellow) 0%, var(--purple) 60%, transparent 100%);
-    opacity: 0.18;
-    z-index: 1;
-  }
-  .converge-viz .ocean-inner {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--coral));
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
     color: white;
-    text-align: center;
-    box-shadow: 0 0 60px rgba(132,40,250,0.5);
-    z-index: 3;
   }
-  .converge-viz .ocean-inner .big { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-  .converge-viz .ocean-inner .small { font-size: 11px; opacity: 0.95; padding: 0 16px; line-height: 1.4; }
-  .converge-viz svg.lines {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
+  .user-pill .avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--osh-purple), var(--osh-coral));
+    color: white; font-size: 11px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
   }
 
-  /* Query example */
-  .query-card {
-    background: white;
-    border-radius: 18px;
-    padding: 36px 40px;
+  /* URL bar — gives the "you're browsing OS Hub" feeling */
+  .url-bar {
+    background: #fff;
+    padding: 8px 36px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 12px;
+    font-size: 12px;
+  }
+  .url-controls {
+    display: flex; gap: 6px;
+    color: var(--ink-faint);
+  }
+  .url-controls span {
+    width: 20px; height: 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+  }
+  .url-controls span:hover { background: var(--bg-page); }
+  .url-input {
+    flex: 1;
+    background: var(--bg-page);
     border: 1px solid var(--line);
-    box-shadow: 0 1px 3px rgba(13,28,54,0.06), 0 12px 32px rgba(13,28,54,0.06);
-    margin-top: 40px;
-  }
-  .query-card .eyebrow { color: var(--purple); }
-  .qbox {
-    background: var(--bg-soft);
-    border: 2px solid var(--purple);
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin: 18px 0;
-  }
-  .qbox .qtext-ur {
-    font-size: 22px;
-    color: var(--navy);
-    font-weight: 500;
-    direction: rtl;
-    font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif;
-  }
-  .qbox .qtext-en {
-    font-size: 14px;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: "SF Mono", Menlo, monospace;
     color: var(--ink-soft);
-    font-style: italic;
-    margin-top: 8px;
+    font-size: 12px;
   }
-  .qbox .qmeta {
-    display: flex; gap: 10px;
-    margin-top: 10px;
+  .url-input b { color: var(--osh-navy); font-weight: 500; }
+  .url-input .new-path {
+    color: var(--osh-purple);
+    background: var(--new-bg);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 600;
   }
-  .qbox .qmeta span {
+  .lock-ico { color: var(--osh-mint); }
+
+  /* Page-nav (jump between prototype pages) */
+  .proto-pagenav {
+    background: white;
+    padding: 10px 36px;
+    border-bottom: 1px solid var(--line);
+    display: flex; gap: 4px; align-items: center;
+    overflow-x: auto;
+  }
+  .proto-pagenav .pn-label {
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    background: var(--purple);
+    color: var(--ink-faint);
+    margin-right: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .proto-pagenav button {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .proto-pagenav button:hover { border-color: var(--osh-purple); color: var(--osh-purple); }
+  .proto-pagenav button.on {
+    background: var(--osh-navy);
     color: white;
+    border-color: var(--osh-navy);
+  }
+  .proto-pagenav button .new-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--osh-purple);
+  }
+  .proto-pagenav button.on .new-dot { background: var(--osh-yellow); }
+
+  /* Page content area */
+  .page {
+    display: none;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 36px 56px;
+  }
+  .page.on { display: block; }
+
+  /* Page header within OS Hub product */
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .page-header h1 {
+    margin: 0 0 6px;
+    font-size: 26px;
+    color: var(--osh-navy);
+    font-weight: 700;
+  }
+  .page-header .breadcrumb {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .page-header .breadcrumb a { color: var(--ink-soft); }
+  .page-header .breadcrumb b { color: var(--osh-navy); }
+  .page-header .sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 720px;
+  }
+
+  /* The NEW badge — critical for "what's changing" */
+  .new-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--new-bg);
+    border: 1px solid var(--new-border);
+    color: var(--new-text);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     padding: 2px 8px;
     border-radius: 3px;
     font-weight: 700;
+    vertical-align: 1px;
   }
-  .qbox .qmeta span.lang { background: var(--coral); }
-  .synth-out {
-    background: linear-gradient(180deg, #fffef5, white);
-    border-left: 3px solid var(--yellow);
-    border-radius: 0 8px 8px 0;
-    padding: 18px 22px;
-    margin-top: 14px;
-  }
-  .synth-out .synth-head {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #806000;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  .synth-out ul {
-    margin: 0; padding-left: 18px;
-    color: var(--ink); font-size: 14px;
-    line-height: 1.7;
-  }
-  .synth-out ul li b { color: var(--navy); }
-  .synth-out ul li .src {
-    font-size: 11px;
-    color: var(--ink-faint);
-    margin-left: 6px;
-    font-style: italic;
-  }
-
-  /* ============== SECTION 4: WHAT BECOMES POSSIBLE ============== */
-  .story-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin: 40px 0;
-  }
-  .story-step {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 22px;
+  .new-badge .star { color: var(--osh-purple); }
+  .section-with-new {
     position: relative;
-    box-shadow: 0 1px 3px rgba(13,28,54,0.04);
+    border-left: 3px solid var(--osh-purple);
+    background: linear-gradient(90deg, rgba(132,40,250,0.03), transparent 30%);
   }
-  .story-step .step-tag {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--purple);
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .story-step h4 { margin: 0 0 8px; font-size: 17px; color: var(--navy); }
-  .story-step p { margin: 0 0 12px; font-size: 13px; color: var(--ink-soft); }
-  .story-step .moment {
-    background: var(--bg-soft);
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: var(--navy);
-    margin-top: 12px;
-  }
-  .story-step .moment b { display: block; margin-bottom: 2px; }
-  .story-step.outcome {
-    background: linear-gradient(135deg, var(--mint) 0%, #00a86b 100%);
-    color: white;
-    border: none;
-  }
-  .story-step.outcome h4, .story-step.outcome p { color: white; }
-  .story-step.outcome .moment {
-    background: rgba(255,255,255,0.18);
-    color: white;
-  }
-  .story-step.outcome .step-tag { color: rgba(255,255,255,0.85); }
 
-  /* Worker vote */
-  .vote-strip {
-    background: linear-gradient(135deg, var(--coral) 0%, var(--purple) 100%);
-    color: white;
-    border-radius: 14px;
-    padding: 28px 32px;
-    margin: 32px 0;
-  }
-  .vote-strip h4 { margin: 0 0 4px; font-size: 20px; }
-  .vote-strip .sub { font-size: 13px; opacity: 0.9; margin: 0 0 18px; }
-  .vote-row {
-    display: grid;
-    grid-template-columns: 1fr 200px auto;
-    gap: 14px;
-    align-items: center;
-    background: rgba(255,255,255,0.14);
-    padding: 12px 16px;
+  /* Generic card */
+  .card {
+    background: var(--bg-card);
     border-radius: 8px;
-    margin-bottom: 8px;
-    font-size: 14px;
-  }
-  .vote-bar { height: 8px; background: rgba(0,0,0,0.18); border-radius: 4px; position: relative; overflow: hidden; }
-  .vote-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--yellow); border-radius: 4px; }
-  .vote-row .pct { font-weight: 700; }
-  .vote-meta { font-size: 12px; opacity: 0.95; margin-top: 14px; display: flex; align-items: center; gap: 12px; }
-  .voter-dots { display: flex; }
-  .vd { width: 22px; height: 22px; border-radius: 50%; background: var(--yellow); border: 2px solid var(--purple); margin-left: -5px; color: var(--navy); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
-  .vd:first-child { margin-left: 0; }
-
-  /* Peter callout */
-  .peter-callout {
-    background: white;
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 24px 28px;
-    margin: 32px 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .card-h {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .card-h h3 { margin: 0; font-size: 14px; color: var(--osh-navy); font-weight: 700; }
+  .card-b { padding: 16px 18px; }
+
+  /* ========================================================
+     PAGE 1 — Advocate's logged-in dashboard
+  ======================================================== */
+  .advocate-banner {
+    background: linear-gradient(135deg, var(--osh-navy), #2a1b50);
+    color: white;
+    border-radius: 10px;
+    padding: 22px 28px;
+    margin-bottom: 22px;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+  .advocate-banner .avatar-big {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--osh-purple), var(--osh-coral));
+    display: inline-flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 22px;
+  }
+  .advocate-banner .who h2 { margin: 0; font-size: 18px; }
+  .advocate-banner .who p { margin: 4px 0 0; color: #c5cce0; font-size: 13px; }
+  .advocate-banner .who .role-tag {
+    background: var(--osh-yellow); color: var(--osh-navy);
+    padding: 2px 8px; border-radius: 3px;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1px; font-weight: 700;
+    margin-left: 6px;
+    vertical-align: 2px;
+  }
+  .advocate-banner .quick-stats {
+    display: flex; gap: 24px;
+  }
+  .advocate-banner .qs-num { font-size: 22px; font-weight: 700; }
+  .advocate-banner .qs-lbl { font-size: 11px; color: #c5cce0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: 22px;
   }
-  .peter-callout .ico {
-    width: 44px; height: 44px;
-    background: var(--coral);
-    color: white;
-    border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
+  .dash-col-stack { display: flex; flex-direction: column; gap: 18px; }
+
+  .case-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 14px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--bg-page);
+    align-items: center;
+    font-size: 13px;
   }
-  .peter-callout .pc-eyebrow {
+  .case-row:last-child { border-bottom: none; }
+  .case-row:hover { background: var(--bg-page); cursor: pointer; }
+  .case-row .case-status {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--osh-mint);
+  }
+  .case-row .case-status.urgent { background: var(--osh-coral); }
+  .case-row .case-status.review { background: var(--osh-yellow); }
+  .case-row .case-name b { color: var(--osh-navy); }
+  .case-row .case-meta { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
+  .case-row .case-loc { font-size: 11px; color: var(--ink-soft); text-align: right; }
+  .case-row .case-link { color: var(--osh-purple); font-size: 12px; }
+
+  .campaign-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--bg-page);
+    align-items: center;
+  }
+  .campaign-card:last-child { border-bottom: none; }
+  .campaign-card h4 { margin: 0 0 4px; font-size: 14px; color: var(--osh-navy); }
+  .campaign-card .desc { font-size: 12px; color: var(--ink-soft); }
+  .campaign-card .progress {
+    width: 100px;
+    margin-bottom: 4px;
+  }
+  .progress-bar {
+    height: 4px; background: var(--bg-page);
+    border-radius: 2px;
+  }
+  .progress-fill {
+    height: 100%; background: var(--osh-purple);
+    border-radius: 2px;
+  }
+  .progress-lbl {
+    font-size: 10px; color: var(--ink-soft);
+    margin-top: 3px;
+    text-align: right;
+  }
+
+  .activity-item {
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--bg-page);
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+    align-items: center;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-item .ico {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--osh-yellow);
+    color: var(--osh-navy);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .activity-item .ico.purple { background: var(--osh-purple); color: white; }
+  .activity-item .ico.mint { background: var(--osh-mint); color: white; }
+  .activity-item .ico.coral { background: var(--osh-coral); color: white; }
+  .activity-item b { color: var(--osh-navy); }
+
+  .insight-card {
+    background: linear-gradient(135deg, #fffbe6, #fff7d6);
+    border: 1px solid var(--osh-yellow);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .insight-card .lbl {
     font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--coral);
+    letter-spacing: 1px;
+    color: #806000;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
-  .peter-callout h4 { margin: 0 0 8px; color: var(--navy); font-size: 16px; }
-  .peter-callout p { margin: 0 0 10px; font-size: 13.5px; color: var(--ink-soft); }
-  .peter-callout p:last-child { margin-bottom: 0; }
-  .peter-callout p i { color: var(--navy); font-weight: 500; }
+  .insight-card h4 { margin: 0 0 6px; font-size: 14px; color: var(--osh-navy); }
+  .insight-card p { margin: 0 0 8px; font-size: 12px; color: var(--ink-soft); }
+  .insight-card a { font-size: 12px; }
 
-  /* ============== SECTION 5: AUDACIOUS SCALE ============== */
-  .scale-display {
+  .partner-feed-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    font-size: 12px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .partner-feed-card .p-ico {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--bg-page);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .partner-feed-card b { color: var(--osh-navy); display: block; font-size: 12px; }
+  .partner-feed-card .pm { color: var(--ink-faint); font-size: 11px; }
+  .live-tag {
+    background: var(--osh-mint); color: white;
+    padding: 2px 6px; border-radius: 3px;
+    font-size: 9px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ========================================================
+     PAGE 2 — Production Location (existing OS Hub page, extended)
+  ======================================================== */
+  .pl-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr 320px;
     gap: 18px;
-    margin: 40px 0 28px;
+    align-items: start;
   }
-  .scale-stat {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 22px 24px;
+  .pl-sidebar {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+    font-size: 13px;
+    position: sticky;
+    top: 76px;
   }
-  .scale-stat .lbl-top {
+  .pl-sidebar h4 {
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--yellow);
-    margin-bottom: 6px;
+    letter-spacing: 1px;
+    color: var(--ink-faint);
+    margin: 14px 0 6px;
     font-weight: 700;
   }
-  .scale-stat .from-to {
-    display: flex; align-items: baseline;
-    gap: 10px;
+  .pl-sidebar h4:first-of-type { margin-top: 0; }
+  .pl-sidebar a {
+    display: block;
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+  }
+  .pl-sidebar a:hover { background: var(--bg-page); color: var(--osh-navy); text-decoration: none; }
+  .pl-sidebar a.on { background: var(--bg-page); color: var(--osh-navy); font-weight: 600; }
+  .pl-sidebar a.new::after {
+    content: "NEW";
+    background: var(--new-bg); color: var(--new-text);
+    font-size: 8px; padding: 1px 5px;
+    border-radius: 2px; margin-left: 6px;
+    letter-spacing: 0.5px; font-weight: 700;
+  }
+
+  .pl-content { display: flex; flex-direction: column; gap: 18px; }
+  .pl-rightrail {
+    display: flex; flex-direction: column; gap: 14px;
+    position: sticky;
+    top: 76px;
+  }
+
+  .pl-hero {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .pl-hero .osid-row {
+    display: flex; gap: 10px; align-items: center;
     margin-bottom: 8px;
   }
-  .scale-stat .from { font-size: 16px; color: #c5cce0; text-decoration: line-through; }
-  .scale-stat .arrow { color: var(--yellow); }
-  .scale-stat .to {
-    font-size: 28px; font-weight: 800; color: white;
-    line-height: 1;
+  .pl-hero .osid-badge {
+    background: var(--bg-page);
+    font-family: "SF Mono", Menlo, monospace;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--ink-soft);
   }
-  .scale-stat .lbl-btm { font-size: 12px; color: #c5cce0; }
+  .pl-hero .claim-flag {
+    background: var(--osh-mint); color: white;
+    padding: 3px 8px; border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .pl-hero h1 { margin: 0 0 4px; font-size: 22px; color: var(--osh-navy); }
+  .pl-hero .addr { color: var(--ink-soft); font-size: 13px; }
+  .pl-quick-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--bg-page);
+  }
+  .pl-quick-stats .qs .v { font-size: 17px; font-weight: 700; color: var(--osh-navy); }
+  .pl-quick-stats .qs .l { font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.5px; }
 
-  /* Map */
-  .net-map {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    padding: 32px;
-    margin: 36px 0;
+  .pl-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--osh-navy);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 10px;
+    background: linear-gradient(90deg, rgba(132,40,250,0.05), white);
+  }
+
+  /* The faux-map */
+  .pl-map {
+    background: linear-gradient(135deg, #2a3a5c, #1a2c4d);
+    height: 220px;
+    border-radius: 8px;
     position: relative;
-    height: 360px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .pl-map .map-grid-faux {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .pl-map .pin {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px;
+    background: var(--osh-yellow);
+    border: 3px solid white;
+    border-radius: 50% 50% 50% 0;
+    transform-origin: center bottom;
+    transform: translate(-50%, -100%) rotate(-45deg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .pl-map .pin::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    background: var(--osh-navy);
+    border-radius: 50%;
+  }
+  .pl-map .coords {
+    position: absolute;
+    bottom: 12px; left: 14px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: "SF Mono", Menlo, monospace;
+  }
+
+  /* Existing-style field list */
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .field {
+    background: var(--bg-page);
+    padding: 10px 12px;
+    border-radius: 6px;
+  }
+  .field .fl {
+    font-size: 10px; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .field .fv {
+    font-size: 13px;
+    color: var(--osh-navy);
+    font-weight: 500;
+  }
+
+  /* Worker voice / testimony — NEW section */
+  .worker-voice-quote {
+    border-left: 3px solid var(--osh-purple);
+    padding: 14px 16px;
+    background: var(--bg-page);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 14px;
+  }
+  .worker-voice-quote .q {
+    font-size: 14px; color: var(--osh-navy);
+    font-style: italic; line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .worker-voice-quote .q-ur {
+    direction: rtl;
+    font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif;
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .worker-voice-quote .attr {
+    font-size: 11px;
+    color: var(--ink-soft);
+    display: flex; gap: 8px;
+    align-items: center;
+  }
+  .worker-voice-quote .attr .av {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--osh-purple), var(--osh-coral));
+    color: white; font-size: 10px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .voice-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .voice-stat {
+    background: var(--bg-page);
+    padding: 10px 12px;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .voice-stat .v { font-size: 18px; font-weight: 700; color: var(--osh-navy); }
+  .voice-stat .l { font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Accountability layer */
+  .acc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .acc-tile {
+    background: var(--bg-page);
+    padding: 12px 14px;
+    border-radius: 6px;
+  }
+  .acc-tile h5 {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: var(--osh-navy);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .acc-tile h5 .src {
+    font-size: 9px;
+    color: var(--ink-faint);
+    font-weight: 400;
+  }
+  .acc-tile ul {
+    margin: 0; padding-left: 16px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .acc-tile ul li { margin-bottom: 3px; }
+  .acc-tile ul li b { color: var(--osh-navy); }
+
+  /* Chain box */
+  .chain {
+    display: flex;
+    background: var(--bg-page);
+    border-radius: 6px;
     overflow: hidden;
   }
-  .net-map .map-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 26% 38%, rgba(255,205,0,0.12) 0%, transparent 30%),
-      radial-gradient(circle at 40% 60%, rgba(132,40,250,0.12) 0%, transparent 28%),
-      radial-gradient(circle at 14% 70%, rgba(0,214,143,0.12) 0%, transparent 28%);
+  .chain-cell {
+    flex: 1;
+    padding: 12px 14px;
+    border-right: 1px solid white;
+    font-size: 12px;
   }
-  .net-map .map-grid {
+  .chain-cell:last-child { border-right: none; }
+  .chain-cell .role { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-faint); margin-bottom: 3px; }
+  .chain-cell .name { font-weight: 600; color: var(--osh-navy); font-size: 13px; }
+  .chain-cell .meta { font-size: 10px; color: var(--ink-soft); margin-top: 2px; }
+  .chain-cell .badge { display: inline-block; font-size: 8px; padding: 1px 5px; border-radius: 2px; margin-top: 4px; font-weight: 700; letter-spacing: 0.3px; }
+  .chain-cell .badge.ok { background: #e6fff1; color: #007a3f; }
+  .chain-cell .badge.gap { background: #fff7e6; color: #a06000; }
+  .chain-cell .badge.worker { background: var(--new-bg); color: var(--new-text); }
+
+  /* Active campaign row */
+  .campaign-row-pl {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-page);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    align-items: center;
+    font-size: 12px;
+  }
+  .campaign-row-pl:last-child { margin-bottom: 0; }
+  .campaign-row-pl .c-status {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--osh-purple);
+  }
+  .campaign-row-pl b { color: var(--osh-navy); display: block; }
+  .campaign-row-pl .cmeta { font-size: 10px; color: var(--ink-soft); }
+  .campaign-row-pl a { font-size: 11px; }
+
+  /* Right rail */
+  .pl-supplychain {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .pl-supplychain h4 { margin: 0 0 8px; font-size: 13px; color: var(--osh-navy); }
+  .pl-supplychain .sc-meta { font-size: 11px; color: var(--ink-soft); margin-bottom: 10px; }
+  .contributor-pill {
+    background: var(--bg-page);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--osh-navy);
+    margin: 2px 4px 2px 0;
+    display: inline-block;
+  }
+  .pl-coauthor {
+    background: linear-gradient(135deg, #f5edff, #fff0f0);
+    border: 1px solid var(--new-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .pl-coauthor h4 {
+    margin: 0 0 6px;
+    color: var(--new-text);
+    font-size: 13px;
+  }
+  .pl-coauthor p { margin: 0 0 10px; color: var(--ink-soft); font-size: 12px; }
+  .pl-coauthor button {
+    background: var(--osh-purple); color: white;
+    border: none; padding: 8px 12px;
+    border-radius: 6px; font-size: 12px;
+    cursor: pointer; font-weight: 600;
+    width: 100%;
+  }
+
+  /* ========================================================
+     PAGE 3 — Field intake (new)
+  ======================================================== */
+  .intake-split {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .phone {
+    width: 300px;
+    height: 600px;
+    background: white;
+    border-radius: 36px;
+    border: 14px solid var(--osh-navy);
+    box-shadow: 0 10px 40px rgba(13,28,54,0.25);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 22px; background: var(--osh-navy); border-radius: 0 0 12px 12px; z-index: 10; }
+  .phone-status { height: 28px; display: flex; justify-content: space-between; align-items: center; padding: 0 18px; font-size: 11px; color: var(--ink-soft); }
+  .phone-header { background: var(--osh-navy); color: white; padding: 12px 14px; direction: rtl; font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif; }
+  .phone-header .pname { font-size: 10px; opacity: 0.7; }
+  .phone-header .ptitle { font-size: 16px; font-weight: 700; margin-top: 2px; }
+  .phone-body { flex: 1; direction: rtl; padding: 12px; font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif; overflow-y: auto; }
+  .phone-prompt { background: #fffbe6; border-right: 3px solid var(--osh-yellow); padding: 8px 10px; margin-bottom: 12px; font-size: 11px; color: #5a4500; border-radius: 4px; }
+  .phone-recording { background: #fff0f0; border: 1px solid var(--osh-coral); border-radius: 10px; padding: 9px; margin-bottom: 10px; display: flex; align-items: center; gap: 9px; font-size: 11px; color: #a01010; }
+  .pulse { width: 9px; height: 9px; border-radius: 50%; background: var(--osh-coral); animation: pulse 1.2s ease infinite; flex-shrink: 0; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } }
+  .phone-input { background: var(--bg-page); border-radius: 10px; padding: 11px; margin-bottom: 10px; border: 1px solid var(--line); min-height: 60px; font-size: 12px; color: var(--ink); }
+  .phone-attach-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .phone-attach { flex: 1; background: white; border: 1px dashed var(--line); border-radius: 8px; padding: 11px 4px; text-align: center; font-size: 10px; color: var(--ink-soft); }
+  .phone-attach .ico { font-size: 18px; display: block; margin-bottom: 2px; }
+  .phone-submit { background: var(--osh-navy); color: var(--osh-yellow); border: none; padding: 10px; border-radius: 10px; width: 100%; font-size: 13px; font-weight: 700; direction: rtl; font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif; cursor: pointer; }
+
+  .intake-desktop {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow-sm);
+  }
+  .intake-desktop h3 { margin: 0 0 4px; color: var(--osh-navy); }
+  .intake-desktop .pre { font-size: 12px; color: var(--ink-soft); margin: 0 0 16px; }
+  .intake-step {
+    background: var(--bg-page);
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 30px 1fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+  .intake-step .num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--osh-yellow);
+    color: var(--osh-navy);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+  .intake-step b { color: var(--osh-navy); }
+  .intake-step .step-meta { font-size: 11px; color: var(--ink-soft); }
+  .intake-step .status {
+    font-size: 10px;
+    background: var(--osh-mint); color: white;
+    padding: 2px 8px; border-radius: 3px;
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .intake-step .status.pending { background: var(--osh-yellow); color: var(--osh-navy); }
+
+  .intake-result {
+    background: linear-gradient(135deg, #fffbe6, #fff7d6);
+    border: 1px solid var(--osh-yellow);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-top: 16px;
+  }
+  .intake-result h4 { margin: 0 0 6px; color: var(--osh-navy); font-size: 14px; }
+  .intake-result .arrow {
+    color: var(--osh-purple);
+    font-weight: 700;
+    margin: 0 4px;
+  }
+  .intake-result a { font-weight: 600; }
+
+  /* ========================================================
+     PAGE 4 — Campaign builder (new)
+  ======================================================== */
+  .camp-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 22px;
+  }
+  .camp-query-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .camp-tabs {
+    display: flex;
+    background: var(--bg-page);
+    border-bottom: 1px solid var(--line);
+    padding: 4px 6px;
+    gap: 2px;
+  }
+  .camp-tabs button {
+    padding: 8px 14px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    font-weight: 500;
+  }
+  .camp-tabs button.on {
+    background: white;
+    color: var(--osh-navy);
+    box-shadow: var(--shadow-sm);
+  }
+  .camp-body { padding: 18px 20px; }
+  .qprompt {
+    background: var(--bg-page);
+    border-radius: 10px;
+    padding: 13px 16px;
+    display: flex; align-items: center; gap: 12px;
+    border: 2px solid var(--osh-purple);
+    margin-bottom: 12px;
+  }
+  .qprompt .quill { color: var(--osh-purple); font-size: 18px; }
+  .qprompt .qtext {
+    flex: 1; color: var(--osh-navy); font-size: 14px;
+    direction: rtl; font-family: "Noto Naskh Arabic", sans-serif;
+  }
+  .qprompt .qlang { font-size: 10px; background: var(--osh-purple); color: white; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+  .qsub { color: var(--ink-soft); font-size: 11px; margin: -6px 0 14px; font-style: italic; }
+
+  .synth {
+    background: linear-gradient(180deg, #fffef5, white);
+    border-left: 3px solid var(--osh-yellow);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .synth-head {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    color: #806000; font-weight: 700; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .synth-head .from {
+    font-size: 9px; background: white; color: var(--ink-soft);
+    padding: 1px 6px; border-radius: 2px; letter-spacing: 0.3px;
+    font-weight: 500;
+  }
+  .synth ul { margin: 0; padding-left: 16px; color: var(--ink); font-size: 12px; line-height: 1.6; }
+  .synth ul li b { color: var(--osh-navy); }
+
+  .worker-vote {
+    background: linear-gradient(135deg, var(--osh-coral), var(--osh-purple));
+    color: white;
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .worker-vote .lab {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
+    opacity: 0.9; font-weight: 700;
+  }
+  .worker-vote h4 { margin: 4px 0 10px; font-size: 14px; }
+  .vote-row {
+    display: grid;
+    grid-template-columns: 1fr 100px auto;
+    gap: 10px;
+    background: rgba(255,255,255,0.14);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    align-items: center;
+  }
+  .vote-bar { height: 6px; background: rgba(0,0,0,0.18); border-radius: 3px; position: relative; }
+  .vote-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--osh-yellow); border-radius: 3px; }
+  .vote-meta { font-size: 11px; opacity: 0.95; margin-top: 10px; display: flex; gap: 10px; align-items: center; }
+  .voter-dots { display: flex; }
+  .vd { width: 18px; height: 18px; border-radius: 50%; background: var(--osh-yellow); border: 2px solid var(--osh-purple); margin-left: -4px; color: var(--osh-navy); font-size: 8px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .vd:first-child { margin-left: 0; }
+
+  .ac-panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 12px;
+  }
+  .ac-panel h4 { margin: 0 0 4px; font-size: 13px; color: var(--osh-navy); }
+  .ac-panel .pm { font-size: 11px; color: var(--ink-faint); margin-bottom: 10px; }
+  .ac-row {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--bg-page);
+    border-radius: 6px;
+    margin-bottom: 4px;
+    align-items: center;
+    font-size: 12px;
+  }
+  .ac-row .rank {
+    width: 20px; height: 20px;
+    background: var(--osh-purple); color: white;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 10px;
+  }
+  .ac-row .pname { font-weight: 600; color: var(--osh-navy); }
+  .ac-row .pmeta { font-size: 10px; color: var(--ink-soft); }
+  .ac-row .speed { font-size: 9px; background: var(--osh-mint); color: white; padding: 1px 6px; border-radius: 2px; font-weight: 700; }
+  .ac-row .speed.med { background: var(--osh-yellow); color: var(--osh-navy); }
+
+  .savings-banner {
+    background: linear-gradient(135deg, var(--osh-mint), #00a86b);
+    color: white;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+  }
+  .savings-banner h4 { margin: 0 0 4px; font-size: 15px; }
+  .savings-banner p { margin: 0; font-size: 12px; opacity: 0.95; }
+  .savings-banner .timer { font-size: 24px; font-weight: 800; }
+
+  /* ========================================================
+     PAGE 5 — Community monitoring dashboard (new)
+  ======================================================== */
+  .cm-toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: var(--shadow-sm);
+  }
+  .cm-toolbar button {
+    padding: 8px 14px;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .cm-toolbar button.on {
+    background: var(--osh-navy);
+    color: white;
+  }
+  .cm-toolbar button .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--osh-mint);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  .cm-toolbar button.pilot::after {
+    content: " · pilot";
+    font-size: 9px;
+    background: var(--osh-yellow); color: var(--osh-navy);
+    padding: 1px 4px;
+    border-radius: 2px;
+    margin-left: 4px;
+    font-weight: 700;
+  }
+  .cm-stat-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .cm-stat {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .cm-stat .l { font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .cm-stat .v { font-size: 22px; font-weight: 700; color: var(--osh-navy); line-height: 1; }
+  .cm-stat .d { font-size: 11px; color: var(--osh-mint); margin-top: 4px; }
+  .cm-stat .d.warn { color: var(--osh-coral); }
+
+  .cm-map-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 18px;
+  }
+  .cm-map-card h4 { margin: 0 0 4px; color: var(--osh-navy); }
+  .cm-map-card .sub { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
+  .cm-map-visual {
+    position: relative;
+    background: linear-gradient(180deg, var(--osh-navy), var(--osh-navy-2));
+    border-radius: 8px;
+    height: 280px;
+    overflow: hidden;
+  }
+  .cm-map-visual .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 26% 38%, rgba(255,205,0,0.12) 0%, transparent 28%),
+      radial-gradient(circle at 40% 60%, rgba(132,40,250,0.12) 0%, transparent 26%);
+  }
+  .cm-map-visual .grid-faux {
     position: absolute; inset: 0;
     background-image:
       linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 28px 28px;
+    background-size: 26px 26px;
   }
-  .net-map .dot {
+  .cm-map-visual .dot {
     position: absolute;
-    width: 14px; height: 14px;
+    width: 12px; height: 12px;
     border-radius: 50%;
-    background: var(--yellow);
-    box-shadow: 0 0 24px var(--yellow), 0 0 4px white;
+    background: var(--osh-yellow);
+    box-shadow: 0 0 20px var(--osh-yellow), 0 0 4px white;
   }
-  .net-map .dot::after {
-    content: ""; position: absolute; inset: -8px;
+  .cm-map-visual .dot::after {
+    content: ""; position: absolute; inset: -6px;
     border-radius: 50%;
     border: 1px solid rgba(255,205,0,0.4);
     animation: ping 2.4s ease infinite;
@@ -699,126 +1060,119 @@
     0% { transform: scale(1); opacity: 1; }
     100% { transform: scale(2.4); opacity: 0; }
   }
-  .net-map .dot.purple { background: var(--purple); box-shadow: 0 0 24px var(--purple), 0 0 4px white; }
-  .net-map .dot.purple::after { border-color: rgba(132,40,250,0.4); }
-  .net-map .dot.mint { background: var(--mint); box-shadow: 0 0 24px var(--mint), 0 0 4px white; }
-  .net-map .dot.mint::after { border-color: rgba(0,214,143,0.4); }
-  .net-map .lbl {
+  .cm-map-visual .dot.purple { background: var(--osh-purple); box-shadow: 0 0 20px var(--osh-purple), 0 0 4px white; }
+  .cm-map-visual .dot.purple::after { border-color: rgba(132,40,250,0.4); }
+  .cm-map-visual .lbl {
     position: absolute; color: white;
     font-size: 11px;
     background: rgba(0,0,0,0.4);
-    padding: 3px 8px;
+    padding: 3px 7px;
     border-radius: 4px;
     pointer-events: none;
     white-space: nowrap;
   }
-  .net-map .legend {
-    position: absolute; bottom: 14px; right: 18px;
-    display: flex; gap: 18px;
-    background: rgba(0,0,0,0.4);
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 11px;
-    color: white;
-  }
-  .net-map .legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .net-map .legend .ld { width: 8px; height: 8px; border-radius: 50%; }
-  .net-map .legend .ld.y { background: var(--yellow); }
-  .net-map .legend .ld.p { background: var(--purple); }
-  .net-map .legend .ld.m { background: var(--mint); }
 
-  /* Self-sustaining strip */
-  .sustain-strip {
+  .cm-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+  .panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .panel h4 { margin: 0 0 4px; color: var(--osh-navy); }
+  .panel .panel-sub { color: var(--ink-faint); font-size: 11px; margin-bottom: 12px; }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 1.2fr 4fr auto;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 7px;
+    font-size: 12.5px;
+  }
+  .bar-row .lc { color: var(--osh-navy); font-weight: 500; }
+  .bar-track { height: 12px; background: var(--bg-page); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--osh-purple), var(--osh-coral)); border-radius: 3px; }
+  .pct { color: var(--ink-soft); font-size: 11px; min-width: 36px; text-align: right; }
+
+  .insight-list { margin: 0; padding-left: 16px; color: var(--ink-soft); font-size: 12px; line-height: 1.7; }
+  .insight-list li b { color: var(--osh-navy); }
+  .insight-list li .pulse-tag {
+    display: inline-block;
+    background: var(--osh-coral); color: white;
+    padding: 1px 5px; border-radius: 2px;
+    font-size: 9px; letter-spacing: 0.3px;
+    margin-left: 6px; font-weight: 700;
+  }
+
+  .brand-tile {
     background: linear-gradient(135deg, #fffbe6, #fff7d6);
-    border-radius: 14px;
-    padding: 28px 32px;
-    margin: 32px 0;
-    color: var(--navy);
-    border: 1px solid var(--yellow);
+    border: 1px solid var(--osh-yellow);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 18px;
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 24px;
+    gap: 16px;
     align-items: center;
   }
-  .sustain-strip .pre {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--purple); font-weight: 700; margin-bottom: 8px;
-  }
-  .sustain-strip h4 { margin: 0 0 8px; font-size: 22px; }
-  .sustain-strip p { margin: 0; font-size: 14px; color: var(--ink-soft); max-width: 620px; }
-  .sustain-strip button {
-    background: var(--navy); color: var(--yellow);
-    border: none; padding: 14px 22px;
-    border-radius: 10px; font-weight: 700; font-size: 14px;
-    cursor: pointer; white-space: nowrap;
-  }
-
-  /* Closing thesis */
-  .closing-thesis {
-    text-align: center;
-    padding: 36px 0;
-  }
-  .closing-thesis .one-line {
-    font-size: 40px;
-    font-weight: 800;
-    color: white;
-    line-height: 1.2;
-    max-width: 920px;
-    margin: 0 auto 20px;
-    letter-spacing: -0.5px;
-  }
-  .closing-thesis .one-line em { font-style: normal; color: var(--yellow); }
-  .closing-thesis .sub {
-    font-size: 16px;
-    color: #c5cce0;
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  /* Partner logos band */
-  .partner-band {
-    background: var(--navy-2);
-    padding: 28px 36px;
-    text-align: center;
-  }
-  .partner-band .lab {
-    font-size: 11px;
-    color: var(--yellow);
+  .brand-tile .pre {
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
+    color: var(--osh-purple);
     font-weight: 700;
-    margin-bottom: 18px;
+    margin-bottom: 6px;
   }
-  .partner-band .logos {
-    display: flex; flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-  }
-  .partner-band .logo {
-    background: rgba(255,255,255,0.08);
-    color: white;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
+  .brand-tile h4 { margin: 0 0 6px; color: var(--osh-navy); font-size: 16px; }
+  .brand-tile p { margin: 0; font-size: 12.5px; color: var(--ink-soft); max-width: 580px; }
+  .brand-tile button {
+    background: var(--osh-navy); color: var(--osh-yellow);
+    border: none; padding: 10px 16px;
+    border-radius: 8px; font-weight: 700;
+    cursor: pointer; white-space: nowrap; font-size: 13px;
   }
 
   /* Footer */
   footer {
-    padding: 28px 36px;
-    background: var(--navy);
+    padding: 18px 36px;
+    background: var(--osh-navy);
     color: #8892a8;
     font-size: 11.5px;
     text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 40px;
   }
   footer b { color: white; }
+
+  /* "What's new on this page" banner */
+  .whats-new-banner {
+    background: linear-gradient(90deg, #f5edff, #fff0f0);
+    border: 1px solid var(--new-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 22px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .whats-new-banner .ico {
+    width: 32px; height: 32px;
+    background: var(--osh-purple); color: white;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .whats-new-banner b { color: var(--osh-purple); text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; }
+  .whats-new-banner .body { color: var(--osh-navy); margin-top: 2px; font-size: 13px; }
+  .whats-new-banner .body em { font-style: normal; background: var(--osh-yellow); padding: 1px 4px; border-radius: 2px; color: var(--osh-navy); font-weight: 600; }
 </style>
 </head>
 <body>
 
-<!-- ========== TOP NAV ========== -->
-<div class="topnav">
+<!-- ============= OS HUB TOP NAV ============= -->
+<div class="osh-topnav">
   <div class="brand">
     <span class="brand-mark">OS</span>
     <span>OPEN SUPPLY HUB</span>
@@ -831,467 +1185,820 @@
     <a href="#">Language</a>
   </div>
   <div class="navactions">
-    <button class="pill">Login / Register</button>
+    <div class="user-pill">
+      <span class="avatar">AK</span>
+      <span>Aisha Khan · PILER</span>
+    </div>
     <button class="pill cta">+ Add Data</button>
   </div>
 </div>
 
-<!-- Chapter nav -->
-<div class="chapter-nav">
-  <a href="#hero" class="on"><span class="num">·</span>Power to the Floor</a>
-  <a href="#silos"><span class="num">1</span>The world today is fragmented</a>
-  <a href="#community"><span class="num">2</span>Community power, made tangible</a>
-  <a href="#converge"><span class="num">3</span>The datasets converge</a>
-  <a href="#possible"><span class="num">4</span>What becomes possible</a>
-  <a href="#scale"><span class="num">5</span>The world shifts</a>
+<!-- ============= URL BAR ============= -->
+<div class="url-bar">
+  <div class="url-controls">
+    <span>←</span><span>→</span><span>↺</span>
+  </div>
+  <div class="url-input">
+    <span class="lock-ico">🔒</span>
+    opensupplyhub.org<b id="url-path">/community-monitoring/advocate</b>
+  </div>
 </div>
 
-<!-- ============================================================
-     HERO
-============================================================ -->
-<section class="hero" id="hero">
-  <div class="hero-bg-dots"></div>
-  <div class="container">
-    <div class="eyebrow">A prototype of the vision · for The Audacious Project · May 2026</div>
-    <h1 class="display">Power to the floor.<br>The shared layer where worker voice, every accountability dataset, and the supply chain finally <em>meet</em>.</h1>
-    <p class="lede">For 30 years, supply chain accountability has been an audit problem. Brands paid auditors to ask factories about workers. Workers were never in the room. <b style="color:var(--yellow);">This is the layer that ends that arrangement.</b></p>
+<!-- ============= PROTOTYPE PAGE NAV ============= -->
+<div class="proto-pagenav">
+  <span class="pn-label">Prototype pages —</span>
+  <button class="on" data-page="1"><span class="new-dot"></span>Advocate Home</button>
+  <button data-page="2">Production Location <span style="font-size:10px;opacity:0.7;">· existing page, extended</span></button>
+  <button data-page="3"><span class="new-dot"></span>Field Intake</button>
+  <button data-page="4"><span class="new-dot"></span>Campaign Builder</button>
+  <button data-page="5"><span class="new-dot"></span>Community Monitoring</button>
+</div>
 
-    <div class="hero-thesis">
-      <div class="thesis-card">
-        <div class="num">$200B</div>
-        <div class="label"><b>Spent globally on social audits every year.</b> Misses 87% of the issues workers actually report.</div>
+<!-- =====================================================================
+     PAGE 1 — Advocate's logged-in home
+     URL: opensupplyhub.org/community-monitoring/advocate
+===================================================================== -->
+<div class="page on" id="page-1" data-url="/community-monitoring/advocate" data-newpath="/community-monitoring/advocate">
+  <div class="whats-new-banner">
+    <div class="ico">✶</div>
+    <div>
+      <b>New section on OS Hub</b>
+      <div class="body">A logged-in workspace for <em>worker rights advocates &amp; CBM partners</em>. Built on OS Hub's existing facility data and Spotlight infrastructure. Replaces 28 days of manual campaign research with a queryable layer across every connected partner program.</div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb"><a>Open Supply Hub</a> › <b>Community Monitoring</b> › My Workspace</div>
+      <h1>Welcome back, Aisha</h1>
+      <div class="sub">PILER · Karachi Legal Aid Centre · 12 active cases, 4 active campaigns, 8 partner orgs in your network</div>
+    </div>
+  </div>
+
+  <div class="advocate-banner">
+    <span class="avatar-big">AK</span>
+    <div class="who">
+      <h2>Aisha Khan <span class="role-tag">Worker Rights Advocate</span></h2>
+      <p>Pakistan Institute of Labour Education &amp; Research (PILER) · Karachi · joined 2022 · 247 cases logged</p>
+    </div>
+    <div class="quick-stats">
+      <div><div class="qs-num">12</div><div class="qs-lbl">Active cases</div></div>
+      <div><div class="qs-num">4</div><div class="qs-lbl">Campaigns in progress</div></div>
+      <div><div class="qs-num">8</div><div class="qs-lbl">Partner orgs networked</div></div>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <div class="dash-col-stack">
+      <div class="card">
+        <div class="card-h">
+          <h3>Active cases</h3>
+          <a href="#" style="font-size:12px;">View all 12 →</a>
+        </div>
+        <div class="case-row" onclick="goPage(2)">
+          <span class="case-status urgent"></span>
+          <div><div class="case-name"><b>Apex Garments Mills</b> · wage theft + retaliation threat</div><div class="case-meta">Logged by Aisha · 2 days ago · 1 testimony · pattern detected (5 similar cases)</div></div>
+          <div class="case-loc">Faisalabad<br><span style="opacity:0.7;">PK2023045APEX1A</span></div>
+          <a class="case-link" href="#">Open →</a>
+        </div>
+        <div class="case-row">
+          <span class="case-status"></span>
+          <div><div class="case-name"><b>Sapphire Textile Mills</b> · unfair dismissal × 3</div><div class="case-meta">Logged by NTUF paralegal · 6 days ago · campaign drafted</div></div>
+          <div class="case-loc">Lahore<br><span style="opacity:0.7;">PK2024112SAPH4F</span></div>
+          <a class="case-link" href="#">Open →</a>
+        </div>
+        <div class="case-row">
+          <span class="case-status review"></span>
+          <div><div class="case-name"><b>Crystal Apparel Industries</b> · GBV allegation</div><div class="case-meta">Logged by Women's Café · 1 week ago · awaiting worker rep consent</div></div>
+          <div class="case-loc">Karachi<br><span style="opacity:0.7;">PK2023012CRYS9B</span></div>
+          <a class="case-link" href="#">Open →</a>
+        </div>
+        <div class="case-row">
+          <span class="case-status"></span>
+          <div><div class="case-name"><b>Northbridge Mills</b> · contract violations × 12</div><div class="case-meta">Aggregated from 12 worker reports across 3 weeks</div></div>
+          <div class="case-loc">Faisalabad<br><span style="opacity:0.7;">PK2022087NRTH3D</span></div>
+          <a class="case-link" href="#">Open →</a>
+        </div>
       </div>
-      <div class="thesis-card">
-        <div class="num">5,082</div>
-        <div class="label"><b>Worker complaints in one Pakistan program alone</b> — already routed through OS Hub data to identify the brands sourcing from each factory.</div>
+
+      <div class="card">
+        <div class="card-h">
+          <h3>Active campaigns</h3>
+          <a href="#" style="font-size:12px;">View all →</a>
+        </div>
+        <div class="campaign-card" onclick="goPage(4)">
+          <div>
+            <h4>Eastwell &amp; Co. — Faisalabad wage theft</h4>
+            <div class="desc">Day 14 of 90 · parallel filing with Speak Up + Pakistan Wages Authority · 340 workers · est. PKR 4.2M at stake</div>
+          </div>
+          <div>
+            <div class="progress"><div class="progress-bar"><div class="progress-fill" style="width: 28%"></div></div></div>
+            <div class="progress-lbl">28% · in escalation</div>
+          </div>
+        </div>
+        <div class="campaign-card">
+          <div>
+            <h4>WRAP certification challenge — Faisalabad cluster</h4>
+            <div class="desc">8 WRAP-certified factories with wage-theft cases · pathway to certifier accountability</div>
+          </div>
+          <div>
+            <div class="progress"><div class="progress-bar"><div class="progress-fill" style="width: 12%"></div></div></div>
+            <div class="progress-lbl">12% · evidence gathering</div>
+          </div>
+        </div>
+        <div class="campaign-card">
+          <div>
+            <h4>Karachi industrial zone wage-theft pattern</h4>
+            <div class="desc">3× national rate since Q1 2026 · coordinating with NTUF, Fair Wear · sector-wide brief</div>
+          </div>
+          <div>
+            <div class="progress"><div class="progress-bar"><div class="progress-fill" style="width: 64%"></div></div></div>
+            <div class="progress-lbl">64% · brief drafted</div>
+          </div>
+        </div>
       </div>
-      <div class="thesis-card">
-        <div class="num">∞ silos</div>
-        <div class="label"><b>The data that could help workers is already collected.</b> It lives in 47 different systems that don't talk to each other.</div>
+    </div>
+
+    <div class="dash-col-stack">
+      <div class="insight-card">
+        <div class="lbl">▌ Pattern flagged for you</div>
+        <h4>8 WRAP-certified factories in Faisalabad have wage-theft cases since Q1 2024</h4>
+        <p>That's 31% of all wage-theft cases in the city, in facilities certified compliant. Pathway against the certifier may be more leveraged than per-brand action.</p>
+        <a href="#">Investigate this pattern →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <h3>Partner network — live feeds</h3>
+          <a href="#" style="font-size:12px;">Manage</a>
+        </div>
+        <div style="padding: 14px 16px;">
+          <div class="partner-feed-card">
+            <span class="p-ico">📱</span>
+            <div><b>MyVox · PILER + GRC</b><div class="pm">17 paralegals · 7 cases logged today</div></div>
+            <span class="live-tag">Live</span>
+          </div>
+          <div class="partner-feed-card">
+            <span class="p-ico">⚖</span>
+            <div><b>Accountability Counsel</b><div class="pm">Pathway database · 47 mechanisms applicable</div></div>
+            <span class="live-tag">Live</span>
+          </div>
+          <div class="partner-feed-card">
+            <span class="p-ico">☎</span>
+            <div><b>Fair Wear Worker Info Line</b><div class="pm">9 countries · 2 cases relevant to your network</div></div>
+            <span class="live-tag">Live</span>
+          </div>
+          <div class="partner-feed-card">
+            <span class="p-ico">🛡</span>
+            <div><b>TTCU Safe Circle</b><div class="pm">Tamil Nadu · pattern data shared</div></div>
+            <span class="live-tag">Live</span>
+          </div>
+          <div class="partner-feed-card">
+            <span class="p-ico">🏛</span>
+            <div><b>Pakistan Labour Department</b><div class="pm">Public case register · syncs daily</div></div>
+            <span class="live-tag">Live</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h3>Recent activity</h3></div>
+        <div class="activity-item">
+          <span class="ico mint">✓</span>
+          <div><b>Bahawalpur wage-theft case resolved</b> — Eastwell paid 410 workers via Speak Up (73 days)</div>
+        </div>
+        <div class="activity-item">
+          <span class="ico purple">+</span>
+          <div><b>340 worker testimonies</b> added at Apex Garments — pattern triggered</div>
+        </div>
+        <div class="activity-item">
+          <span class="ico">!</span>
+          <div><b>Eastwell AGM</b> scheduled 18 Sep — shareholder Q&amp;A is filed publicly</div>
+        </div>
+        <div class="activity-item">
+          <span class="ico coral">▴</span>
+          <div><b>Pearl River Sourcing</b> flagged as recurring undisclosed agent — 12% of cases</div>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ============================================================
-     SECTION 1 — THE SILOS
-============================================================ -->
-<section class="dark" id="silos">
-  <div class="container">
-    <div class="eyebrow">Chapter 1 · The fragmentation</div>
-    <h2 class="display">Today, a worker's voice lives in <span class="accent">one silo</span>.<br>The data that could amplify it lives in 47 others.</h2>
-    <p class="lede">When a paralegal in Faisalabad logs a worker's complaint into MyVox, that's where it stops. The corporate registry that names the parent company. The legislation database that says which laws apply. The brand's own published whistleblower policy. The audit firm that certified the factory last year. The grievance system the brand swears it operates. They all <i>exist</i>. None of them know about the worker, and the worker has no way to reach them.</p>
-
-    <div class="silos-canvas" aria-label="visual: silos">
-      <div class="worker-center">
-        <div class="big">Worker's<br>testimony</div>
-        <div class="small">Trapped here</div>
-      </div>
-
-      <div class="silo" style="left: 4%; top: 8%;">MyVox · GRC Pakistan<div class="sublab">5,082 cases</div></div>
-      <div class="silo" style="right: 4%; top: 6%;">Fair Wear Worker Info Line<div class="sublab">9 countries</div></div>
-      <div class="silo" style="left: 4%; bottom: 12%;">SLCP, WRAP, BSCI audits<div class="sublab">audit data — never seen by workers</div></div>
-      <div class="silo" style="right: 4%; bottom: 8%;">Companies House / SEC filings<div class="sublab">parent company truth</div></div>
-      <div class="silo" style="left: 28%; top: 6%;">EUR-Lex · ILO database<div class="sublab">applicable legislation</div></div>
-      <div class="silo" style="right: 28%; top: 18%;">Brand's own HR policy<div class="sublab">published, ignored</div></div>
-      <div class="silo" style="left: 28%; bottom: 8%;">Brand whistleblower system<div class="sublab">Speak Up, EthicsPoint</div></div>
-      <div class="silo" style="right: 28%; bottom: 16%;">News / BHRRC tracker<div class="sublab">prior allegations</div></div>
-
-      <div class="x-mark" style="left: 16%; top: 32%;">✕</div>
-      <div class="x-mark" style="right: 16%; top: 28%;">✕</div>
-      <div class="x-mark" style="left: 36%; top: 16%;">✕</div>
-      <div class="x-mark" style="right: 38%; top: 64%;">✕</div>
-      <div class="x-mark" style="left: 18%; bottom: 28%;">✕</div>
-      <div class="x-mark" style="right: 14%; bottom: 26%;">✕</div>
-    </div>
-
-    <div class="silos-stats">
-      <div>
-        <div class="num">87%</div>
-        <div class="label"><b>of issues workers report</b> are missed by the audit industry</div>
-      </div>
-      <div>
-        <div class="num">~28 days</div>
-        <div class="label"><b>of research</b> a worker rights advocate loses to build a single campaign</div>
-      </div>
-      <div>
-        <div class="num">450M</div>
-        <div class="label"><b>workers in global supply chains</b> · most without a route to the brands buying from their factories</div>
-      </div>
-    </div>
-
-    <div class="objection">
-      <b>What the status quo says:</b> "Brands often don't even know who's producing their goods. Grievance systems are already built. If a factory doesn't have one, they should adopt one. Workers face retaliation — they shouldn't be the ones speaking out." &nbsp;— this is the world we're going around, not the one we're building inside of.
+<!-- =====================================================================
+     PAGE 2 — Production Location detail (existing page, EXTENDED)
+     URL: opensupplyhub.org/production-locations/PK2023045APEX1A
+===================================================================== -->
+<div class="page" id="page-2" data-url="/production-locations/PK2023045APEX1A">
+  <div class="whats-new-banner">
+    <div class="ico">✶</div>
+    <div>
+      <b>What's new on this page</b>
+      <div class="body">Open Supply Hub's existing Production Location page (live behind <em>enable_production_location_page</em> flag) is extended with four new community-monitoring sections — every NEW section is badged purple on the page below. The base page (name, address, map, supply chain, partner data) is unchanged.</div>
     </div>
   </div>
-</section>
 
-<!-- ============================================================
-     SECTION 2 — COMMUNITY POWER
-============================================================ -->
-<section id="community">
-  <div class="container">
-    <div class="eyebrow">Chapter 2 · Community power, made tangible</div>
-    <h2 class="display">It starts with <span class="accent">one worker</span>. It only works when she's not alone.</h2>
-    <p class="lede">Power to the Floor isn't a platform that talks to workers directly. Workers face retaliation. They need intermediaries they already trust — paralegals from a Legal Aid Centre, women's café organizers, union members, an NGO field worker they've known for years. The community is the data layer's first translator.</p>
+  <div class="pl-layout">
 
-    <div class="testimony-block">
-      <div class="quote-mark">"</div>
-      <div class="quote">They told me my overtime had been paid, but my account hasn't received anything in three months. When I asked, the supervisor said if I kept asking, he'd tell them to stop giving me shifts.</div>
-      <div class="quote-orig">"وہ کہتے ہیں میری اوور ٹائم ادا ہو چکی ہے، لیکن تین ماہ سے میرے اکاؤنٹ میں کچھ نہیں آیا۔ جب میں نے پوچھا تو سپروائزر نے کہا اگر میں نے دوبارہ پوچھا تو وہ کہیں گے مجھے شفٹیں نہ دیں۔"</div>
-      <div class="attribution">
-        <div class="avatar-circ">S</div>
+    <!-- LEFT SIDEBAR — section nav (existing OS Hub pattern) -->
+    <aside class="pl-sidebar">
+      <h4>Sections</h4>
+      <a class="on">Overview</a>
+      <a>General information</a>
+      <a>Supply chain</a>
+      <a>Claim &amp; ownership</a>
+      <a>Spotlight (partner data)</a>
+      <a class="new">Worker voice</a>
+      <a class="new">Accountability layer</a>
+      <a class="new">Active campaigns</a>
+      <a class="new">Co-authors</a>
+      <h4>Quick actions</h4>
+      <a>Suggest correction</a>
+      <a>Report duplicate</a>
+      <a>Report status change</a>
+      <a>Dispute claim</a>
+    </aside>
+
+    <!-- CENTER — main content -->
+    <main class="pl-content">
+
+      <!-- Hero — existing OS Hub PL header -->
+      <div class="pl-hero">
+        <div class="osid-row">
+          <span class="osid-badge">OS ID · PK2023045APEX1A</span>
+          <span class="claim-flag">✓ Claimed by facility</span>
+        </div>
+        <h1>Apex Garments Mills (Pvt) Ltd.</h1>
+        <div class="addr">Plot 41-B, Sargodha Road Industrial Estate · Faisalabad, Punjab · Pakistan</div>
+        <div class="pl-quick-stats">
+          <div class="qs"><div class="v">1,820</div><div class="l">Workers · 64% women</div></div>
+          <div class="qs"><div class="v">Ready-made garments</div><div class="l">Sector</div></div>
+          <div class="qs"><div class="v">CMT, washing, finishing</div><div class="l">Processing</div></div>
+          <div class="qs"><div class="v">WRAP ✓ (May '25)</div><div class="l">Last audit</div></div>
+        </div>
+      </div>
+
+      <!-- Map — existing -->
+      <div class="pl-map">
+        <div class="map-grid-faux"></div>
+        <div class="pin"></div>
+        <div class="coords">31.3947° N, 73.0796° E</div>
+      </div>
+
+      <!-- General info — existing -->
+      <div class="card">
+        <div class="pl-section-title" style="background: linear-gradient(90deg, var(--bg-page), white); border-left: none;">General information</div>
+        <div class="card-b">
+          <div class="fields-grid">
+            <div class="field"><div class="fl">Native language name</div><div class="fv">ایپیکس گارمنٹس ملز</div></div>
+            <div class="field"><div class="fl">Parent company</div><div class="fv">Eastwell Holdings PLC (LSE-listed)</div></div>
+            <div class="field"><div class="fl">DUNS ID</div><div class="fv">85-471-0938</div></div>
+            <div class="field"><div class="fl">Year established</div><div class="fv">2008</div></div>
+            <div class="field"><div class="fl">Product type</div><div class="fv">Knitwear, T-shirts, polos</div></div>
+            <div class="field"><div class="fl">Status</div><div class="fv">Active &amp; operating</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NEW: Worker Voice section ===== -->
+      <div class="card section-with-new">
+        <div class="pl-section-title">
+          ▌ Worker voice
+          <span class="new-badge"><span class="star">✶</span>NEW</span>
+        </div>
+        <div class="card-b">
+          <div class="worker-voice-quote">
+            <div class="q-ur">"وہ کہتے ہیں میری اوور ٹائم ادا ہو چکی ہے، لیکن تین ماہ سے میرے اکاؤنٹ میں کچھ نہیں آیا۔ جب میں نے پوچھا تو سپروائزر نے کہا اگر میں نے دوبارہ پوچھا تو وہ کہیں گے مجھے شفٹیں نہ دیں۔"</div>
+            <div class="q">"They told me my overtime had been paid, but my account hasn't received anything in three months. When I asked, the supervisor said if I kept asking, he'd tell them to stop giving me shifts."</div>
+            <div class="attr">
+              <span class="av">S</span>
+              <span><b style="color:var(--osh-navy);">Sumera</b> · 26 · garment operator · captured by PILER paralegal at the Faisalabad Legal Aid Centre · 27 May 2026 · corroborated by 4 colleagues + 336 other workers</span>
+            </div>
+          </div>
+          <div class="voice-stats">
+            <div class="voice-stat"><div class="v">340</div><div class="l">Testimonies (last 30 days)</div></div>
+            <div class="voice-stat"><div class="v">12</div><div class="l">Prior cases at this facility</div></div>
+            <div class="voice-stat"><div class="v">21%</div><div class="l">From women workers</div></div>
+          </div>
+          <div style="margin-top: 14px; font-size: 12px; color: var(--ink-soft);">
+            Feeds in from: <a href="#">MyVox · PILER</a> · <a href="#">Fair Wear Worker Info Line</a> · <a href="#">NTUF case file system</a> · <a href="#">Women's Café (Faisalabad)</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supply chain (existing) but with NEW worker-named badge -->
+      <div class="card">
+        <div class="pl-section-title" style="background: linear-gradient(90deg, var(--bg-page), white); border-left: none;">Supply chain — who buys from this facility</div>
+        <div class="card-b">
+          <div class="chain">
+            <div class="chain-cell">
+              <div class="role">Factory</div>
+              <div class="name">Apex Garments Mills</div>
+              <div class="meta">Faisalabad</div>
+              <span class="badge ok">✓ in OS Hub</span>
+            </div>
+            <div class="chain-cell">
+              <div class="role">Sourcing agent</div>
+              <div class="name">Pearl River Sourcing Ltd.</div>
+              <div class="meta">Hong Kong</div>
+              <span class="badge gap">⚠ undisclosed</span>
+              <span class="badge worker" style="margin-left: 4px;">✶ worker-named</span>
+            </div>
+            <div class="chain-cell">
+              <div class="role">Brand</div>
+              <div class="name">Eastwell &amp; Co.</div>
+              <div class="meta">London</div>
+              <span class="badge ok">✓ disclosed 2024</span>
+            </div>
+            <div class="chain-cell">
+              <div class="role">Parent company</div>
+              <div class="name">Eastwell Holdings PLC</div>
+              <div class="meta">£4.2B mkt cap · LSE</div>
+              <span class="badge ok">✓ filed accounts</span>
+            </div>
+          </div>
+          <div style="font-size: 11px; color: var(--ink-soft); margin-top: 10px; padding: 10px 12px; background: var(--new-bg); border-radius: 4px;">
+            <span class="new-badge" style="margin-right: 6px;"><span class="star">✶</span>NEW</span>
+            <b style="color: var(--osh-navy);">Worker-named entities</b> appear here when a CBM partner logs a brand or agent observed on the factory floor that isn't on the public supplier list. The brand is notified first before the link becomes public — they can confirm, dispute, or extend the disclosure.
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NEW: Accountability Layer ===== -->
+      <div class="card section-with-new">
+        <div class="pl-section-title">
+          ▌ Accountability layer
+          <span class="new-badge"><span class="star">✶</span>NEW</span>
+        </div>
+        <div class="card-b">
+          <div class="acc-grid">
+            <div class="acc-tile">
+              <h5>Applicable legislation <span class="src">EUR-Lex + ILO + national codes</span></h5>
+              <ul>
+                <li><b>Sindh Payment of Wages Act 2014</b> — direct breach</li>
+                <li><b>EU CSDDD</b> — Eastwell €510M EU rev, in scope</li>
+                <li><b>UK Modern Slavery Act §54</b> — parent must report</li>
+                <li><b>EU Forced Labour Regulation</b> — market-access risk</li>
+              </ul>
+            </div>
+            <div class="acc-tile">
+              <h5>Brand policies (auto-scraped) <span class="src">Eastwell public site</span></h5>
+              <ul>
+                <li><b>HR Policy 2024 §4.2:</b> wage theft = zero tolerance</li>
+                <li><b>Speak Up Programme:</b> 90-day SLA, 3rd party OK</li>
+                <li><b>Supplier Code §7.2:</b> overtime at 1.5×</li>
+              </ul>
+            </div>
+            <div class="acc-tile">
+              <h5>Accountability pathways <span class="src">Accountability Counsel pathfinder</span></h5>
+              <ul>
+                <li><b>Pakistan Labour Department</b> — 67% MyVox cases resolved here</li>
+                <li><b>Pakistan Payment of Wages Authority</b> — 60-day avg</li>
+                <li><b>Fair Wear Worker Info Line</b> — Eastwell is a member</li>
+                <li><b>UK OECD NCP</b> — cross-border escalation</li>
+              </ul>
+            </div>
+            <div class="acc-tile">
+              <h5>Audit / certification gap <span class="src">OS Hub Spotlight audit data</span></h5>
+              <ul>
+                <li><b>WRAP certified May 2025</b> — contradicted by this case</li>
+                <li><b>Pattern:</b> 7 other WRAP-certified Faisalabad factories with wage-theft cases</li>
+                <li><b>Path:</b> challenge to WRAP — separate accountability route</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NEW: Active Campaigns ===== -->
+      <div class="card section-with-new">
+        <div class="pl-section-title">
+          ▌ Active campaigns at this facility
+          <span class="new-badge"><span class="star">✶</span>NEW</span>
+        </div>
+        <div class="card-b">
+          <div class="campaign-row-pl" onclick="goPage(4)">
+            <span class="c-status"></span>
+            <div>
+              <b>Eastwell &amp; Co. — Faisalabad wage theft</b>
+              <div class="cmeta">Led by Aisha Khan (PILER) · 12 worker reps participating · day 14 of estimated 90 · parallel Speak Up + Wages Authority filing</div>
+            </div>
+            <a href="#">Open campaign →</a>
+          </div>
+          <div class="campaign-row-pl">
+            <span class="c-status" style="background: var(--osh-yellow);"></span>
+            <div>
+              <b>WRAP certification challenge — Faisalabad cluster</b>
+              <div class="cmeta">Apex is one of 8 factories in the evidence base · led by GRC + Accountability Counsel</div>
+            </div>
+            <a href="#">Open campaign →</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT RAIL — existing supply chain + NEW co-authors -->
+    <aside class="pl-rightrail">
+      <div class="pl-supplychain">
+        <h4>Supply chain network</h4>
+        <div class="sc-meta">4 contributors disclose sourcing from this facility</div>
+        <span class="contributor-pill">Eastwell &amp; Co.</span>
+        <span class="contributor-pill">Northbridge Apparel</span>
+        <span class="contributor-pill">Coastline Retail</span>
+        <span class="contributor-pill">+ 1 anonymous</span>
+        <div style="margin-top: 10px; font-size: 11px;"><a href="#">View full network →</a></div>
+      </div>
+
+      <div class="pl-coauthor">
+        <span class="new-badge" style="margin-bottom: 6px;"><span class="star">✶</span>NEW</span>
+        <h4>Co-authors of this profile</h4>
+        <p>This profile is enriched by 4 CBM partners pushing live data into it. Workers and their advocates can add testimony, name observed brands, or contribute photos through the partners they already trust.</p>
+        <div style="font-size: 11px; color: var(--ink-soft); margin-bottom: 12px;">
+          <b style="color: var(--osh-navy);">Live co-authors:</b><br>
+          · PILER (Faisalabad, Karachi, Lahore)<br>
+          · NTUF Pakistan<br>
+          · Labour Education Foundation<br>
+          · Home-based Women Workers Federation
+        </div>
+        <button>Become a co-author →</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- =====================================================================
+     PAGE 3 — Field Intake (new page)
+     URL: opensupplyhub.org/community-monitoring/intake/new
+===================================================================== -->
+<div class="page" id="page-3" data-url="/community-monitoring/intake/new" data-newpath="/community-monitoring/intake/new">
+  <div class="whats-new-banner">
+    <div class="ico">✶</div>
+    <div>
+      <b>New page on OS Hub</b>
+      <div class="body">A loose-input intake that absorbs whatever the field has — voice notes in Urdu, photos of payslips, scribbled factory names — and resolves it against OS Hub's data within seconds. Replaces <em>required forms with exact-match search</em>.</div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <b>Field intake</b></div>
+      <h1>New field intake</h1>
+      <div class="sub">Capture what the paralegal hears, in the worker's language, on the phone. OS Hub matches it to a facility, surfaces the supply chain, and opens the case in seconds.</div>
+    </div>
+  </div>
+
+  <div class="intake-split">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-status"><span>9:41</span><span>📶 🔋</span></div>
+        <div class="phone-header">
+          <div class="pname">اوپن سپلائی حب · فیلڈ انٹیک</div>
+          <div class="ptitle">نیا کیس درج کریں</div>
+        </div>
+        <div class="phone-body">
+          <div class="phone-prompt">ورکر کیا کہہ رہی ہے؟ آڈیو، تصویر، یا تحریر۔ کوئی فارم بھرنا ضروری نہیں۔</div>
+          <div class="phone-recording">
+            <span class="pulse"></span>
+            <span style="direction:rtl;">آڈیو ریکارڈ ہو رہی ہے · 0:47</span>
+          </div>
+          <div class="phone-input">فیصل آباد۔ خاتون ورکر۔ تین ماہ سے اوور ٹائم کی ادائیگی نہیں۔ سپروائزر نے دھمکی دی۔ ایپیکس گارمنٹس۔</div>
+          <div class="phone-attach-row">
+            <div class="phone-attach"><span class="ico">📷</span>تصویر</div>
+            <div class="phone-attach"><span class="ico">📍</span>مقام</div>
+            <div class="phone-attach"><span class="ico">🆔</span>شناخت</div>
+          </div>
+          <button class="phone-submit">بھیجیں ←</button>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--ink-faint); text-align: center;">Paralegal's phone · captured in Urdu · MyVox integration live</div>
+    </div>
+
+    <div class="intake-desktop">
+      <h3>What OS Hub does with that input</h3>
+      <p class="pre">Live processing pipeline · runs in under one second · advocate sees results on the web side as the paralegal hits send.</p>
+
+      <div class="intake-step">
+        <span class="num">1</span>
         <div>
-          <div class="who">Sumera · garment operator, 26</div>
-          <div class="where">Apex Garments Mills · Faisalabad, Pakistan · told to a paralegal at the PILER Legal Aid Centre, 27 May 2026</div>
+          <b>Multilingual speech-to-text + entity extraction</b>
+          <div class="step-meta">Urdu audio + free text → structured fields. Factory name, location, issue type, worker profile.</div>
         </div>
+        <span class="status">0.4s</span>
       </div>
-    </div>
+      <div class="intake-step">
+        <span class="num">2</span>
+        <div>
+          <b>Match to a Production Location in OS Hub</b>
+          <div class="step-meta">"ایپیکس گارمنٹس" → Apex Garments Mills · OS ID <span style="font-family:monospace;color:var(--osh-purple);">PK2023045APEX1A</span> · 98% confidence</div>
+        </div>
+        <span class="status">0.2s</span>
+      </div>
+      <div class="intake-step">
+        <span class="num">3</span>
+        <div>
+          <b>Cross-reference with the existing OS Hub data layer</b>
+          <div class="step-meta">Pulls supply chain (brand chain, parent company), Spotlight partner data, claims, audit history</div>
+        </div>
+        <span class="status">0.1s</span>
+      </div>
+      <div class="intake-step">
+        <span class="num">4</span>
+        <div>
+          <b>Cross-reference with the new Accountability Layer</b>
+          <div class="step-meta">Applicable legislation, brand policies, accountability pathways from Accountability Counsel</div>
+        </div>
+        <span class="status">0.1s</span>
+      </div>
+      <div class="intake-step">
+        <span class="num">5</span>
+        <div>
+          <b>Open the case · notify the advocate's workspace</b>
+          <div class="step-meta">Case #4783 created · attached to Apex Garments PL page · queued for advocate review</div>
+        </div>
+        <span class="status pending">queued</span>
+      </div>
 
-    <div style="font-size: 18px; color: var(--ink-soft); margin-top: 32px; max-width: 720px;">
-      Sumera's story stops being a story when it joins others like it. The community is what turns one voice into a pattern that can't be denied.
-    </div>
-
-    <div class="network-frame">
-      <div class="net-step">
-        <div class="stage">Stage 1</div>
-        <div class="dots"><span class="dot"></span></div>
-        <div class="big-num">1</div>
-        <div class="lbl"><b>Sumera</b><br>tells a paralegal</div>
-      </div>
-      <div class="net-step">
-        <div class="stage">Within a week</div>
-        <div class="dots">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <div class="intake-result">
+        <h4>Case is live on OS Hub <span class="arrow">→</span> Apex Garments PL page <span class="arrow">→</span> Aisha Khan's workspace</h4>
+        <div style="font-size: 12px; color: var(--ink-soft); margin-top: 4px;">
+          See it on the <a onclick="goPage(2);return false;" href="#">extended Production Location page</a> · or open the campaign workspace in the <a onclick="goPage(4);return false;" href="#">Campaign Builder</a>
         </div>
-        <div class="big-num">5</div>
-        <div class="lbl"><b>Colleagues</b><br>corroborate the same issue</div>
-      </div>
-      <div class="net-step">
-        <div class="stage">Within a month</div>
-        <div class="dots">
-          <span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span>
-          <span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span>
-          <span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span>
-          <span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span><span class="dot cluster"></span>
-        </div>
-        <div class="big-num">340</div>
-        <div class="lbl"><b>Workers at Apex</b><br>connected through PILER paralegals</div>
-      </div>
-      <div class="net-step">
-        <div class="stage">In Pakistan alone</div>
-        <div class="dots">
-          <span class="dot cluster" style="opacity:0.9"></span><span class="dot cluster" style="opacity:0.85"></span><span class="dot cluster" style="opacity:0.8"></span><span class="dot cluster" style="opacity:0.75"></span><span class="dot cluster" style="opacity:0.7"></span>
-          <span class="dot cluster" style="opacity:0.7"></span><span class="dot cluster" style="opacity:0.65"></span><span class="dot cluster" style="opacity:0.6"></span><span class="dot cluster" style="opacity:0.55"></span><span class="dot cluster" style="opacity:0.5"></span>
-          <span class="dot cluster" style="opacity:0.5"></span><span class="dot cluster" style="opacity:0.45"></span><span class="dot cluster" style="opacity:0.4"></span><span class="dot cluster" style="opacity:0.35"></span><span class="dot cluster" style="opacity:0.3"></span>
-          <span class="dot cluster" style="opacity:0.3"></span><span class="dot cluster" style="opacity:0.25"></span><span class="dot cluster" style="opacity:0.2"></span><span class="dot cluster" style="opacity:0.18"></span><span class="dot cluster" style="opacity:0.15"></span>
-          <span class="dot cluster" style="opacity:0.7"></span><span class="dot cluster" style="opacity:0.65"></span><span class="dot cluster" style="opacity:0.6"></span><span class="dot cluster" style="opacity:0.55"></span><span class="dot cluster" style="opacity:0.5"></span>
-          <span class="dot cluster" style="opacity:0.4"></span><span class="dot cluster" style="opacity:0.35"></span><span class="dot cluster" style="opacity:0.3"></span><span class="dot cluster" style="opacity:0.2"></span><span class="dot cluster" style="opacity:0.18"></span>
-        </div>
-        <div class="big-num">5,082</div>
-        <div class="lbl"><b>Cases already</b><br>through 17 PILER paralegals across Karachi, Lahore, Faisalabad</div>
-      </div>
-    </div>
-
-    <div class="community-body">
-      <div class="cb-card">
-        <div class="role">Closest to the worker</div>
-        <h4>Paralegals, women's café organisers, union shop-floor monitors</h4>
-        <p>Trained, embedded in the community, trusted with what workers won't put in a factory grievance box. They use whatever phone, app, or piece of paper they have. This layer authors the input.</p>
-        <div class="partner-list">PILER · NTUF · LEF · LBL · HBWWF · TTCU · Asia Floor Wage Alliance</div>
-      </div>
-      <div class="cb-card">
-        <div class="role">Builds the campaign</div>
-        <h4>Worker rights advocates &amp; community-based monitoring leads</h4>
-        <p>Sit at the bridge: hear the field, see the data, decide where leverage gets applied. They run the campaign — but only with worker representatives voting on tactics. This is the user the prototype centres.</p>
-        <div class="partner-list">Global Rights Compliance · Accountability Counsel · Clean Clothes Campaign · SOMO · WRC</div>
-      </div>
-      <div class="cb-card">
-        <div class="role">Already proven</div>
-        <h4>5,082 cases · 11,604 violations · ~4,000 workers remediated</h4>
-        <p>This isn't speculative. GRC's MyVox programme in Pakistan has run since 2022 and uses OS Hub's API today to identify the brands behind every implicated factory. Power to the Floor is the next layer above what's already working.</p>
-        <div class="partner-list">Source: MyVox Snapshot Report 2025 · Global Rights Compliance</div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ============================================================
-     SECTION 3 — DATASETS CONVERGE
-============================================================ -->
-<section class="contrast" id="converge">
-  <div class="container">
-    <div class="eyebrow">Chapter 3 · The datasets converge</div>
-    <h2 class="display">Every dataset that could amplify Sumera's voice <span class="accent">already exists</span>.<br>None of them know about her.</h2>
-    <p class="lede">Corporate registries, supplier lists, audit results, legislation databases, brand policy texts, government hotlines, satellite-confirmed factory locations, news archives, prior allegation trackers — the world has spent decades building these. They sit in 47 systems that have never talked to each other. <b style="color:var(--yellow);">The audacious move is the connective tissue.</b></p>
-
-    <div class="converge-viz">
-      <svg class="lines" viewBox="0 0 1000 480" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="ln-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#ffcd00;stop-opacity:0.6" />
-            <stop offset="100%" style="stop-color:#8428fa;stop-opacity:0.6" />
-          </linearGradient>
-        </defs>
-        <line x1="120" y1="80" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="880" y1="80" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="60" y1="240" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="940" y1="240" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="120" y1="400" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="880" y1="400" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="320" y1="60" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="680" y1="60" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="320" y1="420" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-        <line x1="680" y1="420" x2="500" y2="240" stroke="url(#ln-grad)" stroke-width="1.5"/>
-      </svg>
-
-      <div class="ocean"></div>
-      <div class="ocean-inner">
-        <div class="big">One queryable layer</div>
-        <div class="small">In the worker's language. With the community's consent.</div>
-      </div>
-
-      <div class="source" style="left: 4%; top: 12%;"><span class="src-cat">Corporate truth</span>Companies House · SEC filings</div>
-      <div class="source" style="right: 4%; top: 12%;"><span class="src-cat">Legislation</span>EUR-Lex · ILO · National labour codes</div>
-      <div class="source" style="left: 2%; top: 46%;"><span class="src-cat">Worker voice apps</span>MyVox · WOVO · Ulula · Issara</div>
-      <div class="source" style="right: 2%; top: 46%;"><span class="src-cat">Supplier disclosures</span>OS Hub · brand-public lists</div>
-      <div class="source" style="left: 4%; bottom: 12%;"><span class="src-cat">Audits</span>WRAP · Fair Wear · SLCP · amfori</div>
-      <div class="source" style="right: 4%; bottom: 12%;"><span class="src-cat">Grievance systems</span>Speak Up · EthicsPoint · Fair Wear line</div>
-      <div class="source" style="left: 28%; top: 4%;"><span class="src-cat">Allegations history</span>BHRRC · news · CCC appeals</div>
-      <div class="source" style="right: 28%; top: 4%;"><span class="src-cat">Geospatial</span>Satellite · factory location · risk maps</div>
-      <div class="source" style="left: 28%; bottom: 4%;"><span class="src-cat">Brand policies</span>HR, whistleblower, supplier code texts</div>
-      <div class="source" style="right: 28%; bottom: 4%;"><span class="src-cat">Accountability pathways</span>Accountability Counsel pathfinder · OECD NCPs · IAMs</div>
+<!-- =====================================================================
+     PAGE 4 — Campaign Builder (new)
+     URL: opensupplyhub.org/community-monitoring/campaigns/eastwell-faisalabad-2026-06
+===================================================================== -->
+<div class="page" id="page-4" data-url="/community-monitoring/campaigns/eastwell-faisalabad-2026-06" data-newpath="/community-monitoring/campaigns/eastwell-faisalabad-2026-06">
+  <div class="whats-new-banner">
+    <div class="ico">✶</div>
+    <div>
+      <b>New page on OS Hub</b>
+      <div class="body">A campaign workspace where advocates query the converged data layer in their own language and synthesize answers across <em>11 datasets</em>. Replaces ~28 days of manual research with a 3-hour campaign briefing.</div>
     </div>
+  </div>
 
-    <div class="query-card">
-      <div class="eyebrow">The query · in Urdu</div>
-      <div style="font-size: 18px; color: var(--navy); margin-bottom: 12px; max-width: 720px;">A worker rights advocate at PILER asks the same question they ask in every campaign. Until today, answering it took 28 days. Now it takes 3 hours.</div>
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <a>Campaigns</a> › <b>Eastwell &amp; Co. — Faisalabad wage theft</b></div>
+      <h1>Build a campaign strategy</h1>
+      <div class="sub">Apex Garments Mills · 340 workers affected · led by Aisha Khan, PILER · co-strategising with 12 worker representatives</div>
+    </div>
+  </div>
 
-      <div class="qbox">
-        <div class="qtext-ur">"اس کیس میں اصل طاقت کس کے پاس ہے، اور کہاں دباؤ ڈالنا چاہیے؟"</div>
-        <div class="qtext-en">"In this case, where does the real power sit, and where should we apply pressure?"</div>
-        <div class="qmeta">
-          <span class="lang">URDU</span>
-          <span>QUERIES 11 DATASETS</span>
-          <span>0.7s</span>
+  <div class="camp-layout">
+    <div>
+      <div class="camp-query-card">
+        <div class="camp-tabs">
+          <button class="on">Where's the power?</button>
+          <button>Fastest mechanism?</button>
+          <button>Past cases at Eastwell?</button>
+          <button>Cross-factory pattern?</button>
+        </div>
+        <div class="camp-body">
+          <div class="qprompt">
+            <span class="quill">✶</span>
+            <span class="qtext">"اس کیس میں اصل طاقت کس کے پاس ہے، اور کہاں دباؤ ڈالنا چاہیے؟"</span>
+            <span class="qlang">URDU</span>
+          </div>
+          <div class="qsub">"In this case, where does the real power sit, and where should we apply pressure?" · 11 datasets queried · 0.7s</div>
+
+          <div class="synth">
+            <div class="synth-head">⚡ Power &amp; money <span class="from">Companies House · CSDDD scope db · corporate filings</span></div>
+            <ul>
+              <li><b>Parent Eastwell Holdings PLC:</b> £4.2B mkt cap, LSE-listed — board-level exposure</li>
+              <li><b>EU revenue €510M (2024):</b> inside CSDDD scope</li>
+              <li><b>Sourcing volume from Apex:</b> ~12% of Pakistan output — meaningful but droppable</li>
+              <li><b>AGM 18 Sep 2026:</b> shareholder Q&amp;A is filed publicly</li>
+            </ul>
+          </div>
+
+          <div class="synth">
+            <div class="synth-head">⚡ Applicable mechanisms by speed <span class="from">Accountability Counsel pathfinder</span></div>
+            <ul>
+              <li><b>Eastwell Speak Up:</b> 90-day SLA · 3rd-party submissions accepted</li>
+              <li><b>Pakistan Payment of Wages Authority:</b> 60-day avg resolution</li>
+              <li><b>Fair Wear Worker Info Line:</b> Eastwell member · ~120 days</li>
+              <li><b>UK OECD NCP:</b> 12–18 mo · escalation lever, not first move</li>
+            </ul>
+          </div>
+
+          <div class="synth">
+            <div class="synth-head">⚡ Similar cases at Eastwell <span class="from">GRC playbook · 27 prior engagements</span></div>
+            <ul>
+              <li><b>2024 Bahawalpur:</b> wage theft · 73-day resolution · 410 workers compensated</li>
+              <li><b>2023 Karachi:</b> overtime · NCP filing · statement only, no comp</li>
+              <li><b>2022 Sialkot:</b> GBV · AGM escalation · Pakistan policy upgrade</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div class="synth-out">
-        <div class="synth-head">⚡ Synthesised answer · drawn from the converged layer</div>
-        <ul>
-          <li><b>Parent: Eastwell Holdings PLC</b> — £4.2B mkt cap, LSE-listed · board exposure <span class="src">[Companies House]</span></li>
-          <li><b>CSDDD scope:</b> Eastwell EU revenue €510M — inside directive <span class="src">[EUR-Lex + filings]</span></li>
-          <li><b>Brand's own commitments:</b> "wage theft is zero tolerance" — Human Rights Policy 2024 §4.2 <span class="src">[brand policy scrape]</span></li>
-          <li><b>Pattern:</b> 7 other WRAP-certified Faisalabad factories with wage-theft cases since 2024 <span class="src">[MyVox + WRAP register]</span></li>
-          <li><b>Fastest pathway:</b> Eastwell Speak Up · 90-day SLA · 3rd-party submissions accepted <span class="src">[Accountability Counsel pathfinder]</span></li>
-          <li><b>Pressure point:</b> AGM 18 Sept 2026 — shareholder Q&amp;A filed publicly <span class="src">[corp calendar]</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     SECTION 4 — WHAT BECOMES POSSIBLE
-============================================================ -->
-<section id="possible">
-  <div class="container">
-    <div class="eyebrow">Chapter 4 · What becomes possible</div>
-    <h2 class="display">The 28-day campaign collapses to <span class="accent">three hours</span>.<br>And the worker is still in the room while it happens.</h2>
-    <p class="lede">This is not a brand-led process. This is not a worker filing a grievance into the void. This is a worker rights advocate co-strategising with worker representatives, querying the converged data layer in their own language, and acting before retaliation arrives.</p>
-
-    <div class="story-grid">
-      <div class="story-step">
-        <div class="step-tag">1 · Capture</div>
-        <h4>Loose, multilingual input</h4>
-        <p>A paralegal at PILER captures Sumera's testimony — voice in Urdu, photo of her payslip, location. No required form. The system absorbs whatever shape it arrives in.</p>
-        <div class="moment"><b>0.7 seconds later</b>Factory matched. Brand chain surfaced. 11 datasets queried in parallel.</div>
-      </div>
-      <div class="story-step">
-        <div class="step-tag">2 · Co-strategise</div>
-        <h4>Workers vote on tactics</h4>
-        <p>Not the advocate alone in an office. 12 worker reps — over WhatsApp, in their own language — vote on the campaign's sequence before anything is filed.</p>
-        <div class="moment"><b>73% choose</b>Parallel Speak Up + Pakistan Wages Authority — fastest path, lowest retaliation risk.</div>
-      </div>
-      <div class="story-step">
-        <div class="step-tag">3 · Act</div>
-        <h4>Every lever in one move</h4>
-        <p>The advocate files in two places at once. The brand's whistleblower system gets the case. The Pakistan Payment of Wages Authority gets the same case. The brand can't claim it didn't know.</p>
-        <div class="moment"><b>Day 14</b>Eastwell legal team opens internal investigation. Pakistan Wages Authority schedules hearing.</div>
-      </div>
-      <div class="story-step outcome">
-        <div class="step-tag">4 · Outcome</div>
-        <h4>347 workers · 87 days</h4>
-        <p>Eastwell remediates through its own Speak Up programme. PKR 4.26M recovered. Retaliation clause added to supplier contract. Independent monitoring quarterly.</p>
-        <div class="moment"><b>And it feeds back</b>8th WRAP-certified factory pattern logged. Pearl River Sourcing flagged as recurring undisclosed agent. Sumera sees her case status in Urdu.</div>
-      </div>
-    </div>
-
-    <div class="vote-strip">
-      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; font-weight: 700;">▌ Worker representatives voting · live</div>
-      <h4>Workers choose the campaign's sequence — before the advocate acts</h4>
-      <p class="sub">Community-rooted strategy isn't a footnote. It's the gate that determines what happens next.</p>
-      <div class="vote-row">
-        <span>Parallel Speak Up + Pakistan Wages Authority</span>
-        <div class="vote-bar"><div class="vote-fill" style="width: 73%"></div></div>
-        <span class="pct">73%</span>
-      </div>
-      <div class="vote-row">
-        <span>Speak Up first · escalate if no response in 30d</span>
-        <div class="vote-bar"><div class="vote-fill" style="width: 18%"></div></div>
-        <span class="pct">18%</span>
-      </div>
-      <div class="vote-row">
-        <span>Media + Fair Wear immediately</span>
-        <div class="vote-bar"><div class="vote-fill" style="width: 9%"></div></div>
-        <span class="pct">9%</span>
-      </div>
-      <div class="vote-meta">
-        <div class="voter-dots">
-          <span class="vd">A</span><span class="vd">B</span><span class="vd">F</span><span class="vd">M</span><span class="vd">N</span><span class="vd">+7</span>
+      <div class="savings-banner">
+        <div>
+          <h4>Built in 3 hours, not 28 days</h4>
+          <p>Aisha just compiled what used to take a month of supplier-list chasing, legislation lookups, and brand policy reading.</p>
         </div>
-        <span>12 worker representatives · session closes in 38 min</span>
+        <div class="timer">−27d</div>
       </div>
     </div>
 
-    <div class="peter-callout">
-      <div class="ico">!</div>
-      <div>
-        <div class="pc-eyebrow">▌ Anticipated pushback · steelmanned</div>
-        <h4>"Brands don't even know who's sourcing from those factories. Workers face retaliation. Grievance systems already exist."</h4>
-        <p><i>All true today.</i> Today, brands use sourcing agents (Li &amp; Fung, Pearl River) to obscure their supplier list. Today, workers who speak up get fired. Today, the average factory has a grievance box that filters every complaint through the supervisor the worker is complaining about. <b>This is the world we're going around, not the one we're building inside of.</b></p>
-        <p>The bold move is letting workers add what they see — the labels they're literally sewing — and notifying the brand <i>first</i> so they can confirm or rebut. A serious brand will want to know about an unapproved licensee. A brand that doesn't want to know will reveal itself by that choice.</p>
+    <div>
+      <div class="worker-vote">
+        <div class="lab">▌ Co-strategising with workers · live</div>
+        <h4>Worker representatives vote on tactic sequence</h4>
+        <div class="vote-row">
+          <span>Parallel Speak Up + Pakistan Wages Authority</span>
+          <div class="vote-bar"><div class="vote-fill" style="width: 73%"></div></div>
+          <span><b>73%</b></span>
+        </div>
+        <div class="vote-row">
+          <span>Speak Up first · escalate after 30d</span>
+          <div class="vote-bar"><div class="vote-fill" style="width: 18%"></div></div>
+          <span><b>18%</b></span>
+        </div>
+        <div class="vote-row">
+          <span>Media + Fair Wear immediately</span>
+          <div class="vote-bar"><div class="vote-fill" style="width: 9%"></div></div>
+          <span><b>9%</b></span>
+        </div>
+        <div class="vote-meta">
+          <div class="voter-dots">
+            <span class="vd">A</span><span class="vd">B</span><span class="vd">F</span><span class="vd">M</span><span class="vd">N</span><span class="vd">+7</span>
+          </div>
+          <span>12 worker reps · session closes in 38 min</span>
+        </div>
+      </div>
+
+      <div class="ac-panel">
+        <h4>Recommended pathway sequence</h4>
+        <div class="pm">Powered by Accountability Counsel · ranked by leverage × speed</div>
+        <div class="ac-row">
+          <span class="rank">1</span>
+          <div><div class="pname">Eastwell Speak Up</div><div class="pmeta">brand-internal · 3rd party OK · 90d</div></div>
+          <span class="speed">FAST</span>
+        </div>
+        <div class="ac-row">
+          <span class="rank">2</span>
+          <div><div class="pname">Pakistan Payment of Wages Authority</div><div class="pmeta">gov · wage-specific · 60d avg</div></div>
+          <span class="speed">FAST</span>
+        </div>
+        <div class="ac-row">
+          <span class="rank">3</span>
+          <div><div class="pname">Fair Wear Worker Info Line</div><div class="pmeta">MSI · ~120d</div></div>
+          <span class="speed med">MED</span>
+        </div>
+        <div class="ac-row">
+          <span class="rank">4</span>
+          <div><div class="pname">UK OECD NCP</div><div class="pmeta">cross-border · 12–18 mo</div></div>
+          <span class="speed med">SLOW</span>
+        </div>
+        <div style="font-size: 11px; color: var(--ink-faint); margin-top: 8px;">+ 43 other pathways in this jurisdiction · ranked by Accountability Counsel</div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ============================================================
-     SECTION 5 — THE WORLD SHIFTS
-============================================================ -->
-<section class="dark" id="scale">
-  <div class="container">
-    <div class="eyebrow">Chapter 5 · At scale, the world shifts</div>
-    <h2 class="display">This is not a tool. It is the connective tissue of <span class="accent">a different supply chain</span>.</h2>
-    <p class="lede">When 5,082 cases become 5 million, the patterns become impossible for brands to deny, for auditors to launder, and for regulators to overlook. Audit credibility collapses where the data contradicts it. CSDDD reporting is met not by audits but by community-verified evidence. And the brand that wants to subscribe pays for the access — funding the infrastructure that holds them accountable.</p>
-
-    <div class="scale-display">
-      <div class="scale-stat">
-        <div class="lbl-top">Workers reached</div>
-        <div class="from-to"><span class="from">11,604</span><span class="arrow">→</span><span class="to">5,000,000</span></div>
-        <div class="lbl-btm">via 200+ networked CBM partners</div>
-      </div>
-      <div class="scale-stat">
-        <div class="lbl-top">Production locations mapped</div>
-        <div class="from-to"><span class="from">2.5M</span><span class="arrow">→</span><span class="to">25,000,000</span></div>
-        <div class="lbl-btm">10× the platform</div>
-      </div>
-      <div class="scale-stat">
-        <div class="lbl-top">Sectors covered</div>
-        <div class="from-to"><span class="from">1</span><span class="arrow">→</span><span class="to">4+</span></div>
-        <div class="lbl-btm">apparel · cobalt · nickel · data centres</div>
-      </div>
-      <div class="scale-stat">
-        <div class="lbl-top">Campaign research time</div>
-        <div class="from-to"><span class="from">28 days</span><span class="arrow">→</span><span class="to">3 hours</span></div>
-        <div class="lbl-btm">advocate's most expensive resource — recovered</div>
-      </div>
+<!-- =====================================================================
+     PAGE 5 — Community Monitoring Dashboard (new)
+     URL: opensupplyhub.org/community-monitoring/dashboard
+===================================================================== -->
+<div class="page" id="page-5" data-url="/community-monitoring/dashboard" data-newpath="/community-monitoring/dashboard">
+  <div class="whats-new-banner">
+    <div class="ico">✶</div>
+    <div>
+      <b>New page on OS Hub</b>
+      <div class="body">The aggregate due-diligence view across every connected community-monitoring partner. <em>The brand-facing slice is what makes the model self-sustaining</em> — brands subscribe to see their own supply chain through community data.</div>
     </div>
+  </div>
 
-    <div class="net-map">
-      <div class="map-bg"></div>
-      <div class="map-grid"></div>
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <b>Dashboard</b></div>
+      <h1>Community due-diligence dashboard</h1>
+      <div class="sub">Patterns across every connected CBM program · cross-sector portability · brand-facing view powers the subscription model</div>
+    </div>
+  </div>
 
+  <div class="cm-toolbar">
+    <button class="on"><span class="live-dot"></span>Apparel · S Asia</button>
+    <button><span class="live-dot"></span>Apparel · SE Asia</button>
+    <button class="pilot">Cobalt · DRC</button>
+    <button class="pilot">Nickel · Indonesia</button>
+    <button class="pilot">Data centres · US</button>
+    <div style="margin-left: auto; padding: 4px 12px; font-size: 11px; color: var(--ink-faint); align-self: center;">View as: <a>advocate</a> · <a>brand</a> · <a>funder</a></div>
+  </div>
+
+  <div class="cm-stat-row">
+    <div class="cm-stat"><div class="l">Total cases</div><div class="v">5,082</div><div class="d">+2,128 in 2025</div></div>
+    <div class="cm-stat"><div class="l">Workers reached</div><div class="v">11,604</div><div class="d">via 17 paralegals</div></div>
+    <div class="cm-stat"><div class="l">Wages recovered</div><div class="v">PKR 81M</div><div class="d">≈ $289k USD</div></div>
+    <div class="cm-stat"><div class="l">Brands implicated</div><div class="v">200+</div><div class="d warn">↑ 24% top brand</div></div>
+    <div class="cm-stat"><div class="l">Avg. case time</div><div class="v">112d</div><div class="d">−24d vs '24</div></div>
+  </div>
+
+  <div class="cm-map-card">
+    <h4>Live community-monitoring network</h4>
+    <div class="sub">Each dot = a Legal Aid Centre, union office, or partner intake point pushing data in · last 7 days</div>
+    <div class="cm-map-visual">
+      <div class="bg"></div>
+      <div class="grid-faux"></div>
       <div class="dot" style="left: 26%; top: 34%;"></div>
       <div class="lbl" style="left: 28%; top: 40%;">Faisalabad · 8 centres</div>
       <div class="dot" style="left: 30%; top: 40%;"></div>
       <div class="dot purple" style="left: 23%; top: 38%;"></div>
       <div class="lbl" style="left: 11%; top: 42%;">Karachi · NTUF</div>
-
-      <div class="dot mint" style="left: 38%; top: 60%;"></div>
+      <div class="dot" style="left: 38%; top: 60%;"></div>
       <div class="lbl" style="left: 40%; top: 56%;">TTCU · Tamil Nadu</div>
-
       <div class="dot" style="left: 42%; top: 70%;"></div>
       <div class="lbl" style="left: 44%; top: 70%;">Colombo</div>
-
       <div class="dot" style="left: 48%; top: 45%;"></div>
       <div class="lbl" style="left: 50%; top: 45%;">Dhaka</div>
-
       <div class="dot" style="left: 62%; top: 55%;"></div>
       <div class="lbl" style="left: 64%; top: 55%;">Hanoi</div>
-
       <div class="dot purple" style="left: 12%; top: 70%;"></div>
-      <div class="lbl" style="left: 4%; top: 78%;">DRC · cobalt pilot</div>
-
+      <div class="lbl" style="left: 4%; top: 78%;">DRC · cobalt</div>
       <div class="dot purple" style="left: 70%; top: 75%;"></div>
-      <div class="lbl" style="left: 72%; top: 78%;">Sulawesi · nickel pilot</div>
-
+      <div class="lbl" style="left: 72%; top: 78%;">Sulawesi · nickel</div>
       <div class="dot purple" style="left: 85%; top: 32%;"></div>
-      <div class="lbl" style="left: 76%; top: 22%;">Virginia · data centres pilot</div>
-
-      <div class="legend">
-        <span><span class="ld y"></span>active CBM partner</span>
-        <span><span class="ld p"></span>pilot sector</span>
-        <span><span class="ld m"></span>resolution in last 24h</span>
-      </div>
-    </div>
-
-    <div class="sustain-strip">
-      <div>
-        <div class="pre">▌ Self-sustaining business model</div>
-        <h4>Brands pay for what they currently extract for free</h4>
-        <p>Today brands take community data — through audits, through worker voice apps they own, through supplier surveys — and pay nothing to the communities producing it. Power to the Floor flips that arrangement. Brands subscribe to see what their supply chain looks like through the community's eyes. That subscription funds the infrastructure that holds them accountable.</p>
-      </div>
-      <button>How brand subscription works →</button>
-    </div>
-
-    <div class="closing-thesis">
-      <div class="one-line">For the first time in the history of global supply chains, the people most <em>exposed to harm</em> have the same data as the people most <em>insulated from it</em>.</div>
-      <div class="sub">That's not a dashboard. That's not a grievance system. That's a redistribution of power, made possible by a layer of data infrastructure that's never existed before.</div>
+      <div class="lbl" style="left: 76%; top: 22%;">VA · data centres</div>
     </div>
   </div>
-</section>
 
-<!-- Partner band -->
-<div class="partner-band">
-  <div class="lab">▌ Co-authors of this vision</div>
-  <div class="logos">
-    <span class="logo">Open Supply Hub</span>
-    <span class="logo">Global Rights Compliance</span>
-    <span class="logo">Accountability Counsel</span>
-    <span class="logo">PILER</span>
-    <span class="logo">NTUF</span>
-    <span class="logo">Labour Education Foundation</span>
-    <span class="logo">Label Behind the Labour</span>
-    <span class="logo">HBWWF</span>
-    <span class="logo">Fair Wear Foundation</span>
-    <span class="logo">TTCU · Tamil Nadu</span>
-    <span class="logo">Asia Floor Wage Alliance</span>
-    <span class="logo">Clean Clothes Campaign</span>
+  <div class="cm-grid">
+    <div class="panel">
+      <h4>Where the violations cluster</h4>
+      <div class="panel-sub">S Asia apparel · last 12 mo</div>
+      <div class="bar-row"><span class="lc">Wage theft</span><div class="bar-track"><div class="bar-fill" style="width: 84%"></div></div><span class="pct">1,449</span></div>
+      <div class="bar-row"><span class="lc">Unfair dismissal</span><div class="bar-track"><div class="bar-fill" style="width: 53%"></div></div><span class="pct">914</span></div>
+      <div class="bar-row"><span class="lc">Contract violations</span><div class="bar-track"><div class="bar-fill" style="width: 49%"></div></div><span class="pct">847</span></div>
+      <div class="bar-row"><span class="lc">Employment benefits</span><div class="bar-track"><div class="bar-fill" style="width: 29%"></div></div><span class="pct">499</span></div>
+      <div class="bar-row"><span class="lc">Overtime &amp; hours</span><div class="bar-track"><div class="bar-fill" style="width: 18%"></div></div><span class="pct">319</span></div>
+      <div class="bar-row"><span class="lc">Harassment</span><div class="bar-track"><div class="bar-fill" style="width: 5%"></div></div><span class="pct">93</span></div>
+    </div>
+    <div class="panel">
+      <h4>Systemic patterns the audit system isn't catching</h4>
+      <div class="panel-sub">Auto-surfaced from cross-partner data</div>
+      <ul class="insight-list">
+        <li><b>WRAP-certified factories</b> = 31% of wage-theft cases in Faisalabad <span class="pulse-tag">AUDIT GAP</span></li>
+        <li><b>Pearl River Sourcing</b> = undisclosed agent in 12% of cases <span class="pulse-tag">INVISIBLE TIER</span></li>
+        <li><b>Women's reporting</b> +67% YoY · still only 21.4% of cases</li>
+        <li><b>Karachi industrial zone:</b> 3× national wage-theft rate since Q1 2026</li>
+        <li><b>Campaign research time:</b> 28 days → 3 hours (avg across 47 active campaigns)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="brand-tile">
+    <div>
+      <div class="pre">▌ Self-sustaining business model</div>
+      <h4>Brands subscribe to see their supply chain through the community's eyes</h4>
+      <p><b>Eastwell &amp; Co.</b> — 142 cases across your Pakistan suppliers in the last 12 months. 23 inside facilities your audits called compliant. Brand subscription funds the infrastructure that holds you accountable — and informs CSDDD reporting more credibly than audits.</p>
+    </div>
+    <button>Brand subscription — €48k/year</button>
   </div>
 </div>
 
 <footer>
-  <b>Power to the Floor</b> · prototype v3 for The Audacious Project · May 2026 · Illustrative case anchored on MyVox 2022–2025 Pakistan figures (5,082 cases · 11,604 violations · 4,000+ workers remediated · 17 paralegals · 18 Legal Aid Centres &amp; Women's Cafés).
+  <b>Power to the Floor</b> · prototype v4 for The Audacious Project · built on Open Supply Hub · May 2026 · all numbers anchored on real MyVox 2022–2025 Pakistan figures (5,082 cases · 11,604 violations · 17 paralegals · 18 Legal Aid Centres &amp; Women's Cafés)
 </footer>
 
 <script>
-  // Highlight chapter nav as user scrolls
-  const sections = document.querySelectorAll('section[id], .hero[id]');
-  const navLinks = document.querySelectorAll('.chapter-nav a');
-  function onScroll() {
-    let active = 'hero';
-    const offset = 200;
-    sections.forEach(s => {
-      const rect = s.getBoundingClientRect();
-      if (rect.top <= offset) active = s.id;
-    });
-    navLinks.forEach(l => {
-      l.classList.toggle('on', l.getAttribute('href') === '#' + active);
-    });
+  function goPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.proto-pagenav button').forEach(b => b.classList.remove('on'));
+    const target = document.getElementById('page-' + n);
+    target.classList.add('on');
+    document.querySelector('.proto-pagenav button[data-page="' + n + '"]').classList.add('on');
+    const url = target.getAttribute('data-url');
+    const newpath = target.getAttribute('data-newpath');
+    if (newpath) {
+      document.getElementById('url-path').innerHTML = '<span class="new-path">' + url + '</span>';
+    } else {
+      document.getElementById('url-path').textContent = url;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
+  document.querySelectorAll('.proto-pagenav button').forEach(b => {
+    b.addEventListener('click', () => goPage(b.dataset.page));
+  });
+  // Camp builder tab toggle
+  document.querySelectorAll('.camp-tabs button').forEach(t => {
+    t.addEventListener('click', () => {
+      t.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+    });
+  });
+  // CM toolbar
+  document.querySelectorAll('.cm-toolbar button').forEach(t => {
+    t.addEventListener('click', () => {
+      t.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+    });
+  });
 </script>
 
 </body>
