@@ -474,79 +474,91 @@
      PAGE 2 — CAMPAIGN WORKSPACE
   ==================================================== */
   .cw-hero {
-    background: linear-gradient(135deg, var(--navy), #2a1b50);
-    color: white;
-    padding: 48px 36px 42px;
-    position: relative;
-    overflow: hidden;
+    background: white;
+    border-bottom: 1px solid var(--line);
+    padding: 28px 36px 22px;
   }
-  .cw-hero .container { max-width: 1280px; margin: 0 auto; position: relative; z-index: 2; }
-  .cw-hero .crumb { font-size: 12px; color: #c5cce0; margin-bottom: 14px; }
-  .cw-hero .crumb a { color: #c5cce0; }
-  .cw-hero .crumb b { color: white; }
+  .cw-hero .container { max-width: 1280px; margin: 0 auto; }
+  .cw-hero .crumb { font-size: 12px; color: var(--ink-soft); margin-bottom: 12px; }
+  .cw-hero .crumb a { color: var(--ink-soft); }
+  .cw-hero .crumb b { color: var(--navy); }
+  .cw-hero-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 22px;
+    align-items: center;
+  }
   .cw-hero .case-tag {
     display: inline-block;
-    background: var(--coral); color: white;
-    font-size: 11px; padding: 4px 10px;
-    border-radius: 4px; font-weight: 700;
-    letter-spacing: 0.5px; margin-bottom: 12px;
+    background: var(--coral-soft); color: #7a1717;
+    font-size: 10px; padding: 3px 9px;
+    border-radius: 3px; font-weight: 700;
+    letter-spacing: 0.5px; margin-bottom: 8px;
     text-transform: uppercase;
   }
   .cw-hero h1 {
-    font-size: 42px;
-    line-height: 1.1;
-    font-weight: 800;
-    margin: 0 0 8px;
-    letter-spacing: -1px;
-    max-width: 780px;
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--navy);
+    letter-spacing: -0.4px;
   }
   .cw-hero .osid {
     font-family: "SF Mono", Menlo, monospace;
-    background: rgba(255,255,255,0.08);
-    padding: 3px 10px;
+    background: var(--cream);
+    padding: 3px 9px;
     border-radius: 4px;
     font-size: 11px;
-    color: #c5cce0;
+    color: var(--ink-soft);
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 8px;
   }
-  .cw-hero .meta { color: #c5cce0; font-size: 13px; margin-top: 4px; }
+  .cw-hero .meta { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
+  .cw-hero .actions { display: flex; gap: 8px; }
+  .cw-hero .actions button {
+    border: 1px solid var(--line); background: white; color: var(--ink-soft);
+    padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  }
+  .cw-hero .actions button.primary { background: var(--navy); color: var(--yellow); border-color: var(--navy); }
 
-  /* Speed compression banner */
-  .speed-row {
-    display: grid;
-    grid-template-columns: auto auto 1fr;
-    gap: 24px;
+  /* Tool status bar — small, functional indicator */
+  .tool-status-bar {
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 36px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: flex; gap: 22px; align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .tool-status-bar .item { display: inline-flex; align-items: center; gap: 6px; }
+  .tool-status-bar .item b { color: var(--navy); font-weight: 700; }
+  .tool-status-bar .item .ico { font-size: 12px; }
+  .tool-status-bar .dot-sep { color: var(--ink-faint); }
+
+  /* Data reference chip — visible link to OS Hub data */
+  .data-ref {
+    display: inline-flex;
     align-items: center;
-    margin-top: 28px;
-    padding: 20px 24px;
-    background: rgba(255,205,0,0.08);
-    border: 1px solid rgba(255,205,0,0.3);
-    border-radius: 12px;
+    gap: 3px;
+    background: var(--cream);
+    color: var(--purple);
+    font-family: "SF Mono", Menlo, monospace;
+    font-size: 10.5px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    margin-left: 4px;
+    font-weight: 500;
+    vertical-align: 1px;
+    cursor: pointer;
+    text-decoration: none;
   }
-  .speed-row .from {
-    text-align: center;
-  }
-  .speed-row .from .v {
-    font-size: 32px; font-weight: 800; color: #c5cce0;
-    text-decoration: line-through; text-decoration-color: var(--coral);
-    line-height: 1;
-  }
-  .speed-row .from .l { font-size: 10px; color: #c5cce0; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-  .speed-row .arrow {
-    color: var(--yellow); font-size: 24px; font-weight: 700;
-  }
-  .speed-row .to {
-    display: flex; align-items: center; gap: 18px;
-  }
-  .speed-row .to .v {
-    font-size: 42px; font-weight: 800; color: var(--yellow);
-    line-height: 1;
-  }
-  .speed-row .to .l {
-    color: white; font-size: 14px;
-  }
-  .speed-row .to .l b { color: var(--yellow); }
+  .data-ref:hover { background: var(--purple-soft); border-color: #d6b8fa; }
+  .data-ref .arrow { font-size: 10px; opacity: 0.7; }
 
   .cw-canvas {
     max-width: 1280px;
@@ -1129,28 +1141,27 @@
 
   <div class="ws-canvas">
 
-    <!-- Four colored stat cards (lifted into hero) -->
-    <div class="stat-cards">
-      <div class="stat-card pink">
-        <div class="lbl">Active cases</div>
-        <div class="v">12</div>
-        <div class="sub">1 new from MyVox today · 3 awaiting your review</div>
-        <span class="nb">✶ NEW SECTION</span>
+    <!-- Workspace summary row — quieter, tool-feel -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: -32px; margin-bottom: 32px; position: relative; z-index: 3;">
+      <div style="background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-sm); border-top: 3px solid var(--coral);">
+        <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px;">Active cases</div>
+        <div style="font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1;">12</div>
+        <div style="font-size: 12px; color: var(--ink-soft); margin-top: 6px;">1 new from MyVox · 3 awaiting review</div>
       </div>
-      <div class="stat-card green">
-        <div class="lbl">Campaigns in progress</div>
-        <div class="v">4</div>
-        <div class="sub">347 workers reached so far this quarter</div>
+      <div style="background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-sm); border-top: 3px solid var(--green);">
+        <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px;">Campaigns in progress</div>
+        <div style="font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1;">4</div>
+        <div style="font-size: 12px; color: var(--ink-soft); margin-top: 6px;">347 workers reached this quarter</div>
       </div>
-      <div class="stat-card purple">
-        <div class="lbl">Patterns flagged</div>
-        <div class="v">3</div>
-        <div class="sub">Auto-surfaced from cross-partner data</div>
+      <div style="background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-sm); border-top: 3px solid var(--purple);">
+        <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px;">Patterns flagged</div>
+        <div style="font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1;">3</div>
+        <div style="font-size: 12px; color: var(--ink-soft); margin-top: 6px;">Auto-surfaced from cross-partner data</div>
       </div>
-      <div class="stat-card yellow">
-        <div class="lbl">Partner network</div>
-        <div class="v">8</div>
-        <div class="sub">Live feeds from GRC, Fair Wear, NTUF, TTCU and more</div>
+      <div style="background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-sm); border-top: 3px solid var(--yellow);">
+        <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px;">Partner network</div>
+        <div style="font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1;">8</div>
+        <div style="font-size: 12px; color: var(--ink-soft); margin-top: 6px;">Live feeds from GRC, Fair Wear, TTCU + more</div>
       </div>
     </div>
 
@@ -1335,30 +1346,40 @@
 ================================================================ -->
 <div class="page" id="page-2">
 
-  <!-- Hero -->
+  <!-- Hero (compact, tool-style) -->
   <div class="cw-hero">
     <div class="container">
-      <div class="crumb"><a>Open Supply Hub</a> · <a>Community Monitoring</a> · <a>Workspace</a> · <a>Campaigns</a> · <b>Apex Garments — Eastwell &amp; Co. wage theft</b></div>
-      <span class="case-tag">Active campaign · Day 14 of est. 90</span>
-      <h1>Eastwell &amp; Co. — Apex Garments wage theft</h1>
-      <div class="meta">
-        <span class="osid">PK2023045APEX1A</span>
-        Apex Garments Mills (Pvt) Ltd. · Faisalabad, Punjab · 1,820 workers · 64% women · WRAP certified May 2025
-      </div>
-
-      <!-- Speed compression -->
-      <div class="speed-row">
-        <div class="from">
-          <div class="v">28 days</div>
-          <div class="l">Old: manual research</div>
+      <div class="crumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <a>Workspace</a> › <a>Campaigns</a> › <b>Eastwell &amp; Co. — Apex Garments wage theft</b></div>
+      <div class="cw-hero-row">
+        <div>
+          <span class="case-tag">Active · Day 14 of est. 90</span>
+          <h1>Eastwell &amp; Co. — Apex Garments wage theft</h1>
+          <div class="meta">
+            <span class="osid">OS ID: PK2023045APEX1A</span>
+            Apex Garments Mills (Pvt) Ltd · Faisalabad · 1,820 workers · 64% women · WRAP certified May 2025
+          </div>
         </div>
-        <div class="arrow">→</div>
-        <div class="to">
-          <div class="v">3 hrs</div>
-          <div class="l">Now: campaign built across <b>10+ datasets</b> with sources cited on every claim</div>
+        <div class="actions">
+          <button>Share</button>
+          <button>Export brief</button>
+          <button class="primary">File mechanism →</button>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Tool status bar — functional, not marketing -->
+  <div class="tool-status-bar">
+    <span class="item"><span class="ico">⚡</span> Built in <b>3h 12m</b></span>
+    <span class="dot-sep">·</span>
+    <span class="item"><span class="ico">🗂</span> <b>12 datasets</b> queried</span>
+    <span class="dot-sep">·</span>
+    <span class="item"><span class="ico">↗</span> <b>34 source citations</b></span>
+    <span class="dot-sep">·</span>
+    <span class="item"><span class="ico">🌐</span> Language: <b>Urdu + English</b></span>
+    <span class="dot-sep">·</span>
+    <span class="item"><span class="ico">🛡</span> Worker consent: <b>9 of 12 reps voted</b></span>
+    <span style="margin-left:auto; color: var(--ink-faint); font-size: 11px;">Last updated 4 min ago</span>
   </div>
 
   <div class="cw-canvas">
@@ -1374,7 +1395,7 @@
           <b>Sumera · 26 · garment operator</b><br>
           Captured by PILER paralegal at Faisalabad Legal Aid Centre · 27 May 2026 · corroborated by 4 colleagues + 336 other workers
         </div>
-        <span class="src-badge">↗ via MyVox</span>
+        <a class="data-ref" style="margin-left:auto;">↗ MyVox case #4783</a>
       </div>
     </div>
 
@@ -1403,28 +1424,29 @@
             <div class="role">Factory</div>
             <div class="name">Apex Garments Mills</div>
             <div class="where">Faisalabad, Pakistan</div>
-            <span class="badge ok">✓ in OS Hub</span>
+            <a class="data-ref">↗ OS ID PK2023045APEX1A</a>
             <span class="arrow-next">→</span>
           </div>
           <div class="chain-tile">
             <div class="role">Sourcing agent</div>
             <div class="name">Pearl River Sourcing Ltd.</div>
             <div class="where">Hong Kong</div>
-            <span class="badge gap">⚠ undisclosed by brand</span>
+            <a class="data-ref">↗ MyVox case #4783</a>
+            <span class="badge gap" style="display:block;margin-top:4px;">⚠ undisclosed by brand</span>
             <span class="arrow-next">→</span>
           </div>
           <div class="chain-tile">
             <div class="role">Brand</div>
             <div class="name">Eastwell &amp; Co.</div>
             <div class="where">London · buyer disclosure 2024</div>
-            <span class="badge ok">✓ disclosed</span>
+            <a class="data-ref">↗ OS Hub contributor #1842</a>
             <span class="arrow-next">→</span>
           </div>
           <div class="chain-tile">
             <div class="role">Parent company</div>
             <div class="name">Eastwell Holdings PLC</div>
             <div class="where">LSE · market cap £4.2B</div>
-            <span class="badge ok">✓ filed accounts</span>
+            <a class="data-ref">↗ Companies House 09487123</a>
           </div>
         </div>
 
@@ -1437,56 +1459,56 @@
           <div class="lever-card">
             <div class="lc-head">
               <h4>Applicable legislation</h4>
-              <span class="src-tag">↗ EUR-Lex · ILO · national codes</span>
+              <span class="src-tag">via OS Hub legal layer</span>
             </div>
             <ul>
-              <li><b>Sindh Payment of Wages Act 2014</b><sup>[1]</sup> — direct breach</li>
-              <li><b>EU CSDDD</b><sup>[2]</sup> — Eastwell EU rev €510M, in scope</li>
-              <li><b>UK Modern Slavery Act §54</b><sup>[3]</sup> — parent must report</li>
-              <li><b>EU Forced Labour Reg</b><sup>[4]</sup> — market access risk</li>
+              <li><b>Sindh Payment of Wages Act 2014</b> — direct breach <a class="data-ref">↗ EUR-Lex PK-LBR-2014</a></li>
+              <li><b>EU CSDDD</b> — Eastwell EU rev €510M, in scope <a class="data-ref">↗ EUR-Lex 32024L1760</a></li>
+              <li><b>UK Modern Slavery Act §54</b> — parent must report <a class="data-ref">↗ legislation.gov.uk c.30</a></li>
+              <li><b>EU Forced Labour Regulation</b> — market access risk <a class="data-ref">↗ EUR-Lex 32024R3015</a></li>
             </ul>
           </div>
           <div class="lever-card">
             <div class="lc-head">
               <h4>Brand's own policies</h4>
-              <span class="src-tag">↗ Eastwell public policies · auto-scraped</span>
+              <span class="src-tag">via OS Hub Spotlight</span>
             </div>
             <ul>
-              <li><b>Human Rights Policy 2024 §4.2</b><sup>[5]</sup> — wage theft = zero tolerance</li>
-              <li><b>Speak Up programme</b><sup>[6]</sup> — 90-day SLA, 3rd-party submissions accepted</li>
-              <li><b>Supplier Code §7.2</b><sup>[7]</sup> — overtime payable at 1.5× — direct breach</li>
+              <li><b>Human Rights Policy 2024 §4.2</b> — wage theft = zero tolerance <a class="data-ref">↗ Spotlight: eastwell-hr-2024</a></li>
+              <li><b>Speak Up programme</b> — 90-day SLA · 3rd-party submissions OK <a class="data-ref">↗ Spotlight: eastwell-speakup</a></li>
+              <li><b>Supplier Code §7.2</b> — overtime at 1.5× · direct breach <a class="data-ref">↗ Spotlight: eastwell-supcode</a></li>
             </ul>
           </div>
           <div class="lever-card">
             <div class="lc-head">
               <h4>Accountability pathways</h4>
-              <span class="src-tag">↗ powered by Accountability Counsel</span>
+              <span class="src-tag">powered by Accountability Counsel</span>
             </div>
             <ul>
-              <li><b>Pakistan Labour Department</b><sup>[8]</sup> — 67% of MyVox cases resolved here</li>
-              <li><b>Pakistan Payment of Wages Authority</b><sup>[9]</sup> — 60-day avg</li>
-              <li><b>Fair Wear Worker Info Line</b><sup>[10]</sup> — Eastwell is a member</li>
-              <li><b>UK OECD National Contact Point</b><sup>[11]</sup> — cross-border escalation</li>
+              <li><b>Pakistan Labour Department</b> — 67% of MyVox cases resolved here <a class="data-ref">↗ AC pathway PK-DOL</a></li>
+              <li><b>Pakistan Payment of Wages Authority</b> — 60-day avg <a class="data-ref">↗ AC pathway PK-POWA</a></li>
+              <li><b>Fair Wear Worker Info Line</b> — Eastwell is a member <a class="data-ref">↗ AC pathway FWF-WIL</a></li>
+              <li><b>UK OECD National Contact Point</b> — cross-border <a class="data-ref">↗ AC pathway UK-NCP</a></li>
             </ul>
           </div>
           <div class="lever-card">
             <div class="lc-head">
               <h4>Audit-gap signal</h4>
-              <span class="src-tag">↗ OS Hub Spotlight audit data</span>
+              <span class="src-tag">via OS Hub Spotlight audit data</span>
             </div>
             <ul>
-              <li><b>WRAP certified May 2025</b><sup>[12]</sup> — case contradicts audit finding</li>
-              <li><b>Pattern:</b> 7 other WRAP-certified Faisalabad factories with wage-theft cases since 2024<sup>[13]</sup></li>
+              <li><b>WRAP certified May 2025</b> — case contradicts audit finding <a class="data-ref">↗ Spotlight: wrap-cert-PK045</a></li>
+              <li><b>Pattern:</b> 7 other WRAP-certified Faisalabad factories with wage-theft cases since 2024 <a class="data-ref">↗ pattern-fsl-wrap-2024</a></li>
               <li><b>Path to certifier accountability</b> — separate route against WRAP itself</li>
             </ul>
           </div>
         </div>
 
-        <!-- Worker rep voting -->
+        <!-- Worker consent gate -->
         <div class="vote-panel">
-          <div class="vp-head">▌ Co-strategising with workers · live <span class="new-badge" style="background:rgba(255,255,255,0.2); color:white; border-color:rgba(255,255,255,0.3);"><span class="star">✶</span>NEW</span></div>
-          <h3>Worker representatives are voting on the tactic sequence</h3>
-          <p class="vp-sub">Community-rooted strategy. The campaign moves on their consent.</p>
+          <div class="vp-head">▌ Worker consent gate · live vote <span class="new-badge" style="background:rgba(255,255,255,0.2); color:white; border-color:rgba(255,255,255,0.3);"><span class="star">✶</span>NEW</span></div>
+          <h3>12 worker representatives are choosing which mechanism to file</h3>
+          <p class="vp-sub">The campaign doesn't move until the affected workers consent to the approach. Reps vote async over WhatsApp / SMS in their own language. Majority closes the gate.</p>
           <div class="vote-row">
             <span class="opt">Parallel Speak Up + Pakistan Wages Authority</span>
             <div class="vote-bar"><div class="vote-fill" style="width: 73%"></div></div>
@@ -1510,30 +1532,31 @@
           </div>
         </div>
 
-        <!-- Outcome resolution preview -->
-        <div class="outcome-card">
-          <div class="o-head">
-            <div class="check">✓</div>
-            <div>
-              <h3>Projected outcome — based on similar past cases</h3>
-              <div class="o-sub">Bahawalpur 2024 (Eastwell wage theft) resolved in 73 days · 410 workers compensated</div>
-            </div>
+        <!-- Projected outcome — based on similar past cases -->
+        <div class="ws-section-h">
+          <h3>Projected outcome <span class="new-badge"><span class="star">✶</span>NEW</span></h3>
+          <span class="source">Modelled from similar past cases · 92% case-pattern match</span>
+        </div>
+        <div style="background: white; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; box-shadow: var(--shadow-sm); margin-bottom: 28px;">
+          <div style="font-size: 12.5px; color: var(--ink-soft); margin-bottom: 14px;">
+            Closest match: <b style="color: var(--navy);">Bahawalpur 2024 — Eastwell wage theft</b> · resolved in 73 days · 410 workers compensated
+            <a class="data-ref">↗ GRC playbook 2024-PK-117</a>
           </div>
-          <div class="outcome-stats">
-            <div class="outcome-stat">
-              <div class="v">PKR 4.26M</div>
-              <div class="l">Wages projected to recover</div>
-              <span class="indicator">$ MONEY</span>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+            <div style="background: var(--cream); padding: 14px 16px; border-radius: 8px; border-left: 3px solid var(--mint-dark);">
+              <div style="font-size: 10px; color: var(--mint-dark); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">$ Money</div>
+              <div style="font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1;">PKR 4.26M</div>
+              <div style="font-size: 11.5px; color: var(--ink-soft); margin-top: 4px;">Wages projected to recover</div>
             </div>
-            <div class="outcome-stat">
-              <div class="v">347</div>
-              <div class="l">Workers covered</div>
-              <span class="indicator">🛡 SAFETY</span>
+            <div style="background: var(--cream); padding: 14px 16px; border-radius: 8px; border-left: 3px solid var(--purple);">
+              <div style="font-size: 10px; color: var(--purple); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">🛡 Safety</div>
+              <div style="font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1;">347 workers</div>
+              <div style="font-size: 11.5px; color: var(--ink-soft); margin-top: 4px;">Retaliation protections added</div>
             </div>
-            <div class="outcome-stat">
-              <div class="v">12 months</div>
-              <div class="l">Independent monitoring</div>
-              <span class="indicator">🛡 SAFETY</span>
+            <div style="background: var(--cream); padding: 14px 16px; border-radius: 8px; border-left: 3px solid var(--purple);">
+              <div style="font-size: 10px; color: var(--purple); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;">🛡 Safety</div>
+              <div style="font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1;">12 months</div>
+              <div style="font-size: 11.5px; color: var(--ink-soft); margin-top: 4px;">Independent monitoring</div>
             </div>
           </div>
         </div>
@@ -1574,18 +1597,18 @@
                 <div class="synth-block">
                   <h5>Power &amp; money</h5>
                   <ul>
-                    <li><b>Parent Eastwell Holdings PLC</b><sup class="cite">[1]</sup> — £4.2B market cap, LSE-listed · board-level reputational exposure</li>
-                    <li><b>EU revenue €510M (2024)</b><sup class="cite">[2]</sup> — inside CSDDD scope</li>
-                    <li><b>Sourcing volume from Apex:</b> est. 12% of Pakistan output<sup class="cite">[3]</sup> — meaningful but droppable</li>
-                    <li><b>AGM 18 Sep 2026</b><sup class="cite">[4]</sup> — shareholder Q&amp;A filed publicly</li>
+                    <li><b>Parent Eastwell Holdings PLC</b> — £4.2B market cap, LSE-listed · board-level reputational exposure <a class="data-ref">↗ Companies House 09487123</a></li>
+                    <li><b>EU revenue €510M (2024)</b> — inside CSDDD scope <a class="data-ref">↗ Annual Report 2024 p.42</a></li>
+                    <li><b>Sourcing volume from Apex:</b> est. 12% of Pakistan output — meaningful but droppable <a class="data-ref">↗ OS Hub supply chain</a></li>
+                    <li><b>AGM 18 Sep 2026</b> — shareholder Q&amp;A filed publicly <a class="data-ref">↗ investor calendar</a></li>
                   </ul>
 
                   <h5>Applicable mechanisms — by speed</h5>
                   <ul>
-                    <li><b>Eastwell Speak Up programme</b><sup class="cite">[5]</sup> — 90-day SLA · 3rd-party submissions accepted</li>
-                    <li><b>Pakistan Payment of Wages Authority</b><sup class="cite">[6]</sup> — 60-day avg for wage cases</li>
-                    <li><b>Fair Wear Worker Info Line</b><sup class="cite">[7]</sup> — Eastwell is a member · ~120 days</li>
-                    <li><b>UK OECD NCP</b><sup class="cite">[8]</sup> — 12–18 months · escalation lever, not first move</li>
+                    <li><b>Eastwell Speak Up programme</b> — 90-day SLA · 3rd-party submissions OK <a class="data-ref">↗ Spotlight: eastwell-speakup</a></li>
+                    <li><b>Pakistan Payment of Wages Authority</b> — 60-day avg for wage cases <a class="data-ref">↗ AC pathway PK-POWA</a></li>
+                    <li><b>Fair Wear Worker Info Line</b> — Eastwell is a member · ~120 days <a class="data-ref">↗ AC pathway FWF-WIL</a></li>
+                    <li><b>UK OECD NCP</b> — 12–18 months · escalation lever, not first move <a class="data-ref">↗ AC pathway UK-NCP</a></li>
                   </ul>
 
                   <h5>Recommended sequence</h5>
@@ -1593,7 +1616,7 @@
                 </div>
 
                 <div class="citations-row">
-                  <b>Sources:</b> [1] Companies House filing 2024 · [2] Eastwell Annual Report 2024 p.42 · [3] OS Hub supply chain dataset · [4] Eastwell investor calendar · [5] Eastwell Speak Up policy 2024 · [6] Accountability Counsel pathway database · [7] Fair Wear member registry · [8] OECD NCP UK case database
+                  <b>11 datasets queried:</b> Companies House · OS Hub supply chain · Eastwell public filings · Spotlight policy scrape · Accountability Counsel pathway database · MyVox case data · WRAP audit register · EUR-Lex · ILO · Pakistan Labour Dept register · Fair Wear member registry
                 </div>
               </div>
             </div>
@@ -1613,16 +1636,13 @@
               <div class="chat-bubble">
                 <div class="who">Campaign Co-pilot</div>
                 <div style="font-size:13.5px; color:var(--navy);">
-                  <b>Bahawalpur 2024</b><sup class="cite">[9]</sup>: Eastwell wage-theft case · 410 workers · resolved in 73 days.
+                  <b>Bahawalpur 2024</b> <a class="data-ref">↗ GRC playbook 2024-PK-117</a>: Eastwell wage-theft case · 410 workers · resolved in 73 days.
                   <ul>
                     <li>Parallel filing: Eastwell Speak Up + Pakistan Wages Authority on the same day</li>
                     <li>Fair Wear coordination triggered at day 21 (member-leverage)</li>
                     <li>Resolution: full back-wage payment + retaliation clause added to supplier contract + quarterly independent monitoring for 12 months</li>
-                    <li>Pattern match to your current case: <b>92% similar</b> (same brand, same region, same issue type)</li>
+                    <li>Pattern match to your current case: <b>92% similar</b> (same brand, same region, same issue type) <a class="data-ref">↗ match-engine-PK045</a></li>
                   </ul>
-                </div>
-                <div class="citations-row">
-                  <b>Sources:</b> [9] GRC brand-engagement playbook · case file 2024-PK-117
                 </div>
               </div>
             </div>
@@ -1645,37 +1665,37 @@
 
     </div>
 
-    <!-- "Built on the OS Hub data layer" footer -->
-    <div class="data-layer-panel">
-      <div class="lbl">▌ Built on the Open Supply Hub data layer</div>
-      <h3>One of several tools on the OS Hub open data layer.</h3>
-      <p>The Campaign Workspace combines worker testimony from CBM partner tools with OS Hub's facility data, corporate disclosure, Spotlight partner datasets, and the accountability-pathway database. Other tools sit alongside it on the same layer — and partners can build new ones.</p>
-      <div class="tools-grid">
-        <div class="tool-tile current">
-          <span class="tt-ico">✦</span>
-          <b>Campaign Workspace</b>
-          <span class="tt-sub">For advocates</span>
-          <span class="now-badge">YOU ARE HERE</span>
+    <!-- "Built on the OS Hub data layer" — simplified -->
+    <div style="margin-top: 32px; padding: 22px 24px; background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm);">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px;">
+        <h3 style="margin: 0; font-size: 15px; color: var(--navy); font-weight: 700;">Built on the Open Supply Hub data layer · one of several tools <span class="new-badge"><span class="star">✶</span>NEW</span></h3>
+        <a href="#" style="font-size: 12px;">View all tools →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+        <div style="background: var(--purple); color: white; padding: 12px 14px; border-radius: 8px; font-size: 12px;">
+          <div style="font-size: 9px; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;">You are here</div>
+          <b style="display: block; font-size: 12.5px;">Campaign Workspace</b>
+          <span style="opacity: 0.85; font-size: 10.5px;">For advocates · NEW</span>
         </div>
-        <div class="tool-tile">
-          <span class="tt-ico">📊</span>
-          <b>Community Dashboard</b>
-          <span class="tt-sub">For brands · subscription</span>
+        <div style="background: var(--cream); padding: 12px 14px; border-radius: 8px; font-size: 12px; border: 1px solid var(--line);">
+          <div style="font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;">Coming next</div>
+          <b style="display: block; color: var(--navy); font-size: 12.5px;">Community Dashboard</b>
+          <span style="color: var(--ink-soft); font-size: 10.5px;">Brand subscription</span>
         </div>
-        <div class="tool-tile">
-          <span class="tt-ico">🗺</span>
-          <b>Branded Supply Maps</b>
-          <span class="tt-sub">Existing OS Hub</span>
+        <div style="background: var(--cream); padding: 12px 14px; border-radius: 8px; font-size: 12px; border: 1px solid var(--line);">
+          <div style="font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;">Existing</div>
+          <b style="display: block; color: var(--navy); font-size: 12.5px;">Branded Supply Maps</b>
+          <span style="color: var(--ink-soft); font-size: 10.5px;">Live today</span>
         </div>
-        <div class="tool-tile">
-          <span class="tt-ico">⚡</span>
-          <b>Seamless API</b>
-          <span class="tt-sub">Existing OS Hub</span>
+        <div style="background: var(--cream); padding: 12px 14px; border-radius: 8px; font-size: 12px; border: 1px solid var(--line);">
+          <div style="font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;">Existing</div>
+          <b style="display: block; color: var(--navy); font-size: 12.5px;">Seamless API</b>
+          <span style="color: var(--ink-soft); font-size: 10.5px;">Live today</span>
         </div>
-        <div class="tool-tile">
-          <span class="tt-ico">🔍</span>
-          <b>Spotlights</b>
-          <span class="tt-sub">Existing OS Hub</span>
+        <div style="background: var(--cream); padding: 12px 14px; border-radius: 8px; font-size: 12px; border: 1px solid var(--line);">
+          <div style="font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;">Existing</div>
+          <b style="display: block; color: var(--navy); font-size: 12.5px;">Spotlights</b>
+          <span style="color: var(--ink-soft); font-size: 10.5px;">Live today</span>
         </div>
       </div>
     </div>
