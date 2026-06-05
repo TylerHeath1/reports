@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Open Supply Hub — Campaign Prototype · Iteration 3</title>
+<title>Open Supply Hub — Campaign Prototype · Iteration 4</title>
 <style>
   :root {
     --navy: #0d1c36;
@@ -30,23 +30,12 @@
     --shadow-lg: 0 8px 24px rgba(13,28,54,0.10);
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
-    color: var(--ink); background: var(--cream);
-    line-height: 1.45; font-size: 14px;
-  }
+  body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.45; font-size: 14px; }
   a { color: var(--purple); text-decoration: none; }
   a:hover { text-decoration: underline; }
   button { font-family: inherit; cursor: pointer; }
 
-  /* ========= OS HUB TOP NAV ========= */
-  .osh-topnav {
-    background: var(--navy); color: #fff;
-    padding: 14px 36px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 14px;
-  }
+  .osh-topnav { background: var(--navy); color: #fff; padding: 14px 36px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.5px; }
   .brand-mark { width: 30px; height: 30px; background: var(--yellow); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: var(--navy); font-weight: 900; font-size: 13px; }
   .brand-text { font-size: 13px; line-height: 1.1; }
@@ -54,701 +43,250 @@
   .navlinks a { color: inherit; }
   .navlinks a:hover { color: var(--yellow); text-decoration: none; }
   .navactions { display: flex; gap: 10px; align-items: center; }
-  .user-pill {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 4px 12px 4px 4px;
-    border-radius: 999px;
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; color: white;
-  }
-  .user-pill .avatar {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--coral));
-    color: white; font-size: 11px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .user-pill.brand-context .avatar {
-    background: linear-gradient(135deg, var(--green), var(--mint-dark));
-  }
-  .pill {
-    background: var(--yellow); color: var(--navy);
-    padding: 8px 16px; border-radius: 999px;
-    font-size: 13px; font-weight: 700; border: none;
-  }
+  .user-pill { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); padding: 4px 12px 4px 4px; border-radius: 999px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: white; }
+  .user-pill .avatar { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--coral)); color: white; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .user-pill.brand-context .avatar { background: linear-gradient(135deg, var(--green), var(--mint-dark)); }
+  .pill { background: var(--yellow); color: var(--navy); padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; border: none; }
 
-  /* URL bar */
-  .url-bar {
-    background: #fff; padding: 8px 36px;
-    border-bottom: 1px solid var(--line);
-    display: flex; align-items: center; gap: 12px;
-    font-size: 12px;
-  }
+  .url-bar { background: #fff; padding: 8px 36px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; font-size: 12px; }
   .url-controls { display: flex; gap: 6px; color: var(--ink-faint); }
   .url-controls span { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; }
-  .url-input {
-    flex: 1; background: var(--cream);
-    border: 1px solid var(--line); border-radius: 6px;
-    padding: 6px 14px;
-    font-family: "SF Mono", Menlo, monospace;
-    color: var(--ink-soft); font-size: 12px;
-  }
+  .url-input { flex: 1; background: var(--cream); border: 1px solid var(--line); border-radius: 6px; padding: 6px 14px; font-family: "SF Mono", Menlo, monospace; color: var(--ink-soft); font-size: 12px; }
   .url-input b { color: var(--navy); font-weight: 600; }
   .url-input .new-path { color: var(--purple); background: var(--purple-soft); padding: 1px 6px; border-radius: 3px; font-weight: 600; }
   .lock { color: var(--mint-dark); }
 
-  /* Prototype page nav */
-  .proto-pagenav {
-    background: white; padding: 12px 36px;
-    border-bottom: 1px solid var(--line);
-    display: flex; gap: 6px; align-items: center; overflow-x: auto;
-  }
-  .proto-pagenav .pn-label {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--ink-faint); margin-right: 12px; font-weight: 700; white-space: nowrap;
-  }
-  .proto-pagenav button {
-    background: transparent; border: 1px solid var(--line);
-    border-radius: 8px; padding: 7px 14px;
-    font-size: 12px; color: var(--ink-soft); font-weight: 500;
-    display: inline-flex; align-items: center; gap: 6px;
-    white-space: nowrap;
-  }
+  .proto-pagenav { background: white; padding: 12px 36px; border-bottom: 1px solid var(--line); display: flex; gap: 6px; align-items: center; overflow-x: auto; }
+  .proto-pagenav .pn-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-faint); margin-right: 12px; font-weight: 700; white-space: nowrap; }
+  .proto-pagenav button { background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 7px 14px; font-size: 12px; color: var(--ink-soft); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
   .proto-pagenav button:hover { border-color: var(--purple); color: var(--purple); }
   .proto-pagenav button.on { background: var(--navy); color: white; border-color: var(--navy); }
-  .proto-pagenav button .new-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
-  .proto-pagenav button.on .new-dot { background: var(--yellow); }
   .proto-pagenav .arrow { color: var(--ink-faint); margin: 0 2px; font-size: 11px; }
-  .proto-pagenav .group-divider { width: 1px; height: 18px; background: var(--line); margin: 0 8px; }
 
-  /* New banner */
-  .new-banner {
-    background: linear-gradient(90deg, #f0e5ff, #fff0f6);
-    border-bottom: 1px solid var(--purple-soft);
-    padding: 12px 36px;
-    display: flex; gap: 14px; align-items: center;
-    font-size: 13px;
-  }
-  .new-banner .ico {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--purple); color: white;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700;
-  }
+  .stage-stepper { background: linear-gradient(90deg, #fffbe6 0%, #f0e5ff 100%); border-bottom: 1px solid var(--line); padding: 11px 36px; display: flex; align-items: center; gap: 8px; font-size: 11.5px; overflow-x: auto; }
+  .stage-stepper .ss-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-faint); font-weight: 700; margin-right: 8px; white-space: nowrap; }
+  .stage { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; background: white; border: 1px solid var(--line); color: var(--ink-soft); font-weight: 500; white-space: nowrap; }
+  .stage .stage-num { width: 18px; height: 18px; border-radius: 50%; background: var(--cream); color: var(--ink-soft); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .stage.active { background: var(--navy); color: white; border-color: var(--navy); font-weight: 700; }
+  .stage.active .stage-num { background: var(--yellow); color: var(--navy); }
+  .stage-stepper .connector { color: var(--ink-faint); font-size: 10px; }
+
+  .new-banner { background: linear-gradient(90deg, #f0e5ff, #fff0f6); border-bottom: 1px solid var(--purple-soft); padding: 12px 36px; display: flex; gap: 14px; align-items: center; font-size: 13px; }
+  .new-banner .ico { width: 28px; height: 28px; border-radius: 50%; background: var(--purple); color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
   .new-banner b { color: var(--purple); text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; }
   .new-banner .body { color: var(--navy); margin-top: 1px; }
   .new-banner em { font-style: normal; background: var(--yellow-soft); padding: 1px 6px; border-radius: 3px; color: var(--navy); font-weight: 600; }
 
-  /* NEW badge inline */
-  .new-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: var(--purple-soft); border: 1px solid #d6b8fa;
-    color: var(--purple); font-size: 9px; text-transform: uppercase;
-    letter-spacing: 1.5px; padding: 2px 8px; border-radius: 3px;
-    font-weight: 700; vertical-align: 2px;
-  }
+  .new-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--purple-soft); border: 1px solid #d6b8fa; color: var(--purple); font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; padding: 2px 8px; border-radius: 3px; font-weight: 700; vertical-align: 2px; }
 
-  /* Data reference chip */
-  .data-ref {
-    display: inline-flex; align-items: center; gap: 3px;
-    background: var(--cream); color: var(--purple);
-    font-family: "SF Mono", Menlo, monospace;
-    font-size: 10.5px; padding: 1px 6px; border-radius: 3px;
-    border: 1px solid var(--line);
-    margin-left: 4px; font-weight: 500; vertical-align: 1px;
-    cursor: pointer; text-decoration: none;
-  }
+  .data-ref { display: inline-flex; align-items: center; gap: 3px; background: var(--cream); color: var(--purple); font-family: "SF Mono", Menlo, monospace; font-size: 10.5px; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--line); margin-left: 4px; font-weight: 500; vertical-align: 1px; cursor: pointer; text-decoration: none; }
   .data-ref:hover { background: var(--purple-soft); border-color: #d6b8fa; }
 
-  /* Compensation chip — rights holder benefit */
-  .comp-chip {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: #e8fff0; color: var(--mint-dark);
-    font-size: 10.5px; padding: 2px 7px; border-radius: 3px;
-    border: 1px solid #b8e8c8;
-    font-weight: 600; margin-left: 4px;
-  }
-  .comp-chip .amt {
-    font-family: "SF Mono", Menlo, monospace; font-weight: 700;
-  }
+  .comp-chip { display: inline-flex; align-items: center; gap: 4px; background: #e8fff0; color: var(--mint-dark); font-size: 10.5px; padding: 2px 7px; border-radius: 3px; border: 1px solid #b8e8c8; font-weight: 600; margin-left: 4px; }
+  .comp-chip .amt { font-family: "SF Mono", Menlo, monospace; font-weight: 700; }
 
-  /* External link / submit-via chip */
-  .ext-link {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: var(--yellow-soft); color: #806000;
-    font-size: 10.5px; padding: 2px 7px; border-radius: 3px;
-    border: 1px solid #ffe88f;
-    font-weight: 600;
-    cursor: pointer;
-  }
+  .ext-link { display: inline-flex; align-items: center; gap: 4px; background: var(--yellow-soft); color: #806000; font-size: 10.5px; padding: 2px 7px; border-radius: 3px; border: 1px solid #ffe88f; font-weight: 600; cursor: pointer; }
   .ext-link:hover { background: var(--yellow); }
 
-  /* Required / Optional pills */
-  .req-pill {
-    display: inline-block; font-size: 9px;
-    padding: 2px 7px; border-radius: 3px;
-    font-weight: 700; letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
+  .req-pill { display: inline-block; font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
   .req-pill.req { background: #ffe5e5; color: #761515; }
   .req-pill.opt { background: var(--cream); color: var(--ink-soft); border: 1px solid var(--line); }
   .req-pill.help { background: var(--yellow-soft); color: #806000; }
 
-  /* ============ PAGES ============ */
+  .connect-chip { display: inline-flex; align-items: center; gap: 5px; background: white; border: 1px solid #d6b8fa; color: var(--purple); padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: none; }
+  .connect-chip:hover { background: var(--purple-soft); }
+
+  .live-tag-mini { display: inline-flex; align-items: center; gap: 4px; background: var(--coral-soft); color: #7a1717; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 0.5px; }
+  .live-tag-mini.pulse { animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
   .page { display: none; }
   .page.on { display: block; }
+  .ws-canvas { max-width: 1280px; margin: 0 auto; padding: 32px 36px; }
 
-  /* ===========================================================
-     SHARED — section heading
-  =========================================================== */
-  .ws-canvas {
-    max-width: 1280px; margin: 0 auto; padding: 36px;
-  }
-  .section-title {
-    display: flex; justify-content: space-between; align-items: baseline;
-    margin: 36px 0 18px;
-  }
+  .section-title { display: flex; justify-content: space-between; align-items: baseline; margin: 32px 0 14px; }
   .section-title:first-child { margin-top: 0; }
-  .section-title h2 {
-    font-size: 24px; font-weight: 800; color: var(--navy);
-    margin: 0; letter-spacing: -0.4px;
-  }
-  .section-title .meta { color: var(--ink-soft); font-size: 13px; }
-  .section-title a { color: var(--purple); font-size: 13px; font-weight: 600; }
+  .section-title h2 { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0; letter-spacing: -0.4px; }
+  .section-title .meta { color: var(--ink-soft); font-size: 12.5px; }
+  .section-title a { color: var(--purple); font-size: 12.5px; font-weight: 600; }
 
-  /* ===========================================================
-     PAGE 1 — Workspace Home
-  =========================================================== */
-  .ws-hero {
-    background: var(--yellow);
-    padding: 48px 36px 64px;
-    position: relative;
-    overflow: hidden;
-  }
-  .ws-hero .container { max-width: 1280px; margin: 0 auto; position: relative; z-index: 2; }
-  .ws-hero .crumb { font-size: 12px; color: var(--navy); opacity: 0.7; margin-bottom: 12px; }
-  .ws-hero h1 {
-    font-size: 48px; line-height: 1.05; font-weight: 800;
-    color: var(--navy); margin: 0 0 10px;
-    letter-spacing: -1.2px; max-width: 760px;
-  }
-  .ws-hero .sub {
-    font-size: 17px; color: var(--navy); opacity: 0.78;
-    max-width: 660px; margin: 0;
-  }
-  .ws-hero .user-line {
-    display: inline-flex; align-items: center; gap: 12px;
-    margin-top: 16px;
-    background: rgba(13,28,54,0.06);
-    padding: 8px 16px 8px 8px; border-radius: 999px;
-  }
-  .ws-hero .user-line .av {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: var(--navy); color: var(--yellow);
-    font-size: 12px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .ws-hero .user-line b { color: var(--navy); }
-  .ws-hero .user-line span { color: var(--navy); opacity: 0.78; font-size: 12.5px; }
-  .ws-hero .shape { position: absolute; pointer-events: none; }
-  .ws-hero .sh-tri { left: 2%; top: 28%; width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 22px solid var(--coral); transform: rotate(-15deg); }
-  .ws-hero .sh-sq { right: 6%; top: 18%; width: 20px; height: 20px; background: var(--purple); transform: rotate(20deg); }
-  .ws-hero .sh-sc { right: 10%; bottom: 14%; width: 60px; height: 30px; background: var(--pink); border-radius: 0 0 60px 60px; }
+  /* INTRO PAGE */
+  .intro-hero { background: linear-gradient(135deg, #0d1c36 0%, #2a1b50 50%, #4a1b60 100%); color: white; padding: 60px 36px 80px; position: relative; overflow: hidden; }
+  .intro-hero .container { max-width: 1080px; margin: 0 auto; position: relative; z-index: 2; }
+  .intro-hero .tag-row { display: flex; gap: 8px; margin-bottom: 18px; }
+  .intro-hero .tag-row .t { background: rgba(255,255,255,0.1); color: var(--yellow); padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .intro-hero h1 { font-size: 48px; line-height: 1.1; font-weight: 800; color: white; margin: 0 0 18px; letter-spacing: -1.2px; max-width: 820px; }
+  .intro-hero h1 em { font-style: normal; color: var(--yellow); }
+  .intro-hero .lede { font-size: 18px; color: #c5cce0; max-width: 720px; margin: 0; line-height: 1.5; }
+  .intro-hero .disclaimer { margin-top: 22px; background: rgba(255,205,0,0.08); border: 1px solid rgba(255,205,0,0.3); border-radius: 8px; padding: 11px 16px; color: #ffe88f; font-size: 12.5px; display: inline-flex; align-items: center; gap: 8px; }
+  .intro-shape { position: absolute; pointer-events: none; opacity: 0.18; }
+  .intro-shape.s1 { right: 6%; top: 18%; width: 24px; height: 24px; background: var(--yellow); transform: rotate(15deg); }
+  .intro-shape.s2 { right: 14%; bottom: 22%; width: 60px; height: 30px; background: var(--pink); border-radius: 0 0 60px 60px; }
+  .intro-shape.s3 { right: 28%; top: 36%; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 24px solid var(--mint); }
 
-  /* Stat cards */
-  .stat-cards {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-    margin-top: -32px; margin-bottom: 32px;
-    position: relative; z-index: 3;
-  }
-  .stat-card-clean {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
-  }
-  .stat-card-clean.coral { border-top: 3px solid var(--coral); }
-  .stat-card-clean.green { border-top: 3px solid var(--green); }
-  .stat-card-clean.purple { border-top: 3px solid var(--purple); }
-  .stat-card-clean.yellow { border-top: 3px solid var(--yellow); }
-  .stat-card-clean .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; }
-  .stat-card-clean .v { font-size: 32px; font-weight: 800; color: var(--navy); line-height: 1; }
-  .stat-card-clean .sub { font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
+  .story-tile { background: white; border-radius: 16px; padding: 32px 36px; margin-top: -50px; position: relative; z-index: 3; box-shadow: var(--shadow-lg); border: 1px solid var(--line); max-width: 1080px; margin-left: auto; margin-right: auto; margin-bottom: 32px; }
+  .story-tile .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--purple); font-weight: 700; margin-bottom: 12px; }
+  .story-tile h2 { margin: 0 0 12px; font-size: 22px; color: var(--navy); font-weight: 700; }
+  .story-tile .story-body { font-size: 15px; line-height: 1.65; color: var(--ink); max-width: 880px; }
+  .story-tile .story-body b { color: var(--navy); }
 
-  /* Campaigns table */
-  .campaigns-card {
-    background: white; border-radius: 14px;
-    border: 1px solid var(--line); box-shadow: var(--shadow-sm);
-    overflow: hidden;
-  }
-  .campaign-row {
-    display: grid; grid-template-columns: 14px 1fr auto auto auto;
-    gap: 18px; padding: 16px 22px;
-    border-bottom: 1px solid var(--cream);
-    align-items: center;
-  }
-  .campaign-row:last-child { border-bottom: none; }
-  .campaign-row:hover { background: #fafbfd; cursor: pointer; }
-  .campaign-row.featured {
-    background: linear-gradient(90deg, var(--yellow-soft), white 60%);
-    border-left: 4px solid var(--yellow);
-    padding-left: 18px;
-  }
-  .campaign-row .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint-dark); }
-  .campaign-row .status-dot.urgent { background: var(--coral); }
-  .campaign-row .status-dot.review { background: var(--yellow); border: 1px solid #d4a800; }
-  .campaign-row .c-info b { color: var(--navy); font-size: 15px; }
-  .campaign-row .c-info .c-meta {
-    font-size: 11px; color: var(--ink-soft);
-    margin-top: 4px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
-  }
-  .campaign-row .c-info .meta-chip { background: var(--cream); color: var(--ink-soft); padding: 2px 8px; border-radius: 4px; font-size: 11px; }
-  .campaign-row .c-info .meta-chip.partner { background: var(--purple-soft); color: var(--purple); font-weight: 600; }
-  .campaign-row .c-info .new-pill { background: var(--purple); color: white; font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 1px; margin-right: 6px; }
-  .campaign-row .loc { text-align: right; font-size: 12px; color: var(--ink-soft); }
-  .campaign-row .loc b { color: var(--navy); display: block; font-size: 13px; }
-  .campaign-row .loc .osid { font-family: "SF Mono", Menlo, monospace; font-size: 10px; opacity: 0.65; }
-  .campaign-row .reps { font-size: 11px; color: var(--ink-soft); text-align: right; }
-  .campaign-row .reps b { color: var(--navy); display: block; font-size: 13px; }
-  .campaign-row .c-cta { background: var(--navy); color: var(--yellow); border: none; padding: 9px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
-  .campaign-row .c-cta.outlined { background: transparent; color: var(--ink-soft); border: 1px solid var(--line); }
+  .pso-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+  .pso-card { background: var(--cream); border-radius: 10px; padding: 16px 18px; border: 1px solid var(--line); position: relative; }
+  .pso-card .pso-stage { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 6px; }
+  .pso-card.problem .pso-stage { color: var(--coral); }
+  .pso-card.solution .pso-stage { color: var(--purple); }
+  .pso-card.outcome .pso-stage { color: var(--mint-dark); }
+  .pso-card.impact .pso-stage { color: #806000; }
+  .pso-card h4 { margin: 0 0 6px; font-size: 14px; color: var(--navy); line-height: 1.3; }
+  .pso-card p { margin: 0; font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+  .pso-card::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-size: 16px; background: var(--cream); width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; z-index: 2; }
+  .pso-card:last-child::after { display: none; }
 
-  /* In-progress campaigns grid */
-  .campaigns-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-  }
-  .campaign-card-mini {
-    background: white; border-radius: 12px;
-    border: 1px solid var(--line); padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
-  }
-  .campaign-card-mini .c-status {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--purple); font-weight: 700; margin-bottom: 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .campaign-card-mini .c-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
-  .campaign-card-mini h4 { margin: 0 0 6px; font-size: 14px; color: var(--navy); line-height: 1.3; }
-  .campaign-card-mini .c-meta { font-size: 11.5px; color: var(--ink-soft); margin-bottom: 14px; }
-  .campaign-card-mini .bar { height: 4px; background: var(--cream); border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
-  .campaign-card-mini .bar-fill { height: 100%; background: var(--purple); border-radius: 2px; }
-  .campaign-card-mini .progress-lbl { font-size: 11px; color: var(--ink-soft); text-align: right; }
+  .intro-stage-spine { background: white; border-radius: 16px; padding: 28px 32px; max-width: 1080px; margin: 0 auto 32px; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .intro-stage-spine h3 { margin: 0 0 4px; font-size: 16px; color: var(--navy); font-weight: 700; }
+  .intro-stage-spine .iss-sub { color: var(--ink-soft); font-size: 12.5px; margin: 0 0 22px; }
+  .stage-spine-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; position: relative; }
+  .stage-block { background: var(--cream); padding: 14px 14px; border-radius: 10px; border: 1px solid var(--line); position: relative; }
+  .stage-block .sb-num { width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: var(--yellow); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .stage-block h5 { margin: 0 0 4px; font-size: 12.5px; color: var(--navy); font-weight: 700; }
+  .stage-block p { margin: 0; font-size: 11px; color: var(--ink-soft); line-height: 1.5; }
+  .stage-block .where { margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--line); font-size: 10px; color: var(--purple); font-weight: 600; }
+  .stage-block::after { content: "→"; position: absolute; right: -10px; top: 22px; color: var(--ink-faint); font-size: 16px; background: white; width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; z-index: 2; }
+  .stage-block:last-child::after { display: none; }
 
-  /* Two-column: insights + partner network */
-  .two-col {
-    display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px;
-  }
-  .insight-card {
-    background: linear-gradient(135deg, #fff8d6, #fffbe6);
-    border: 1px solid var(--yellow);
-    border-radius: 14px;
-    padding: 20px 22px;
-    margin-bottom: 12px;
-  }
-  .insight-card .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #806000; font-weight: 700; margin-bottom: 6px; }
-  .insight-card h4 { margin: 0 0 8px; font-size: 16px; color: var(--navy); line-height: 1.3; }
-  .insight-card p { margin: 0 0 10px; font-size: 12.5px; color: var(--ink-soft); }
-  .insight-card a { font-size: 13px; font-weight: 600; }
+  .intro-cta-row { max-width: 1080px; margin: 0 auto 40px; background: linear-gradient(135deg, var(--yellow), #ffdf4d); border-radius: 16px; padding: 28px 32px; display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; }
+  .intro-cta-row h3 { margin: 0 0 4px; color: var(--navy); font-size: 19px; font-weight: 800; }
+  .intro-cta-row p { margin: 0; color: var(--navy); font-size: 13px; max-width: 620px; opacity: 0.85; }
+  .intro-cta-row button { background: var(--navy); color: var(--yellow); border: none; padding: 14px 22px; border-radius: 10px; font-weight: 700; font-size: 14px; white-space: nowrap; }
 
-  /* Connect panel — connection-making moment */
-  .connect-card {
-    background: linear-gradient(135deg, #f0e5ff, #ffd8ec);
-    border: 1px solid #d6b8fa;
-    border-radius: 14px;
-    padding: 20px 22px;
-    margin-bottom: 12px;
-  }
-  .connect-card .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--purple); font-weight: 700; margin-bottom: 6px; }
-  .connect-card h4 { margin: 0 0 6px; font-size: 16px; color: var(--navy); line-height: 1.3; }
-  .connect-card p { margin: 0 0 10px; font-size: 12.5px; color: var(--ink-soft); }
-  .connect-card .connect-row {
-    background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 8px;
-    margin-bottom: 6px; font-size: 12px; color: var(--navy);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .connect-card .connect-row .av-mini {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--navy); color: var(--yellow); font-size: 9px;
-    display: inline-flex; align-items: center; justify-content: center; font-weight: 700;
-  }
-  .connect-card .connect-row .connect-btn {
-    margin-left: auto; background: var(--purple); color: white;
-    padding: 4px 10px; border-radius: 6px; font-size: 10.5px;
-    font-weight: 600; cursor: pointer; border: none;
-  }
-
-  .partner-panel {
-    background: var(--navy); color: white;
-    border-radius: 14px; padding: 22px 24px;
-  }
-  .partner-panel h4 { margin: 0 0 4px; font-size: 15px; color: white; }
-  .partner-panel .pp-sub { color: #c5cce0; font-size: 11.5px; margin-bottom: 14px; }
-  .partner-row {
-    display: grid; grid-template-columns: 28px 1fr auto;
-    gap: 10px; padding: 9px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    align-items: center; font-size: 12px;
-  }
-  .partner-row:last-child { border-bottom: none; }
-  .partner-row .p-ico { width: 26px; height: 26px; border-radius: 6px; background: rgba(255,255,255,0.08); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
-  .partner-row b { color: white; display: block; font-size: 12px; }
-  .partner-row .pm { color: #c5cce0; font-size: 10.5px; margin-top: 2px; }
-  .live-tag { background: var(--mint-dark); color: white; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; }
-
-  /* ===========================================================
-     PAGE 2 — Campaign Workspace
-  =========================================================== */
-  .cw-hero {
-    background: white; border-bottom: 1px solid var(--line);
-    padding: 26px 36px 22px;
-  }
+  /* INDIVIDUAL ADVOCATE WORKSPACE */
+  .cw-hero { background: white; border-bottom: 1px solid var(--line); padding: 24px 36px 20px; }
   .cw-hero .container { max-width: 1280px; margin: 0 auto; }
-  .cw-hero .crumb { font-size: 12px; color: var(--ink-soft); margin-bottom: 12px; }
-  .cw-hero .crumb a { color: var(--ink-soft); }
+  .cw-hero .crumb { font-size: 12px; color: var(--ink-soft); margin-bottom: 10px; }
   .cw-hero .crumb b { color: var(--navy); }
   .cw-hero-row { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: center; }
-  .cw-hero .case-tag {
-    display: inline-block; background: var(--coral-soft); color: #7a1717;
-    font-size: 10px; padding: 3px 9px; border-radius: 3px;
-    font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-  .cw-hero h1 {
-    font-size: 26px; line-height: 1.2; font-weight: 700;
-    margin: 0 0 6px; color: var(--navy); letter-spacing: -0.4px;
-  }
-  .cw-hero .osid {
-    font-family: "SF Mono", Menlo, monospace;
-    background: var(--cream); padding: 3px 9px; border-radius: 4px;
-    font-size: 11px; color: var(--ink-soft);
-    display: inline-block; margin-right: 8px;
-  }
+  .cw-hero .case-tag { display: inline-block; background: var(--coral-soft); color: #7a1717; font-size: 10px; padding: 3px 9px; border-radius: 3px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; text-transform: uppercase; }
+  .cw-hero h1 { font-size: 24px; line-height: 1.2; font-weight: 700; margin: 0 0 6px; color: var(--navy); letter-spacing: -0.4px; }
+  .cw-hero .osid { font-family: "SF Mono", Menlo, monospace; background: var(--cream); padding: 3px 9px; border-radius: 4px; font-size: 11px; color: var(--ink-soft); display: inline-block; margin-right: 8px; }
   .cw-hero .meta { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
   .cw-hero .actions { display: flex; gap: 8px; }
-  .cw-hero .actions button {
-    border: 1px solid var(--line); background: white; color: var(--ink-soft);
-    padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
-  }
+  .cw-hero .actions button { border: 1px solid var(--line); background: white; color: var(--ink-soft); padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; }
   .cw-hero .actions button.primary { background: var(--navy); color: var(--yellow); border-color: var(--navy); }
 
-  .tool-status-bar {
-    background: var(--cream); border-bottom: 1px solid var(--line);
-    padding: 10px 36px; font-size: 12px; color: var(--ink-soft);
-    display: flex; gap: 22px; align-items: center;
-    max-width: 1280px; margin: 0 auto; flex-wrap: wrap;
-  }
+  .awareness-banner { background: linear-gradient(90deg, #fff5f5, #fff8e0); border: 1px solid var(--coral-soft); border-radius: 12px; padding: 16px 20px; margin-bottom: 22px; display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .awareness-banner .aw-ico { width: 36px; height: 36px; background: var(--coral); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .awareness-banner .aw-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--coral); font-weight: 700; margin-bottom: 3px; }
+  .awareness-banner h3 { margin: 0; font-size: 15px; color: var(--navy); font-weight: 700; }
+  .awareness-banner .aw-list { color: var(--ink-soft); font-size: 12.5px; margin-top: 6px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .awareness-banner .aw-list b { color: var(--navy); }
+  .awareness-banner button { background: var(--navy); color: var(--yellow); border: none; padding: 9px 14px; border-radius: 8px; font-size: 11.5px; font-weight: 700; }
+
+  .tool-status-bar { background: var(--cream); border-bottom: 1px solid var(--line); padding: 10px 36px; font-size: 12px; color: var(--ink-soft); display: flex; gap: 22px; align-items: center; max-width: 1280px; margin: 0 auto; flex-wrap: wrap; }
   .tool-status-bar .item { display: inline-flex; align-items: center; gap: 6px; }
   .tool-status-bar .item b { color: var(--navy); font-weight: 700; }
   .tool-status-bar .dot-sep { color: var(--ink-faint); }
 
-  /* Rights-holder data — broader than testimony */
-  .rh-section {
-    background: white; border-left: 5px solid var(--coral);
-    border-radius: 0 14px 14px 0;
-    padding: 24px 26px;
-    margin-bottom: 26px;
-    box-shadow: var(--shadow);
-  }
-  .rh-section .rh-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px;
-  }
-  .rh-section .rh-head .lbl {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--coral); font-weight: 700;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .rh-section .rh-head .totals {
-    font-size: 11px; color: var(--ink-soft);
-    display: flex; align-items: center; gap: 12px;
-  }
+  .rh-section { background: white; border-left: 5px solid var(--coral); border-radius: 0 14px 14px 0; padding: 22px 26px; margin-bottom: 24px; box-shadow: var(--shadow); }
+  .rh-section .rh-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .rh-section .rh-head .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--coral); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .rh-section .rh-head .totals { font-size: 11px; color: var(--ink-soft); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .rh-section .rh-head .totals b { color: var(--navy); }
-
-  /* Rights-holder data cards grid */
-  .rh-data-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px;
-  }
-  .rh-data-card {
-    background: var(--cream);
-    border-radius: 10px;
-    padding: 14px 16px;
-    border: 1px solid var(--line);
-  }
+  .rh-data-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; }
+  .rh-data-card { background: var(--cream); border-radius: 10px; padding: 14px 16px; border: 1px solid var(--line); }
   .rh-data-card.testimony { grid-column: span 1; background: white; border: 1px solid var(--coral); }
-  .rh-data-card .rh-type {
-    font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
-    font-weight: 700; color: var(--ink-faint); margin-bottom: 6px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .rh-data-card .rh-type .ico { font-size: 12px; }
-  .rh-data-card .quote-ur {
-    font-size: 13px; color: var(--navy);
-    direction: rtl;
-    font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif;
-    line-height: 1.5; margin-bottom: 8px;
-  }
-  .rh-data-card .quote-en {
-    font-size: 12.5px; color: var(--navy); font-style: italic;
-    line-height: 1.4; margin-bottom: 8px;
-  }
-  .rh-data-card .rh-data-headline {
-    font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1;
-    margin-bottom: 6px;
-  }
-  .rh-data-card .rh-data-sub {
-    font-size: 11.5px; color: var(--ink-soft); margin-bottom: 8px;
-  }
-  .rh-data-card .rh-data-detail {
-    font-size: 11px; color: var(--ink-soft); line-height: 1.5;
-    margin-bottom: 8px;
-  }
-  .rh-data-card .rh-footer {
-    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-    padding-top: 8px;
-    border-top: 1px solid var(--line);
-    margin-top: 8px;
-  }
-  .rh-data-card .attr {
-    font-size: 10.5px; color: var(--ink-soft);
-  }
-  .rh-data-card .attr b { color: var(--navy); }
+  .rh-data-card .rh-type { font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--ink-faint); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .rh-data-card .quote-ur { font-size: 12.5px; color: var(--navy); direction: rtl; font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif; line-height: 1.5; margin-bottom: 8px; }
+  .rh-data-card .quote-en { font-size: 12.5px; color: var(--navy); font-style: italic; line-height: 1.4; margin-bottom: 8px; }
+  .rh-data-card .rh-data-headline { font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+  .rh-data-card .rh-data-sub { font-size: 11.5px; color: var(--ink-soft); margin-bottom: 6px; }
+  .rh-data-card .rh-data-detail { font-size: 10.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 6px; }
+  .rh-data-card .rh-footer { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid var(--line); margin-top: 8px; }
+  .rh-data-card .attr { font-size: 10px; color: var(--ink-soft); }
 
-  /* Mode tabs */
-  .mode-tabs {
-    background: white; border: 1px solid var(--line);
-    border-radius: 14px; padding: 6px;
-    display: inline-flex; gap: 4px;
-    margin-bottom: 22px;
-    box-shadow: var(--shadow-sm);
-  }
-  .mode-tab {
-    background: transparent; border: none;
-    padding: 10px 22px; border-radius: 10px;
-    font-size: 13px; font-weight: 600; color: var(--ink-soft);
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .mode-tab .ico { font-size: 14px; }
+  .mode-tabs { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 6px; display: inline-flex; gap: 4px; margin-bottom: 22px; box-shadow: var(--shadow-sm); }
+  .mode-tab { background: transparent; border: none; padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 8px; }
   .mode-tab.on { background: var(--navy); color: white; }
   .struct-mode { display: block; }
   .copilot-mode { display: none; }
   .show-copilot .struct-mode { display: none; }
   .show-copilot .copilot-mode { display: block; }
 
-  /* Workspace sub-section heading */
-  .ws-section-h {
-    display: flex; align-items: center; justify-content: space-between;
-    margin: 24px 0 12px;
-  }
-  .ws-section-h h3 {
-    margin: 0; font-size: 16px; font-weight: 700; color: var(--navy);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .ws-section-h .source {
-    font-size: 11px; color: var(--ink-faint);
-    background: white; padding: 4px 10px;
-    border-radius: 4px; border: 1px solid var(--line);
-  }
+  .ws-section-h { display: flex; align-items: center; justify-content: space-between; margin: 22px 0 12px; }
+  .ws-section-h h3 { margin: 0; font-size: 15px; font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+  .ws-section-h .source { font-size: 11px; color: var(--ink-faint); background: white; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--line); }
 
-  /* Corporate chain */
-  .chain-tiles {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-    margin-bottom: 24px;
-  }
-  .chain-tile {
-    background: white; border-radius: 12px; border: 1px solid var(--line);
-    padding: 16px 18px; position: relative; box-shadow: var(--shadow-sm);
-  }
+  .chain-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .chain-tile { background: white; border-radius: 12px; border: 1px solid var(--line); padding: 14px 16px; position: relative; box-shadow: var(--shadow-sm); }
   .chain-tile .role { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-faint); margin-bottom: 6px; font-weight: 700; }
-  .chain-tile .name { font-weight: 700; color: var(--navy); font-size: 14px; line-height: 1.3; }
-  .chain-tile .where { font-size: 11px; color: var(--ink-soft); margin-top: 4px; }
+  .chain-tile .name { font-weight: 700; color: var(--navy); font-size: 13.5px; line-height: 1.3; }
+  .chain-tile .where { font-size: 10.5px; color: var(--ink-soft); margin-top: 4px; }
   .chain-tile .badge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 3px; margin-top: 8px; font-weight: 700; letter-spacing: 0.5px; }
   .chain-tile .badge.gap { background: #fff7e6; color: #a06000; }
-  .chain-tile .arrow-next {
-    position: absolute; right: -16px; top: 50%; transform: translateY(-50%);
-    color: var(--ink-faint); z-index: 2; font-size: 18px;
-    background: var(--cream); width: 24px; height: 24px;
-    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-  }
+  .chain-tile .arrow-next { position: absolute; right: -16px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); z-index: 2; font-size: 18px; background: var(--cream); width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
   .chain-tile:last-child .arrow-next { display: none; }
-  .chain-tile .contact-line {
-    margin-top: 8px; padding-top: 8px;
-    border-top: 1px solid var(--line);
-    font-size: 11px;
-  }
+  .chain-tile .quick-actions { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; gap: 4px; flex-wrap: wrap; }
 
-  /* Accountability layer — required vs optional */
-  .acc-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    margin-bottom: 24px;
-  }
-  .acc-card {
-    background: white; border-radius: 12px; border: 1px solid var(--line);
-    padding: 16px 18px; box-shadow: var(--shadow-sm);
-  }
-  .acc-card .ac-head {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 12px;
-  }
-  .acc-card .ac-head h4 { margin: 0; font-size: 14px; color: var(--navy); font-weight: 700; }
+  .acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .acc-card { background: white; border-radius: 12px; border: 1px solid var(--line); padding: 16px 18px; box-shadow: var(--shadow-sm); }
+  .acc-card .ac-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .acc-card .ac-head h4 { margin: 0; font-size: 13.5px; color: var(--navy); font-weight: 700; }
   .acc-card .ac-head .src-tag { font-size: 10px; color: var(--ink-faint); background: var(--cream); padding: 3px 8px; border-radius: 3px; }
-  .acc-item {
-    padding: 10px 0;
-    border-bottom: 1px solid var(--cream);
-    font-size: 12.5px;
-  }
+  .acc-item { padding: 9px 0; border-bottom: 1px solid var(--cream); font-size: 12.5px; }
   .acc-item:last-child { border-bottom: none; }
-  .acc-item .ai-top {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
-  }
+  .acc-item .ai-top { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; flex-wrap: wrap; }
   .acc-item b { color: var(--navy); }
-  .acc-item .ai-desc { color: var(--ink-soft); margin-bottom: 6px; line-height: 1.5; }
+  .acc-item .ai-desc { color: var(--ink-soft); margin-bottom: 5px; line-height: 1.5; font-size: 12px; }
   .acc-item .ai-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
-  /* Collective decision-making panel */
-  .vote-panel {
-    background: linear-gradient(135deg, var(--coral), var(--purple));
-    color: white; border-radius: 14px;
-    padding: 22px 26px;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow);
-  }
-  .vote-panel .vp-head {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    opacity: 0.95; font-weight: 700; margin-bottom: 4px;
-  }
+  .vote-panel { background: linear-gradient(135deg, var(--coral), var(--purple)); color: white; border-radius: 14px; padding: 22px 26px; margin-bottom: 24px; box-shadow: var(--shadow); }
+  .vote-panel .vp-head { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.95; font-weight: 700; margin-bottom: 4px; }
   .vote-panel h3 { margin: 0 0 4px; font-size: 17px; color: white; }
   .vote-panel .vp-sub { font-size: 12px; opacity: 0.92; margin: 0 0 16px; }
-  .vote-row {
-    display: grid; grid-template-columns: 1fr 160px auto;
-    gap: 14px; align-items: center;
-    background: rgba(255,255,255,0.14);
-    padding: 11px 14px; border-radius: 9px;
-    margin-bottom: 7px; font-size: 13px;
-  }
-  .vote-row .opt { font-weight: 500; }
+  .vote-row { display: grid; grid-template-columns: 1fr 160px auto; gap: 14px; align-items: center; background: rgba(255,255,255,0.14); padding: 11px 14px; border-radius: 9px; margin-bottom: 7px; font-size: 13px; }
   .vote-bar { height: 6px; background: rgba(0,0,0,0.18); border-radius: 3px; position: relative; }
   .vote-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--yellow); border-radius: 3px; }
   .vote-row .pct { font-weight: 700; font-size: 14px; min-width: 40px; text-align: right; }
-  .vote-meta {
-    display: flex; gap: 12px; align-items: center; margin-top: 14px;
-    font-size: 12px; opacity: 0.95; flex-wrap: wrap;
-  }
+  .vote-meta { display: flex; gap: 12px; align-items: center; margin-top: 14px; font-size: 12px; opacity: 0.95; flex-wrap: wrap; }
   .voter-dots { display: flex; }
-  .vd {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--yellow); color: var(--navy);
-    border: 2px solid var(--purple); margin-left: -5px;
-    font-size: 10px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
+  .vd { width: 22px; height: 22px; border-radius: 50%; background: var(--yellow); color: var(--navy); border: 2px solid var(--purple); margin-left: -5px; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
   .vd:first-child { margin-left: 0; }
-  .vote-panel .where-it-happens {
-    margin-top: 12px; font-size: 11.5px; opacity: 0.9;
-    display: flex; align-items: center; gap: 8px;
-  }
+  .vote-panel .where-it-happens { margin-top: 12px; font-size: 11.5px; opacity: 0.9; display: flex; align-items: center; gap: 8px; }
 
-  /* Connect & collaborate panel */
-  .collab-panel {
-    background: white; border: 1px solid var(--line);
-    border-radius: 14px; padding: 20px 22px;
-    margin-bottom: 24px; box-shadow: var(--shadow-sm);
-  }
-  .collab-panel .cp-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 12px;
-  }
-  .collab-panel .cp-head h3 {
-    margin: 0; font-size: 16px; color: var(--navy); font-weight: 700;
-    display: flex; align-items: center; gap: 10px;
-  }
+  .collab-panel { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+  .collab-panel .cp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .collab-panel .cp-head h3 { margin: 0; font-size: 15px; color: var(--navy); font-weight: 700; display: flex; align-items: center; gap: 10px; }
   .collab-panel .cp-sub { font-size: 12px; color: var(--ink-soft); margin-bottom: 14px; }
-  .collab-row {
-    display: grid; grid-template-columns: auto 1fr auto;
-    gap: 12px; align-items: center;
-    padding: 11px 12px; border-radius: 8px;
-    margin-bottom: 6px; background: var(--cream);
-  }
-  .collab-row .av-c {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--coral));
-    color: white; font-weight: 700; font-size: 11px;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .collab-row .info b { color: var(--navy); display: block; font-size: 13px; }
+  .collab-row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; background: var(--cream); }
+  .collab-row .av-c { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--coral)); color: white; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; }
+  .collab-row .info b { color: var(--navy); display: block; font-size: 12.5px; }
   .collab-row .info .ci { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
-  .collab-row button {
-    background: var(--navy); color: var(--yellow);
-    border: none; padding: 6px 12px;
-    border-radius: 6px; font-size: 11px; font-weight: 600;
-  }
-  .collab-row button.outlined {
-    background: transparent; color: var(--ink-soft); border: 1px solid var(--line);
-  }
+  .collab-row button { background: var(--navy); color: var(--yellow); border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .collab-row button.outlined { background: transparent; color: var(--ink-soft); border: 1px solid var(--line); }
 
-  /* Outcome card */
-  .outcome-card-mini {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; padding: 20px 22px;
-    box-shadow: var(--shadow-sm); margin-bottom: 24px;
-  }
-  .outcome-card-mini .o-meta {
-    font-size: 12.5px; color: var(--ink-soft); margin-bottom: 14px;
-  }
-  .outcome-card-mini .o-meta b { color: var(--navy); }
-  .outcome-stats {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-  }
-  .outcome-stat {
-    background: var(--cream); padding: 14px 16px; border-radius: 8px;
-  }
-  .outcome-stat.money { border-left: 3px solid var(--mint-dark); }
-  .outcome-stat.safety { border-left: 3px solid var(--purple); }
-  .outcome-stat .label-mini {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
-    font-weight: 700; margin-bottom: 4px;
-  }
-  .outcome-stat.money .label-mini { color: var(--mint-dark); }
-  .outcome-stat.safety .label-mini { color: var(--purple); }
-  .outcome-stat .v { font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1; }
-  .outcome-stat .l { font-size: 11.5px; color: var(--ink-soft); margin-top: 4px; }
+  .outcome-big { background: linear-gradient(135deg, var(--mint), var(--mint-dark)); color: white; border-radius: 14px; padding: 26px 30px; box-shadow: var(--shadow-lg); margin-bottom: 24px; }
+  .outcome-big .ob-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .outcome-big .ob-head .check { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.25); display: inline-flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; }
+  .outcome-big .ob-head h3 { margin: 0; font-size: 19px; }
+  .outcome-big .ob-head .ob-sub { font-size: 13px; opacity: 0.95; margin-top: 2px; }
+  .outcome-big-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .outcome-big-stat { background: rgba(255,255,255,0.18); padding: 14px 16px; border-radius: 10px; }
+  .outcome-big-stat .ll { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.95; margin-bottom: 4px; font-weight: 700; }
+  .outcome-big-stat .vv { font-size: 22px; font-weight: 800; line-height: 1; }
+  .outcome-big-stat .ss { font-size: 11px; opacity: 0.95; margin-top: 4px; }
 
-  /* Co-pilot card */
-  .copilot-card {
-    background: white; border-radius: 14px;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow); overflow: hidden;
-  }
-  .copilot-head {
-    background: linear-gradient(135deg, #2a1b50, var(--navy));
-    color: white; padding: 16px 22px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
+  .copilot-card { background: white; border-radius: 14px; border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+  .copilot-head { background: linear-gradient(135deg, #2a1b50, var(--navy)); color: white; padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; }
   .copilot-head .ch-left { display: flex; align-items: center; gap: 12px; }
-  .copilot-head .ch-ico {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: var(--yellow); color: var(--navy);
-    display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 17px;
-  }
+  .copilot-head .ch-ico { width: 36px; height: 36px; border-radius: 8px; background: var(--yellow); color: var(--navy); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px; }
   .copilot-head h4 { margin: 0; font-size: 14px; color: white; }
   .copilot-head .ch-sub { font-size: 11px; color: #c5cce0; }
   .copilot-head .lang-pill { background: rgba(255,255,255,0.12); color: white; font-size: 11px; padding: 4px 10px; border-radius: 999px; }
   .copilot-body { padding: 22px; max-height: 700px; overflow-y: auto; }
-  .chat-message {
-    display: grid; grid-template-columns: 36px 1fr;
-    gap: 12px; margin-bottom: 18px;
-  }
-  .chat-avatar {
-    width: 36px; height: 36px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 13px; flex-shrink: 0;
-  }
+  .chat-message { display: grid; grid-template-columns: 36px 1fr; gap: 12px; margin-bottom: 18px; }
+  .chat-avatar { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
   .chat-avatar.user { background: linear-gradient(135deg, var(--coral), var(--purple)); color: white; }
   .chat-avatar.ai { background: var(--navy); color: var(--yellow); }
-  .chat-bubble {
-    background: var(--cream); border-radius: 12px;
-    padding: 14px 18px; color: var(--navy); font-size: 13.5px;
-    line-height: 1.5;
-  }
+  .chat-bubble { background: var(--cream); border-radius: 12px; padding: 14px 18px; color: var(--navy); font-size: 13.5px; line-height: 1.5; }
   .chat-bubble.user-bubble { background: var(--purple-soft); border: 1px solid #d6b8fa; }
   .chat-bubble .who { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-faint); margin-bottom: 6px; font-weight: 700; }
   .chat-bubble .urdu-q { font-size: 17px; direction: rtl; font-family: "Noto Naskh Arabic", "Segoe UI", sans-serif; color: var(--navy); margin-bottom: 8px; font-weight: 500; }
@@ -757,1592 +295,604 @@
   .chat-bubble ul { margin: 4px 0 10px; padding-left: 18px; }
   .chat-bubble ul li { margin-bottom: 4px; font-size: 13px; }
   .chat-bubble ul li b { color: var(--navy); }
-  .chat-bubble .speed-mini {
-    background: var(--yellow); color: var(--navy);
-    padding: 8px 12px; border-radius: 8px;
-    font-size: 12px; margin: 10px 0;
-    display: inline-block; font-weight: 600;
-  }
-  .citations-row {
-    margin-top: 12px; padding-top: 10px;
-    border-top: 1px dashed var(--line);
-    font-size: 10.5px; color: var(--ink-faint); line-height: 1.6;
-  }
+  .chat-bubble .speed-mini { background: var(--yellow); color: var(--navy); padding: 8px 12px; border-radius: 8px; font-size: 12px; margin: 10px 0; display: inline-block; font-weight: 600; }
+  .citations-row { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 10.5px; color: var(--ink-faint); line-height: 1.6; }
   .citations-row b { color: var(--ink-soft); }
-  .followup-chips {
-    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;
-  }
-  .followup-chip {
-    background: var(--purple-soft); color: var(--purple);
-    border: 1px solid #d6b8fa;
-    padding: 8px 14px; border-radius: 999px;
-    font-size: 12px; font-weight: 500;
-  }
-  .copilot-input-row {
-    border-top: 1px solid var(--line);
-    padding: 16px 22px; background: var(--cream);
-    display: flex; gap: 10px; align-items: center;
-  }
-  .copilot-input-row input {
-    flex: 1; background: white; border: 1px solid var(--line);
-    border-radius: 10px; padding: 12px 16px;
-    font-size: 13.5px; color: var(--ink); font-family: inherit;
-  }
-  .copilot-input-row button {
-    background: var(--navy); color: var(--yellow); border: none;
-    padding: 12px 22px; border-radius: 10px; font-size: 13px; font-weight: 700;
-  }
+  .followup-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .followup-chip { background: var(--purple-soft); color: var(--purple); border: 1px solid #d6b8fa; padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+  .copilot-input-row { border-top: 1px solid var(--line); padding: 16px 22px; background: var(--cream); display: flex; gap: 10px; align-items: center; }
+  .copilot-input-row input { flex: 1; background: white; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; font-size: 13.5px; color: var(--ink); font-family: inherit; }
+  .copilot-input-row button { background: var(--navy); color: var(--yellow); border: none; padding: 12px 22px; border-radius: 10px; font-size: 13px; font-weight: 700; }
 
-  /* Data + connections footer */
-  .layer-footer {
-    margin-top: 32px; padding: 22px 24px;
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; box-shadow: var(--shadow-sm);
-  }
-  .layer-footer .lf-head {
-    display: flex; justify-content: space-between; align-items: baseline;
-    margin-bottom: 12px;
-  }
-  .layer-footer h3 {
-    margin: 0; font-size: 15px; color: var(--navy); font-weight: 700;
-  }
-  .layer-footer .lf-sub {
-    font-size: 12.5px; color: var(--ink-soft); margin: 0 0 14px;
-    max-width: 740px;
-  }
-  .layer-tools {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
-  }
-  .layer-tool {
-    background: var(--cream); padding: 12px 14px;
-    border-radius: 8px; font-size: 12px; border: 1px solid var(--line);
-  }
+  .layer-footer { margin-top: 28px; padding: 20px 22px; background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); }
+  .layer-footer .lf-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .layer-footer h3 { margin: 0; font-size: 14px; color: var(--navy); font-weight: 700; }
+  .layer-footer .lf-sub { font-size: 12px; color: var(--ink-soft); margin: 0 0 12px; max-width: 740px; }
+  .layer-tools { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .layer-tool { background: var(--cream); padding: 11px 13px; border-radius: 8px; font-size: 11.5px; border: 1px solid var(--line); }
   .layer-tool.current { background: var(--purple); color: white; border-color: var(--purple); }
-  .layer-tool .lt-tag {
-    font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 3px; font-weight: 700;
-    color: var(--ink-faint);
-  }
+  .layer-tool .lt-tag { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; font-weight: 700; color: var(--ink-faint); }
   .layer-tool.current .lt-tag { color: rgba(255,255,255,0.85); }
-  .layer-tool b { display: block; font-size: 12.5px; color: var(--navy); }
+  .layer-tool b { display: block; font-size: 12px; color: var(--navy); }
   .layer-tool.current b { color: white; }
-  .layer-tool .lt-sub { font-size: 10.5px; color: var(--ink-soft); }
+  .layer-tool .lt-sub { font-size: 10px; color: var(--ink-soft); }
   .layer-tool.current .lt-sub { color: rgba(255,255,255,0.85); }
 
-  /* ===========================================================
-     PAGE 3 — Region Dashboard
-  =========================================================== */
-  .rd-hero {
-    background: linear-gradient(135deg, #ff6f91, #8428fa);
-    color: white;
-    padding: 38px 36px 40px;
-  }
-  .rd-hero .container { max-width: 1280px; margin: 0 auto; }
-  .rd-hero .crumb { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 10px; }
-  .rd-hero .crumb a { color: rgba(255,255,255,0.8); }
-  .rd-hero .crumb b { color: white; }
-  .rd-hero h1 {
-    font-size: 34px; line-height: 1.2; font-weight: 800;
-    margin: 0 0 6px; color: white; letter-spacing: -0.6px;
-  }
-  .rd-hero .sub {
-    font-size: 15px; color: rgba(255,255,255,0.92);
-    max-width: 760px;
-  }
-  .rd-hero .team-line {
-    display: inline-flex; align-items: center; gap: 12px;
-    margin-top: 16px;
-    background: rgba(255,255,255,0.16);
-    padding: 8px 16px 8px 8px; border-radius: 999px;
-    font-size: 12.5px; color: white;
-  }
-  .rd-hero .team-line .av {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: white; color: var(--purple);
-    font-size: 11px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
+  /* COLLECTIVE ACTION WORKSPACE */
+  .ca-hero { background: linear-gradient(135deg, var(--pink), var(--purple)); color: white; padding: 34px 36px 36px; }
+  .ca-hero .container { max-width: 1280px; margin: 0 auto; }
+  .ca-hero .crumb { font-size: 12px; color: rgba(255,255,255,0.85); margin-bottom: 10px; }
+  .ca-hero .crumb b { color: white; }
+  .ca-hero h1 { font-size: 28px; line-height: 1.2; font-weight: 800; margin: 0 0 6px; color: white; letter-spacing: -0.4px; }
+  .ca-hero .sub { font-size: 14px; color: rgba(255,255,255,0.95); max-width: 760px; margin: 0; }
+  .ca-hero .team-line { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; background: rgba(255,255,255,0.16); padding: 7px 16px 7px 7px; border-radius: 999px; font-size: 12px; color: white; }
+  .ca-hero .team-line .av { width: 24px; height: 24px; border-radius: 50%; background: white; color: var(--purple); font-size: 10.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
 
-  .rd-stats {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
-    margin-top: -28px;
-    position: relative; z-index: 3;
-    margin-bottom: 28px;
-  }
-  .rd-stat {
-    background: white; border-radius: 12px;
-    padding: 16px 18px; border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-  }
+  .ca-awareness { background: linear-gradient(90deg, #fff5f5, #fff8e0); border: 1px solid var(--coral-soft); border-radius: 12px; padding: 14px 18px; margin-top: -22px; margin-bottom: 20px; position: relative; z-index: 3; display: flex; gap: 14px; align-items: center; }
+  .ca-awareness .aw-ico { width: 30px; height: 30px; background: var(--coral); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .ca-awareness .aw-body { flex: 1; font-size: 12.5px; color: var(--navy); }
+  .ca-awareness .aw-body b { color: var(--navy); }
+
+  .rd-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .rd-stat { background: white; border-radius: 12px; padding: 16px 18px; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
   .rd-stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--ink-soft); font-weight: 700; margin-bottom: 4px; }
   .rd-stat .v { font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; }
   .rd-stat .d { font-size: 11px; color: var(--mint-dark); margin-top: 4px; }
   .rd-stat .d.warn { color: var(--coral); }
 
-  /* Region map */
-  .region-map {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; box-shadow: var(--shadow-sm);
-    overflow: hidden; margin-bottom: 24px;
-  }
-  .region-map .rm-head {
-    padding: 16px 22px;
-    border-bottom: 1px solid var(--line);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .region-map .rm-head h3 { margin: 0; font-size: 15px; color: var(--navy); font-weight: 700; }
-  .region-map .rm-head .meta { font-size: 11px; color: var(--ink-soft); }
-  .region-map-visual {
-    position: relative;
-    background: linear-gradient(180deg, var(--navy), var(--navy-2));
-    height: 280px;
-  }
-  .region-map-visual .grid-faux {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-  .region-map-visual .dot {
-    position: absolute;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    box-shadow: 0 0 18px currentColor, 0 0 4px white;
-  }
-  .region-map-visual .dot.active { background: var(--yellow); color: var(--yellow); }
-  .region-map-visual .dot.resolved { background: var(--mint-dark); color: var(--mint-dark); }
-  .region-map-visual .dot.hotspot { background: var(--coral); color: var(--coral); }
-  .region-map-visual .dot::after {
-    content: ""; position: absolute; inset: -6px;
-    border-radius: 50%; border: 1px solid currentColor;
-    animation: ping 2.4s ease infinite; opacity: 0.4;
-  }
-  @keyframes ping {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2.4); opacity: 0; }
-  }
-  .region-map-visual .city-label {
-    position: absolute; color: white;
-    background: rgba(0,0,0,0.4);
-    font-size: 11px; padding: 3px 8px; border-radius: 4px;
-  }
-  .region-map-visual .legend {
-    position: absolute; bottom: 14px; right: 18px;
-    display: flex; gap: 16px;
-    background: rgba(0,0,0,0.4); padding: 7px 12px; border-radius: 6px;
-    font-size: 11px; color: white;
-  }
-  .region-map-visual .legend span { display: inline-flex; align-items: center; gap: 5px; }
-  .region-map-visual .legend .ld { width: 8px; height: 8px; border-radius: 50%; }
+  /* NODE MAP */
+  .nodemap-card { background: white; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 24px; }
+  .nodemap-card .nm-head { padding: 16px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .nodemap-card .nm-head .nm-title { display: flex; align-items: center; gap: 10px; }
+  .nodemap-card .nm-head h3 { margin: 0; font-size: 16px; color: var(--navy); font-weight: 700; }
+  .nodemap-card .nm-sub { color: var(--ink-soft); font-size: 12px; }
+  .nodemap-body { padding: 28px 30px; background: linear-gradient(180deg, #fafbfd, white); position: relative; min-height: 460px; }
+  .nm-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(13,28,54,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(13,28,54,0.025) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; }
+  .nm-canvas { position: relative; width: 100%; height: 460px; }
+  .nm-node { position: absolute; background: white; border: 2px solid var(--line); border-radius: 10px; padding: 10px 14px; box-shadow: var(--shadow-sm); min-width: 160px; text-align: center; }
+  .nm-node .nm-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-faint); margin-bottom: 4px; font-weight: 700; }
+  .nm-node .nm-name { font-size: 12.5px; color: var(--navy); font-weight: 700; line-height: 1.2; }
+  .nm-node .nm-status { font-size: 10px; margin-top: 4px; }
+  .nm-node.center { border-color: var(--coral); background: var(--coral-soft); z-index: 10; }
+  .nm-node.center .nm-name { color: #7a1717; }
+  .nm-node.exists { border-color: var(--mint-dark); background: #f0fff5; }
+  .nm-node.exists .nm-status { color: var(--mint-dark); font-weight: 600; }
+  .nm-node.stuck { border-color: var(--yellow); background: var(--yellow-soft); }
+  .nm-node.stuck .nm-status { color: #806000; font-weight: 600; }
+  .nm-node.missing { border-color: var(--coral); background: white; border-style: dashed; }
+  .nm-node.missing .nm-status { color: var(--coral); font-weight: 600; }
+  .nm-node.oshub { background: var(--navy); border-color: var(--navy); color: white; z-index: 10; }
+  .nm-node.oshub .nm-label { color: rgba(255,255,255,0.7); }
+  .nm-node.oshub .nm-name { color: white; }
+  .nm-node.oshub .nm-status { color: var(--yellow); font-weight: 700; }
+  .nm-lines { position: absolute; inset: 0; pointer-events: none; }
+  .nm-legend { display: flex; gap: 16px; background: white; border-top: 1px solid var(--line); padding: 12px 22px; font-size: 11px; color: var(--ink-soft); flex-wrap: wrap; }
+  .nm-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .nm-legend .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
 
-  /* Region grids */
+  /* TEMPLATE EDITOR */
+  .template-card { background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); margin-bottom: 24px; overflow: hidden; }
+  .template-card .tc-head { padding: 14px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .template-card .tc-head h3 { margin: 0; font-size: 14px; color: var(--navy); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .template-card .tc-sub { color: var(--ink-soft); font-size: 12px; }
+  .template-card .tc-edit { background: transparent; border: 1px solid var(--line); padding: 6px 12px; border-radius: 6px; font-size: 11px; color: var(--ink-soft); font-weight: 600; }
+  .template-body { padding: 18px 22px; background: var(--cream); }
+  .template-step { display: grid; grid-template-columns: 30px 1fr auto auto; gap: 12px; background: white; border: 1px solid var(--line); border-radius: 8px; padding: 11px 14px; margin-bottom: 8px; align-items: center; }
+  .template-step .tnum { width: 24px; height: 24px; border-radius: 50%; background: var(--purple); color: white; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .template-step .tstep b { color: var(--navy); font-size: 12.5px; }
+  .template-step .tstep .tmeta { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
+  .template-step .source-tag { font-size: 10px; color: var(--ink-soft); background: var(--cream); padding: 3px 8px; border-radius: 3px; }
+  .template-arrow { text-align: center; color: var(--ink-faint); font-size: 14px; margin: -2px 0 4px; }
+  .template-footer { padding: 11px 16px; background: var(--purple-soft); border-radius: 8px; margin-top: 8px; display: flex; gap: 10px; align-items: center; font-size: 11.5px; color: var(--purple); }
+  .template-footer b { color: var(--navy); }
+
   .rd-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-bottom: 24px; }
-
-  .panel {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; padding: 18px 22px; box-shadow: var(--shadow-sm);
-  }
-  .panel h4 { margin: 0 0 4px; color: var(--navy); }
-  .panel .panel-sub { color: var(--ink-faint); font-size: 11px; margin-bottom: 14px; }
-  .bar-row {
-    display: grid; grid-template-columns: 1.4fr 4fr auto;
-    gap: 10px; align-items: center; margin-bottom: 8px; font-size: 13px;
-  }
+  .panel { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; box-shadow: var(--shadow-sm); }
+  .panel h4 { margin: 0 0 4px; color: var(--navy); font-size: 14px; }
+  .panel .panel-sub { color: var(--ink-faint); font-size: 11px; margin-bottom: 12px; }
+  .bar-row { display: grid; grid-template-columns: 1.4fr 4fr auto; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 13px; }
   .bar-row .lc { color: var(--navy); font-weight: 500; }
   .bar-track { height: 14px; background: var(--cream); border-radius: 3px; overflow: hidden; }
   .bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--coral)); border-radius: 3px; }
   .pct { color: var(--ink-soft); font-size: 12px; min-width: 36px; text-align: right; }
 
-  .insight-list { margin: 0; padding-left: 16px; color: var(--ink-soft); font-size: 12.5px; line-height: 1.7; }
-  .insight-list li b { color: var(--navy); }
-  .insight-list li .pulse-tag {
-    display: inline-block; background: var(--coral); color: white;
-    padding: 1px 5px; border-radius: 2px;
-    font-size: 9px; letter-spacing: 0.3px;
-    margin-left: 6px; font-weight: 700;
-  }
-
-  .brand-row {
-    display: grid; grid-template-columns: 1fr auto auto;
-    gap: 10px; padding: 10px 0;
-    border-bottom: 1px solid var(--cream); align-items: center; font-size: 13px;
-  }
-  .brand-row:last-child { border-bottom: none; }
-  .brand-row b { color: var(--navy); }
-  .brand-row .count { font-family: "SF Mono", Menlo, monospace; color: var(--ink-soft); font-size: 12px; }
-  .brand-row .pill-trend { background: var(--cream); color: var(--ink-soft); padding: 2px 8px; border-radius: 4px; font-size: 11px; }
-
-  .elevate-card {
-    background: linear-gradient(135deg, var(--yellow-soft), white);
-    border: 1px solid var(--yellow);
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 12px;
-  }
-  .elevate-card .lbl {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: #806000; font-weight: 700; margin-bottom: 6px;
-  }
-  .elevate-card h4 { margin: 0 0 6px; font-size: 15px; color: var(--navy); line-height: 1.3; }
-  .elevate-card p { margin: 0 0 8px; font-size: 12.5px; color: var(--ink-soft); }
-
-  /* Peer teams panel */
-  .peers-panel {
-    background: var(--navy); color: white;
-    border-radius: 12px; padding: 22px 24px;
-  }
+  .peers-panel { background: var(--navy); color: white; border-radius: 12px; padding: 22px 24px; }
   .peers-panel h4 { margin: 0 0 4px; font-size: 14px; color: white; }
-  .peers-panel .pp-sub { color: #c5cce0; font-size: 11px; margin-bottom: 14px; }
-  .peer-row {
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 10px; padding: 9px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    align-items: center; font-size: 12px;
-  }
+  .peers-panel .pp-sub { color: #c5cce0; font-size: 11px; margin-bottom: 12px; }
+  .peer-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.08); align-items: center; font-size: 12px; }
   .peer-row:last-child { border-bottom: none; }
   .peer-row b { color: white; }
   .peer-row .pm { color: #c5cce0; font-size: 10.5px; margin-top: 2px; }
-  .peer-row .pr-btn {
-    background: var(--yellow); color: var(--navy); border: none;
-    padding: 5px 10px; border-radius: 6px;
-    font-size: 11px; font-weight: 700;
-  }
+  .peer-row .pr-btn { background: var(--yellow); color: var(--navy); border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
 
-  /* ===========================================================
-     PAGE 4 — Brand Subscriber Dashboard
-  =========================================================== */
-  .bd-hero {
-    background: linear-gradient(135deg, var(--green), var(--mint-dark));
-    color: white;
-    padding: 38px 36px 40px;
-  }
+  /* CORPORATE INPUT WORKSPACE */
+  .bd-hero { background: linear-gradient(135deg, var(--green), var(--mint-dark)); color: white; padding: 34px 36px 36px; }
   .bd-hero .container { max-width: 1280px; margin: 0 auto; }
-  .bd-hero .crumb { font-size: 12px; color: rgba(255,255,255,0.85); margin-bottom: 10px; }
-  .bd-hero .crumb a { color: rgba(255,255,255,0.85); }
+  .bd-hero .crumb { font-size: 12px; color: rgba(255,255,255,0.88); margin-bottom: 10px; }
   .bd-hero .crumb b { color: white; }
-  .bd-hero h1 {
-    font-size: 32px; line-height: 1.2; font-weight: 800;
-    margin: 0 0 6px; color: white; letter-spacing: -0.5px;
-    max-width: 880px;
-  }
-  .bd-hero .sub {
-    font-size: 14px; color: rgba(255,255,255,0.92);
-    max-width: 760px; margin: 0;
-  }
-  .bd-hero .sub-line {
-    display: inline-flex; align-items: center; gap: 12px;
-    margin-top: 16px;
-    background: rgba(255,255,255,0.16);
-    padding: 8px 16px 8px 8px; border-radius: 999px;
-    font-size: 12.5px; color: white;
-  }
-  .bd-hero .sub-line .av {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: white; color: var(--mint-dark);
-    font-size: 11px; font-weight: 700;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
+  .bd-hero h1 { font-size: 26px; line-height: 1.2; font-weight: 800; margin: 0 0 6px; color: white; letter-spacing: -0.4px; max-width: 880px; }
+  .bd-hero .sub { font-size: 13px; color: rgba(255,255,255,0.92); max-width: 760px; margin: 0; }
+  .bd-hero .sub-line { display: inline-flex; align-items: center; gap: 10px; margin-top: 14px; background: rgba(255,255,255,0.16); padding: 7px 14px 7px 7px; border-radius: 999px; font-size: 12px; color: white; }
+  .bd-hero .sub-line .av { width: 24px; height: 24px; border-radius: 50%; background: white; color: var(--mint-dark); font-size: 10.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
 
-  .bd-sub-banner {
-    background: white; border: 1px solid var(--line);
-    padding: 16px 22px; border-radius: 12px;
-    margin-top: -28px;
-    position: relative; z-index: 3;
-    box-shadow: var(--shadow);
-    margin-bottom: 26px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 18px; align-items: center;
-  }
-  .bd-sub-banner .lbl {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--mint-dark); font-weight: 700; margin-bottom: 4px;
-  }
-  .bd-sub-banner h3 { margin: 0 0 4px; color: var(--navy); font-size: 16px; }
-  .bd-sub-banner p { margin: 0; font-size: 12.5px; color: var(--ink-soft); max-width: 720px; }
+  .bd-sub-banner { background: white; border: 1px solid var(--line); padding: 16px 22px; border-radius: 12px; margin-top: -22px; position: relative; z-index: 3; box-shadow: var(--shadow); margin-bottom: 22px; display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; }
+  .bd-sub-banner .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--mint-dark); font-weight: 700; margin-bottom: 4px; }
+  .bd-sub-banner h3 { margin: 0 0 4px; color: var(--navy); font-size: 15px; }
+  .bd-sub-banner p { margin: 0; font-size: 12px; color: var(--ink-soft); max-width: 720px; }
 
-  .bd-stats {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-    margin-bottom: 26px;
-  }
-  .bd-stat {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; padding: 16px 18px;
-    box-shadow: var(--shadow-sm);
-  }
+  .bd-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .bd-stat { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow-sm); }
   .bd-stat.coral { border-top: 3px solid var(--coral); }
   .bd-stat.mint { border-top: 3px solid var(--mint-dark); }
   .bd-stat.purple { border-top: 3px solid var(--purple); }
   .bd-stat.yellow { border-top: 3px solid var(--yellow); }
   .bd-stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--ink-soft); font-weight: 700; margin-bottom: 6px; }
-  .bd-stat .v { font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; }
-  .bd-stat .sub { font-size: 11.5px; color: var(--ink-soft); margin-top: 6px; }
+  .bd-stat .v { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1; }
+  .bd-stat .sub { font-size: 11px; color: var(--ink-soft); margin-top: 6px; }
 
-  /* Brand action items */
-  .action-card {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; box-shadow: var(--shadow-sm);
-    margin-bottom: 24px;
-    overflow: hidden;
-  }
-  .action-card .ac-h {
-    padding: 16px 22px;
-    border-bottom: 1px solid var(--line);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .action-card .ac-h h3 { margin: 0; font-size: 15px; color: var(--navy); }
-  .action-row {
-    display: grid; grid-template-columns: auto 1fr auto auto;
-    gap: 14px; padding: 14px 22px;
-    border-bottom: 1px solid var(--cream);
-    align-items: center;
-  }
+  .action-card { background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); margin-bottom: 22px; overflow: hidden; }
+  .action-card .ac-h { padding: 14px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .action-card .ac-h h3 { margin: 0; font-size: 14px; color: var(--navy); }
+  .action-row { display: grid; grid-template-columns: auto 1fr auto auto; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--cream); align-items: center; }
   .action-row:last-child { border-bottom: none; }
-  .action-row .priority {
-    width: 10px; height: 10px; border-radius: 50%;
-  }
+  .action-row .priority { width: 10px; height: 10px; border-radius: 50%; }
   .action-row .priority.high { background: var(--coral); }
   .action-row .priority.med { background: var(--yellow); }
-  .action-row .priority.low { background: var(--mint-dark); }
-  .action-row .info b { color: var(--navy); font-size: 13.5px; }
-  .action-row .info .ci { font-size: 11.5px; color: var(--ink-soft); margin-top: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .action-row .info b { color: var(--navy); font-size: 13px; }
+  .action-row .info .ci { font-size: 11px; color: var(--ink-soft); margin-top: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
   .action-row .meta-chip { background: var(--cream); padding: 2px 7px; border-radius: 3px; font-size: 11px; color: var(--ink-soft); }
   .action-row .due { font-size: 11px; color: var(--ink-soft); text-align: right; }
   .action-row .due b { color: var(--navy); display: block; font-size: 12px; }
-  .action-row button { background: var(--navy); color: var(--yellow); border: none; padding: 7px 13px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .action-row button { background: var(--navy); color: var(--yellow); border: none; padding: 7px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; }
   .action-row button.outlined { background: transparent; color: var(--ink-soft); border: 1px solid var(--line); }
 
-  /* Reporting layer */
-  .report-card {
-    background: white; border: 1px solid var(--line);
-    border-radius: 12px; box-shadow: var(--shadow-sm);
-    margin-bottom: 24px;
-  }
-  .report-card .rc-h {
-    padding: 18px 22px;
-    border-bottom: 1px solid var(--line);
-  }
-  .report-card .rc-h h3 { margin: 0 0 4px; font-size: 15px; color: var(--navy); }
-  .report-card .rc-h .rc-sub { font-size: 12px; color: var(--ink-soft); }
-  .report-tabs {
-    display: flex; gap: 4px; padding: 12px 22px 0;
-    border-bottom: 1px solid var(--cream);
-  }
-  .report-tab {
-    background: transparent; border: 1px solid var(--line);
-    border-radius: 6px 6px 0 0;
-    padding: 7px 14px; font-size: 11.5px;
-    color: var(--ink-soft); font-weight: 600;
-    border-bottom: none;
-  }
+  .report-card { background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); margin-bottom: 22px; }
+  .report-card .rc-h { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .report-card .rc-h h3 { margin: 0 0 4px; font-size: 14px; color: var(--navy); }
+  .report-card .rc-h .rc-sub { font-size: 11.5px; color: var(--ink-soft); }
+  .report-tabs { display: flex; gap: 4px; padding: 12px 20px 0; border-bottom: 1px solid var(--cream); }
+  .report-tab { background: transparent; border: 1px solid var(--line); border-radius: 6px 6px 0 0; padding: 7px 14px; font-size: 11.5px; color: var(--ink-soft); font-weight: 600; border-bottom: none; }
   .report-tab.on { background: var(--cream); color: var(--navy); border-color: var(--line); }
-  .report-body {
-    padding: 20px 22px;
-    background: var(--cream);
-  }
-  .report-section {
-    background: white; border-radius: 8px; border: 1px solid var(--line);
-    padding: 14px 16px; margin-bottom: 10px;
-  }
-  .report-section .rs-head {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 6px;
-  }
+  .report-body { padding: 18px 20px; background: var(--cream); }
+  .report-section { background: white; border-radius: 8px; border: 1px solid var(--line); padding: 13px 16px; margin-bottom: 8px; }
+  .report-section .rs-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
   .report-section .rs-head b { color: var(--navy); font-size: 12.5px; }
-  .report-section .rs-head .rs-code {
-    font-family: "SF Mono", Menlo, monospace;
-    font-size: 10.5px; color: var(--ink-faint);
-  }
-  .report-section .rs-data {
-    font-size: 12px; color: var(--ink); line-height: 1.6;
-  }
+  .report-section .rs-head .rs-code { font-family: "SF Mono", Menlo, monospace; font-size: 10px; color: var(--ink-faint); }
+  .report-section .rs-data { font-size: 11.5px; color: var(--ink); line-height: 1.6; }
   .report-section .rs-data b { color: var(--navy); }
-  .report-note {
-    font-size: 11.5px; color: var(--ink-soft);
-    margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line);
-    line-height: 1.6;
-  }
+  .report-note { font-size: 11px; color: var(--ink-soft); margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); line-height: 1.5; }
   .report-note b { color: var(--navy); }
 
-  /* Contribution panel */
-  .contrib-panel {
-    background: linear-gradient(135deg, var(--yellow-soft), #fff3c4);
-    border: 1px solid var(--yellow);
-    border-radius: 12px; padding: 22px 26px;
-    margin-bottom: 24px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 18px; align-items: center;
-  }
-  .contrib-panel .lbl {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: #806000; font-weight: 700; margin-bottom: 6px;
-  }
-  .contrib-panel h3 { margin: 0 0 6px; color: var(--navy); font-size: 17px; }
-  .contrib-panel p { margin: 0; font-size: 12.5px; color: var(--ink-soft); max-width: 560px; }
-  .contrib-panel .contrib-stats {
-    display: flex; gap: 14px;
-  }
-  .contrib-stat {
-    background: white; border-radius: 8px;
-    padding: 10px 14px; min-width: 95px; text-align: center;
-  }
-  .contrib-stat .v { font-size: 20px; font-weight: 800; color: var(--navy); line-height: 1; }
+  .contrib-panel { background: linear-gradient(135deg, var(--yellow-soft), #fff3c4); border: 1px solid var(--yellow); border-radius: 12px; padding: 20px 24px; margin-bottom: 22px; display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; }
+  .contrib-panel .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #806000; font-weight: 700; margin-bottom: 6px; }
+  .contrib-panel h3 { margin: 0 0 6px; color: var(--navy); font-size: 16px; }
+  .contrib-panel p { margin: 0; font-size: 12px; color: var(--ink-soft); max-width: 560px; }
+  .contrib-panel .contrib-stats { display: flex; gap: 12px; }
+  .contrib-stat { background: white; border-radius: 8px; padding: 10px 14px; min-width: 88px; text-align: center; }
+  .contrib-stat .v { font-size: 19px; font-weight: 800; color: var(--navy); line-height: 1; }
   .contrib-stat .l { font-size: 10px; color: var(--ink-soft); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  /* Co-authors band */
-  .coauthors-band {
-    background: var(--navy); padding: 24px 36px;
-    text-align: center;
-  }
-  .coauthors-band .lb {
-    color: var(--yellow); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 2px;
-    font-weight: 700; margin-bottom: 14px;
-  }
-  .coauthors-band .logos {
-    display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
-  }
-  .coauthors-band .logo {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: white;
-    padding: 7px 14px; border-radius: 6px;
-    font-size: 12px; font-weight: 600;
-  }
+  .coauthors-band { background: var(--navy); padding: 22px 36px; text-align: center; }
+  .coauthors-band .lb { color: var(--yellow); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 12px; }
+  .coauthors-band .logos { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .coauthors-band .logo { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: white; padding: 6px 13px; border-radius: 6px; font-size: 11.5px; font-weight: 600; }
 
-  footer {
-    padding: 20px 36px; background: var(--navy);
-    color: #8892a8; font-size: 11.5px; text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
+  footer { padding: 18px 36px; background: var(--navy); color: #8892a8; font-size: 11.5px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); }
   footer b { color: white; }
 </style>
 </head>
 <body>
 
-<!-- OS Hub top nav -->
 <div class="osh-topnav">
-  <div class="brand">
-    <span class="brand-mark">OS</span>
-    <span class="brand-text">OPEN<br>SUPPLY HUB</span>
-  </div>
-  <div class="navlinks">
-    <a href="#">Explore</a>
-    <a href="#">How It Works</a>
-    <a href="#">About Us</a>
-    <a href="#">Solutions</a>
-    <a href="#">Language</a>
-  </div>
+  <div class="brand"><span class="brand-mark">OS</span><span class="brand-text">OPEN<br>SUPPLY HUB</span></div>
+  <div class="navlinks"><a href="#">Explore</a><a href="#">How It Works</a><a href="#">About Us</a><a href="#">Solutions</a><a href="#">Language</a></div>
   <div class="navactions">
-    <div class="user-pill" id="userPill">
-      <span class="avatar" id="userAvatar">AK</span>
-      <span id="userText">Aisha Khan · PILER</span>
-    </div>
+    <div class="user-pill" id="userPill"><span class="avatar" id="userAvatar">AK</span><span id="userText">Aisha Khan · PILER</span></div>
     <button class="pill">+ Add Data</button>
   </div>
 </div>
 
-<!-- URL bar -->
 <div class="url-bar">
   <div class="url-controls"><span>←</span><span>→</span><span>↺</span></div>
-  <div class="url-input">
-    <span class="lock">🔒</span>
-    opensupplyhub.org<b id="url-path">/community-monitoring/workspace</b>
-  </div>
+  <div class="url-input"><span class="lock">🔒</span>opensupplyhub.org<b id="url-path">/community-monitoring/intro</b></div>
 </div>
 
-<!-- Prototype page nav -->
 <div class="proto-pagenav">
   <span class="pn-label">Click through —</span>
-  <button class="on" onclick="goPage(1)" data-page="1">Workspace Home</button>
+  <button class="on" onclick="goPage(0)" data-page="0">0 · Intro</button>
   <span class="arrow">→</span>
-  <button onclick="goPage(2)" data-page="2">Campaign Workspace</button>
-  <span class="group-divider"></span>
-  <button onclick="goPage(3)" data-page="3">Region Dashboard</button>
-  <button onclick="goPage(4)" data-page="4">Brand Subscriber View</button>
+  <button onclick="goPage(1)" data-page="1">1 · Individual Advocate</button>
+  <span class="arrow">→</span>
+  <button onclick="goPage(2)" data-page="2">2 · Collective Action</button>
+  <span class="arrow">→</span>
+  <button onclick="goPage(3)" data-page="3">3 · Corporate Input</button>
 </div>
 
-<!-- NEW banner -->
+<div class="stage-stepper">
+  <span class="ss-label">▌ Impact pathway</span>
+  <span class="stage" id="stage-1"><span class="stage-num">1</span>Awareness</span>
+  <span class="connector">→</span>
+  <span class="stage" id="stage-2"><span class="stage-num">2</span>Use</span>
+  <span class="connector">→</span>
+  <span class="stage" id="stage-3"><span class="stage-num">3</span>Action</span>
+  <span class="connector">→</span>
+  <span class="stage" id="stage-4"><span class="stage-num">4</span>Outcome</span>
+  <span class="connector">→</span>
+  <span class="stage" id="stage-5"><span class="stage-num">5</span>System change</span>
+</div>
+
 <div class="new-banner">
   <div class="ico">✶</div>
-  <div>
-    <b>New in Open Supply Hub</b>
-    <div class="body">A community-monitoring workspace for <em>worker rights advocates</em> doing community-based due diligence. Built on the existing OS Hub data + connection layer, alongside Spotlight, Branded Maps, and the API.</div>
-  </div>
+  <div><b>New in Open Supply Hub</b><div class="body">A community-monitoring workspace for <em>worker rights advocates</em> doing community-based due diligence. Built on the OS Hub open data + connection layer.</div></div>
 </div>
 
-<!-- ============================================================
-     PAGE 1 — Workspace Home
-============================================================ -->
-<div class="page on" id="page-1">
-
-  <div class="ws-hero">
-    <span class="shape sh-tri"></span>
-    <span class="shape sh-sq"></span>
-    <span class="shape sh-sc"></span>
+<!-- PAGE 0 INTRO -->
+<div class="page on" id="page-0">
+  <div class="intro-hero">
+    <span class="intro-shape s1"></span><span class="intro-shape s2"></span><span class="intro-shape s3"></span>
     <div class="container">
-      <div class="crumb">Open Supply Hub · Community Monitoring · My Workspace</div>
-      <h1>Welcome back, Aisha.</h1>
-      <p class="sub">5 active campaigns. 4 in progress. 8 partner organisations and 47 rights-holder groups feeding the data layer you're working with.</p>
-      <div class="user-line">
-        <span class="av">AK</span>
-        <span><b>Aisha Khan</b> · CBDD lead · Pakistan Institute of Labour Education &amp; Research (PILER) · Karachi region</span>
-      </div>
+      <div class="tag-row"><span class="t">Prototype</span><span class="t">Worker rights advocate</span><span class="t">Apparel · Pakistan</span></div>
+      <h1>What if a garment worker had the same supply-chain intelligence as the <em>CEO of the brand</em> she sews for?</h1>
+      <p class="lede">Open Supply Hub is building the open data + connection layer that puts community-based due diligence into the hands of the people actually doing the work — advocates, paralegals, unions, NGOs. This prototype walks through how that might look.</p>
+      <div class="disclaimer"><span>📌</span><span>This is an example, not a finished product. It illustrates a direction. Real data, real partners, real cases — rendered as a clickable concept to react to.</span></div>
     </div>
   </div>
-
-  <div class="ws-canvas">
-
-    <div class="stat-cards">
-      <div class="stat-card-clean coral">
-        <div class="lbl">Active campaigns</div>
-        <div class="v">5</div>
-        <div class="sub">1 new from MyVox today · 2 awaiting review</div>
-      </div>
-      <div class="stat-card-clean green">
-        <div class="lbl">In progress</div>
-        <div class="v">4</div>
-        <div class="sub">347 workers connected to action this quarter</div>
-      </div>
-      <div class="stat-card-clean purple">
-        <div class="lbl">Patterns surfaced</div>
-        <div class="v">3</div>
-        <div class="sub">Auto-flagged from cross-partner data</div>
-      </div>
-      <div class="stat-card-clean yellow">
-        <div class="lbl">Partner network</div>
-        <div class="v">8</div>
-        <div class="sub">Live feeds · 47 rights-holder groups</div>
-      </div>
+  <div class="story-tile">
+    <div class="lbl">▌ The situation</div>
+    <h2>Aisha Khan · paralegal lead at PILER, Karachi</h2>
+    <div class="story-body">
+      <p>Aisha runs community-based due diligence (CBDD) for a region of Pakistan's garment sector. She and her team of 17 paralegals work with women's cafés, unions, and grassroots groups across Karachi, Lahore, and Faisalabad to surface labour-rights issues at the factories where workers are most exposed.</p>
+      <p>This week, <b>340 workers at Apex Garments Mills</b> reported three months of unpaid overtime and retaliation threats. Sumera, 26, told a paralegal at the Faisalabad Legal Aid Centre. Forty-six of her colleagues corroborated within days.</p>
+      <p>For Aisha's team, the question isn't <i>"is this happening?"</i> — they know. The question is: <b>which brand sources from this factory, who has influence over them, what mechanisms apply, and which path the affected workers want to push.</b> Today, answering those questions takes weeks of manual research. This prototype shows what it looks like when OS Hub is the open data + connection layer underneath their work.</p>
     </div>
-
-    <div class="section-title">
-      <h2>Active campaigns</h2>
-      <a href="#">View all 5 →</a>
+    <div class="pso-grid">
+      <div class="pso-card problem"><div class="pso-stage">Problem</div><h4>Worker voice is loud — but unconnected to the actors with influence.</h4><p>5,082 cases logged in Pakistan since 2022 — most never reach the brands sourcing from those factories.</p></div>
+      <div class="pso-card solution"><div class="pso-stage">Solution</div><h4>Open data + connection layer beneath community-based DD.</h4><p>Combine rights-holder data with corporate chains, legislation, brand policies, and accountability pathways — in the worker's language.</p></div>
+      <div class="pso-card outcome"><div class="pso-stage">Outcome</div><h4>From a month of research to hours.</h4><p>Cases reach an accountability mechanism fast enough to recover wages and protect from retaliation — money and safety.</p></div>
+      <div class="pso-card impact"><div class="pso-stage">Impact</div><h4>5M workers reached at scale, 25M production locations mapped.</h4><p>Communities + advocates + brands operate on the same data — patterns become systemic change.</p></div>
     </div>
-    <div class="campaigns-card">
-      <div class="campaign-row featured" onclick="goPage(2)">
-        <span class="status-dot urgent"></span>
-        <div class="c-info">
-          <span class="new-pill">✶ NEW</span>
-          <b>Apex Garments Mills — wage theft + retaliation threat</b>
-          <div class="c-meta">
-            <span class="meta-chip partner">↗ from MyVox / PILER paralegal</span>
-            <span class="meta-chip">340 workers affected</span>
-            <span class="meta-chip">Pattern detected (5 similar campaigns)</span>
-            <span style="color:var(--ink-faint);">2 days ago</span>
-          </div>
-        </div>
-        <div class="loc">
-          <b>Faisalabad</b>
-          <span class="osid">PK2023045APEX1A</span>
-        </div>
-        <div class="reps">
-          <b>12 rights holders</b>
-          <span>ready to vote</span>
-        </div>
-        <button class="c-cta">Open campaign →</button>
-      </div>
-      <div class="campaign-row">
-        <span class="status-dot"></span>
-        <div class="c-info">
-          <b>Sapphire Textile Mills — unfair dismissal × 3</b>
-          <div class="c-meta">
-            <span class="meta-chip partner">↗ from NTUF case file</span>
-            <span class="meta-chip">3 rights holders</span>
-            <span style="color:var(--ink-faint);">6 days ago</span>
-          </div>
-        </div>
-        <div class="loc">
-          <b>Lahore</b>
-          <span class="osid">PK2024112SAPH4F</span>
-        </div>
-        <div class="reps">
-          <b>Drafted</b>
-          <span>ready to file</span>
-        </div>
-        <button class="c-cta outlined">Open</button>
-      </div>
-      <div class="campaign-row">
-        <span class="status-dot review"></span>
-        <div class="c-info">
-          <b>Crystal Apparel Industries — GBV allegation</b>
-          <div class="c-meta">
-            <span class="meta-chip partner">↗ from Women's Café (HBWWF)</span>
-            <span class="meta-chip">awaiting consent gate</span>
-            <span style="color:var(--ink-faint);">1 week ago</span>
-          </div>
-        </div>
-        <div class="loc">
-          <b>Karachi</b>
-          <span class="osid">PK2023012CRYS9B</span>
-        </div>
-        <div class="reps">
-          <b>Hold</b>
-          <span>consent pending</span>
-        </div>
-        <button class="c-cta outlined">Open</button>
-      </div>
-      <div class="campaign-row">
-        <span class="status-dot"></span>
-        <div class="c-info">
-          <b>Northbridge Mills — contract violations × 12</b>
-          <div class="c-meta">
-            <span class="meta-chip partner">↗ from MyVox aggregate</span>
-            <span class="meta-chip">12 rights-holder reports across 3 weeks</span>
-            <span style="color:var(--ink-faint);">2 weeks ago</span>
-          </div>
-        </div>
-        <div class="loc">
-          <b>Faisalabad</b>
-          <span class="osid">PK2022087NRTH3D</span>
-        </div>
-        <div class="reps">
-          <b>Strategy</b>
-          <span>in progress</span>
-        </div>
-        <button class="c-cta outlined">Open</button>
-      </div>
+  </div>
+  <div class="intro-stage-spine">
+    <h3>▌ The 5-stage impact pathway · how this prototype tells the story</h3>
+    <p class="iss-sub">Mapped to the impact framework being developed with Intention 2 Impact. The pathway runs across the prototype's pages.</p>
+    <div class="stage-spine-row">
+      <div class="stage-block"><span class="sb-num">1</span><h5>Awareness</h5><p>Issue gets raised. Rights-holder data flows in from partner CBM tools (MyVox, Fair Wear, TTCU, NTUF).</p><div class="where">Pages 1 + 2</div></div>
+      <div class="stage-block"><span class="sb-num">2</span><h5>Use</h5><p>Aisha combines the testimony with OS Hub's industry data — corporate chains, legislation, brand policies, audit gaps.</p><div class="where">Page 1</div></div>
+      <div class="stage-block"><span class="sb-num">3</span><h5>Action</h5><p>Worker reps choose the accountability path. Required and optional mechanisms surface — the advocate files.</p><div class="where">Page 1</div></div>
+      <div class="stage-block"><span class="sb-num">4</span><h5>Outcome</h5><p>Money recovered. Safety improved. Pattern logged. Visible to the community and the brand.</p><div class="where">Pages 1 + 3</div></div>
+      <div class="stage-block"><span class="sb-num">5</span><h5>System change</h5><p>Aggregate patterns surface across the region. Brands subscribe and pay into the community DD program. Systemic shifts compound.</p><div class="where">Pages 2 + 3</div></div>
     </div>
-
-    <div class="section-title">
-      <h2>In progress</h2>
-      <a href="#">View all →</a>
-    </div>
-    <div class="campaigns-grid">
-      <div class="campaign-card-mini">
-        <div class="c-status"><span class="dot"></span>In escalation · Day 14 of 90</div>
-        <h4>Eastwell &amp; Co. — Faisalabad wage theft cluster</h4>
-        <div class="c-meta">Parallel Speak Up + Pakistan Wages Authority · 340 workers · PKR 4.2M at stake</div>
-        <div class="bar"><div class="bar-fill" style="width: 28%"></div></div>
-        <div class="progress-lbl">28%</div>
-      </div>
-      <div class="campaign-card-mini">
-        <div class="c-status"><span class="dot"></span>Evidence gathering</div>
-        <h4>WRAP certification challenge — Faisalabad cluster</h4>
-        <div class="c-meta">8 WRAP-certified factories with wage-theft campaigns · path to certifier accountability</div>
-        <div class="bar"><div class="bar-fill" style="width: 12%"></div></div>
-        <div class="progress-lbl">12%</div>
-      </div>
-      <div class="campaign-card-mini">
-        <div class="c-status"><span class="dot"></span>Brief drafted</div>
-        <h4>Karachi industrial zone wage-theft pattern</h4>
-        <div class="c-meta">3× national rate since Q1 · coordinating with NTUF, Fair Wear</div>
-        <div class="bar"><div class="bar-fill" style="width: 64%"></div></div>
-        <div class="progress-lbl">64%</div>
-      </div>
-    </div>
-
-    <div class="section-title">
-      <h2>Surfaced for you</h2>
-      <span class="meta">Patterns &amp; connections from across the network</span>
-    </div>
-    <div class="two-col">
-      <div>
-        <div class="insight-card">
-          <div class="lbl">▌ Pattern surfaced · last 90 days</div>
-          <h4>8 WRAP-certified factories in Faisalabad have wage-theft campaigns running</h4>
-          <p>That's 31% of all wage-theft campaigns in the city — in facilities certified as compliant. Pathway against the certifier may be more leveraged than per-brand action.</p>
-          <a href="#">Investigate this pattern →</a>
-        </div>
-        <div class="insight-card" style="background:linear-gradient(135deg, #ffe8e8, #ffd6d6); border-color: var(--coral);">
-          <div class="lbl" style="color:#7a1717;">▌ Recurring undisclosed agent</div>
-          <h4>Pearl River Sourcing showing up in 12% of all campaigns</h4>
-          <p>A sourcing agent appearing across multiple brand chains — invisible to public supplier lists, visible from rights-holder observation.</p>
-          <a href="#">Open agent profile →</a>
-        </div>
-        <div class="connect-card">
-          <div class="lbl">▌ Connect — other advocates on similar campaigns</div>
-          <h4>5 worker rights advocates running campaigns at Eastwell-supplied factories</h4>
-          <p>Three are in Pakistan, one in Bangladesh, one in Vietnam. Reaching out can coordinate timing or share evidence.</p>
-          <div class="connect-row">
-            <span class="av-mini">FZ</span>
-            <span><b>Faiza Zafar</b> · NTUF Karachi · Apex worker safety campaign</span>
-            <button class="connect-btn">Message</button>
-          </div>
-          <div class="connect-row">
-            <span class="av-mini">PA</span>
-            <span><b>Priya Anand</b> · TTCU Tamil Nadu · Eastwell India wage-theft</span>
-            <button class="connect-btn">Message</button>
-          </div>
-          <div class="connect-row">
-            <span class="av-mini">+3</span>
-            <span style="color: var(--ink-soft);">3 more advocates · BNTUF Bangladesh, AFWA regional</span>
-            <button class="connect-btn">View all</button>
-          </div>
-        </div>
-      </div>
-      <div class="partner-panel">
-        <h4>Partner network</h4>
-        <div class="pp-sub">Live feeds into your workspace</div>
-        <div class="partner-row">
-          <span class="p-ico">📱</span>
-          <div><b>MyVox · GRC Pakistan</b><div class="pm">17 paralegals · 7 reports today</div></div>
-          <span class="live-tag">Live</span>
-        </div>
-        <div class="partner-row">
-          <span class="p-ico">⚖</span>
-          <div><b>Accountability Counsel</b><div class="pm">Pathway database · 47 mechanisms applicable</div></div>
-          <span class="live-tag">Live</span>
-        </div>
-        <div class="partner-row">
-          <span class="p-ico">☎</span>
-          <div><b>Fair Wear Worker Info Line</b><div class="pm">9 countries · 2 relevant to your network</div></div>
-          <span class="live-tag">Live</span>
-        </div>
-        <div class="partner-row">
-          <span class="p-ico">🛡</span>
-          <div><b>TTCU Safe Circle</b><div class="pm">Tamil Nadu · pattern data shared</div></div>
-          <span class="live-tag">Live</span>
-        </div>
-        <div class="partner-row">
-          <span class="p-ico">🏛</span>
-          <div><b>Pakistan Labour Department</b><div class="pm">Public register · syncs daily</div></div>
-          <span class="live-tag">Live</span>
-        </div>
-      </div>
-    </div>
+  </div>
+  <div class="intro-cta-row">
+    <div><h3>Walk through Aisha's day in three workspaces</h3><p>Individual advocate (her case-by-case work) · Collective action (her team's regional view) · Corporate input (what brands paying into the community DD program see).</p></div>
+    <button onclick="goPage(1)">Open the prototype →</button>
   </div>
 </div>
 
-<!-- ============================================================
-     PAGE 2 — Campaign Workspace
-============================================================ -->
-<div class="page" id="page-2">
-
+<!-- PAGE 1 INDIVIDUAL ADVOCATE -->
+<div class="page" id="page-1">
   <div class="cw-hero">
     <div class="container">
-      <div class="crumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <a>Workspace</a> › <a>Campaigns</a> › <b>Eastwell &amp; Co. — Apex Garments wage theft</b></div>
+      <div class="crumb">Open Supply Hub › Community Monitoring › <b>Eastwell &amp; Co. — Apex Garments wage theft</b></div>
       <div class="cw-hero-row">
         <div>
           <span class="case-tag">Active · Day 14 of est. 90</span>
           <h1>Eastwell &amp; Co. — Apex Garments wage theft</h1>
-          <div class="meta">
-            <span class="osid">OS ID: PK2023045APEX1A</span>
-            Apex Garments Mills (Pvt) Ltd · Faisalabad · 1,820 workers · 64% women · WRAP certified May 2025
-          </div>
+          <div class="meta"><span class="osid">OS ID: PK2023045APEX1A</span>Apex Garments Mills (Pvt) Ltd · Faisalabad · 1,820 workers · 64% women · WRAP certified May 2025</div>
         </div>
-        <div class="actions">
-          <button>Share</button>
-          <button>Export brief</button>
-          <button class="primary">Advance campaign →</button>
-        </div>
+        <div class="actions"><button>Share</button><button>Export brief</button><button class="primary">Advance campaign →</button></div>
       </div>
     </div>
   </div>
-
   <div class="tool-status-bar">
-    <span class="item">⚡ Built in <b>3h 12m</b></span>
-    <span class="dot-sep">·</span>
-    <span class="item">🗂 <b>12 datasets</b> queried</span>
-    <span class="dot-sep">·</span>
-    <span class="item">↗ <b>34 source citations</b></span>
-    <span class="dot-sep">·</span>
-    <span class="item">🌐 Language: <b>Urdu + English</b></span>
-    <span class="dot-sep">·</span>
-    <span class="item">🛡 Consent gate: <b>9 of 12 rights holders voted</b></span>
+    <span class="item">⚡ Built in <b>3h 12m</b></span><span class="dot-sep">·</span>
+    <span class="item">🗂 <b>12 datasets</b> queried</span><span class="dot-sep">·</span>
+    <span class="item">↗ <b>34 source citations</b></span><span class="dot-sep">·</span>
+    <span class="item">🌐 <b>Urdu + English</b></span><span class="dot-sep">·</span>
+    <span class="item">🛡 Consent gate: <b>9 of 12 voted</b></span>
     <span style="margin-left:auto; color: var(--ink-faint); font-size: 11px;">Last updated 4 min ago</span>
   </div>
-
   <div class="ws-canvas">
-
-    <!-- Rights-holder data block (broader than testimony) -->
+    <div class="awareness-banner">
+      <div class="aw-ico">!</div>
+      <div>
+        <div class="aw-lbl">▌ Awareness · what changed this week</div>
+        <h3>New activity at Apex Garments Mills</h3>
+        <div class="aw-list">
+          <span><b>3 new</b> rights-holder reports in last 7 days <span class="live-tag-mini pulse">LIVE</span></span><span>·</span>
+          <span><b>+18%</b> wage-theft pattern this month vs last</span><span>·</span>
+          <span><b>Pearl River Sourcing</b> accelerating across the network — last 30 days</span>
+        </div>
+      </div>
+      <button>Investigate</button>
+    </div>
     <div class="rh-section">
       <div class="rh-head">
         <div class="lbl">▌ Rights-holder data · powering this campaign <span class="new-badge">✶ NEW</span></div>
-        <div class="totals">
-          <span>340 rights holders contributed</span>
-          <span>·</span>
-          <span>Data <b>owned by</b> PILER worker collective</span>
-          <span>·</span>
-          <span class="comp-chip">↓ <span class="amt">$2,840</span> paid to source</span>
-        </div>
+        <div class="totals"><span><b>340 rights holders</b> contributed</span><span>·</span><span>Data <b>owned by</b> PILER worker collective</span><span>·</span><span class="comp-chip">↓ <span class="amt">$2,840</span> paid to source</span></div>
       </div>
       <div class="rh-data-grid">
         <div class="rh-data-card testimony">
-          <div class="rh-type"><span class="ico">🎙</span> Worker testimony</div>
-          <div class="quote-ur">"وہ کہتے ہیں میری اوور ٹائم ادا ہو چکی ہے، لیکن تین ماہ سے میرے اکاؤنٹ میں کچھ نہیں آیا۔ جب میں نے پوچھا تو سپروائزر نے کہا اگر میں نے دوبارہ پوچھا تو وہ کہیں گے مجھے شفٹیں نہ دیں۔"</div>
-          <div class="quote-en">"They told me my overtime had been paid, but nothing has come into my account for three months. When I asked, the supervisor said if I kept asking, he'd tell them to stop giving me shifts."</div>
-          <div class="rh-footer">
-            <span class="attr"><b>Sumera</b> · 26 · operator · via PILER paralegal</span>
-            <a class="data-ref" style="margin-left:auto;">↗ MyVox #4783</a>
-          </div>
+          <div class="rh-type">🎙 Worker testimony</div>
+          <div class="quote-ur">"وہ کہتے ہیں میری اوور ٹائم ادا ہو چکی ہے، لیکن تین ماہ سے میرے اکاؤنٹ میں کچھ نہیں آیا۔"</div>
+          <div class="quote-en">"They say my overtime has been paid, but nothing has come into my account for three months."</div>
+          <div class="rh-footer"><span class="attr"><b>Sumera</b> · 26 · operator · via PILER paralegal</span><a class="data-ref" style="margin-left:auto;">↗ MyVox #4783</a></div>
         </div>
         <div class="rh-data-card">
-          <div class="rh-type"><span class="ico">📊</span> Wage survey</div>
+          <div class="rh-type">📊 Wage survey</div>
           <div class="rh-data-headline">47 workers</div>
-          <div class="rh-data-sub">3 months of payslips compared against contract</div>
-          <div class="rh-data-detail">Median underpayment: <b>PKR 8,400/month</b> · pattern across women's line operators</div>
-          <div class="rh-footer">
-            <span class="attr">PILER survey, Mar 2026</span>
-            <span class="comp-chip">↓ <span class="amt">$5/worker</span></span>
-          </div>
+          <div class="rh-data-sub">3 mo payslips vs. contract</div>
+          <div class="rh-data-detail">Median underpayment: <b>PKR 8,400/mo</b></div>
+          <div class="rh-footer"><span class="attr">PILER · Mar 2026</span><span class="comp-chip">↓ <span class="amt">$5/worker</span></span></div>
         </div>
         <div class="rh-data-card">
-          <div class="rh-type"><span class="ico">🏭</span> Conditions assessment</div>
+          <div class="rh-type">🏭 Conditions audit</div>
           <div class="rh-data-headline">22 indicators</div>
-          <div class="rh-data-sub">Structured walkthrough by 4 worker monitors</div>
-          <div class="rh-data-detail">Locked fire exits flagged · ventilation below code · forced overtime ≥ 14h/week</div>
-          <div class="rh-footer">
-            <span class="attr">HBWWF, May 2026</span>
-            <span class="comp-chip">↓ <span class="amt">$15/monitor</span></span>
-          </div>
+          <div class="rh-data-sub">4 worker monitors</div>
+          <div class="rh-data-detail">Locked fire exits · forced OT ≥ 14h/wk</div>
+          <div class="rh-footer"><span class="attr">HBWWF · May 2026</span><span class="comp-chip">↓ <span class="amt">$15/monitor</span></span></div>
         </div>
         <div class="rh-data-card">
-          <div class="rh-type"><span class="ico">📷</span> Photo evidence</div>
+          <div class="rh-type">📷 Photo evidence</div>
           <div class="rh-data-headline">14 images</div>
-          <div class="rh-data-sub">Brand labels &amp; shipping documents observed on factory floor</div>
-          <div class="rh-data-detail">3 confirm Eastwell label · 2 show Pearl River packing slip · 1 shows shift roster</div>
-          <div class="rh-footer">
-            <span class="attr">Rights-holder submitted · anonymised</span>
-            <span class="comp-chip">↓ <span class="amt">$3/image</span></span>
-          </div>
+          <div class="rh-data-sub">Brand labels &amp; shipping docs</div>
+          <div class="rh-data-detail">3× Eastwell label · 2× Pearl River slip</div>
+          <div class="rh-footer"><span class="attr">Anonymised</span><span class="comp-chip">↓ <span class="amt">$3/image</span></span></div>
         </div>
       </div>
     </div>
-
-    <!-- Mode tabs -->
     <div class="mode-tabs" id="modeTabs">
-      <button class="mode-tab on" id="tab-structured" onclick="setMode('structured')">
-        <span class="ico">⊞</span> Structured workspace
-      </button>
-      <button class="mode-tab" id="tab-copilot" onclick="setMode('copilot')">
-        <span class="ico">✦</span> Co-pilot
-      </button>
+      <button class="mode-tab on" id="tab-structured" onclick="setMode('structured')">⊞ Structured workspace</button>
+      <button class="mode-tab" id="tab-copilot" onclick="setMode('copilot')">✦ Co-pilot</button>
     </div>
-
     <div id="modeContainer">
-
       <div class="struct-mode" id="structuredMode">
-
-        <!-- Corporate chain -->
-        <div class="ws-section-h">
-          <h3>Corporate chain — who has influence <span class="new-badge">✶ NEW</span></h3>
-          <span class="source">OS Hub disclosure × corporate registries × rights-holder observation</span>
-        </div>
+        <div class="ws-section-h"><h3>Corporate chain — who has influence <span class="new-badge">✶ Use</span></h3><span class="source">OS Hub × corporate registries × rights-holder observation</span></div>
         <div class="chain-tiles">
-          <div class="chain-tile">
-            <div class="role">Factory</div>
-            <div class="name">Apex Garments Mills</div>
-            <div class="where">Faisalabad, Pakistan</div>
-            <a class="data-ref">↗ OS ID PK2023045APEX1A</a>
-            <div class="contact-line"><a href="#">Contact facility ↗</a></div>
-            <span class="arrow-next">→</span>
-          </div>
-          <div class="chain-tile">
-            <div class="role">Sourcing agent</div>
-            <div class="name">Pearl River Sourcing Ltd.</div>
-            <div class="where">Hong Kong</div>
-            <a class="data-ref">↗ MyVox #4783 evidence</a>
-            <span class="badge gap" style="display:block;margin-top:4px;">⚠ undisclosed by brand</span>
-            <span class="arrow-next">→</span>
-          </div>
-          <div class="chain-tile">
-            <div class="role">Brand</div>
-            <div class="name">Eastwell &amp; Co.</div>
-            <div class="where">London · buyer disclosure 2024</div>
-            <a class="data-ref">↗ OS Hub contributor #1842</a>
-            <div class="contact-line"><a href="#">Contact compliance ↗</a></div>
-            <span class="arrow-next">→</span>
-          </div>
-          <div class="chain-tile">
-            <div class="role">Parent company</div>
-            <div class="name">Eastwell Holdings PLC</div>
-            <div class="where">LSE · market cap £4.2B</div>
-            <a class="data-ref">↗ Companies House 09487123</a>
-            <div class="contact-line"><a href="#">Investor relations ↗</a></div>
-          </div>
+          <div class="chain-tile"><div class="role">Factory</div><div class="name">Apex Garments Mills</div><div class="where">Faisalabad</div><a class="data-ref">↗ OS ID PK2023045APEX1A</a><div class="quick-actions"><a class="connect-chip">↗ Contact</a></div><span class="arrow-next">→</span></div>
+          <div class="chain-tile"><div class="role">Sourcing agent</div><div class="name">Pearl River Sourcing</div><div class="where">Hong Kong</div><a class="data-ref">↗ MyVox #4783</a><span class="badge gap" style="display:block;margin-top:4px;">⚠ undisclosed</span><span class="arrow-next">→</span></div>
+          <div class="chain-tile"><div class="role">Brand</div><div class="name">Eastwell &amp; Co.</div><div class="where">London · 2024</div><a class="data-ref">↗ Contributor #1842</a><div class="quick-actions"><a class="connect-chip">↗ Speak Up</a><a class="connect-chip">↗ Maya Patel</a></div><span class="arrow-next">→</span></div>
+          <div class="chain-tile"><div class="role">Parent</div><div class="name">Eastwell Holdings PLC</div><div class="where">LSE · £4.2B</div><a class="data-ref">↗ CH 09487123</a><div class="quick-actions"><a class="connect-chip">↗ IR</a></div></div>
         </div>
-
-        <!-- Accountability layer with required vs optional + external links -->
-        <div class="ws-section-h">
-          <h3>Accountability layer — every pathway in one view <span class="new-badge">✶ NEW</span></h3>
-          <span class="source">we surface; you act</span>
-        </div>
+        <div class="ws-section-h"><h3>Accountability pathways — required and optional <span class="new-badge">✶ Action</span></h3><span class="source">we surface · you act</span></div>
         <div class="acc-grid">
-          <div class="acc-card">
-            <div class="ac-head">
-              <h4>Applicable legislation</h4>
-              <span class="src-tag">via OS Hub legal layer</span>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>Sindh Payment of Wages Act 2014</b>
-                <span class="req-pill req">Required for legal DD</span>
-              </div>
-              <div class="ai-desc">Direct breach. Government-level reporting needed in Pakistan.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ EUR-Lex PK-LBR-2014</a>
-                <a class="ext-link">↗ Submit via Pakistan Ministry of Labour</a>
-              </div>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>EU CSDDD</b>
-                <span class="req-pill req">Required for Eastwell EU reporting</span>
-              </div>
-              <div class="ai-desc">Eastwell EU revenue €510M — in scope. Mandatory due-diligence reporting cycle.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ EUR-Lex 32024L1760</a>
-                <a class="ext-link">↗ Submit via EU CSDDD portal</a>
-              </div>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>UK Modern Slavery Act §54</b>
-                <span class="req-pill help">Helpful — disclosure exists</span>
-              </div>
-              <div class="ai-desc">Parent must publish annual statement. Reference for advocacy.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ legislation.gov.uk c.30</a>
-              </div>
-            </div>
+          <div class="acc-card"><div class="ac-head"><h4>Legal pathways</h4><span class="src-tag">OS Hub legal layer</span></div>
+            <div class="acc-item"><div class="ai-top"><b>Sindh Payment of Wages Act 2014</b><span class="req-pill req">Required</span></div><div class="ai-desc">Direct breach — Pakistan government track.</div><div class="ai-actions"><a class="data-ref">↗ EUR-Lex PK-LBR-2014</a><a class="ext-link">↗ Submit · Ministry of Labour</a></div></div>
+            <div class="acc-item"><div class="ai-top"><b>EU CSDDD</b><span class="req-pill req">Required · in scope</span></div><div class="ai-desc">Eastwell EU revenue €510M — mandatory DD reporting.</div><div class="ai-actions"><a class="data-ref">↗ EUR-Lex 32024L1760</a><a class="ext-link">↗ EU CSDDD portal</a></div></div>
           </div>
-
-          <div class="acc-card">
-            <div class="ac-head">
-              <h4>Brand's own grievance commitments</h4>
-              <span class="src-tag">via OS Hub Spotlight</span>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>Eastwell Speak Up programme</b>
-                <span class="req-pill opt">Optional · 90-day SLA</span>
-              </div>
-              <div class="ai-desc">Third-party submissions accepted. Brand's own committed channel.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ Spotlight: eastwell-speakup</a>
-                <a class="ext-link">↗ Submit via Eastwell Speak Up</a>
-              </div>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>Supplier Code §7.2</b>
-                <span class="req-pill help">Helpful — leverage signal</span>
-              </div>
-              <div class="ai-desc">Brand's own code requires overtime at 1.5× — direct contradiction with the wage survey data.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ Spotlight: eastwell-supcode</a>
-              </div>
-            </div>
+          <div class="acc-card"><div class="ac-head"><h4>Brand's own grievance</h4><span class="src-tag">OS Hub Spotlight</span></div>
+            <div class="acc-item"><div class="ai-top"><b>Eastwell Speak Up programme</b><span class="req-pill opt">Optional · 90-day SLA</span></div><div class="ai-desc">Third-party submissions accepted.</div><div class="ai-actions"><a class="data-ref">↗ Spotlight: eastwell-speakup</a><a class="ext-link">↗ Submit · Speak Up</a></div></div>
+            <div class="acc-item"><div class="ai-top"><b>Supplier Code §7.2</b><span class="req-pill help">Helpful · leverage</span></div><div class="ai-desc">Brand's own code requires overtime at 1.5×.</div><div class="ai-actions"><a class="data-ref">↗ Spotlight: eastwell-supcode</a></div></div>
           </div>
-
-          <div class="acc-card">
-            <div class="ac-head">
-              <h4>Collective &amp; union pathways</h4>
-              <span class="src-tag">via Accountability Counsel</span>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>Pakistan Payment of Wages Authority</b>
-                <span class="req-pill req">Required first step (workers)</span>
-              </div>
-              <div class="ai-desc">Wage-specific government track · 60-day avg resolution.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ AC pathway PK-POWA</a>
-                <a class="ext-link">↗ POWA submission portal</a>
-              </div>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>Fair Wear Worker Info Line</b>
-                <span class="req-pill opt">Optional · Eastwell is a member</span>
-              </div>
-              <div class="ai-desc">Member-leverage pathway. Adds pressure if brand response is slow.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ AC pathway FWF-WIL</a>
-                <a class="ext-link">↗ Fair Wear info line</a>
-              </div>
-            </div>
+          <div class="acc-card"><div class="ac-head"><h4>Collective &amp; union pathways</h4><span class="src-tag">Accountability Counsel</span></div>
+            <div class="acc-item"><div class="ai-top"><b>Pakistan Payment of Wages Authority</b><span class="req-pill req">Required first step</span></div><div class="ai-desc">Wage-specific gov track · 60-day avg.</div><div class="ai-actions"><a class="data-ref">↗ AC pathway PK-POWA</a><a class="ext-link">↗ POWA portal</a></div></div>
+            <div class="acc-item"><div class="ai-top"><b>Fair Wear Worker Info Line</b><span class="req-pill opt">Optional · Eastwell member</span></div><div class="ai-desc">Member-leverage pathway.</div><div class="ai-actions"><a class="data-ref">↗ AC pathway FWF-WIL</a><a class="ext-link">↗ Fair Wear line</a></div></div>
           </div>
-
-          <div class="acc-card">
-            <div class="ac-head">
-              <h4>Audit-gap leverage</h4>
-              <span class="src-tag">via OS Hub Spotlight audit data</span>
-            </div>
-            <div class="acc-item">
-              <div class="ai-top">
-                <b>WRAP certified May 2025</b>
-                <span class="req-pill help">Helpful — credibility lever</span>
-              </div>
-              <div class="ai-desc">This campaign contradicts audit finding. Pattern: 7 other WRAP-certified Faisalabad factories with wage-theft campaigns since 2024.</div>
-              <div class="ai-actions">
-                <a class="data-ref">↗ Spotlight: wrap-cert-PK045</a>
-                <a class="data-ref">↗ pattern-fsl-wrap-2024</a>
-              </div>
-            </div>
+          <div class="acc-card"><div class="ac-head"><h4>Audit-gap leverage</h4><span class="src-tag">Spotlight audit data</span></div>
+            <div class="acc-item"><div class="ai-top"><b>WRAP certified May 2025</b><span class="req-pill help">Helpful · credibility</span></div><div class="ai-desc">Campaign contradicts audit. <b>Pattern:</b> 7 other WRAP-certified Faisalabad factories with wage-theft campaigns since 2024.</div><div class="ai-actions"><a class="data-ref">↗ Spotlight: wrap-cert-PK045</a></div></div>
           </div>
         </div>
-
-        <!-- Collective decision-making panel -->
         <div class="vote-panel">
-          <div class="vp-head">▌ Consent gate · live collective decision <span class="new-badge" style="background:rgba(255,255,255,0.2); color:white; border-color:rgba(255,255,255,0.3);">✶ NEW</span></div>
-          <h3>12 rights holders are choosing the accountability path to push forward</h3>
-          <p class="vp-sub">Affected workers and their reps decide where the campaign goes next. The advocate doesn't move until they've reached consensus.</p>
-          <div class="vote-row">
-            <span class="opt">File with Speak Up + Pakistan Wages Authority in parallel</span>
-            <div class="vote-bar"><div class="vote-fill" style="width: 73%"></div></div>
-            <span class="pct">73%</span>
-          </div>
-          <div class="vote-row">
-            <span class="opt">Speak Up first · escalate after 30 days</span>
-            <div class="vote-bar"><div class="vote-fill" style="width: 18%"></div></div>
-            <span class="pct">18%</span>
-          </div>
-          <div class="vote-row">
-            <span class="opt">Bring in Fair Wear + media immediately</span>
-            <div class="vote-bar"><div class="vote-fill" style="width: 9%"></div></div>
-            <span class="pct">9%</span>
-          </div>
-          <div class="vote-meta">
-            <div class="voter-dots">
-              <span class="vd">A</span><span class="vd">B</span><span class="vd">F</span><span class="vd">M</span><span class="vd">N</span><span class="vd">+7</span>
-            </div>
-            <span>12 rights-holder reps · vote closes in 38 min</span>
-          </div>
-          <div class="where-it-happens">📱 Signal group · async voting in Urdu · running in parallel on WhatsApp for reps without Signal</div>
+          <div class="vp-head">▌ Consent gate · live collective decision <span class="new-badge" style="background:rgba(255,255,255,0.2); color:white; border-color:rgba(255,255,255,0.3);">✶ Action</span></div>
+          <h3>12 rights holders are choosing the accountability path</h3>
+          <p class="vp-sub">Workers and their reps decide where the campaign goes. The advocate doesn't move until consensus.</p>
+          <div class="vote-row"><span class="opt">File Speak Up + PK Wages Authority in parallel</span><div class="vote-bar"><div class="vote-fill" style="width: 73%"></div></div><span class="pct">73%</span></div>
+          <div class="vote-row"><span class="opt">Speak Up first · escalate after 30 days</span><div class="vote-bar"><div class="vote-fill" style="width: 18%"></div></div><span class="pct">18%</span></div>
+          <div class="vote-row"><span class="opt">Bring in Fair Wear + media immediately</span><div class="vote-bar"><div class="vote-fill" style="width: 9%"></div></div><span class="pct">9%</span></div>
+          <div class="vote-meta"><div class="voter-dots"><span class="vd">A</span><span class="vd">B</span><span class="vd">F</span><span class="vd">M</span><span class="vd">N</span><span class="vd">+7</span></div><span>12 reps · vote closes in 38 min</span></div>
+          <div class="where-it-happens">📱 Signal group · async voting in Urdu · WhatsApp parallel for reps without Signal</div>
         </div>
-
-        <!-- Connect & collaborate panel -->
         <div class="collab-panel">
-          <div class="cp-head">
-            <h3>Connect &amp; collaborate <span class="new-badge">✶ NEW</span></h3>
-            <span class="source">Other people working on the same chain</span>
-          </div>
-          <div class="cp-sub">Organising starts with one. Then two. Then a network. OS Hub helps you find the others already working on this.</div>
-          <div class="collab-row">
-            <span class="av-c">FZ</span>
-            <div class="info">
-              <b>Faiza Zafar · NTUF Karachi</b>
-              <div class="ci">Running the Northbridge Mills campaign · 12 contract-violation reports · same supplier cluster</div>
-            </div>
-            <button>Message ✦</button>
-          </div>
-          <div class="collab-row">
-            <span class="av-c">PA</span>
-            <div class="info">
-              <b>Priya Anand · TTCU Tamil Nadu</b>
-              <div class="ci">Eastwell India wage-theft campaign · 410 workers · resolved 73 days · playbook available</div>
-            </div>
-            <button>Message ✦</button>
-            <button class="outlined">View playbook</button>
-          </div>
-          <div class="collab-row">
-            <span class="av-c">BS</span>
-            <div class="info">
-              <b>Brand contact: Eastwell &amp; Co. Compliance</b>
-              <div class="ci">speakup@eastwell.com · or via the Speak Up portal · primary compliance lead: Maya Patel (per OS Hub contributor record)</div>
-            </div>
-            <button class="outlined">Open contact</button>
-          </div>
-          <div class="collab-row">
-            <span class="av-c">+5</span>
-            <div class="info">
-              <span style="color: var(--ink-soft); font-size:12.5px;">5 more advocates on Eastwell-supplied factories in Bangladesh, Vietnam, regional AFWA</span>
-            </div>
-            <button class="outlined">View all</button>
-          </div>
+          <div class="cp-head"><h3>Connect &amp; collaborate <span class="new-badge">✶ NEW</span></h3><span class="source">Organising starts with one. Then two. Then a network.</span></div>
+          <div class="cp-sub">Other people working on this chain — contacts surfaced from OS Hub data, available from anywhere on the page.</div>
+          <div class="collab-row"><span class="av-c">PA</span><div class="info"><b>Priya Anand · TTCU Tamil Nadu</b><div class="ci">Resolved Eastwell wage-theft campaign · 73 days · 410 workers · playbook available</div></div><button>Message ✦</button><button class="outlined">Playbook</button></div>
+          <div class="collab-row"><span class="av-c">FZ</span><div class="info"><b>Faiza Zafar · NTUF Karachi</b><div class="ci">Running Northbridge Mills campaign · same supplier cluster · 12 reports</div></div><button>Message ✦</button></div>
+          <div class="collab-row"><span class="av-c">MP</span><div class="info"><b>Eastwell &amp; Co. — Maya Patel (Compliance)</b><div class="ci">speakup@eastwell.com · primary contact per OS Hub contributor record</div></div><button class="outlined">Open contact</button></div>
         </div>
-
-        <!-- Projected outcome -->
-        <div class="ws-section-h">
-          <h3>Projected outcome <span class="new-badge">✶ NEW</span></h3>
-          <span class="source">Modelled from similar past campaigns · 92% pattern match</span>
-        </div>
-        <div class="outcome-card-mini">
-          <div class="o-meta">
-            Closest match: <b>Bahawalpur 2024 · Eastwell wage theft</b> · resolved 73 days · 410 workers compensated
-            <a class="data-ref">↗ GRC playbook 2024-PK-117</a>
-          </div>
-          <div class="outcome-stats">
-            <div class="outcome-stat money">
-              <div class="label-mini">$ Money</div>
-              <div class="v">PKR 4.26M</div>
-              <div class="l">Wages projected to recover</div>
-            </div>
-            <div class="outcome-stat safety">
-              <div class="label-mini">🛡 Safety</div>
-              <div class="v">347 workers</div>
-              <div class="l">Retaliation protection added</div>
-            </div>
-            <div class="outcome-stat safety">
-              <div class="label-mini">🛡 Safety</div>
-              <div class="v">12 months</div>
-              <div class="l">Independent monitoring</div>
-            </div>
+        <div class="ws-section-h"><h3>Projected outcome <span class="new-badge">✶ Outcome</span></h3><span class="source">Modelled from 92% match with Bahawalpur 2024</span></div>
+        <div class="outcome-big">
+          <div class="ob-head"><div class="check">✓</div><div><h3>Money returned to workers. Safety protections in place. Pattern logged.</h3><div class="ob-sub">Bahawalpur 2024 · Eastwell · resolved 73 days · 410 workers <a class="data-ref" style="background:rgba(255,255,255,0.18); color:white; border-color:rgba(255,255,255,0.3);">↗ GRC playbook 2024-PK-117</a></div></div></div>
+          <div class="outcome-big-stats">
+            <div class="outcome-big-stat"><div class="ll">$ Money</div><div class="vv">PKR 4.26M</div><div class="ss">Wages projected to recover · 347 workers</div></div>
+            <div class="outcome-big-stat"><div class="ll">🛡 Safety</div><div class="vv">No-retaliation clause</div><div class="ss">Added to supplier contract · 1,820 workers covered</div></div>
+            <div class="outcome-big-stat"><div class="ll">📈 System</div><div class="vv">12 mo monitoring</div><div class="ss">Quarterly independent audit · pattern added to dataset</div></div>
           </div>
         </div>
       </div>
-
-      <!-- Co-pilot mode -->
       <div class="copilot-mode" id="copilotMode">
         <div class="copilot-card">
-          <div class="copilot-head">
-            <div class="ch-left">
-              <div class="ch-ico">✦</div>
-              <div>
-                <h4>Campaign Co-pilot · Apex Garments</h4>
-                <div class="ch-sub">Querying 12 datasets · sources cited on every claim</div>
-              </div>
-            </div>
-            <div class="lang-pill">🌐 Urdu · English</div>
-          </div>
+          <div class="copilot-head"><div class="ch-left"><div class="ch-ico">✦</div><div><h4>Campaign Co-pilot · Apex Garments</h4><div class="ch-sub">Querying 12 datasets · sources cited on every claim</div></div></div><div class="lang-pill">🌐 Urdu · English</div></div>
           <div class="copilot-body">
-            <div class="chat-message">
-              <div class="chat-avatar user">AK</div>
-              <div class="chat-bubble user-bubble">
-                <div class="who">Aisha · PILER</div>
-                <div class="urdu-q">اس کیس میں اصل طاقت کس کے پاس ہے، اور کہاں دباؤ ڈالنا چاہیے؟</div>
-                <div class="urdu-trans">"Where does the real power sit in this campaign, and where should we apply pressure?"</div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <div class="chat-avatar ai">✦</div>
-              <div class="chat-bubble">
-                <div class="who">Campaign Co-pilot · synthesised in 0.7s</div>
-                <div class="speed-mini">⚡ 12 datasets queried · 0.7s · 14 sources cited</div>
-                <h5>Power &amp; money</h5>
-                <ul>
-                  <li><b>Parent Eastwell Holdings PLC</b> — £4.2B market cap · board-level reputational exposure <a class="data-ref">↗ Companies House 09487123</a></li>
-                  <li><b>EU revenue €510M (2024)</b> — inside CSDDD scope <a class="data-ref">↗ Annual Report 2024 p.42</a></li>
-                  <li><b>Sourcing volume from Apex:</b> ~12% of Pakistan output · meaningful but droppable <a class="data-ref">↗ OS Hub supply chain</a></li>
-                  <li><b>AGM 18 Sep 2026</b> — shareholder Q&amp;A filed publicly <a class="data-ref">↗ investor calendar</a></li>
-                </ul>
-                <h5>Pathways — required and optional</h5>
-                <ul>
-                  <li><b>Required:</b> Pakistan Payment of Wages Authority (60-day avg) <a class="data-ref">↗ AC pathway PK-POWA</a></li>
-                  <li><b>Optional:</b> Eastwell Speak Up (90-day SLA, 3rd-party OK) <a class="data-ref">↗ Spotlight: eastwell-speakup</a></li>
-                  <li><b>Optional:</b> Fair Wear Worker Info Line (~120 days) <a class="data-ref">↗ AC pathway FWF-WIL</a></li>
-                  <li><b>Helpful:</b> UK OECD NCP for cross-border escalation if needed <a class="data-ref">↗ AC pathway UK-NCP</a></li>
-                </ul>
-                <h5>Recommended sequence</h5>
-                <p style="margin:0;font-size:13px;color:var(--navy);">Parallel filing — Eastwell Speak Up + Pakistan Wages Authority — within 7 days. Coordinate with Fair Wear at day 21 if response is slow. Hold OECD NCP as escalation lever for day 60+ if needed.</p>
-                <div class="citations-row">
-                  <b>12 datasets queried:</b> Companies House · OS Hub supply chain · Eastwell public filings · Spotlight policy scrape · Accountability Counsel pathway DB · MyVox case data · WRAP audit register · EUR-Lex · ILO · Pakistan Labour Dept register · Fair Wear member registry · TTCU playbook archive
-                </div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <div class="chat-avatar user">AK</div>
-              <div class="chat-bubble user-bubble">
-                <div class="who">Aisha · PILER</div>
-                <div style="font-size:14px; color:var(--navy);">Show me the Bahawalpur 2024 campaign — what worked?</div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <div class="chat-avatar ai">✦</div>
-              <div class="chat-bubble">
-                <div class="who">Campaign Co-pilot</div>
-                <div style="font-size:13.5px; color:var(--navy);">
-                  <b>Bahawalpur 2024</b> <a class="data-ref">↗ GRC playbook 2024-PK-117</a>: Eastwell wage-theft campaign · 410 workers · resolved 73 days.
-                  <ul>
-                    <li>Parallel filing: Eastwell Speak Up + Pakistan Wages Authority on the same day</li>
-                    <li>Fair Wear coordination triggered at day 21 (member-leverage)</li>
-                    <li>Resolution: back-wages + retaliation clause added to supplier contract + quarterly monitoring for 12 months</li>
-                    <li>Pattern match to your campaign: <b>92% similar</b> (same brand, region, issue type) <a class="data-ref">↗ match-engine-PK045</a></li>
-                  </ul>
-                  Priya Anand at TTCU led the Bahawalpur work — <a href="#">message her ✦</a>
-                </div>
-              </div>
-            </div>
+            <div class="chat-message"><div class="chat-avatar user">AK</div><div class="chat-bubble user-bubble"><div class="who">Aisha · PILER</div><div class="urdu-q">اس کیس میں اصل طاقت کس کے پاس ہے، اور کہاں دباؤ ڈالنا چاہیے؟</div><div class="urdu-trans">"Where does the real power sit in this campaign, and where should we apply pressure?"</div></div></div>
+            <div class="chat-message"><div class="chat-avatar ai">✦</div><div class="chat-bubble"><div class="who">Campaign Co-pilot · 0.7s</div><div class="speed-mini">⚡ 12 datasets queried · 14 sources cited</div>
+              <h5>Power &amp; money</h5>
+              <ul><li><b>Parent Eastwell Holdings PLC</b> — £4.2B mkt cap · board exposure <a class="data-ref">↗ CH 09487123</a></li>
+              <li><b>EU revenue €510M (2024)</b> — inside CSDDD scope <a class="data-ref">↗ Annual Report p.42</a></li>
+              <li><b>Sourcing from Apex:</b> ~12% PK output · droppable <a class="data-ref">↗ OS Hub supply chain</a></li></ul>
+              <h5>Recommended sequence</h5>
+              <p style="margin:0;font-size:13px;color:var(--navy);">Parallel Eastwell Speak Up + PK Wages Authority within 7 days. Coordinate Fair Wear at day 21. OECD NCP as escalation.</p>
+              <div class="citations-row"><b>12 datasets:</b> Companies House · OS Hub supply chain · Eastwell filings · Spotlight · AC pathway DB · MyVox · WRAP register · EUR-Lex · ILO · PK Labour Dept · Fair Wear · TTCU playbook</div>
+            </div></div>
             <div class="followup-chips">
               <span class="followup-chip">Draft Speak Up filing in Urdu →</span>
-              <span class="followup-chip">Show similar campaigns at other UK retailers →</span>
-              <span class="followup-chip">Cross-reference EU CSDDD reporting →</span>
-              <span class="followup-chip">Find media contacts who've covered Eastwell →</span>
+              <span class="followup-chip">Similar campaigns at other UK retailers →</span>
+              <span class="followup-chip">Cross-reference EU CSDDD →</span>
+              <span class="followup-chip">Connect with Priya Anand ✦ →</span>
             </div>
           </div>
-          <div class="copilot-input-row">
-            <input type="text" placeholder="Ask in Urdu or English — every answer cites its sources" />
-            <button>Send ✦</button>
-          </div>
+          <div class="copilot-input-row"><input type="text" placeholder="Ask in Urdu or English — every answer cites its sources" /><button>Send ✦</button></div>
         </div>
       </div>
     </div>
-
     <div class="layer-footer">
-      <div class="lf-head">
-        <h3>Built on the Open Supply Hub data + connection layer <span class="new-badge">✶ NEW</span></h3>
-        <a href="#" style="font-size: 12px;">View all tools →</a>
-      </div>
-      <p class="lf-sub">The Campaign Workspace is one of multiple tools on OS Hub. The same open data layer powers the Region Dashboard (your team's strategic view) and the Brand Subscriber View (what subscribed brands see). Other tools — Branded Maps, the API, Spotlights — already exist on this layer.</p>
+      <div class="lf-head"><h3>Built on the Open Supply Hub data + connection layer</h3><a href="#" style="font-size: 12px;">View all tools →</a></div>
+      <p class="lf-sub">The Campaign Workspace is one of multiple tools on OS Hub. The same data layer powers the Collective Action Workspace and the Corporate Input Workspace.</p>
       <div class="layer-tools">
-        <div class="layer-tool current">
-          <div class="lt-tag">You are here</div>
-          <b>Campaign Workspace</b>
-          <span class="lt-sub">For advocates · NEW</span>
-        </div>
-        <div class="layer-tool">
-          <div class="lt-tag">Same family</div>
-          <b>Region Dashboard</b>
-          <span class="lt-sub">For your team · NEW</span>
-        </div>
-        <div class="layer-tool">
-          <div class="lt-tag">Same family</div>
-          <b>Brand Subscriber View</b>
-          <span class="lt-sub">Subscription · NEW</span>
-        </div>
-        <div class="layer-tool">
-          <div class="lt-tag">Existing</div>
-          <b>Branded Maps + API</b>
-          <span class="lt-sub">Live today</span>
-        </div>
-        <div class="layer-tool">
-          <div class="lt-tag">Existing</div>
-          <b>Spotlights</b>
-          <span class="lt-sub">Live today</span>
-        </div>
+        <div class="layer-tool current"><div class="lt-tag">You are here</div><b>Campaign Workspace</b><span class="lt-sub">For advocates · NEW</span></div>
+        <div class="layer-tool"><div class="lt-tag">Same family</div><b>Collective Action</b><span class="lt-sub">For your team · NEW</span></div>
+        <div class="layer-tool"><div class="lt-tag">Same family</div><b>Corporate Input</b><span class="lt-sub">Subscription · NEW</span></div>
+        <div class="layer-tool"><div class="lt-tag">Existing</div><b>Branded Maps + API</b><span class="lt-sub">Live today</span></div>
+        <div class="layer-tool"><div class="lt-tag">Existing</div><b>Spotlights</b><span class="lt-sub">Live today</span></div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ============================================================
-     PAGE 3 — Region Dashboard
-============================================================ -->
-<div class="page" id="page-3">
-
-  <div class="rd-hero">
+<!-- PAGE 2 COLLECTIVE ACTION -->
+<div class="page" id="page-2">
+  <div class="ca-hero">
     <div class="container">
-      <div class="crumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <b>Region Dashboard</b></div>
-      <h1>PILER · Pakistan apparel region</h1>
-      <p class="sub">Strategic view across Karachi, Lahore, and Faisalabad. Multi-campaign patterns, priority issue areas, peer-team coordination. Aggregate only — individual campaigns stay private.</p>
-      <div class="team-line">
-        <span class="av">AK</span>
-        <span><b>Aisha Khan</b> · CBDD lead · PILER team of 17 paralegals · regional view</span>
-      </div>
+      <div class="crumb">Open Supply Hub › Community Monitoring › <b>Collective Action · PILER region</b></div>
+      <h1>PILER · Pakistan apparel · collective action</h1>
+      <p class="sub">Your team's strategic view across Karachi, Lahore, and Faisalabad. Where this work sits in the ecosystem of existing mechanisms, your escalation template, regional patterns, and peer-team coordination.</p>
+      <div class="team-line"><span class="av">AK</span><span><b>Aisha Khan</b> · CBDD lead · PILER team of 17 paralegals · 47 rights-holder groups · 200+ brands monitored</span></div>
     </div>
   </div>
-
   <div class="ws-canvas">
-
+    <div class="ca-awareness">
+      <div class="aw-ico">!</div>
+      <div class="aw-body"><b>Live this week:</b> 14 new rights-holder reports across the region <span class="live-tag-mini pulse">LIVE</span> · <b>Karachi wage-theft cluster</b> accelerating (+18% MoM) · <b>WRAP audit-gap pattern</b> now spans 8 factories</div>
+    </div>
     <div class="rd-stats">
       <div class="rd-stat"><div class="lbl">Cases logged</div><div class="v">5,082</div><div class="d">+2,128 in 2026</div></div>
-      <div class="rd-stat"><div class="lbl">Rights holders reached</div><div class="v">11,604</div><div class="d">+1,847 this quarter</div></div>
+      <div class="rd-stat"><div class="lbl">Rights holders</div><div class="v">11,604</div><div class="d">+1,847 this Q</div></div>
       <div class="rd-stat"><div class="lbl">Wages recovered</div><div class="v">PKR 81M</div><div class="d">≈ $289k USD</div></div>
       <div class="rd-stat"><div class="lbl">Brands implicated</div><div class="v">200+</div><div class="d warn">↑ 24% top brand</div></div>
-      <div class="rd-stat"><div class="lbl">Avg. campaign time</div><div class="v">112d</div><div class="d">−24d vs 2024</div></div>
+      <div class="rd-stat"><div class="lbl">Avg campaign time</div><div class="v">112d</div><div class="d">−24d vs 2024</div></div>
     </div>
 
-    <!-- Map -->
-    <div class="region-map">
-      <div class="rm-head">
-        <h3>Active campaigns &amp; hotspots</h3>
-        <div class="meta">5,082 campaigns logged since 2022 · last 7 days shown bright</div>
-      </div>
-      <div class="region-map-visual">
-        <div class="grid-faux"></div>
-        <div class="dot hotspot" style="left: 30%; top: 30%;"></div>
-        <div class="city-label" style="left: 32%; top: 36%;">Faisalabad · 8 active</div>
-        <div class="dot active" style="left: 35%; top: 40%;"></div>
-        <div class="dot active" style="left: 39%; top: 35%;"></div>
-        <div class="dot resolved" style="left: 27%; top: 38%;"></div>
-        <div class="dot hotspot" style="left: 18%; top: 65%;"></div>
-        <div class="city-label" style="left: 6%; top: 72%;">Karachi · 14 active</div>
-        <div class="dot active" style="left: 22%; top: 67%;"></div>
-        <div class="dot active" style="left: 16%; top: 70%;"></div>
-        <div class="dot resolved" style="left: 14%; top: 62%;"></div>
-        <div class="dot active" style="left: 55%; top: 45%;"></div>
-        <div class="city-label" style="left: 57%; top: 50%;">Lahore · 6 active</div>
-        <div class="dot active" style="left: 60%; top: 48%;"></div>
-        <div class="dot resolved" style="left: 52%; top: 42%;"></div>
-        <div class="legend">
-          <span><span class="ld" style="background: var(--coral);"></span>Hotspot</span>
-          <span><span class="ld" style="background: var(--yellow);"></span>Active</span>
-          <span><span class="ld" style="background: var(--mint-dark);"></span>Resolved (7d)</span>
+    <div class="nodemap-card">
+      <div class="nm-head"><div class="nm-title"><h3>Where this work sits in the accountability ecosystem</h3><span class="new-badge">✶ NEW</span></div><div class="nm-sub">Per-campaign view · dynamic based on OS Hub data · we connect to and surface · we don't replace</div></div>
+      <div class="nodemap-body">
+        <div class="nm-grid-bg"></div>
+        <div class="nm-canvas">
+          <svg class="nm-lines" viewBox="0 0 1000 460" preserveAspectRatio="none">
+            <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c5cce0"/></marker></defs>
+            <line x1="500" y1="230" x2="180" y2="100" stroke="#00a86b" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="500" y1="230" x2="820" y2="100" stroke="#00a86b" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="500" y1="230" x2="180" y2="360" stroke="#ffcd00" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="500" y1="230" x2="820" y2="360" stroke="#ffcd00" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="500" y1="230" x2="500" y2="80" stroke="#ff6363" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+            <line x1="500" y1="380" x2="180" y2="360" stroke="#8428fa" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="500" y1="380" x2="820" y2="360" stroke="#8428fa" stroke-width="2" marker-end="url(#arrow)"/>
+            <line x1="500" y1="380" x2="500" y2="80" stroke="#8428fa" stroke-width="2" marker-end="url(#arrow)"/>
+          </svg>
+          <div class="nm-node center" style="left: 38%; top: 44%;"><div class="nm-label">This campaign</div><div class="nm-name">Apex Garments<br>wage theft</div><div class="nm-status">340 workers · 12 reps voting</div></div>
+          <div class="nm-node exists" style="left: 6%; top: 12%;"><div class="nm-label">State mechanism</div><div class="nm-name">PK Wages Authority</div><div class="nm-status">✓ Exists · Available</div></div>
+          <div class="nm-node exists" style="right: 6%; top: 12%;"><div class="nm-label">Brand mechanism</div><div class="nm-name">Eastwell Speak Up</div><div class="nm-status">✓ Exists · 3rd-party OK</div></div>
+          <div class="nm-node stuck" style="left: 6%; bottom: 14%;"><div class="nm-label">Industry mechanism</div><div class="nm-name">WRAP audit</div><div class="nm-status">⚠ Contradicted · stuck</div></div>
+          <div class="nm-node stuck" style="right: 6%; bottom: 14%;"><div class="nm-label">Factory grievance</div><div class="nm-name">Apex internal HR</div><div class="nm-status">⚠ Not trusted by workers</div></div>
+          <div class="nm-node missing" style="left: 38%; top: 4%;"><div class="nm-label">Cross-border mechanism</div><div class="nm-name">EU CSDDD complaint route</div><div class="nm-status">○ Not yet built</div></div>
+          <div class="nm-node oshub" style="left: 38%; bottom: 4%;"><div class="nm-label">OS Hub layer</div><div class="nm-name">Open data + connection</div><div class="nm-status">✦ Adds pressure where needed</div></div>
         </div>
+      </div>
+      <div class="nm-legend">
+        <span><span class="legend-dot" style="border-color: var(--mint-dark); background: #f0fff5;"></span>Existing &amp; working — use it</span>
+        <span><span class="legend-dot" style="border-color: var(--yellow); background: var(--yellow-soft);"></span>Exists but stuck / not trusted — OS Hub adds pressure</span>
+        <span><span class="legend-dot" style="border-color: var(--coral); background: white; border-style: dashed;"></span>Missing — route to alternatives</span>
+        <span><span class="legend-dot" style="border-color: var(--navy); background: var(--navy);"></span>OS Hub layer</span>
+      </div>
+    </div>
+
+    <div class="template-card">
+      <div class="tc-head"><div><h3>PILER escalation template <span class="new-badge">✶ NEW</span></h3><div class="tc-sub">Customised for Pakistan apparel · auto-populates new campaigns with mechanisms OS Hub knows about</div></div><button class="tc-edit">Edit template</button></div>
+      <div class="template-body">
+        <div class="template-step"><span class="tnum">1</span><div class="tstep"><b>Facility-level grievance</b><div class="tmeta">If a factory grievance mechanism exists and is trusted — start here</div></div><span class="source-tag">OS Hub: Apex Garments</span><span class="req-pill help">Auto-populated</span></div>
+        <div class="template-arrow">↓</div>
+        <div class="template-step"><span class="tnum">2</span><div class="tstep"><b>Brand grievance / Speak Up</b><div class="tmeta">If brand has a public Speak Up programme · 3rd-party submissions accepted</div></div><span class="source-tag">Spotlight: eastwell-speakup</span><span class="req-pill opt">Optional</span></div>
+        <div class="template-arrow">↓</div>
+        <div class="template-step"><span class="tnum">3</span><div class="tstep"><b>State-based mechanism</b><div class="tmeta">Pakistan Payment of Wages Authority · 60-day avg</div></div><span class="source-tag">AC pathway PK-POWA</span><span class="req-pill req">Required</span></div>
+        <div class="template-arrow">↓</div>
+        <div class="template-step"><span class="tnum">4</span><div class="tstep"><b>Multi-stakeholder / regional</b><div class="tmeta">Fair Wear (if member) · sector helplines · regional unions</div></div><span class="source-tag">AC pathway FWF-WIL</span><span class="req-pill opt">Optional</span></div>
+        <div class="template-arrow">↓</div>
+        <div class="template-step"><span class="tnum">5</span><div class="tstep"><b>International escalation</b><div class="tmeta">OECD NCP · EU CSDDD route · UN B&amp;HR Working Group</div></div><span class="source-tag">AC pathway UK-NCP</span><span class="req-pill help">Escalation lever</span></div>
+        <div class="template-footer"><span>📌</span><span>Template is yours to customise. OS Hub fills the steps for each new campaign with the mechanisms it knows about for that brand / factory / region. <b>You don't have to know them all — OS Hub does the matching.</b></span></div>
       </div>
     </div>
 
     <div class="rd-grid">
       <div class="panel">
         <h4>Where violations cluster</h4>
-        <div class="panel-sub">Pakistan apparel · last 12 mo · all partners</div>
+        <div class="panel-sub">Pakistan apparel · last 12 mo</div>
         <div class="bar-row"><span class="lc">Wage theft</span><div class="bar-track"><div class="bar-fill" style="width: 84%"></div></div><span class="pct">1,449</span></div>
         <div class="bar-row"><span class="lc">Unfair dismissal</span><div class="bar-track"><div class="bar-fill" style="width: 53%"></div></div><span class="pct">914</span></div>
         <div class="bar-row"><span class="lc">Contract violations</span><div class="bar-track"><div class="bar-fill" style="width: 49%"></div></div><span class="pct">847</span></div>
         <div class="bar-row"><span class="lc">Employment benefits</span><div class="bar-track"><div class="bar-fill" style="width: 29%"></div></div><span class="pct">499</span></div>
         <div class="bar-row"><span class="lc">Overtime &amp; hours</span><div class="bar-track"><div class="bar-fill" style="width: 18%"></div></div><span class="pct">319</span></div>
         <div class="bar-row"><span class="lc">Harassment</span><div class="bar-track"><div class="bar-fill" style="width: 5%"></div></div><span class="pct">93</span></div>
-      </div>
-      <div class="panel">
-        <h4>Brands implicated most</h4>
-        <div class="panel-sub">By # of campaigns · last 12 mo</div>
-        <div class="brand-row"><span><b>Eastwell &amp; Co. (UK)</b></span><span class="count">142</span><span class="pill-trend">↑ 24%</span></div>
-        <div class="brand-row"><span><b>Northbridge Apparel</b></span><span class="count">118</span><span class="pill-trend">↑ 8%</span></div>
-        <div class="brand-row"><span><b>Coastline Retail Holdings</b></span><span class="count">94</span><span class="pill-trend">↓ 12%</span></div>
-        <div class="brand-row"><span><b>Meridian Stores Plc</b></span><span class="count">71</span><span class="pill-trend">↑ 5%</span></div>
-        <div class="brand-row"><span style="color:var(--ink-soft);">+ 196 other brands</span><span class="count">2,651</span><span class="pill-trend">—</span></div>
-      </div>
-    </div>
-
-    <div class="section-title"><h2>Issues to elevate</h2><span class="meta">Strategic priorities · auto-surfaced from patterns</span></div>
-    <div class="rd-grid">
-      <div>
-        <div class="elevate-card">
-          <div class="lbl">▌ Highest leverage · audit-system challenge</div>
-          <h4>WRAP-certified factories account for 31% of wage-theft cases in Faisalabad</h4>
-          <p>Eight factories with active campaigns. Path to certifier accountability — challenging WRAP itself may yield broader change than per-brand action.</p>
-          <a href="#">Open elevation brief →</a>
-        </div>
-        <div class="elevate-card" style="background:linear-gradient(135deg, #ffe5ec, #fff0f6); border-color: var(--pink);">
-          <div class="lbl" style="color:#9a1a4d;">▌ Geographic concentration · Karachi industrial zone</div>
-          <h4>3× the national wage-theft rate since Q1 2026</h4>
-          <p>Coordinated with NTUF Karachi. Sector-wide brief in progress. Likely warrants region-specific brand pressure.</p>
-          <a href="#">Open elevation brief →</a>
-        </div>
-        <div class="elevate-card" style="background:linear-gradient(135deg, #f0e5ff, #fff0f6); border-color: var(--purple);">
-          <div class="lbl" style="color:var(--purple);">▌ Invisible tier · across multiple chains</div>
-          <h4>Pearl River Sourcing flagged in 12% of all cases</h4>
-          <p>An undisclosed sourcing agent recurring across many brand chains. Worth mapping all the brands whose chains it touches and raising at sector level.</p>
-          <a href="#">Open agent profile →</a>
-        </div>
+        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--cream); font-size: 11.5px; color: var(--ink-soft);"><b style="color: var(--navy);">Pattern surfaced this week:</b> WRAP-certified factories = 31% of wage-theft cases in Faisalabad <span class="live-tag-mini">+18% MoM</span></div>
       </div>
       <div class="peers-panel">
         <h4>Connect with peer CBDD teams</h4>
-        <div class="pp-sub">Other community-based DD programs in the region</div>
-        <div class="peer-row">
-          <div><b>NTUF Karachi</b><div class="pm">Industrial belt · 12 active campaigns · shared 4 patterns with you</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
-        <div class="peer-row">
-          <div><b>Home-based Women Workers Federation</b><div class="pm">Women's cafés · 22 active cases · GBV specialist</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
-        <div class="peer-row">
-          <div><b>Labour Education Foundation</b><div class="pm">Training + paralegal support · cross-region</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
-        <div class="peer-row">
-          <div><b>Label Behind the Label</b><div class="pm">UK-side brand engagement · Eastwell focus</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
-        <div class="peer-row">
-          <div><b>TTCU · Tamil Nadu (India)</b><div class="pm">Regional peer · shared Eastwell campaign learnings</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
+        <div class="pp-sub">Other community-based DD programs in the network</div>
+        <div class="peer-row"><div><b>NTUF Karachi</b><div class="pm">12 active · shared 4 patterns with you</div></div><button class="pr-btn">Open</button></div>
+        <div class="peer-row"><div><b>HBWWF (Women's Cafés)</b><div class="pm">22 cases · GBV specialist</div></div><button class="pr-btn">Open</button></div>
+        <div class="peer-row"><div><b>Labour Education Foundation</b><div class="pm">Training + paralegal support</div></div><button class="pr-btn">Open</button></div>
+        <div class="peer-row"><div><b>TTCU Tamil Nadu</b><div class="pm">Regional peer · Eastwell playbook</div></div><button class="pr-btn">Open</button></div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ============================================================
-     PAGE 4 — Brand Subscriber View
-============================================================ -->
-<div class="page" id="page-4">
-
+<!-- PAGE 3 CORPORATE INPUT -->
+<div class="page" id="page-3">
   <div class="bd-hero">
     <div class="container">
-      <div class="crumb"><a>Open Supply Hub</a> › <b>Brand Subscriber View · Eastwell &amp; Co.</b></div>
-      <h1>Your Pakistan supply chain due diligence</h1>
-      <p class="sub">Subscribed to the PILER community-based due diligence program. PILER's regional team runs continuous due diligence on the facilities you source from — you get the data you need for reporting and the priority actions that need your response.</p>
-      <div class="sub-line">
-        <span class="av">MP</span>
-        <span><b>Maya Patel</b> · Compliance Lead · Eastwell &amp; Co.</span>
-      </div>
+      <div class="crumb">Open Supply Hub › <b>Corporate input · Eastwell &amp; Co.</b></div>
+      <h1>Your Pakistan supply chain · due diligence brief</h1>
+      <p class="sub">Subscribed to the PILER community-based due diligence program. Continuous DD on the 42 facilities you source from — surfaced as the data you need for reporting and the actions that need your response.</p>
+      <div class="sub-line"><span class="av">MP</span><span><b>Maya Patel</b> · Compliance Lead · Eastwell &amp; Co.</span></div>
     </div>
   </div>
-
   <div class="ws-canvas">
-
     <div class="bd-sub-banner">
       <div>
-        <div class="lbl">▌ Subscription · funds the community DD infrastructure</div>
+        <div class="lbl">▌ Subscription · funds community DD infrastructure</div>
         <h3>Subscribed via PILER community-based DD program · since 2024</h3>
-        <p>€48k / year · funds 4 PILER paralegals, 1 women's café, regional pattern monitoring. Your subscription covers the 42 Pakistani facilities you source from — full continuous DD, not annual audit snapshots.</p>
+        <p>€48k / year · funds 4 PILER paralegals, 1 women's café, regional pattern monitoring. Covers 42 of your 47 Pakistan suppliers — continuous DD, not annual audit snapshots.</p>
       </div>
-      <button style="background: var(--navy); color: var(--yellow); border: none; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; white-space: nowrap;">View subscription →</button>
+      <button style="background: var(--navy); color: var(--yellow); border: none; padding: 11px 16px; border-radius: 8px; font-weight: 700; font-size: 12.5px; white-space: nowrap;">View subscription →</button>
     </div>
-
+    <div class="ca-awareness">
+      <div class="aw-ico">!</div>
+      <div class="aw-body"><b>Live this week:</b> 1 new campaign opened on your suppliers (Apex Garments wage theft) <span class="live-tag-mini pulse">LIVE</span> · 38 cases closed in last 90 days · WRAP audit-gap signal — your reporting team should be aware</div>
+    </div>
     <div class="bd-stats">
-      <div class="bd-stat coral">
-        <div class="lbl">Facilities under DD</div>
-        <div class="v">42</div>
-        <div class="sub">of 47 total Pakistan suppliers · 89% coverage</div>
-      </div>
-      <div class="bd-stat mint">
-        <div class="lbl">Cases resolved (12 mo)</div>
-        <div class="v">38</div>
-        <div class="sub">PKR 18.4M wages recovered to workers</div>
-      </div>
-      <div class="bd-stat purple">
-        <div class="lbl">Actions needed from you</div>
-        <div class="v">7</div>
-        <div class="sub">3 high-priority · earliest due in 3 days</div>
-      </div>
-      <div class="bd-stat yellow">
-        <div class="lbl">Reporting periods covered</div>
-        <div class="v">4 frameworks</div>
-        <div class="sub">CSRD · CSDDD · LkSG · UK MSA</div>
-      </div>
+      <div class="bd-stat coral"><div class="lbl">Facilities under DD</div><div class="v">42</div><div class="sub">of 47 PK suppliers · 89% coverage</div></div>
+      <div class="bd-stat mint"><div class="lbl">Cases resolved (12 mo)</div><div class="v">38</div><div class="sub">PKR 18.4M wages returned to workers</div></div>
+      <div class="bd-stat purple"><div class="lbl">Actions awaiting you</div><div class="v">7</div><div class="sub">3 high-priority · earliest due in 3 days</div></div>
+      <div class="bd-stat yellow"><div class="lbl">Reporting frameworks</div><div class="v">4</div><div class="sub">CSRD · CSDDD · LkSG · UK MSA</div></div>
     </div>
-
-    <!-- Action items -->
     <div class="action-card">
-      <div class="ac-h">
-        <h3>Actions needing your response <span class="new-badge">✶ NEW</span></h3>
-        <a href="#" style="font-size: 12px;">View all 7 →</a>
-      </div>
-      <div class="action-row">
-        <span class="priority high"></span>
-        <div class="info">
-          <b>Apex Garments Mills — wage-theft campaign opened</b>
-          <div class="ci">
-            <span class="meta-chip">340 workers affected</span>
-            <span class="meta-chip">PKR 4.26M projected · CSDDD-in-scope</span>
-            <span class="meta-chip">Filed via your Speak Up programme</span>
-          </div>
-        </div>
-        <div class="due">
-          <b>Due in 3 days</b>
-          <span>Day 14 of 90 Speak Up SLA</span>
-        </div>
-        <button>Open response</button>
-      </div>
-      <div class="action-row">
-        <span class="priority high"></span>
-        <div class="info">
-          <b>WRAP audit gap signal · 8 of your Faisalabad suppliers</b>
-          <div class="ci">
-            <span class="meta-chip">Audit-certification mismatch</span>
-            <span class="meta-chip">Reputational risk</span>
-            <span class="meta-chip">Cross-references CSDDD § risk identification</span>
-          </div>
-        </div>
-        <div class="due">
-          <b>Recommended this week</b>
-          <span>Re-evaluate audit reliance</span>
-        </div>
-        <button class="outlined">View brief</button>
-      </div>
-      <div class="action-row">
-        <span class="priority med"></span>
-        <div class="info">
-          <b>Pearl River Sourcing — undisclosed agent across 12 chains</b>
-          <div class="ci">
-            <span class="meta-chip">Supply-chain transparency gap</span>
-            <span class="meta-chip">Affects your CSDDD risk assessment</span>
-          </div>
-        </div>
-        <div class="due">
-          <b>Recommended Q3</b>
-          <span>Surface to supplier disclosure</span>
-        </div>
-        <button class="outlined">View brief</button>
-      </div>
-      <div class="action-row">
-        <span class="priority low"></span>
-        <div class="info">
-          <b>Sapphire Mills — unfair dismissal cases resolved</b>
-          <div class="ci">
-            <span class="meta-chip">3 workers reinstated</span>
-            <span class="meta-chip">No further action required from you</span>
-          </div>
-        </div>
-        <div class="due">
-          <b>Closed</b>
-          <span>For your records</span>
-        </div>
-        <button class="outlined">Mark reviewed</button>
-      </div>
+      <div class="ac-h"><h3>Actions needing your response <span class="new-badge">✶ Outcome → System</span></h3><a href="#" style="font-size: 12px;">View all 7 →</a></div>
+      <div class="action-row"><span class="priority high"></span><div class="info"><b>Apex Garments Mills — wage-theft campaign opened</b><div class="ci"><span class="meta-chip">340 workers</span><span class="meta-chip">PKR 4.26M projected</span><span class="meta-chip">CSDDD-in-scope</span><span class="meta-chip">Filed via your Speak Up</span></div></div><div class="due"><b>Due in 3 days</b><span>Day 14 of 90 Speak Up SLA</span></div><button>Open response</button></div>
+      <div class="action-row"><span class="priority high"></span><div class="info"><b>WRAP audit gap · 8 of your Faisalabad suppliers</b><div class="ci"><span class="meta-chip">Audit-cert mismatch</span><span class="meta-chip">CSDDD § risk identification</span></div></div><div class="due"><b>This week</b><span>Re-evaluate audit reliance</span></div><button class="outlined">View brief</button></div>
+      <div class="action-row"><span class="priority med"></span><div class="info"><b>Pearl River Sourcing · undisclosed agent across 12 chains</b><div class="ci"><span class="meta-chip">Supplier transparency gap</span><span class="meta-chip">CSDDD risk assessment</span></div></div><div class="due"><b>Q3</b><span>Surface to supplier disclosure</span></div><button class="outlined">View brief</button></div>
     </div>
-
-    <!-- Reporting layer -->
     <div class="report-card">
-      <div class="rc-h">
-        <h3>Reporting layer · structured data for your frameworks <span class="new-badge">✶ NEW</span></h3>
-        <div class="rc-sub">We don't fill out your reports — you have your own systems with information we don't have. We provide the structured data fields you can plug into them.</div>
-      </div>
-      <div class="report-tabs">
-        <button class="report-tab on">CSRD · ESRS S2</button>
-        <button class="report-tab">EU CSDDD</button>
-        <button class="report-tab">German LkSG</button>
-        <button class="report-tab">UK MSA §54</button>
-      </div>
+      <div class="rc-h"><h3>Reporting layer · structured data for your frameworks <span class="new-badge">✶ System change</span></h3><div class="rc-sub">We don't fill out your reports. You have your own systems with information we don't have. We provide the structured data fields you plug into them.</div></div>
+      <div class="report-tabs"><button class="report-tab on">CSRD · ESRS S2</button><button class="report-tab">EU CSDDD</button><button class="report-tab">German LkSG</button><button class="report-tab">UK MSA §54</button></div>
       <div class="report-body">
-        <div class="report-section">
-          <div class="rs-head">
-            <b>S2-3 · Processes to remediate negative impacts on workers in the value chain</b>
-            <span class="rs-code">ESRS S2 · disclosure code S2-3</span>
-          </div>
-          <div class="rs-data">
-            <b>Continuous DD provider:</b> PILER (community-based program, subscribed)<br>
-            <b>Active grievance pathways supported:</b> Eastwell Speak Up; Pakistan Payment of Wages Authority; Fair Wear Worker Info Line; Sindh Labour Department<br>
-            <b>Cases resolved (reporting period):</b> 38 across 42 facilities · PKR 18.4M back-wages paid to workers<br>
-            <b>Average resolution time:</b> 112 days · −24d vs prior year
-          </div>
-        </div>
-        <div class="report-section">
-          <div class="rs-head">
-            <b>S2-4 · Taking action on material impacts</b>
-            <span class="rs-code">ESRS S2 · disclosure code S2-4</span>
-          </div>
-          <div class="rs-data">
-            <b>Highest-leverage action identified:</b> WRAP audit-reliance review (8 Faisalabad facilities with mismatch)<br>
-            <b>Supplier list completeness signal:</b> Pearl River Sourcing identified as undisclosed agent across 12% of campaigns regionally<br>
-            <b>Wage-theft cluster identified:</b> Faisalabad · Eastwell-supplied · 340 workers · response in progress
-          </div>
-        </div>
-        <div class="report-section">
-          <div class="rs-head">
-            <b>S2-5 · Targets related to managing impacts</b>
-            <span class="rs-code">ESRS S2 · disclosure code S2-5</span>
-          </div>
-          <div class="rs-data">
-            <b>Pakistan facility DD coverage:</b> 42 of 47 facilities (89%) · target 95% by end-2026<br>
-            <b>Average case resolution target:</b> ≤ 90 days · current 112 days · improving<br>
-            <b>Worker-reported retaliation events:</b> 0 in reporting period (across covered facilities)
-          </div>
-        </div>
-        <div class="report-note">
-          <b>What this gives you:</b> structured data fields, source-linked, ready to copy into your CSRD ESRS S2 disclosure. You still need your own internal data on financial impact, materiality assessments, and remediation amounts. <a href="#">Export as CSV / JSON ↗</a> &nbsp; <a href="#">Pull via OS Hub API ↗</a>
-        </div>
+        <div class="report-section"><div class="rs-head"><b>S2-3 · Processes to remediate negative impacts on workers in the value chain</b><span class="rs-code">ESRS S2-3</span></div><div class="rs-data"><b>Continuous DD provider:</b> PILER (community-based · subscribed)<br><b>Active grievance pathways:</b> Eastwell Speak Up · PK Wages Authority · Fair Wear · Sindh Labour Dept<br><b>Cases resolved (reporting period):</b> 38 across 42 facilities · PKR 18.4M back-wages paid to workers<br><b>Avg resolution:</b> 112 days · −24d vs prior year</div></div>
+        <div class="report-section"><div class="rs-head"><b>S2-4 · Taking action on material impacts</b><span class="rs-code">ESRS S2-4</span></div><div class="rs-data"><b>Highest-leverage action:</b> WRAP audit-reliance review (8 Faisalabad facilities)<br><b>Supplier list gap:</b> Pearl River Sourcing identified as undisclosed agent across 12% of regional campaigns<br><b>Active cluster:</b> Faisalabad wage-theft · 340 workers · response in progress</div></div>
+        <div class="report-note"><b>What this gives you:</b> structured, source-linked data fields ready to copy into your CSRD ESRS S2 disclosure. You still need your own internal data on financial impact and materiality assessments. <a href="#">Export CSV / JSON ↗</a> &nbsp; <a href="#">Pull via OS Hub API ↗</a></div>
       </div>
     </div>
-
-    <!-- Contribution panel -->
     <div class="contrib-panel">
-      <div>
-        <div class="lbl">▌ Your subscription · what it funds</div>
-        <h3>You're not buying a report. You're funding the community infrastructure that produces the truth.</h3>
-        <p>Your €48k / year funds continuous due diligence by people on the ground — paralegals, women's cafés, worker-led monitoring. The same infrastructure that surfaces the wage-theft case at Apex is the infrastructure that's covering the other 41 facilities you source from.</p>
-      </div>
-      <div class="contrib-stats">
-        <div class="contrib-stat"><div class="v">4</div><div class="l">Paralegals funded</div></div>
-        <div class="contrib-stat"><div class="v">1</div><div class="l">Women's café</div></div>
-        <div class="contrib-stat"><div class="v">42</div><div class="l">Facilities covered</div></div>
-      </div>
+      <div><div class="lbl">▌ Your subscription · what it funds</div><h3>You're not buying a report. You're funding the community infrastructure that produces the truth.</h3><p>€48k/year funds continuous due diligence by people on the ground — paralegals, women's cafés, worker-led monitoring. The same infrastructure that surfaced the Apex case is the infrastructure covering your other 41 facilities.</p></div>
+      <div class="contrib-stats"><div class="contrib-stat"><div class="v">4</div><div class="l">Paralegals</div></div><div class="contrib-stat"><div class="v">1</div><div class="l">Women's café</div></div><div class="contrib-stat"><div class="v">42</div><div class="l">Facilities</div></div></div>
     </div>
-
   </div>
 </div>
 
-<!-- Co-authors band -->
 <div class="coauthors-band">
   <div class="lb">▌ Co-authors of this work</div>
   <div class="logos">
-    <span class="logo">Open Supply Hub</span>
-    <span class="logo">Global Rights Compliance</span>
-    <span class="logo">Accountability Counsel</span>
-    <span class="logo">PILER</span>
-    <span class="logo">NTUF</span>
-    <span class="logo">Labour Education Foundation</span>
-    <span class="logo">Label Behind the Label</span>
-    <span class="logo">Home-based Women Workers Federation</span>
-    <span class="logo">Fair Wear Foundation</span>
-    <span class="logo">TTCU · Tamil Nadu</span>
-    <span class="logo">Asia Floor Wage Alliance</span>
+    <span class="logo">Open Supply Hub</span><span class="logo">Global Rights Compliance</span><span class="logo">Accountability Counsel</span><span class="logo">PILER</span><span class="logo">NTUF</span><span class="logo">Labour Education Foundation</span><span class="logo">Label Behind the Label</span><span class="logo">HBWWF</span><span class="logo">Fair Wear Foundation</span><span class="logo">TTCU · Tamil Nadu</span><span class="logo">Asia Floor Wage Alliance</span>
   </div>
 </div>
 
-<footer>
-  <b>Campaign Prototype · Iteration 3</b> · Open Supply Hub · illustrative data anchored on MyVox 2022–2025 figures (5,082 cases · 11,604 violations · 17 paralegals · 18 Legal Aid Centres &amp; Women's Cafés)
-</footer>
+<footer><b>Campaign Prototype · Iteration 4</b> · Open Supply Hub · illustrative example · data anchored on MyVox 2022–2025 figures</footer>
 
 <script>
   function goPage(n) {
@@ -2350,57 +900,23 @@
     document.querySelectorAll('.proto-pagenav button').forEach(b => b.classList.remove('on'));
     document.getElementById('page-' + n).classList.add('on');
     document.querySelector('.proto-pagenav button[data-page="' + n + '"]').classList.add('on');
-
-    const paths = {
-      1: '/community-monitoring/workspace',
-      2: '/community-monitoring/campaigns/apex-garments-eastwell-2026-06',
-      3: '/community-monitoring/region/pakistan-apparel',
-      4: '/brand/eastwell/community-dd-subscription'
-    };
-    const path = paths[n];
-    document.getElementById('url-path').innerHTML = '<span class="new-path">' + path + '</span>';
-
-    // Swap user pill for page 4 (brand context)
-    const userPill = document.getElementById('userPill');
-    const userAvatar = document.getElementById('userAvatar');
-    const userText = document.getElementById('userText');
-    if (n === 4) {
-      userPill.classList.add('brand-context');
-      userAvatar.textContent = 'MP';
-      userText.textContent = 'Maya Patel · Eastwell & Co.';
-    } else {
-      userPill.classList.remove('brand-context');
-      userAvatar.textContent = 'AK';
-      userText.textContent = 'Aisha Khan · PILER';
-    }
-
+    const paths = { 0: '/community-monitoring/intro', 1: '/community-monitoring/campaigns/apex-garments-eastwell-2026-06', 2: '/community-monitoring/collective-action/pakistan-apparel', 3: '/brand/eastwell/community-dd-subscription' };
+    document.getElementById('url-path').innerHTML = '<span class="new-path">' + paths[n] + '</span>';
+    const userPill = document.getElementById('userPill'), userAvatar = document.getElementById('userAvatar'), userText = document.getElementById('userText');
+    if (n === 3) { userPill.classList.add('brand-context'); userAvatar.textContent = 'MP'; userText.textContent = 'Maya Patel · Eastwell & Co.'; }
+    else { userPill.classList.remove('brand-context'); userAvatar.textContent = 'AK'; userText.textContent = 'Aisha Khan · PILER'; }
+    const stageMap = { 0: [1,2,3,4,5], 1: [1,2,3,4], 2: [1,5], 3: [4,5] };
+    document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
+    (stageMap[n] || []).forEach(i => document.getElementById('stage-' + i).classList.add('active'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   function setMode(mode) {
-    const container = document.getElementById('modeContainer');
-    const tabStruct = document.getElementById('tab-structured');
-    const tabCopilot = document.getElementById('tab-copilot');
-    if (mode === 'copilot') {
-      container.classList.add('show-copilot');
-      tabCopilot.classList.add('on');
-      tabStruct.classList.remove('on');
-    } else {
-      container.classList.remove('show-copilot');
-      tabStruct.classList.add('on');
-      tabCopilot.classList.remove('on');
-    }
+    const container = document.getElementById('modeContainer'), tabStruct = document.getElementById('tab-structured'), tabCopilot = document.getElementById('tab-copilot');
+    if (mode === 'copilot') { container.classList.add('show-copilot'); tabCopilot.classList.add('on'); tabStruct.classList.remove('on'); }
+    else { container.classList.remove('show-copilot'); tabStruct.classList.add('on'); tabCopilot.classList.remove('on'); }
   }
-
-  // Report tabs toggle
-  document.querySelectorAll('.report-tab').forEach(t => {
-    t.addEventListener('click', () => {
-      t.parentElement.querySelectorAll('.report-tab').forEach(x => x.classList.remove('on'));
-      t.classList.add('on');
-    });
-  });
-
-  document.getElementById('url-path').innerHTML = '<span class="new-path">/community-monitoring/workspace</span>';
+  document.querySelectorAll('.report-tab').forEach(t => { t.addEventListener('click', () => { t.parentElement.querySelectorAll('.report-tab').forEach(x => x.classList.remove('on')); t.classList.add('on'); }); });
+  goPage(0);
 </script>
 
 </body>
