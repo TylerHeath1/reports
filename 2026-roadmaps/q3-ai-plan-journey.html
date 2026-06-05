@@ -43,10 +43,12 @@
   }
 
   .wrap {
-    max-width: 940px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: clamp(40px, 6vw, 76px) clamp(22px, 5vw, 56px) 70px;
+    padding: clamp(40px, 6vw, 72px) clamp(22px, 5vw, 56px) 80px;
   }
+
+  a { color: var(--green); }
 
   /* ─── HEADER ─── */
   .brandrow { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
@@ -55,174 +57,146 @@
   .brand-q { font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
 
   h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(40px, 7vw, 76px);
-    line-height: 0.96;
-    letter-spacing: -1.5px;
+    font-family: 'Fraunces', serif; font-weight: 600;
+    font-size: clamp(40px, 7vw, 76px); line-height: 0.96; letter-spacing: -1.5px;
   }
   h1 em { font-style: italic; color: var(--green); }
 
-  .subhead {
-    margin-top: 16px;
-    font-size: clamp(15px, 1.7vw, 19px);
-    color: var(--ink-soft);
-    max-width: 60ch;
+  .subhead { margin-top: 16px; font-size: clamp(15px, 1.7vw, 19px); color: var(--ink-soft); max-width: 60ch; }
+
+  /* ─── TRACKER BANNER ─── */
+  .tracker {
+    margin-top: 30px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: var(--ink); color: #f3ede1;
+    border-radius: 16px; padding: 18px 22px;
   }
+  .tracker .tk-ico {
+    flex: 0 0 auto; width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(217,116,47,0.2); color: var(--amber);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .tracker .tk-text { flex: 1 1 280px; font-size: 14px; line-height: 1.5; color: #ded5c4; }
+  .tracker .tk-text b { color: #fff; }
+  .tracker .tk-btn {
+    flex: 0 0 auto; text-decoration: none; background: var(--amber); color: #fff;
+    font-weight: 700; font-size: 13px; border-radius: 10px; padding: 11px 18px; white-space: nowrap;
+    transition: transform .12s ease;
+  }
+  .tracker .tk-btn:hover { transform: translateY(-1px); }
+
+  /* ─── ANYTIME ACTIONS (elevated, not buried) ─── */
+  .anyhead {
+    margin: 38px 0 12px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  }
+  .anyhead .at-title { font-family:'Fraunces',serif; font-weight:600; font-size: 20px; }
+  .anyhead .at-sub { font-size: 13px; color: var(--ink-soft); }
+
+  .anytime { display: flex; gap: 14px; flex-wrap: wrap; }
+  .any {
+    flex: 1 1 300px; background: var(--card); border: 1px solid #e7dcc6; border-left: 4px solid var(--amber);
+    border-radius: 14px; padding: 16px 18px; box-shadow: 8px 14px 30px -26px rgba(60,45,20,0.5);
+  }
+  .any .arow { display: flex; align-items: center; gap: 11px; }
+  .any .ico { font-size: 22px; flex: 0 0 auto; }
+  .any .aname { font-family:'Fraunces',serif; font-weight:600; font-size: 16px; line-height: 1.1; }
+  .any .adesc { font-size: 13px; color: var(--ink-soft); margin-top: 9px; }
+  .any .afoot { margin-top: 11px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .any .est { font-size: 11px; font-weight: 700; color: var(--ink-soft); background: var(--paper); border: 1px solid #e2d7c0; border-radius: 20px; padding: 4px 11px; }
+  .any a.lnk { font-weight: 700; font-size: 13px; text-decoration: none; }
+  .any a.lnk:hover { text-decoration: underline; }
 
   /* ─── YOU ARE HERE ─── */
   .youhere {
-    display: inline-flex; align-items: center; gap: 9px;
-    margin: 34px 0 4px;
-    background: var(--ink); color: var(--paper);
-    border-radius: 30px; padding: 8px 16px 8px 14px;
+    display: inline-flex; align-items: center; gap: 9px; margin: 42px 0 4px;
+    background: var(--ink); color: var(--paper); border-radius: 30px; padding: 8px 16px 8px 14px;
     font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
   }
-  .youhere .blip {
-    width: 9px; height: 9px; border-radius: 50%; background: var(--amber);
-    box-shadow: 0 0 0 4px rgba(217,116,47,0.3);
-  }
+  .youhere .blip { width: 9px; height: 9px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 4px rgba(217,116,47,0.3); }
 
   /* ─── TIMELINE ─── */
   .timeline { position: relative; margin-top: 8px; }
+  .stop { display: grid; grid-template-columns: 132px 56px 1fr; align-items: start; column-gap: 4px; }
 
-  .stop {
-    display: grid;
-    grid-template-columns: 132px 56px 1fr;
-    align-items: start;
-    column-gap: 4px;
-  }
-
-  .when {
-    text-align: right;
-    padding: 26px 16px 0 0;
-  }
+  .when { text-align: right; padding: 26px 16px 0 0; }
   .when .wt { display:block; font-family:'Fraunces',serif; font-weight:600; font-size: 16px; color: var(--ink); }
   .when .ws { display:block; font-size: 11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color: var(--green); margin-top:3px; }
 
-  /* spine column */
   .spine { position: relative; display: flex; flex-direction: column; align-items: center; }
-  .spine .rail {
-    position: absolute; top: 0; bottom: -2px; left: 50%;
-    width: 0; border-left: 2.5px dashed var(--line); transform: translateX(-50%); z-index: 0;
-  }
+  .spine .rail { position: absolute; top: 0; bottom: -2px; left: 50%; width: 0; border-left: 2.5px dashed var(--line); transform: translateX(-50%); z-index: 0; }
   .stop:last-child .spine .rail { bottom: auto; height: 34px; }
 
   .node {
-    position: relative; z-index: 2;
-    margin-top: 22px;
-    width: 46px; height: 46px; border-radius: 50%;
+    position: relative; z-index: 2; margin-top: 22px; width: 46px; height: 46px; border-radius: 50%;
     background: var(--card); border: 2.5px solid var(--green); color: var(--green);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Fraunces', serif; font-weight: 600; font-size: 20px;
     box-shadow: 0 6px 16px -6px rgba(31,111,92,0.45), 0 0 0 6px var(--paper);
   }
-  .stop.goal .node {
-    background: var(--amber); border-color: var(--amber); color: #fff; font-size: 22px;
-    box-shadow: 0 8px 20px -6px rgba(217,116,47,0.6), 0 0 0 6px var(--paper);
-  }
+  .stop.goal .node { background: var(--amber); border-color: var(--amber); color: #fff; font-size: 22px; box-shadow: 0 8px 20px -6px rgba(217,116,47,0.6), 0 0 0 6px var(--paper); }
 
-  /* card */
-  .card {
-    background: var(--card); border: 1px solid #e7dcc6; border-radius: 18px;
-    padding: 20px 24px 22px; margin: 14px 0 22px; box-shadow: var(--shadow);
-  }
+  .card { background: var(--card); border: 1px solid #e7dcc6; border-radius: 18px; padding: 20px 24px 8px; margin: 14px 0 22px; box-shadow: var(--shadow); }
   .stop.goal .card { border-color: #f0cda9; background: #fff8ef; }
 
-  .card h3 {
-    font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(20px, 2.4vw, 26px);
-    letter-spacing: -0.4px; line-height: 1.08; margin-bottom: 7px;
-  }
+  .card h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(20px, 2.4vw, 26px); letter-spacing: -0.4px; line-height: 1.08; margin-bottom: 7px; }
   .card .desc { font-size: 14.5px; color: var(--ink-soft); max-width: 56ch; }
 
-  /* action block */
+  /* ─── ACCORDION ─── */
+  details { margin: 14px 0 12px; border-top: 1px solid #efe6d3; }
+  summary {
+    list-style: none; cursor: pointer; padding: 13px 2px 4px;
+    display: flex; align-items: center; gap: 9px;
+    font-size: 11px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--green);
+  }
+  .stop.goal summary { color: var(--amber); }
+  summary::-webkit-details-marker { display: none; }
+  summary .chev { transition: transform .2s ease; font-size: 13px; }
+  details[open] summary .chev { transform: rotate(90deg); }
+  summary .stxt-closed { display: inline; }
+  summary .stxt-open { display: none; }
+  details[open] summary .stxt-closed { display: none; }
+  details[open] summary .stxt-open { display: inline; }
+
+  .panel { padding: 6px 0 16px; }
+
   .action {
-    margin-top: 16px;
-    background: rgba(31,111,92,0.06);
-    border: 1px solid rgba(31,111,92,0.16);
-    border-radius: 12px;
-    padding: 13px 15px;
-    display: flex; align-items: center; gap: 13px; flex-wrap: wrap;
+    background: rgba(31,111,92,0.06); border: 1px solid rgba(31,111,92,0.16); border-radius: 12px;
+    padding: 13px 15px; display: flex; align-items: center; gap: 13px; flex-wrap: wrap;
   }
   .stop.goal .action { background: rgba(217,116,47,0.08); border-color: rgba(217,116,47,0.22); }
-
-  .action .check {
-    flex: 0 0 auto;
-    width: 22px; height: 22px; border-radius: 6px;
-    border: 2px solid var(--green); display: flex; align-items: center; justify-content: center;
-    color: var(--green); font-size: 13px; font-weight: 700;
-  }
+  .action .check { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--green); display: flex; align-items: center; justify-content: center; color: var(--green); font-size: 13px; font-weight: 700; }
   .stop.goal .action .check { border-color: var(--amber); color: var(--amber); }
-
-  .action .atext { flex: 1 1 240px; }
-  .action .alabel { font-size: 9.5px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--green); display:block; margin-bottom: 2px; }
-  .stop.goal .action .alabel { color: var(--amber); }
-  .action .amain { font-size: 14px; font-weight: 600; color: var(--ink); }
-
-  .est {
-    flex: 0 0 auto; font-size: 11px; font-weight: 700; color: var(--ink-soft);
-    background: var(--paper); border: 1px solid #e2d7c0; border-radius: 20px; padding: 4px 11px; white-space: nowrap;
-  }
-
-  .btn {
-    flex: 0 0 auto; text-decoration: none;
-    background: var(--green); color: #fff; font-size: 13px; font-weight: 600;
-    border-radius: 9px; padding: 9px 15px; white-space: nowrap;
-    transition: transform .12s ease, background .12s ease;
-  }
+  .action .amain { flex: 1 1 200px; font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .est { flex: 0 0 auto; font-size: 11px; font-weight: 700; color: var(--ink-soft); background: var(--paper); border: 1px solid #e2d7c0; border-radius: 20px; padding: 4px 11px; white-space: nowrap; }
+  .btn { flex: 0 0 auto; text-decoration: none; background: var(--green); color: #fff; font-size: 13px; font-weight: 600; border-radius: 9px; padding: 9px 15px; white-space: nowrap; transition: transform .12s ease, background .12s ease; }
   .btn:hover { transform: translateY(-1px); background: #185847; }
   .stop.goal .btn { background: var(--amber); }
   .stop.goal .btn:hover { background: #c0631f; }
 
-  .fine { display:block; margin-top: 11px; font-size: 12px; font-style: italic; color: #9a8f7c; }
+  .note { margin-top: 13px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; border-left: 3px solid #e7dcc6; padding-left: 14px; }
+  .note .nlabel { display:block; font-size: 10px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: #a89a82; margin-bottom: 4px; }
+  .note ol { margin: 7px 0 0 18px; }
+  .note li { margin-bottom: 3px; }
+
+  .howto { margin-top: 13px; font-size: 13.5px; color: var(--ink); background: var(--paper); border: 1px dashed var(--line); border-radius: 10px; padding: 12px 14px; line-height: 1.55; }
+  .howto b { color: var(--green); }
 
   /* ─── LEARNING ─── */
-  .section-tab {
-    display:inline-block; margin: 26px 0 0; font-size: 11px; font-weight: 800;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--green);
-  }
-  .learn-head {
-    font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(24px, 3.4vw, 34px);
-    letter-spacing: -0.5px; margin: 6px 0 4px;
-  }
+  .learn-block { margin-top: 18px; }
+  .section-tab { display:inline-block; margin-top: 26px; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--green); }
+  .learn-head { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(24px, 3.4vw, 34px); letter-spacing: -0.5px; margin: 6px 0 4px; }
   .learn-sub { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 20px; max-width: 60ch; }
-
   .sessions { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-  .sess {
-    background: var(--card); border: 1px solid #e7dcc6; border-radius: 14px; padding: 15px 16px;
-    box-shadow: 8px 14px 30px -26px rgba(60,45,20,0.5);
-  }
+  .sess { background: var(--card); border: 1px solid #e7dcc6; border-radius: 14px; padding: 15px 16px; box-shadow: 8px 14px 30px -26px rgba(60,45,20,0.5); }
   .sess .sdate { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--amber); }
   .sess .sdate.tbd { color: var(--ink-soft); }
   .sess .sname { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; line-height: 1.15; margin-top: 5px; }
 
-  /* anytime + note */
-  .anytime {
-    margin-top: 26px; display: flex; gap: 14px; flex-wrap: wrap;
-  }
-  .any {
-    flex: 1 1 280px; background: rgba(255,255,255,0.5); border: 1px dashed var(--line);
-    border-radius: 14px; padding: 15px 18px; display: flex; align-items: center; gap: 12px;
-  }
-  .any .ico { font-size: 22px; }
-  .any .at { font-size: 13.5px; }
-  .any .at b { font-weight: 700; }
-  .any .at .em { color: var(--ink-soft); }
-  .any a { color: var(--green); font-weight: 700; text-decoration: none; white-space: nowrap; }
-  .any a:hover { text-decoration: underline; }
-
-  .pickpath {
-    margin-top: 26px; background: var(--ink); color: #ded5c4; border-radius: 14px;
-    padding: 16px 20px; font-size: 13.5px; line-height: 1.55;
-  }
+  .pickpath { margin-top: 28px; background: var(--ink); color: #ded5c4; border-radius: 14px; padding: 16px 20px; font-size: 13.5px; line-height: 1.55; }
   .pickpath b { color: var(--amber); }
 
-  /* load anim */
   @keyframes rise { from { opacity:0; transform: translateY(12px);} to {opacity:1; transform:none;} }
-  .stop, header, .learn-block, .anytime, .pickpath { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
-  .stop:nth-child(2){animation-delay:.06s}.stop:nth-child(3){animation-delay:.12s}
-  .stop:nth-child(4){animation-delay:.18s}.stop:nth-child(5){animation-delay:.24s}
-  .stop:nth-child(6){animation-delay:.30s}
+  header, .tracker, .anyhead, .anytime, .stop, .learn-block, .pickpath { animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
 
   @media (max-width: 620px) {
     .stop { grid-template-columns: 40px 1fr; }
@@ -244,11 +218,44 @@
     </div>
     <h1>Q3 <em>AI&nbsp;Plan</em></h1>
     <p class="subhead">
-      Whatever your role, and however much AI you've used, this is the journey we'll walk together this quarter. Find where you are, see the one action waiting at each step, and lean on the learning sessions all along the way.
+      Whatever your role, and however much AI you've used, this is the journey we'll walk together this quarter. Find where you are, open each step to see exactly what to do, and lean on the learning sessions all along the way.
     </p>
-    <div class="youhere"><span class="blip"></span>You are here</div>
   </header>
 
+  <!-- ─── TRACKER ─── -->
+  <div class="tracker">
+    <span class="tk-ico">✓</span>
+    <span class="tk-text"><b>This is your checklist.</b> Every action below also lives in the Q3 AI Action Plan — that's where you check your name off once you've completed each item.</span>
+    <a class="tk-btn" href="https://docs.google.com/spreadsheets/d/1WoTFztmeXHNBTQbe7NPDsxgywAXxLFhaoxbGyDoURdI/edit?gid=1505686267#gid=1505686267" target="_blank" rel="noopener">Open the tracker →</a>
+  </div>
+
+  <!-- ─── ANYTIME ACTIONS (elevated) ─── -->
+  <div class="anyhead">
+    <span class="at-title">Two things to do anytime this quarter</span>
+    <span class="at-sub">Easy to forget — but they count. Check them off in the tracker too.</span>
+  </div>
+  <div class="anytime">
+    <div class="any">
+      <div class="arow"><span class="ico">📚</span><span class="aname">Read or watch 3 items from the AI reading list</span></div>
+      <p class="adesc">Pick any three and dig in. Builds your foundation — no setup required.</p>
+      <div class="afoot">
+        <span class="est">30–90 min</span>
+        <a class="lnk" href="https://docs.google.com/spreadsheets/d/1WoTFztmeXHNBTQbe7NPDsxgywAXxLFhaoxbGyDoURdI/edit?gid=1505686267#gid=1505686267" target="_blank" rel="noopener">Open the reading-list tab →</a>
+      </div>
+    </div>
+    <div class="any">
+      <div class="arow"><span class="ico">💬</span><span class="aname">Contribute thoughts &amp; ideas to our AI policy</span></div>
+      <p class="adesc">Share questions, concerns, and ideas. Every voice shapes how we use AI together.</p>
+      <div class="afoot">
+        <span class="est">15 min</span>
+        <a class="lnk" href="#REPLACE_policy_link" target="_blank" rel="noopener">Add your input →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="youhere"><span class="blip"></span>You are here</div>
+
+  <!-- ─── TIMELINE ─── -->
   <div class="timeline">
 
     <!-- 1 -->
@@ -258,11 +265,16 @@
       <div class="card">
         <h3>Reserve the time</h3>
         <p class="desc">With your manager, set aside about <strong>3 days</strong> this quarter for AI. It's protected, planned time — not extra work piled on top of everything else.</p>
-        <div class="action">
-          <span class="check">✓</span>
-          <span class="atext"><span class="alabel">Your action</span><span class="amain">Block ~3 days for AI during Q3 planning</span></span>
-          <span class="est">~3 days / quarter</span>
-        </div>
+        <details>
+          <summary><span class="chev">▸</span><span class="stxt-closed">Show the action</span><span class="stxt-open">Hide</span></summary>
+          <div class="panel">
+            <div class="action">
+              <span class="check">✓</span>
+              <span class="amain">Block ~3 days for AI during Q3 planning</span>
+              <span class="est">~3 days / quarter</span>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -271,13 +283,19 @@
       <div class="when"><span class="wt">Next</span><span class="ws">wk of Jun 23</span></div>
       <div class="spine"><div class="rail"></div><div class="node">2</div></div>
       <div class="card">
-        <h3>Get the map</h3>
+        <h3>Get the rundown from your team lead</h3>
         <p class="desc">Your team lead walks the whole team through the plan and what your own quarter looks like — so you leave knowing where you're headed and why it matters.</p>
-        <div class="action">
-          <span class="check">✓</span>
-          <span class="atext"><span class="alabel">Team lead action</span><span class="amain">Onboard your team to the Q3 AI plan</span></span>
-          <span class="est">45 min</span>
-        </div>
+        <details>
+          <summary><span class="chev">▸</span><span class="stxt-closed">Show the action</span><span class="stxt-open">Hide</span></summary>
+          <div class="panel">
+            <div class="action">
+              <span class="check">✓</span>
+              <span class="amain">Team leads — onboard your team to the Q3 AI plan</span>
+              <span class="est">45 min</span>
+            </div>
+            <div class="note"><span class="nlabel">Note</span>Nothing to prep — your team lead runs this session. Come with questions.</div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -287,14 +305,21 @@
       <div class="spine"><div class="rail"></div><div class="node">3</div></div>
       <div class="card">
         <h3>Get set up</h3>
-        <p class="desc">We'll sit with you and put Claude on your own computer, plus a copy of OS Hub running locally — the most powerful way to use it. You'll never do this alone.</p>
-        <div class="action">
-          <span class="check">✓</span>
-          <span class="atext"><span class="alabel">Your action</span><span class="amain">Set up Claude Code &amp; OS Hub locally</span></span>
-          <span class="est">90 min</span>
-          <a class="btn" href="#REPLACE_setup_link">Schedule with Tyler →</a>
-        </div>
-        <span class="fine">For those who want the hands-on path — see "Pick your path" below.</span>
+        <p class="desc">We'll sit with you and put Claude on your own computer, plus a copy of OS Hub running locally. You'll never do this alone.</p>
+        <details>
+          <summary><span class="chev">▸</span><span class="stxt-closed">Show the action</span><span class="stxt-open">Hide</span></summary>
+          <div class="panel">
+            <div class="action">
+              <span class="check">✓</span>
+              <span class="amain">Set up Claude Code &amp; OS Hub locally</span>
+              <span class="est">90 min (one sitting)</span>
+            </div>
+            <div class="howto">
+              <b>How to book:</b> Sessions are coming — Tyler will share <b>5 options</b> to join one, and the expectation is that you join one of them. Prefer your own time? Bring a buddy, find a 90-minute slot that works for you both, and send Tyler a calendar invite.
+            </div>
+            <div class="note"><span class="nlabel">Note</span>The most powerful way to use Claude is in your terminal — we'll get you set up there. To write code for OS Hub directly, you also need a local copy on your own device. We'll do that together too. :)</div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -304,13 +329,26 @@
       <div class="spine"><div class="rail"></div><div class="node">4</div></div>
       <div class="card">
         <h3>Put AI to work for you</h3>
-        <p class="desc">Bring one thing you do every week and we'll build an AI workflow for it together — a sales-notes helper, an automatic timesheet, a ticket-maker. Especially useful if you're not on the engineering team.</p>
-        <div class="action">
-          <span class="check">✓</span>
-          <span class="atext"><span class="alabel">Your action</span><span class="amain">Update one internal workflow with AI</span></span>
-          <span class="est">45 min</span>
-          <a class="btn" href="#REPLACE_workflow_link">Schedule a session →</a>
-        </div>
+        <p class="desc">Bring one thing you do every week and we'll build an AI workflow for it together. Especially useful if you're not on the engineering team.</p>
+        <details>
+          <summary><span class="chev">▸</span><span class="stxt-closed">Show the action</span><span class="stxt-open">Hide</span></summary>
+          <div class="panel">
+            <div class="action">
+              <span class="check">✓</span>
+              <span class="amain">Update one internal workflow with AI</span>
+              <span class="est">45 min</span>
+              <a class="btn" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ07zuioIxGjA2GuBwyFA_wL1nYNjhzKQ7HjDSv7gwsYgZ_kj9BTXuV1fTDm9LMDK5F-RkR01BpI" target="_blank" rel="noopener">Book a session with Tyler →</a>
+            </div>
+            <div class="note"><span class="nlabel">Note</span>AI can be a brilliant personal assistant when used well. Bring one idea and we'll build what you need together. A few examples:
+              <ol>
+                <li>A sales agent that turns your notes into OS Hub synergies</li>
+                <li>A workflow that does your timesheets for you</li>
+                <li>A skill that turns customer feedback into a correctly-filed Jira ticket</li>
+              </ol>
+              …and so many more. :)
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -321,13 +359,18 @@
       <div class="card">
         <h3>Ship something real</h3>
         <p class="desc">Pick a small task and make real changes to the product, with a buddy beside you. This is where it all comes together.</p>
-        <div class="action">
-          <span class="check">✓</span>
-          <span class="atext"><span class="alabel">Your action</span><span class="amain">Make 2 pull requests with only AI</span></span>
-          <span class="est">45 min</span>
-          <a class="btn" href="#REPLACE_pr_link">Schedule a session →</a>
-        </div>
-        <span class="fine">A pull request = a proposed change to the product's code. (Get set up at step 3 first.)</span>
+        <details>
+          <summary><span class="chev">▸</span><span class="stxt-closed">Show the action</span><span class="stxt-open">Hide</span></summary>
+          <div class="panel">
+            <div class="action">
+              <span class="check">✓</span>
+              <span class="amain">Make 2 pull requests with only AI</span>
+              <span class="est">45 min</span>
+              <a class="btn" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ07zuioIxGjA2GuBwyFA_wL1nYNjhzKQ7HjDSv7gwsYgZ_kj9BTXuV1fTDm9LMDK5F-RkR01BpI" target="_blank" rel="noopener">Book a session with Tyler →</a>
+            </div>
+            <div class="note"><span class="nlabel">Note</span>Once you're set up on Claude Code with OS Hub running locally, we'll work with you one-on-one to take a real Jira ticket and write directly to the OS Hub codebase. <em>A pull request = a proposed change to the product's code.</em> <strong>Get set up at step 3 first.</strong></div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -345,18 +388,6 @@
       <div class="sess"><span class="sdate tbd">Date TBD</span><span class="sname">Claude as a Tool</span></div>
       <div class="sess"><span class="sdate tbd">Date TBD</span><span class="sname">Claude in the Terminal &amp; the OS Hub Brain</span></div>
       <div class="sess"><span class="sdate tbd">Aug 5</span><span class="sname">Strategic Planning Process</span></div>
-    </div>
-  </div>
-
-  <!-- ─── ANYTIME ACTIONS ─── -->
-  <div class="anytime">
-    <div class="any">
-      <span class="ico">📚</span>
-      <span class="at"><b>Read or watch 3 items</b> from the AI reading list. <span class="em">30–90 min · </span><a href="#REPLACE_reading_link">Open the list →</a></span>
-    </div>
-    <div class="any">
-      <span class="ico">💬</span>
-      <span class="at"><b>Shape our AI policy</b> — share your thoughts &amp; questions. <span class="em">15 min · </span><a href="#REPLACE_policy_link">Add your input →</a></span>
     </div>
   </div>
 
