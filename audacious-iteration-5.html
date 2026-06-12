@@ -1711,6 +1711,22 @@
   details.fold summary .fold-hint { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--ink-faint); }
   details.fold[open] summary { border-bottom: 1px solid var(--line); }
   details.fold .fold-body { padding: 16px 20px; }
+
+  /* --- Polish fixes (Tyler, 11 Jun) --- */
+  /* Hero actions: align with the title, not floating mid-air; bigger touch targets */
+  .cw-hero-row { align-items: start; }
+  .cw-hero .actions { margin-top: 32px; }
+  .cw-hero .actions button { padding: 12px 22px; font-size: 13.5px; }
+
+  /* Rights-holder cards: level the headlines and anchor footers to the bottom */
+  .rh-data-card { display: flex; flex-direction: column; }
+  .rh-data-card .rh-type { min-height: 30px; align-items: flex-start; }
+  .rh-data-card .prov {
+    margin-top: auto; padding-top: 9px;
+    border-top: 1px solid var(--line);
+  }
+  .rh-data-card .rh-data-detail { margin-bottom: 12px; }
+  .rh-data-card.testimony .quote-en { margin-bottom: 14px; }
 </style>
 </head>
 <body>
@@ -1978,7 +1994,7 @@
           <div class="quote-en">"They told me my overtime had been paid, but nothing has come into my account for three months. When I asked, the supervisor said if I kept asking, he'd tell them to stop giving me shifts."</div>
           <div class="prov">
             <span class="pchip rh">Rights-holder</span>
-            <b>Sumera · 26 · operator</b> · via PILER paralegal · Jun 9
+            <span><b>Sumera · 26 · operator</b> · via PILER paralegal · Jun 9</span>
             <a style="margin-left:auto;">↗ MyVox #4783</a>
           </div>
         </div>
@@ -1989,7 +2005,7 @@
           <div class="rh-data-detail">Median underpayment: <b>PKR 8,400/month</b> · pattern across women's line operators</div>
           <div class="prov">
             <span class="pchip rh">Rights-holder</span>
-            <b>PILER survey</b> · Mar 2026
+            <span><b>PILER survey</b> · Mar 2026</span>
             <span class="comp-chip" style="margin-left:auto;">↓ <span class="amt">$5/worker</span></span>
           </div>
         </div>
@@ -2000,7 +2016,7 @@
           <div class="rh-data-detail">Locked fire exits flagged · ventilation below code · forced overtime ≥ 14h/week</div>
           <div class="prov">
             <span class="pchip rh">Rights-holder</span>
-            <b>HBWWF</b> · May 2026
+            <span><b>HBWWF</b> · May 2026</span>
             <span class="comp-chip" style="margin-left:auto;">↓ <span class="amt">$15/monitor</span></span>
           </div>
         </div>
