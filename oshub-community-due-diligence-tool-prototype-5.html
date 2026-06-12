@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
 <style>
   :root {
     /* Palette tuned to the redesigned OS Hub homepage (navy/mint/butter/blush/grape/leaf/tomato on paper) */
@@ -1718,6 +1720,19 @@
   .cw-hero .actions { margin-top: 32px; }
   .cw-hero .actions button { padding: 12px 22px; font-size: 13.5px; }
 
+  /* Real map (Leaflet + dark CARTO tiles) replacing the faux grid */
+  .region-map-visual { height: 340px; }
+  #regionMap { position: absolute; inset: 0; z-index: 1; background: var(--navy); }
+  .region-map-visual .legend { z-index: 1000; }
+  .leaflet-container { font-family: "Inter", sans-serif; }
+  .leaflet-control-attribution { font-size: 9px; background: rgba(255,255,255,0.75); }
+  .map-city-label {
+    background: rgba(13,18,43,0.88); color: white;
+    border: none; border-radius: 6px; padding: 3px 10px;
+    font-size: 11px; font-weight: 600; box-shadow: none;
+  }
+  .map-city-label::before { display: none; }
+
   /* Rights-holder cards: level the headlines and anchor footers to the bottom */
   .rh-data-card { display: flex; flex-direction: column; }
   .rh-data-card .rh-type { min-height: 30px; align-items: flex-start; }
@@ -2492,21 +2507,7 @@
         <div class="meta"><span style="color:var(--coral);font-weight:700;">● 7 new reports this week</span> · wage theft +18% this month · last 7 days shown bright</div>
       </div>
       <div class="region-map-visual">
-        <div class="grid-faux"></div>
-        <div class="dot hotspot" style="left: 30%; top: 30%;"></div>
-        <div class="city-label" style="left: 32%; top: 36%;">Faisalabad · 8 active</div>
-        <div class="dot active" style="left: 35%; top: 40%;"></div>
-        <div class="dot active" style="left: 39%; top: 35%;"></div>
-        <div class="dot resolved" style="left: 27%; top: 38%;"></div>
-        <div class="dot hotspot" style="left: 18%; top: 65%;"></div>
-        <div class="city-label" style="left: 6%; top: 72%;">Karachi · 14 active</div>
-        <div class="dot active" style="left: 22%; top: 67%;"></div>
-        <div class="dot active" style="left: 16%; top: 70%;"></div>
-        <div class="dot resolved" style="left: 14%; top: 62%;"></div>
-        <div class="dot active" style="left: 55%; top: 45%;"></div>
-        <div class="city-label" style="left: 57%; top: 50%;">Lahore · 6 active</div>
-        <div class="dot active" style="left: 60%; top: 48%;"></div>
-        <div class="dot resolved" style="left: 52%; top: 42%;"></div>
+        <div id="regionMap"></div>
         <div class="legend">
           <span><span class="ld" style="background: var(--coral);"></span>Hotspot</span>
           <span><span class="ld" style="background: var(--yellow);"></span>Active</span>
@@ -2910,6 +2911,9 @@
     const path = paths[n];
     document.getElementById('url-path').innerHTML = '<span class="new-path">' + path + '</span>';
 
+    // Real map boots the first time the Regional Dashboard opens
+    if (n === 3) setTimeout(initRegionMap, 60);
+
     // Stage ribbon — hidden on the intro page (it tells the full story itself)
     const ribbon = document.getElementById('stageRibbon');
     if (n === 1) {
@@ -2937,6 +2941,42 @@
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Pakistan apparel region — real coordinates, Leaflet over dark CARTO tiles
+  let regionMapObj = null;
+  function initRegionMap() {
+    if (regionMapObj) { regionMapObj.invalidateSize(); return; }
+    if (typeof L === 'undefined') return; // offline fallback: navy panel stays
+    regionMapObj = L.map('regionMap', { scrollWheelZoom: false, zoomControl: true, zoomSnap: 0.25 });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+      subdomains: 'abcd', maxZoom: 12
+    }).addTo(regionMapObj);
+    const colors = { hot: '#e5533c', act: '#ffcf3f', res: '#1e9e6e' };
+    const pts = [
+      // Faisalabad cluster — Apex lives here
+      [31.418, 73.079, 'hot', 'Faisalabad · 8 active', 'left'],
+      [31.52, 73.20, 'act', ''], [31.32, 73.00, 'act', ''], [31.50, 72.92, 'res', ''],
+      // Karachi cluster
+      [24.861, 67.010, 'hot', 'Karachi · 14 active', 'bottom'],
+      [24.93, 67.12, 'act', ''], [24.80, 66.95, 'act', ''], [24.95, 66.88, 'res', ''],
+      // Lahore cluster
+      [31.558, 74.351, 'act', 'Lahore · 6 active', 'right'],
+      [31.45, 74.25, 'act', ''], [31.62, 74.44, 'res', '']
+    ];
+    pts.forEach(([lat, lng, t, label, dir]) => {
+      const m = L.circleMarker([lat, lng], {
+        radius: t === 'hot' ? 9 : 7,
+        color: '#ffffff', weight: 1.5,
+        fillColor: colors[t], fillOpacity: 0.95
+      }).addTo(regionMapObj);
+      if (label) {
+        const off = dir === 'left' ? [-12, 0] : dir === 'right' ? [12, 0] : [0, 12];
+        m.bindTooltip(label, { permanent: true, direction: dir, offset: off, className: 'map-city-label' });
+      }
+    });
+    regionMapObj.fitBounds([[24.5, 66.6], [32.0, 74.8]], { padding: [18, 18] });
   }
 
   function setMode(mode) {
