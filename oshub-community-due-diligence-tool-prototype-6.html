@@ -1838,6 +1838,48 @@
   .wp-chip b { display: block; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
   .wp-arr { display: flex; align-items: center; color: var(--ink-faint); font-weight: 700; }
 
+  /* Status on the worker-power steps */
+  .wp-chip .wp-status { display: block; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-faint); margin-bottom: 4px; }
+  .wp-chip.done { border-color: var(--green); background: var(--green-soft); }
+  .wp-chip.done .wp-status { color: #1c6b38; }
+  .wp-chip.live { border-color: var(--navy); background: var(--yellow-soft); box-shadow: var(--shadow-sm); }
+  .wp-chip.live .wp-status { color: var(--navy); }
+
+  /* Receive vs act bar */
+  .use-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  .ub-cell {
+    background: var(--cream); border: 1px solid var(--line); border-radius: 12px;
+    padding: 11px 14px; font-size: 12px; color: var(--ink-soft); line-height: 1.55;
+  }
+  .ub-tag {
+    display: inline-block; font-size: 9.5px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1px; border-radius: 999px; padding: 2px 9px; margin-right: 7px; vertical-align: 1px;
+  }
+  .ub-tag.receive { background: var(--purple-soft); color: var(--purple); }
+  .ub-tag.act { background: var(--navy); color: var(--yellow); }
+  .ub-btn {
+    background: var(--navy); color: var(--yellow); border: none; border-radius: 999px;
+    padding: 5px 12px; font-size: 11px; font-weight: 700; margin-left: 4px;
+  }
+  .ub-btn.ghost { background: white; color: var(--ink-soft); border: 1px solid var(--line); }
+
+  /* Action chips (Submit via...) read as buttons, data refs stay quiet */
+  .ext-link {
+    background: var(--navy); color: var(--yellow);
+    border: none; border-radius: 999px;
+    padding: 5px 13px; font-size: 11px; font-weight: 700;
+  }
+  .ext-link:hover { background: var(--navy-2); }
+
+  /* Connections: connected vs bring-in-next */
+  .conn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cc-h { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; }
+  .cc-h.ok { color: #1c6b38; }
+  .cc-h.next { color: var(--purple); }
+  .conn-col .collab-row { grid-template-columns: auto 1fr; grid-template-rows: auto auto; }
+  .conn-col .collab-row .cr-actions { grid-column: 1 / -1; display: flex; gap: 8px; margin-top: 4px; }
+  .cr-actions button { white-space: nowrap; }
+
   /* Page 2 — example modules */
   .module-card {
     background: white; border: 1px solid var(--line); border-radius: 20px;
@@ -2276,6 +2318,10 @@
 
       <div class="mod-detail" id="mod-detail-1">
         <p class="mod-intro">One report from a worker, matched against the open data layer. The full chain of influence and the evidence behind it, assembled in hours instead of months.</p>
+        <div class="use-bar">
+          <div class="ub-cell"><span class="ub-tag receive">The tool assembles</span>The chain, ownership, audits, and policies, pulled from 12 open datasets with every source named.</div>
+          <div class="ub-cell"><span class="ub-tag act">The advocate adds</span>Testimony, photos, and local knowledge the data can't see. <button class="ub-btn">+ Add evidence</button> <button class="ub-btn ghost">✎ Suggest a correction</button></div>
+        </div>
         <div class="chain-tiles">
           <div class="chain-tile">
             <div class="role">Factory</div>
@@ -2369,6 +2415,10 @@
       </div>
       <div class="mod-detail" id="mod-detail-2" style="display:none;">
         <p class="mod-intro">Every mechanism that applies to this campaign, named in one view and drawn from the program's escalation framework and the Accountability Counsel database. Workers and advocates choose which to pursue; the landscape stays visible either way.</p>
+        <div class="use-bar">
+          <div class="ub-cell"><span class="ub-tag receive">The tool surfaces</span>Which mechanisms apply, what each requires, deadlines, and how they went elsewhere.</div>
+          <div class="ub-cell"><span class="ub-tag act">The advocate acts</span>Files, escalates, and coordinates. The navy buttons below are the action moments.</div>
+        </div>
       <div class="status-legend">
         <span><i style="background:var(--green-soft);border-color:var(--green);"></i>Exists &amp; working — use it</span>
         <span><i style="background:var(--yellow-soft);border-color:var(--yellow);"></i>Exists · stuck or not trusted — add pressure</span>
@@ -2522,11 +2572,11 @@
       <div class="mod-detail" id="mod-detail-3" style="display:none;">
         <p class="mod-intro">Workers are not a data source. They report through people they trust, they decide which pathways the campaign pursues, and the outcomes flow back to them. The campaign also connects to the advocates already working on the same chain.</p>
       <div class="wp-strip">
-        <span class="wp-chip"><b>Report</b>through people they trust</span>
+        <span class="wp-chip done"><span class="wp-status">✓ Done · Jun 9</span><b>Report</b>Sumera told a paralegal she trusts. 340 workers contributed data, and were paid for it.</span>
         <span class="wp-arr">→</span>
-        <span class="wp-chip"><b>Decide</b>workers choose the pathways</span>
+        <span class="wp-chip live"><span class="wp-status">● Live now</span><b>Decide</b>12 worker reps are choosing the pathways. Nothing files without them.</span>
         <span class="wp-arr">→</span>
-        <span class="wp-chip"><b>Benefit</b>outcomes flow back to workers</span>
+        <span class="wp-chip"><span class="wp-status">Next</span><b>Benefit</b>Wages, protections, and the result reported back to every worker.</span>
       </div>
       <div class="decision-card">
         <div class="dc-lbl">▌ The community decides</div>
@@ -2537,33 +2587,48 @@
         </div>
       </div>
       <div class="ws-section-h" style="margin-top:18px;">
-        <h3 style="font-size:14px;">Connected to the people already working on this chain</h3>
+        <h3 style="font-size:14px;">Who's connected, and who to bring in next</h3>
       </div>
-      <div class="collab-row">
+      <div class="conn-grid">
+        <div class="conn-col">
+          <div class="cc-h ok">● Connected to this campaign</div>
+          <div class="collab-row">
             <span class="av-c">FZ</span>
             <div class="info">
               <b>Faiza Zafar · NTUF Karachi</b>
-              <div class="ci">Northbridge Mills campaign · same supplier cluster</div>
+              <div class="ci">Coordinating since Jun 10 · same supplier cluster</div>
             </div>
-            <button>Message</button>
-          </div>
-          <div class="collab-row">
-            <span class="av-c">PA</span>
-            <div class="info">
-              <b>Priya Anand · TTCU Tamil Nadu</b>
-              <div class="ci">Eastwell India wage-theft campaign · playbook available</div>
-            </div>
-            <button>Message</button>
-            <button class="outlined">View playbook</button>
+            <div class="cr-actions"><button>Message</button></div>
           </div>
           <div class="collab-row">
             <span class="av-c">EW</span>
             <div class="info">
-              <b>Brand contact · Eastwell &amp; Co. Compliance</b>
-              <div class="ci">Via the Speak Up portal · compliance lead per OS Hub contributor record</div>
+              <b>Eastwell &amp; Co. Compliance</b>
+              <div class="ci">Receives the Speak Up filing · per OS Hub contributor record</div>
             </div>
-            <button class="outlined">Open contact</button>
+            <div class="cr-actions"><button class="outlined">Open contact</button></div>
           </div>
+        </div>
+        <div class="conn-col">
+          <div class="cc-h next">→ Bring in next</div>
+          <div class="collab-row">
+            <span class="av-c">PA</span>
+            <div class="info">
+              <b>Priya Anand · TTCU Tamil Nadu</b>
+              <div class="ci">Won the closest past campaign against Eastwell · playbook available</div>
+            </div>
+            <div class="cr-actions"><button>Request intro</button><button class="outlined">View playbook</button></div>
+          </div>
+          <div class="collab-row">
+            <span class="av-c">FW</span>
+            <div class="info">
+              <b>Fair Wear Worker Info Line</b>
+              <div class="ci">Member leverage · bring in at day 21 if the brand response is slow</div>
+            </div>
+            <div class="cr-actions"><button class="outlined">Prepare intro</button></div>
+          </div>
+        </div>
+      </div>
       <div class="outcome-strip">
         <span class="os-lbl">▌ Modelled outcome</span>
         <span><b>PKR 4.26M</b> wages back to 347 workers</span>
