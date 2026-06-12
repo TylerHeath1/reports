@@ -1950,6 +1950,13 @@
     background: var(--navy); color: var(--yellow); border: none;
     border-radius: 999px; padding: 13px 22px; font-size: 13px; font-weight: 700; white-space: nowrap;
   }
+  .cd-ex { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .cd-row {
+    background: rgba(255,255,255,0.75); border: 1px solid var(--mint-dark);
+    border-radius: 999px; padding: 6px 14px; font-size: 11.5px; color: var(--ink-soft);
+  }
+  .cd-row b { color: var(--navy); margin-left: 6px; }
+  .export-btn.on { background: var(--yellow); color: var(--navy); box-shadow: var(--shadow-sm); }
 
   /* --- Polish fixes (Tyler, 11 Jun) --- */
   /* Hero actions: align with the title, not floating mid-air; bigger touch targets */
@@ -2882,14 +2889,18 @@
       </div>
     </div>
 
-    <!-- Reporting: exports first -->
-    <div class="section-title"><h2>Reporting</h2><span class="meta">Structured, source-linked data for your frameworks — ready to export</span></div>
-    <div class="export-row">
-      <button class="export-btn">↓ Export CSRD / ESRS S2 report</button>
-      <button class="export-btn">↓ Export EU CSDDD report</button>
-      <button class="export-btn">↓ Export German LkSG report</button>
-      <button class="export-btn ghost">↓ UK MSA §54</button>
-      <button class="export-btn ghost">Pull via API ↗</button>
+    <!-- Shared risks · collaborative due diligence -->
+    <div class="collab-dd">
+      <div>
+        <div class="lbl">▌ Shared risks · collaborative due diligence</div>
+        <h3>You and 4 other brands share elevated wage-theft risk in Faisalabad.</h3>
+        <p>Same region, overlapping suppliers, similar risk scores. Coordinating due diligence is cheaper and more effective than running it alone.</p>
+        <div class="cd-ex">
+          <span class="cd-row">Wage theft · Faisalabad cluster <b>you + 4 brands</b></span>
+          <span class="cd-row">Audit reliance · WRAP-certified suppliers <b>you + 2 brands</b></span>
+        </div>
+      </div>
+      <button>Explore shared due diligence →</button>
     </div>
 
     <!-- Risks surfaced -->
@@ -2963,29 +2974,24 @@
       </div>
     </div>
 
-    <!-- Collaborative due diligence -->
-    <div class="collab-dd">
-      <div>
-        <div class="lbl">▌ Collaborative due diligence</div>
-        <h3>You and 4 other brands share elevated wage-theft risk in Faisalabad.</h3>
-        <p>Same region, overlapping suppliers, similar risk scores — coordinating due diligence is cheaper and more effective than running it alone.</p>
-      </div>
-      <button>Explore shared due diligence →</button>
+    <!-- Reporting: click a framework to preview its fields -->
+    <div class="section-title"><h2>Reporting</h2><span class="meta">Click a framework to preview the structured, source-linked fields behind its export</span></div>
+    <div class="export-row">
+      <button class="export-btn on" id="exp-csrd" onclick="showExport('csrd')">↓ CSRD / ESRS S2 ▾</button>
+      <button class="export-btn" id="exp-csddd" onclick="showExport('csddd')">↓ EU CSDDD ▾</button>
+      <button class="export-btn" id="exp-lksg" onclick="showExport('lksg')">↓ German LkSG ▾</button>
+      <button class="export-btn" id="exp-msa" onclick="showExport('msa')">↓ UK MSA §54 ▾</button>
+      <button class="export-btn ghost">Pull via API ↗</button>
     </div>
 
-    <!-- Reporting layer (structured fields preview) -->
+    <!-- Structured fields preview, driven by the export buttons -->
     <div class="report-card">
       <div class="rc-h">
-        <h3>Preview · the structured fields behind the exports</h3>
-        <div class="rc-sub">We don't fill out your reports — you have your own systems with information we don't have. We provide the structured data fields you can plug into them.</div>
-      </div>
-      <div class="report-tabs">
-        <button class="report-tab on">CSRD · ESRS S2</button>
-        <button class="report-tab">EU CSDDD</button>
-        <button class="report-tab">German LkSG</button>
-        <button class="report-tab">UK MSA §54</button>
+        <h3 id="ep-title">Preview · CSRD / ESRS S2 structured fields</h3>
+        <div class="rc-sub">We don't fill out your reports. These are the structured data fields you plug into them, every value source-linked.</div>
       </div>
       <div class="report-body">
+        <div class="ep-pane" id="ep-csrd">
         <div class="report-section">
           <div class="rs-head">
             <b>S2-3 · Processes to remediate negative impacts on workers in the value chain</b>
@@ -3020,8 +3026,35 @@
             <b>Worker-reported retaliation events:</b> 0 in reporting period (across covered facilities)
           </div>
         </div>
+        </div>
+        <div class="ep-pane" id="ep-csddd" style="display:none;">
+          <div class="report-section">
+            <div class="rs-head"><b>Art. 6 · Identifying actual and potential adverse impacts</b><span class="rs-code">EU CSDDD · risk identification</span></div>
+            <div class="rs-data"><b>Salient impacts identified:</b> wage-theft cluster, Faisalabad, Eastwell-supplied, 340 workers<br><b>Value-chain transparency gap:</b> undisclosed sourcing agent across 12 chains<br><b>Verification signal:</b> 8 WRAP-certified suppliers contradicted by community data</div>
+          </div>
+          <div class="report-section">
+            <div class="rs-head"><b>Art. 7 and 8 · Preventing and ending adverse impacts</b><span class="rs-code">EU CSDDD · measures</span></div>
+            <div class="rs-data"><b>Remediation:</b> in progress via the community program, day 14 of est. 90<br><b>Continuous monitoring:</b> 42 of 47 facilities covered by community-based due diligence<br><b>Stakeholder engagement:</b> worker representatives consulted on every pathway decision</div>
+          </div>
+        </div>
+        <div class="ep-pane" id="ep-lksg" style="display:none;">
+          <div class="report-section">
+            <div class="rs-head"><b>§5 · Risk analysis</b><span class="rs-code">German LkSG · Risikoanalyse</span></div>
+            <div class="rs-data"><b>Risk levels by facility:</b> 3 elevated, 4 moderate, 35 baseline, sourced from continuous community monitoring<br><b>Priority risk:</b> wage theft, Faisalabad cluster</div>
+          </div>
+          <div class="report-section">
+            <div class="rs-head"><b>§7 and 8 · Remedial action and complaints procedure</b><span class="rs-code">German LkSG · Abhilfe</span></div>
+            <div class="rs-data"><b>Remedial action:</b> community-program remediation underway, documented end to end<br><b>Complaints access:</b> workers reach trusted local channels in Urdu, documented per facility</div>
+          </div>
+        </div>
+        <div class="ep-pane" id="ep-msa" style="display:none;">
+          <div class="report-section">
+            <div class="rs-head"><b>§54 · Annual statement support</b><span class="rs-code">UK Modern Slavery Act</span></div>
+            <div class="rs-data"><b>Steps taken this period:</b> continuous community-based due diligence across 42 Pakistani facilities, 38 campaigns resolved, PKR 18.4M returned to workers, worker-accessible reporting channels in place</div>
+          </div>
+        </div>
         <div class="report-note">
-          <b>What this gives you:</b> structured data fields, source-linked, ready to copy into your CSRD ESRS S2 disclosure. You still need your own internal data on financial impact, materiality assessments, and remediation amounts. <a href="#">Export as CSV / JSON ↗</a> &nbsp; <a href="#">Pull via OS Hub API ↗</a>
+          <b>What this gives you:</b> structured data fields, source-linked, ready to copy into your disclosure. You still need your own internal data on financial impact, materiality assessments, and remediation amounts. <a href="#">Export as CSV / JSON ↗</a> &nbsp; <a href="#">Pull via OS Hub API ↗</a>
         </div>
       </div>
     </div>
@@ -3141,6 +3174,20 @@
       document.getElementById('mod-detail-' + i).style.display = show ? 'block' : 'none';
       document.getElementById('mod-sum-' + i).classList.toggle('active', show);
     }
+  }
+
+  const exportTitles = {
+    csrd: 'Preview · CSRD / ESRS S2 structured fields',
+    csddd: 'Preview · EU CSDDD structured fields',
+    lksg: 'Preview · German LkSG structured fields',
+    msa: 'Preview · UK MSA §54 structured fields'
+  };
+  function showExport(k) {
+    ['csrd','csddd','lksg','msa'].forEach(x => {
+      document.getElementById('ep-' + x).style.display = x === k ? 'block' : 'none';
+      document.getElementById('exp-' + x).classList.toggle('on', x === k);
+    });
+    document.getElementById('ep-title').textContent = exportTitles[k];
   }
 
   function setMode(mode) {
