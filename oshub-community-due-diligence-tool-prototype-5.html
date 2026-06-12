@@ -2949,34 +2949,36 @@
     if (regionMapObj) { regionMapObj.invalidateSize(); return; }
     if (typeof L === 'undefined') return; // offline fallback: navy panel stays
     regionMapObj = L.map('regionMap', { scrollWheelZoom: false, zoomControl: true, zoomSnap: 0.25 });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       subdomains: 'abcd', maxZoom: 12
     }).addTo(regionMapObj);
-    const colors = { hot: '#e5533c', act: '#ffcf3f', res: '#1e9e6e' };
+    const colors = { hot: '#e5533c', act: '#eab308', res: '#1e9e6e' };
+    // One proportional circle per hub city + small dots at real secondary textile towns
     const pts = [
-      // Faisalabad cluster — Apex lives here
-      [31.418, 73.079, 'hot', 'Faisalabad · 8 active', 'left'],
-      [31.52, 73.20, 'act', ''], [31.32, 73.00, 'act', ''], [31.50, 72.92, 'res', ''],
-      // Karachi cluster
-      [24.861, 67.010, 'hot', 'Karachi · 14 active', 'bottom'],
-      [24.93, 67.12, 'act', ''], [24.80, 66.95, 'act', ''], [24.95, 66.88, 'res', ''],
-      // Lahore cluster
-      [31.558, 74.351, 'act', 'Lahore · 6 active', 'right'],
-      [31.45, 74.25, 'act', ''], [31.62, 74.44, 'res', '']
+      [24.861, 67.010, 'hot', 13, 'Karachi · 14 active', 'right'],
+      [31.418, 73.079, 'hot', 11, 'Faisalabad · 8 active', 'left'],
+      [31.558, 74.351, 'act', 9,  'Lahore · 6 active', 'right'],
+      [32.494, 74.522, 'act', 5, '', ''],   // Sialkot
+      [32.162, 74.188, 'act', 5, '', ''],   // Gujranwala
+      [31.713, 73.985, 'res', 4, '', ''],   // Sheikhupura
+      [31.120, 74.450, 'act', 4, '', ''],   // Kasur
+      [30.157, 71.524, 'act', 5, '', ''],   // Multan
+      [25.396, 68.378, 'res', 4, '', ''],   // Hyderabad
+      [27.713, 68.836, 'act', 4, '', '']    // Sukkur
     ];
-    pts.forEach(([lat, lng, t, label, dir]) => {
+    pts.forEach(([lat, lng, t, r, label, dir]) => {
       const m = L.circleMarker([lat, lng], {
-        radius: t === 'hot' ? 9 : 7,
-        color: '#ffffff', weight: 1.5,
-        fillColor: colors[t], fillOpacity: 0.95
+        radius: r,
+        color: '#1b2150', weight: 1.5,
+        fillColor: colors[t], fillOpacity: 0.9
       }).addTo(regionMapObj);
       if (label) {
-        const off = dir === 'left' ? [-12, 0] : dir === 'right' ? [12, 0] : [0, 12];
+        const off = dir === 'left' ? [-14, 0] : dir === 'right' ? [14, 0] : [0, 14];
         m.bindTooltip(label, { permanent: true, direction: dir, offset: off, className: 'map-city-label' });
       }
     });
-    regionMapObj.fitBounds([[24.5, 66.6], [32.0, 74.8]], { padding: [18, 18] });
+    regionMapObj.fitBounds([[24.6, 66.8], [32.7, 74.8]], { padding: [18, 18] });
   }
 
   function setMode(mode) {
