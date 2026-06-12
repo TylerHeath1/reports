@@ -1957,6 +1957,14 @@
   }
   .cd-row b { color: var(--navy); margin-left: 6px; }
   .export-btn.on { background: var(--yellow); color: var(--navy); box-shadow: var(--shadow-sm); }
+  .rd-grid { align-items: stretch; }
+  .rd-grid .panel .bar-row { margin-bottom: 16px; }
+  .rd-grid .panel .bar-track { height: 20px; border-radius: 5px; }
+  .panel-takeaway {
+    margin-top: 18px; padding: 12px 16px;
+    background: var(--yellow-soft); border: 1px solid var(--yellow); border-radius: 12px;
+    font-size: 12px; color: var(--ink-soft); line-height: 1.55;
+  }
 
   /* --- Polish fixes (Tyler, 11 Jun) --- */
   /* Hero actions: align with the title, not floating mid-air; bigger touch targets */
@@ -2796,13 +2804,14 @@
     <div class="rd-grid">
       <div class="panel">
         <h4>Where violations cluster</h4>
-        <div class="panel-sub">Pakistan apparel · last 12 mo · all partners</div>
+        <div class="panel-sub">Pakistan apparel · last 12 mo · all partners · 4,121 reports</div>
         <div class="bar-row"><span class="lc">Wage theft</span><div class="bar-track"><div class="bar-fill" style="width: 84%"></div></div><span class="pct">1,449</span></div>
         <div class="bar-row"><span class="lc">Unfair dismissal</span><div class="bar-track"><div class="bar-fill" style="width: 53%"></div></div><span class="pct">914</span></div>
         <div class="bar-row"><span class="lc">Contract violations</span><div class="bar-track"><div class="bar-fill" style="width: 49%"></div></div><span class="pct">847</span></div>
         <div class="bar-row"><span class="lc">Employment benefits</span><div class="bar-track"><div class="bar-fill" style="width: 29%"></div></div><span class="pct">499</span></div>
         <div class="bar-row"><span class="lc">Overtime &amp; hours</span><div class="bar-track"><div class="bar-fill" style="width: 18%"></div></div><span class="pct">319</span></div>
         <div class="bar-row"><span class="lc">Harassment</span><div class="bar-track"><div class="bar-fill" style="width: 5%"></div></div><span class="pct">93</span></div>
+        <div class="panel-takeaway">Wage theft generates more reports than the next two categories combined. That cluster is what the Issues to elevate cards above are built from.</div>
       </div>
       <div class="partner-panel">
         <h4>Partner network</h4>
@@ -2822,11 +2831,6 @@
           <div><b>Fair Wear Worker Info Line</b><div class="pm">9 countries · 2 relevant to your network</div></div>
           <span class="live-tag">Live</span>
         </div>
-        <div class="partner-row">
-          <span class="p-ico">PL</span>
-          <div><b>Pakistan Labour Department</b><div class="pm">Public register · syncs daily</div></div>
-          <span class="live-tag">Live</span>
-        </div>
         <div class="pp-sub" style="margin-top:14px;">Peer CBDD teams in the region</div>
         <div class="peer-row">
           <div><b>NTUF Karachi</b><div class="pm">Industrial belt · 12 active campaigns · shared 4 patterns with you</div></div>
@@ -2836,10 +2840,7 @@
           <div><b>Home-based Women Workers Federation</b><div class="pm">Women's cafés · 22 active campaigns · GBV specialist</div></div>
           <button class="pr-btn">Open</button>
         </div>
-        <div class="peer-row">
-          <div><b>Labour Education Foundation</b><div class="pm">Training + paralegal support · cross-region</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
+        <div style="margin-top:12px; font-size:11.5px;"><a href="#" style="color:var(--yellow);">View all 8 partners and 5 peer teams →</a></div>
       </div>
     </div>
 
