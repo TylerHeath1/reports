@@ -1484,7 +1484,7 @@
   =========================================================== */
 
   /* Display typography — Darker Grotesque runs condensed, so display sizes go up */
-  .intro-hero h1 { font-size: 58px; line-height: 0.98; font-weight: 800; }
+  .intro-hero h1 { font-size: 42px; line-height: 1.04; font-weight: 800; max-width: 1000px; }
   .intro-hero .kicker { font-family: "Inter", sans-serif; }
   .cw-hero h1 { font-size: 34px; font-weight: 800; }
   .rd-hero h1, .bd-hero h1 { font-size: 44px; font-weight: 800; line-height: 1; }
@@ -1713,6 +1713,39 @@
   details.fold summary .fold-hint { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--ink-faint); }
   details.fold[open] summary { border-bottom: 1px solid var(--line); }
   details.fold .fold-body { padding: 16px 20px; }
+  details.fold[open] .fold-hint .open-lbl, details.fold:not([open]) .fold-hint .close-lbl { display: none; }
+
+  /* Intro story steps — big, simple, visual-first */
+  .story-steps {
+    display: grid; grid-template-columns: 1fr 30px 1fr 30px 1fr;
+    gap: 8px; align-items: stretch;
+    margin-top: -44px; position: relative; z-index: 3;
+  }
+  .story-step {
+    background: white; border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: 20px 22px;
+    display: flex; flex-direction: column;
+  }
+  .story-step .ss-viz {
+    height: 138px; margin-bottom: 14px;
+    background: var(--cream); border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .story-step .ss-viz svg { width: 92%; height: 92%; }
+  .ss-n {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--navy); color: var(--yellow);
+    font-weight: 800; font-size: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
+  }
+  .story-step h3 {
+    margin: 0 0 8px;
+    font-family: "Darker Grotesque", "Inter", sans-serif;
+    font-size: 25px; font-weight: 800; line-height: 1.02; color: var(--navy);
+  }
+  .story-step p { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
+  .ss-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink-faint); font-size: 20px; font-weight: 700; }
 
   /* --- Polish fixes (Tyler, 11 Jun) --- */
   /* Hero actions: align with the title, not floating mid-air; bigger touch targets */
@@ -1814,39 +1847,134 @@
     <span class="shape sh-sc"></span>
     <div class="container">
       <div class="kicker">OS Hub Community Due Diligence Tool · an example of what's possible — not a finished product</div>
-      <h1>What if the worker making t&#8209;shirts for Amazon had the same information as Amazon's CEO?</h1>
-      <p class="sub">Platforms like Altana and Sayari sell supply-chain intelligence to corporations. Open Supply Hub is the open data layer underneath — open to everyone, owned by no one — and this prototype shows what happens when that intelligence reaches the people closest to the problem, with workers owning and benefiting from the data they create.</p>
+      <h1>What if the worker who makes t&#8209;shirts for Amazon had the same visibility and power in supply chains as the company CEO — using that visibility to drive accountability from the ground up?</h1>
+      <p class="sub">OS Hub is building the data and community infrastructure to make that a reality for the 450 million workers in global supply chains.</p>
     </div>
   </div>
 
   <div class="ws-canvas">
 
-    <div class="intro-story">
-      <div class="is-card">
-        <div class="is-lbl coral">▌ The situation</div>
-        <p><b>Sumera</b>, 26, a machine operator at <b>Apex Garments Mills</b> in Faisalabad, hasn't received overtime pay in three months. When she asked, her supervisor threatened her shifts. She told a paralegal she trusts — one of <b>5,082 worker reports</b> logged through the MyVox community-monitoring program since 2022.</p>
+    <!-- The story, in three steps — visual-first -->
+    <div class="story-steps">
+      <div class="story-step">
+        <div class="ss-viz">
+          <svg viewBox="0 0 240 130" aria-hidden="true">
+            <rect x="36" y="62" width="168" height="50" rx="4" fill="#1b2150"/>
+            <path d="M36 62 L66 42 L66 62 Z" fill="#1b2150"/>
+            <path d="M66 62 L96 42 L96 62 Z" fill="#1b2150"/>
+            <path d="M96 62 L126 42 L126 62 Z" fill="#1b2150"/>
+            <rect x="52" y="78" width="14" height="14" fill="#ffcf3f"/>
+            <rect x="82" y="78" width="14" height="14" fill="#3a3f6e"/>
+            <rect x="112" y="78" width="14" height="14" fill="#3a3f6e"/>
+            <rect x="142" y="78" width="14" height="14" fill="#3a3f6e"/>
+            <rect x="172" y="78" width="14" height="14" fill="#3a3f6e"/>
+            <circle cx="176" cy="30" r="7" fill="#e5533c"/>
+            <circle cx="176" cy="30" r="15" fill="none" stroke="#e5533c" stroke-width="2" opacity="0.45"/>
+            <circle cx="176" cy="30" r="24" fill="none" stroke="#e5533c" stroke-width="2" opacity="0.2"/>
+            <line x1="176" y1="44" x2="180" y2="62" stroke="#e5533c" stroke-width="2" stroke-dasharray="3 3"/>
+          </svg>
+        </div>
+        <span class="ss-n">1</span>
+        <h3>Something bad is happening to workers.</h3>
+        <p>A report surfaces — through people the workers already trust.</p>
       </div>
-      <div class="is-card">
-        <div class="is-lbl purple">▌ The problem</div>
-        <p>Her report reaches <b>Aisha Khan</b>, paralegal lead at PILER. Aisha knows the violation is real. What she can't see is what she needs to act on it: <b>who actually buys from Apex, which laws apply, which accountability channels exist, what worked elsewhere</b>. That intelligence exists — scattered across registries and databases, or locked inside corporate platforms.</p>
+      <div class="ss-arrow">→</div>
+      <div class="story-step">
+        <div class="ss-viz">
+          <svg viewBox="0 0 240 130" aria-hidden="true">
+            <circle cx="28" cy="22" r="3" fill="#c9cce0"/>
+            <circle cx="62" cy="14" r="3" fill="#c9cce0"/>
+            <circle cx="96" cy="26" r="3" fill="#c9cce0"/>
+            <circle cx="124" cy="12" r="3" fill="#c9cce0"/>
+            <circle cx="152" cy="24" r="3" fill="#c9cce0"/>
+            <circle cx="196" cy="14" r="3" fill="#c9cce0"/>
+            <circle cx="218" cy="30" r="3" fill="#c9cce0"/>
+            <circle cx="78" cy="38" r="3" fill="#c9cce0"/>
+            <circle cx="176" cy="38" r="4" fill="#e5533c"/>
+            <rect x="14" y="66" width="36" height="36" rx="8" fill="#1b2150"/>
+            <line x1="50" y1="84" x2="72" y2="84" stroke="#8a90ac" stroke-width="2"/>
+            <rect x="72" y="66" width="36" height="36" rx="8" fill="#ffffff" stroke="#8a90ac" stroke-width="2" stroke-dasharray="4 3"/>
+            <line x1="108" y1="84" x2="132" y2="84" stroke="#8a90ac" stroke-width="2"/>
+            <rect x="132" y="58" width="52" height="52" rx="10" fill="#ffcf3f" stroke="#1b2150" stroke-width="2.5"/>
+            <line x1="184" y1="84" x2="202" y2="84" stroke="#8a90ac" stroke-width="2"/>
+            <rect x="202" y="66" width="28" height="36" rx="6" fill="none" stroke="#1b2150" stroke-width="2"/>
+          </svg>
+        </div>
+        <span class="ss-n">2</span>
+        <h3>To act, they need to know who has power — and what can move them.</h3>
+        <p>Who buys from the factory · which laws apply · which channels exist · what worked elsewhere. Today that means one overworked advocate digging through a thousand scattered sources.</p>
       </div>
-      <div class="is-card">
-        <div class="is-lbl green">▌ What this changes</div>
-        <p>This workspace combines worker testimony with Open Supply Hub's open data — corporate chains, legislation, audits, contacts — and surfaces <b>every accountability pathway at once</b>. Affected workers vote on each step. Campaigns that took months to research start in hours.</p>
+      <div class="ss-arrow">→</div>
+      <div class="story-step">
+        <div class="ss-viz">
+          <svg viewBox="0 0 240 130" aria-hidden="true">
+            <line x1="28" y1="14" x2="92" y2="56" stroke="#c9cce0" stroke-width="2"/>
+            <line x1="74" y1="10" x2="112" y2="56" stroke="#c9cce0" stroke-width="2"/>
+            <line x1="124" y1="8" x2="124" y2="56" stroke="#c9cce0" stroke-width="2"/>
+            <line x1="178" y1="10" x2="138" y2="56" stroke="#c9cce0" stroke-width="2"/>
+            <line x1="218" y1="16" x2="156" y2="56" stroke="#c9cce0" stroke-width="2"/>
+            <rect x="28" y="56" width="184" height="22" rx="11" fill="#8428fa"/>
+            <circle cx="58" cy="67" r="3.5" fill="#ffffff" opacity="0.85"/>
+            <circle cx="92" cy="67" r="3.5" fill="#ffffff" opacity="0.85"/>
+            <circle cx="126" cy="67" r="3.5" fill="#ffffff" opacity="0.85"/>
+            <circle cx="160" cy="67" r="3.5" fill="#ffffff" opacity="0.85"/>
+            <circle cx="190" cy="67" r="3.5" fill="#ffffff" opacity="0.85"/>
+            <line x1="70" y1="78" x2="70" y2="98" stroke="#1e9e6e" stroke-width="2.5"/>
+            <line x1="120" y1="78" x2="120" y2="98" stroke="#1e9e6e" stroke-width="2.5"/>
+            <line x1="170" y1="78" x2="170" y2="98" stroke="#1e9e6e" stroke-width="2.5"/>
+            <circle cx="70" cy="108" r="9" fill="#1e9e6e"/>
+            <circle cx="120" cy="108" r="9" fill="#1e9e6e"/>
+            <circle cx="170" cy="108" r="9" fill="#1e9e6e"/>
+            <path d="M66 108 l3 3 l6 -6" stroke="#ffffff" stroke-width="2" fill="none"/>
+            <path d="M116 108 l3 3 l6 -6" stroke="#ffffff" stroke-width="2" fill="none"/>
+            <path d="M166 108 l3 3 l6 -6" stroke="#ffffff" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <span class="ss-n">3</span>
+        <h3>This changes that: open infrastructure for accountability.</h3>
+        <p>Accessible, actionable, collaborative — workers and their advocates building campaigns on the same data the biggest companies use.</p>
       </div>
     </div>
 
-    <div class="intro-outcome">
-      <span class="io-lbl">▌ The expected outcome</span>
-      <span class="io-item"><b>PKR 4.26M</b> in wages back to 347 workers</span>
-      <span class="io-item"><b>Retaliation protection</b> + 12 months monitoring</span>
-      <span class="io-item"><b>Every campaign feeds the patterns</b> that change the system</span>
-    </div>
+    <!-- Drawer: the specific use case -->
+    <details class="fold" style="margin-top:26px;">
+      <summary>
+        Want to follow one specific campaign, start to finish?
+        <span class="chip new"><span class="d"></span>Aisha · Apex Garments · Pakistan</span>
+        <span class="fold-hint"><span class="open-lbl">Open ⌄</span><span class="close-lbl">Close ⌃</span></span>
+      </summary>
+      <div class="fold-body">
+        <div class="intro-story" style="margin-top:0;">
+          <div class="is-card" style="box-shadow:none;">
+            <div class="is-lbl coral">▌ The situation</div>
+            <p><b>Sumera</b>, 26, a machine operator at <b>Apex Garments Mills</b> in Faisalabad, hasn't received overtime pay in three months. When she asked, her supervisor threatened her shifts. She told a paralegal she trusts — one of <b>5,082 worker reports</b> logged through the MyVox community-monitoring program since 2022.</p>
+          </div>
+          <div class="is-card" style="box-shadow:none;">
+            <div class="is-lbl purple">▌ The problem</div>
+            <p>Her report reaches <b>Aisha Khan</b>, paralegal lead at PILER. Aisha knows the violation is real. What she can't see is what she needs to act on it: <b>who actually buys from Apex, which laws apply, which accountability channels exist, what worked elsewhere</b>. That intelligence exists — scattered across registries and databases, or locked inside corporate platforms.</p>
+          </div>
+          <div class="is-card" style="box-shadow:none;">
+            <div class="is-lbl green">▌ What this changes</div>
+            <p>This workspace combines worker testimony with Open Supply Hub's open data — corporate chains, legislation, audits, contacts — and surfaces <b>every accountability pathway at once</b>. Affected workers vote on each step. Campaigns that took months to research start in hours.</p>
+          </div>
+        </div>
+        <div class="intro-outcome">
+          <span class="io-lbl">▌ The expected outcome</span>
+          <span class="io-item"><b>PKR 4.26M</b> in wages back to 347 workers</span>
+          <span class="io-item"><b>Retaliation protection</b> + 12 months monitoring</span>
+          <span class="io-item"><b>Every campaign feeds the patterns</b> that change the system</span>
+        </div>
+      </div>
+    </details>
 
-    <div class="section-title" style="margin-top:40px;">
-      <h2>One pathway, five stages</h2>
-      <span class="meta">Our impact framework — follow it as a thread through the demo</span>
-    </div>
+    <!-- Drawer: the impact framework -->
+    <details class="fold">
+      <summary>
+        How does this map to our impact framework?
+        <span class="chip ok"><span class="d"></span>5 stages · catalytic accountability</span>
+        <span class="fold-hint"><span class="open-lbl">Open ⌄</span><span class="close-lbl">Close ⌃</span></span>
+      </summary>
+      <div class="fold-body">
     <div class="intro-stages">
       <div class="stage-card">
         <span class="n">1</span>
@@ -1879,10 +2007,12 @@
         <div class="where">Regional Dashboard · Brand View</div>
       </div>
     </div>
+      </div>
+    </details>
 
-    <div class="section-title">
-      <h2>Three workspaces, three stakeholders</h2>
-      <span class="meta">One open data layer underneath all of them</span>
+    <div class="section-title" style="margin-top:40px;">
+      <h2>Bring it to life</h2>
+      <span class="meta">Click in — this is the experience each stakeholder gets</span>
     </div>
     <div class="intro-views">
       <div class="view-card" onclick="goPage(2)">
@@ -1902,20 +2032,6 @@
         <h3>Brand Subscriber View</h3>
         <p>Eastwell &amp; Co.'s view: paying into community-based due diligence, getting reporting-ready data and priority actions back.</p>
         <span class="vc-open">Open the brand view →</span>
-      </div>
-    </div>
-
-    <div class="fork">
-      <div class="fork-card light" onclick="goPage(2)">
-        <span class="chip new" style="background:rgba(27,33,80,0.12); color:var(--navy); align-self:flex-start;"><span class="d"></span>New here?</span>
-        <h3>Follow the story — one campaign, start to finish.</h3>
-        <span class="fc-cta">Start with Aisha's campaign <span class="arr">→</span></span>
-      </div>
-      <div class="or">OR</div>
-      <div class="fork-card dark" onclick="goPage(3)">
-        <span class="chip new" style="background:rgba(255,255,255,0.14); color:var(--mint); align-self:flex-start;"><span class="d"></span>Seen it before?</span>
-        <h3>Jump straight to the program and brand views.</h3>
-        <span class="fc-cta">Open the Regional Dashboard <span class="arr">→</span></span>
       </div>
     </div>
 
@@ -2320,7 +2436,7 @@
           <summary>
             Connect &amp; collaborate
             <span class="chip new"><span class="d"></span>5 advocates on this chain</span>
-            <span class="fold-hint">Open ⌄</span>
+            <span class="fold-hint"><span class="open-lbl">Open ⌄</span><span class="close-lbl">Close ⌃</span></span>
           </summary>
           <div class="fold-body">
           <div class="collab-row">
