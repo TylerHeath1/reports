@@ -1747,6 +1747,22 @@
   .story-step p { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
   .ss-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink-faint); font-size: 20px; font-weight: 700; }
 
+  .ss-tags { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .ss-tags .ss-n { margin-bottom: 0; }
+  .ss-tag {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+    font-weight: 800; border-radius: 999px; padding: 4px 12px;
+  }
+  .ss-tag.coral { background: var(--coral-soft); color: #8c2415; }
+  .ss-tag.purple { background: var(--purple-soft); color: var(--purple); }
+  .ss-tag.green { background: var(--green-soft); color: #1c6b38; }
+
+  /* Expected-outcome strip: structured row, no awkward wrap */
+  .intro-outcome { display: block; }
+  .intro-outcome .io-lbl { margin-bottom: 10px; }
+  .intro-outcome .io-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .intro-outcome .io-item { font-size: 12.5px; line-height: 1.5; }
+
   /* Page 2 — example modules */
   .module-card {
     background: white; border: 1px solid var(--line); border-radius: 20px;
@@ -1915,8 +1931,8 @@
 
   <div class="intro-hero">
     <div class="container">
-      <div class="kicker">OS Hub Community Due Diligence Tool · an example of what's possible — not a finished product</div>
-      <h1>What if the worker who makes t&#8209;shirts for Amazon had the same visibility and power in supply chains as the company CEO — using that visibility to drive accountability from the ground up?</h1>
+      <div class="kicker">OS Hub Community Due Diligence Tool · an example of what's possible</div>
+      <h1>What if the worker who makes t&#8209;shirts for Amazon had the same visibility and power in supply chains as the company CEO, using that visibility to drive accountability from the ground up?</h1>
       <p class="sub">OS Hub is building the data and community infrastructure to make that a reality for the 450 million workers in global supply chains.</p>
     </div>
   </div>
@@ -1943,42 +1959,35 @@
             <line x1="176" y1="44" x2="180" y2="62" stroke="#e5533c" stroke-width="2" stroke-dasharray="3 3"/>
           </svg>
         </div>
-        <span class="ss-n">1</span>
+        <div class="ss-tags"><span class="ss-n">1</span><span class="ss-tag coral">The situation</span></div>
         <h3>A grievance surfaces.</h3>
-        <p>Wage theft, unsafe conditions, retaliation — reported through people the workers already trust.</p>
+        <p>Unpaid wages, unsafe conditions, harassment, retaliation for speaking up. Workers rarely take these to official channels. They tell the people they already trust: a paralegal at a legal aid centre, a union organizer, a community monitor.</p>
       </div>
       <div class="ss-arrow">→</div>
       <div class="story-step">
         <div class="ss-viz">
           <svg viewBox="0 0 240 130" aria-hidden="true" style="font-family:'Inter',sans-serif;">
-            <rect x="8"   y="12" width="50" height="18" rx="9" fill="#ffffff" stroke="#dfe1ec"/>
-            <text x="33"  y="24" text-anchor="middle" font-size="8.5" font-weight="700" fill="#4a5170" letter-spacing="0.5">BUYERS</text>
-            <rect x="66"  y="12" width="50" height="18" rx="9" fill="#ffffff" stroke="#dfe1ec"/>
-            <text x="91"  y="24" text-anchor="middle" font-size="8.5" font-weight="700" fill="#4a5170" letter-spacing="0.5">LAWS</text>
-            <rect x="124" y="12" width="58" height="18" rx="9" fill="#ffffff" stroke="#dfe1ec"/>
-            <text x="153" y="24" text-anchor="middle" font-size="8.5" font-weight="700" fill="#4a5170" letter-spacing="0.5">CHANNELS</text>
-            <rect x="190" y="12" width="46" height="18" rx="9" fill="#ffffff" stroke="#dfe1ec"/>
-            <text x="213" y="24" text-anchor="middle" font-size="8.5" font-weight="700" fill="#4a5170" letter-spacing="0.5">WINS</text>
-            <line x1="33"  y1="30" x2="112" y2="68" stroke="#c9cce0" stroke-width="1.5"/>
-            <line x1="91"  y1="30" x2="118" y2="68" stroke="#c9cce0" stroke-width="1.5"/>
-            <line x1="153" y1="30" x2="128" y2="68" stroke="#c9cce0" stroke-width="1.5"/>
-            <line x1="213" y1="30" x2="134" y2="68" stroke="#c9cce0" stroke-width="1.5"/>
-            <rect x="16" y="88" width="38" height="30" rx="6" fill="#1b2150"/>
-            <text x="35" y="107" text-anchor="middle" font-size="8" font-weight="700" fill="#ffffff">FACTORY</text>
-            <line x1="54" y1="103" x2="94" y2="103" stroke="#8a90ac" stroke-width="2"/>
-            <path d="M88 99 L96 103 L88 107 Z" fill="#8a90ac"/>
-            <rect x="96" y="68" width="56" height="50" rx="10" fill="#ffcf3f" stroke="#1b2150" stroke-width="2.5"/>
-            <text x="124" y="90" text-anchor="middle" font-size="8.5" font-weight="800" fill="#1b2150">WHO HAS</text>
-            <text x="124" y="101" text-anchor="middle" font-size="8.5" font-weight="800" fill="#1b2150">POWER</text>
-            <line x1="152" y1="103" x2="192" y2="103" stroke="#8a90ac" stroke-width="2"/>
-            <path d="M186 99 L194 103 L186 107 Z" fill="#8a90ac"/>
-            <rect x="194" y="88" width="34" height="30" rx="6" fill="none" stroke="#1b2150" stroke-width="2"/>
-            <text x="211" y="107" text-anchor="middle" font-size="8" font-weight="700" fill="#1b2150">OWNER</text>
+            <!-- the power map: brand at the centre, the answers around it -->
+            <line x1="56" y1="26" x2="100" y2="52" stroke="#b9bdd4" stroke-width="2"/>
+            <line x1="184" y1="26" x2="140" y2="52" stroke="#b9bdd4" stroke-width="2"/>
+            <line x1="56" y1="106" x2="100" y2="80" stroke="#b9bdd4" stroke-width="2"/>
+            <line x1="184" y1="106" x2="140" y2="80" stroke="#b9bdd4" stroke-width="2"/>
+            <rect x="22" y="14" width="68" height="20" rx="10" fill="#ffffff" stroke="#dfe1ec"/>
+            <text x="56" y="27.5" text-anchor="middle" font-size="9" font-weight="700" fill="#4a5170" letter-spacing="0.5">BUYERS</text>
+            <rect x="152" y="14" width="64" height="20" rx="10" fill="#ffffff" stroke="#dfe1ec"/>
+            <text x="184" y="27.5" text-anchor="middle" font-size="9" font-weight="700" fill="#4a5170" letter-spacing="0.5">LAWS</text>
+            <rect x="14" y="96" width="84" height="20" rx="10" fill="#ffffff" stroke="#dfe1ec"/>
+            <text x="56" y="109.5" text-anchor="middle" font-size="9" font-weight="700" fill="#4a5170" letter-spacing="0.5">CHANNELS</text>
+            <rect x="142" y="96" width="84" height="20" rx="10" fill="#ffffff" stroke="#dfe1ec"/>
+            <text x="184" y="109.5" text-anchor="middle" font-size="9" font-weight="700" fill="#4a5170" letter-spacing="0.5">PAST WINS</text>
+            <rect x="86" y="46" width="68" height="38" rx="10" fill="#ffcf3f" stroke="#1b2150" stroke-width="2.5"/>
+            <text x="120" y="62" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1b2150">THE BRAND</text>
+            <text x="120" y="74" text-anchor="middle" font-size="7.5" font-weight="600" fill="#1b2150">holds the power</text>
           </svg>
         </div>
-        <span class="ss-n">2</span>
-        <h3>To act on it, they need to know who has power — and what can influence them.</h3>
-        <p>Who buys from the factory, which laws apply, which accountability channels exist, what worked elsewhere — today, scattered across a thousand disparate sources.</p>
+        <div class="ss-tags"><span class="ss-n">2</span><span class="ss-tag purple">The problem</span></div>
+        <h3>To act on it, they need to know who has power and what can influence them.</h3>
+        <p>Who buys from the factory, which laws apply, which accountability channels exist, what worked elsewhere. Today that knowledge is scattered across thousands of disparate sources.</p>
       </div>
       <div class="ss-arrow">→</div>
       <div class="story-step">
@@ -2004,9 +2013,9 @@
             <line x1="168" y1="92" x2="168" y2="86" stroke="#8428fa" stroke-width="2"/>
           </svg>
         </div>
-        <span class="ss-n">3</span>
-        <h3>Accessible, actionable, collaborative infrastructure — built to power corporate accountability.</h3>
-        <p>Workers and their advocates standing on the same data and connections the biggest companies have — and acting on them together.</p>
+        <div class="ss-tags"><span class="ss-n">3</span><span class="ss-tag green">What this changes</span></div>
+        <h3>Accessible, actionable, collaborative infrastructure to power corporate accountability.</h3>
+        <p>OS Hub brings it all together. Workers and their advocates stand on the same data and connections the biggest companies have, and act on them together.</p>
       </div>
     </div>
 
@@ -2033,10 +2042,12 @@
           </div>
         </div>
         <div class="intro-outcome">
-          <span class="io-lbl">▌ The expected outcome</span>
-          <span class="io-item"><b>PKR 4.26M</b> in wages back to 347 workers</span>
-          <span class="io-item"><b>Retaliation protection</b> + 12 months monitoring</span>
-          <span class="io-item"><b>Every campaign feeds the patterns</b> that change the system</span>
+          <div class="io-lbl">▌ The expected outcome</div>
+          <div class="io-row">
+            <span class="io-item"><b>PKR 4.26M</b><br>in wages back to 347 workers</span>
+            <span class="io-item"><b>Retaliation protection</b><br>plus 12 months of monitoring</span>
+            <span class="io-item"><b>Patterns that change the system</b><br>every campaign feeds them</span>
+          </div>
         </div>
       </div>
     </details>
@@ -2053,32 +2064,27 @@
       <div class="stage-card">
         <span class="n">1</span>
         <h4>Awareness</h4>
-        <p>An issue surfaces — new reports this week, a pattern accelerating. The workspace tells you why you're looking.</p>
-        <div class="where">Campaign Workspace</div>
+        <p>An issue surfaces: new reports this week, a pattern accelerating. The workspace tells you why you're looking.</p>
       </div>
       <div class="stage-card">
         <span class="n">2</span>
         <h4>Active use</h4>
-        <p>Worker testimony meets industry data: the corporate chain, applicable law, audits, contacts — every claim source-linked.</p>
-        <div class="where">Campaign Workspace</div>
+        <p>Worker testimony meets industry data: the corporate chain, applicable law, audits, contacts. Every claim names its source.</p>
       </div>
       <div class="stage-card">
         <span class="n">3</span>
         <h4>Action taken</h4>
-        <p>Workers vote on the approach. The campaign escalates into matching mechanisms — all of them named, never just one.</p>
-        <div class="where">Campaign Workspace</div>
+        <p>Workers decide the approach. The campaign escalates into matching mechanisms, all of them named, never just one.</p>
       </div>
       <div class="stage-card">
         <span class="n">4</span>
         <h4>Outcome achieved</h4>
-        <p>Wages recovered, protection in place — made explicit, modelled from campaigns that already worked.</p>
-        <div class="where">Campaign Workspace</div>
+        <p>Wages recovered and protection in place, made explicit and modelled from campaigns that already worked.</p>
       </div>
       <div class="stage-card">
         <span class="n">5</span>
         <h4>Systems change</h4>
         <p>Thousands of campaigns become patterns; patterns become program strategy and brand accountability.</p>
-        <div class="where">Regional Dashboard · Brand View</div>
       </div>
     </div>
       </div>
@@ -2635,9 +2641,6 @@
       </div>
     </div>
 
-      </div>
-    </div>
-
     <div class="rd-grid">
       <div class="panel">
         <h4>Where violations cluster</h4>
@@ -2685,7 +2688,8 @@
           <div><b>Labour Education Foundation</b><div class="pm">Training + paralegal support · cross-region</div></div>
           <button class="pr-btn">Open</button>
         </div>
-
+      </div>
+    </div>
 
   </div>
 </div>
