@@ -1747,6 +1747,78 @@
   .story-step p { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
   .ss-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink-faint); font-size: 20px; font-weight: 700; }
 
+  /* Page 2 — example modules */
+  .module-card {
+    background: white; border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: 24px 26px; margin-bottom: 22px;
+  }
+  .module-card.teaser { background: linear-gradient(135deg, #faf7ff, white); border-color: #e2d1f0; }
+  .mod-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; }
+  .mod-head .ss-n { flex-shrink: 0; margin-top: 3px; }
+  .mod-head h3 {
+    margin: 0 0 4px; font-family: "Darker Grotesque", "Inter", sans-serif;
+    font-size: 27px; font-weight: 800; line-height: 1; color: var(--navy);
+  }
+  .mod-head p { margin: 0; font-size: 13px; color: var(--ink-soft); line-height: 1.55; max-width: 760px; }
+  .module-card .rh-section { box-shadow: none; margin-bottom: 0; margin-top: 6px; }
+  .module-card .chain-tiles { margin-bottom: 18px; }
+  .status-legend {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    font-size: 11px; color: var(--ink-soft); margin-bottom: 12px;
+  }
+  .status-legend i {
+    width: 10px; height: 10px; border-radius: 3px; border: 1.5px solid;
+    display: inline-block; margin-right: 5px; vertical-align: -1px; font-style: normal;
+  }
+  .decision-card {
+    background: var(--green-soft); border: 1.5px solid var(--green);
+    border-radius: 16px; padding: 18px 20px;
+  }
+  .decision-card .dc-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; color: #1c6b38; margin-bottom: 8px; }
+  .decision-card .dc-main { font-size: 13.5px; color: var(--ink); line-height: 1.55; margin-bottom: 12px; }
+  .decision-card .dc-result { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-soft); }
+  .outcome-strip {
+    margin-top: 16px; background: var(--cream); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 18px;
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+    font-size: 12.5px; color: var(--ink-soft);
+  }
+  .outcome-strip .os-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; color: var(--mint-dark); }
+  .outcome-strip b { color: var(--navy); }
+  .outcome-strip .os-note { margin-left: auto; font-size: 10.5px; color: var(--ink-faint); }
+  .copilot-mini { font-size: 13px; }
+  .copilot-mini .who { display: block; font-size: 9.5px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; color: var(--ink-faint); margin-bottom: 3px; }
+  .copilot-mini .cm-q {
+    background: var(--purple-soft); border: 1px solid #e2d1f0; border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 10px; color: var(--navy); font-style: italic; max-width: 640px;
+  }
+  .copilot-mini .cm-a {
+    background: var(--cream); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 14px; color: var(--ink); line-height: 1.6;
+  }
+
+  /* Page 4 — export buttons + collaborative DD */
+  .export-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+  .export-btn {
+    background: var(--navy); color: var(--yellow); border: none;
+    border-radius: 999px; padding: 13px 22px;
+    font-size: 13px; font-weight: 700;
+  }
+  .export-btn:hover { background: var(--navy-2); }
+  .export-btn.ghost { background: white; color: var(--ink-soft); border: 1px solid var(--line); }
+  .collab-dd {
+    background: var(--mint); border: 1.5px solid var(--mint-dark);
+    border-radius: 20px; padding: 22px 26px; margin-bottom: 24px;
+    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center;
+  }
+  .collab-dd .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; color: var(--mint-dark); margin-bottom: 6px; }
+  .collab-dd h3 { margin: 0 0 6px; font-family: "Darker Grotesque", "Inter", sans-serif; font-size: 24px; font-weight: 800; line-height: 1.02; color: var(--navy); }
+  .collab-dd p { margin: 0; font-size: 12.5px; color: var(--ink-soft); max-width: 620px; }
+  .collab-dd button {
+    background: var(--navy); color: var(--yellow); border: none;
+    border-radius: 999px; padding: 13px 22px; font-size: 13px; font-weight: 700; white-space: nowrap;
+  }
+
   /* --- Polish fixes (Tyler, 11 Jun) --- */
   /* Hero actions: align with the title, not floating mid-air; bigger touch targets */
   .cw-hero-row { align-items: start; }
@@ -2061,28 +2133,12 @@
             <button>Copy link</button>
           </div>
         </div>
-        <div class="actions">
-          <button>Share</button>
-          <button>Export brief</button>
-          <button class="primary">Advance campaign →</button>
-        </div>
+
       </div>
     </div>
   </div>
 
   <div class="ws-canvas">
-   <div class="cw-grid">
-
-    <nav class="jump-rail" id="jumpRail">
-      <div class="jr-title">Jump to</div>
-      <a href="#sec-evidence" class="on">Rights-holder data<span class="st">Stage 1–2 · Awareness, Use</span></a>
-      <a href="#sec-chain">Corporate chain<span class="st">Stage 2 · Active use</span></a>
-      <a href="#sec-path">Escalation path<span class="st">Stage 3 · Action taken</span></a>
-      <a href="#sec-consent">Worker consent gate<span class="st">Stage 3 · Action taken</span></a>
-      <a href="#sec-outcome">Projected outcome<span class="st">Stage 4 · Outcome</span></a>
-    </nav>
-
-    <div class="cw-main">
 
     <!-- Understanding the data — taught once, used everywhere -->
     <div class="data-key">
@@ -2108,10 +2164,56 @@
       </div>
     </div>
 
-    <!-- Rights-holder data block (broader than testimony) -->
+    <div class="section-title" style="margin-top:30px;">
+      <h2>Three examples of what this unlocks</h2>
+      <span class="meta">Not the finished tool — the kinds of capabilities the open data layer makes possible</span>
+    </div>
+
+    <!-- Module 1 — who needs to be held accountable -->
+    <div class="module-card" id="sec-chain">
+      <div class="mod-head">
+        <span class="ss-n">1</span>
+        <div>
+          <h3>Who needs to be held accountable</h3>
+          <p>One report from a worker, matched against the open data layer — the full chain of influence and the evidence behind it, assembled in hours instead of months.</p>
+        </div>
+      </div>
+        <div class="chain-tiles">
+          <div class="chain-tile">
+            <div class="role">Factory</div>
+            <div class="name">Apex Garments Mills</div>
+            <div class="where">Faisalabad, Pakistan</div>
+            <a class="data-ref">↗ OS ID PK2023045APEX1A</a>
+            <div class="contact-line"><a href="#">Contact facility ↗</a></div>
+            <span class="arrow-next">→</span>
+          </div>
+          <div class="chain-tile">
+            <div class="role">Sourcing agent</div>
+            <div class="name">Pearl River Sourcing Ltd.</div>
+            <div class="where">Hong Kong</div>
+            <a class="data-ref">↗ MyVox #4783 evidence</a>
+            <span class="badge gap" style="display:block;margin-top:4px;">⚠ undisclosed by brand</span>
+            <span class="arrow-next">→</span>
+          </div>
+          <div class="chain-tile">
+            <div class="role">Brand</div>
+            <div class="name">Eastwell &amp; Co.</div>
+            <div class="where">London · buyer disclosure 2024</div>
+            <a class="data-ref">↗ OS Hub contributor #1842</a>
+            <div class="contact-line"><a href="#">Contact compliance ↗</a></div>
+            <span class="arrow-next">→</span>
+          </div>
+          <div class="chain-tile">
+            <div class="role">Parent company</div>
+            <div class="name">Eastwell Holdings PLC</div>
+            <div class="where">LSE · market cap £4.2B</div>
+            <a class="data-ref">↗ Companies House 09487123</a>
+            <div class="contact-line"><a href="#">Investor relations ↗</a></div>
+          </div>
+        </div>
     <div class="rh-section">
       <div class="rh-head">
-        <div class="lbl">▌ Rights-holder data · powering this campaign <span class="new-badge">✶ NEW</span></div>
+        <div class="lbl">▌ Rights-holder data · powering this campaign</div>
         <div class="totals">
           <span>340 rights holders contributed</span>
           <span>·</span>
@@ -2166,66 +2268,22 @@
         </div>
       </div>
     </div>
-
-    <!-- Mode tabs -->
-    <div class="mode-tabs" id="modeTabs">
-      <button class="mode-tab on" id="tab-structured" onclick="setMode('structured')">
-        <span class="ico">⊞</span> Structured workspace
-      </button>
-      <button class="mode-tab" id="tab-copilot" onclick="setMode('copilot')">
-        <span class="ico">✦</span> Co-pilot
-      </button>
     </div>
 
-    <div id="modeContainer">
-
-      <div class="struct-mode" id="structuredMode">
-
-        <!-- Corporate chain -->
-        <div class="ws-section-h">
-          <h3 id="sec-chain">Corporate chain — who has influence <span class="new-badge">✶ NEW</span></h3>
-          <span class="source">OS Hub disclosure × corporate registries × rights-holder observation</span>
+    <!-- Module 2 — how to hold them accountable -->
+    <div class="module-card" id="sec-path">
+      <div class="mod-head">
+        <span class="ss-n">2</span>
+        <div>
+          <h3>How to hold them accountable</h3>
+          <p>Every mechanism that applies to this campaign, named in one view — drawn from the program's escalation framework and the Accountability Counsel database. Workers and advocates choose which to pursue; the landscape stays visible either way.</p>
         </div>
-        <div class="chain-tiles">
-          <div class="chain-tile">
-            <div class="role">Factory</div>
-            <div class="name">Apex Garments Mills</div>
-            <div class="where">Faisalabad, Pakistan</div>
-            <a class="data-ref">↗ OS ID PK2023045APEX1A</a>
-            <div class="contact-line"><a href="#">Contact facility ↗</a></div>
-            <span class="arrow-next">→</span>
-          </div>
-          <div class="chain-tile">
-            <div class="role">Sourcing agent</div>
-            <div class="name">Pearl River Sourcing Ltd.</div>
-            <div class="where">Hong Kong</div>
-            <a class="data-ref">↗ MyVox #4783 evidence</a>
-            <span class="badge gap" style="display:block;margin-top:4px;">⚠ undisclosed by brand</span>
-            <span class="arrow-next">→</span>
-          </div>
-          <div class="chain-tile">
-            <div class="role">Brand</div>
-            <div class="name">Eastwell &amp; Co.</div>
-            <div class="where">London · buyer disclosure 2024</div>
-            <a class="data-ref">↗ OS Hub contributor #1842</a>
-            <div class="contact-line"><a href="#">Contact compliance ↗</a></div>
-            <span class="arrow-next">→</span>
-          </div>
-          <div class="chain-tile">
-            <div class="role">Parent company</div>
-            <div class="name">Eastwell Holdings PLC</div>
-            <div class="where">LSE · market cap £4.2B</div>
-            <a class="data-ref">↗ Companies House 09487123</a>
-            <div class="contact-line"><a href="#">Investor relations ↗</a></div>
-          </div>
-        </div>
-
-        <!-- Escalation path — auto-filled from the program's framework -->
-        <div class="ws-section-h">
-          <h3 id="sec-path">Escalation path — every mechanism, named <span class="new-badge">✶ NEW</span></h3>
-          <span class="source">Auto-filled from PILER's escalation framework × Accountability Counsel database</span>
-        </div>
-        <div class="esc-note">When PILER set up their program they customised an escalation framework for their region <a class="data-ref">↗ Regional Dashboard · framework</a>. Opening this campaign auto-filled each step with the mechanisms that match Apex Garments. Accountability is collective — every channel is named, and workers choose which to push.</div>
+      </div>
+      <div class="status-legend">
+        <span><i style="background:var(--green-soft);border-color:var(--green);"></i>Exists &amp; working — use it</span>
+        <span><i style="background:var(--yellow-soft);border-color:var(--yellow);"></i>Exists · stuck or not trusted — add pressure</span>
+        <span><i style="background:#fdf0ed;border-color:var(--coral);border-style:dashed;"></i>Missing — route to alternatives</span>
+      </div>
         <div class="esc-path">
 
           <details class="esc-step done">
@@ -2370,78 +2428,29 @@
           </details>
 
         </div>
+    </div>
 
-        <!-- Ecosystem node map — where this campaign fits -->
-        <details class="eco-map">
-          <summary>
-            Where does this campaign fit among the mechanisms that already exist?
-            <span class="hint">View the map →</span>
-          </summary>
-          <div class="lanes">
-            <div class="lane ok">
-              <h5>Exists &amp; working</h5>
-              <div class="lsub">Use it — the campaign files here</div>
-              <span class="lane-chip">Payment of Wages Authority<span>60-day government track</span></span>
-              <span class="lane-chip">Sindh Wages Act 2014<span>direct legal breach</span></span>
-            </div>
-            <div class="lane stuck">
-              <h5>Exists · stuck or not trusted</h5>
-              <div class="lsub">OS Hub adds data + pressure</div>
-              <span class="lane-chip">Factory grievance committee<span>9 of 12 reps wouldn't use it</span></span>
-              <span class="lane-chip">WRAP audit · certified 2025<span>contradicted by worker data</span></span>
-              <span class="lane-chip">Eastwell Speak Up<span>90-day SLA · pressure helps</span></span>
-            </div>
-            <div class="lane missing">
-              <h5>Missing</h5>
-              <div class="lsub">OS Hub routes to alternatives</div>
-              <span class="lane-chip">Recognised union at Apex<span>none — collective voice via reps</span></span>
-              <span class="lane-chip">Local wage helpline<span>none in Faisalabad</span></span>
-            </div>
-          </div>
-          <div class="oshub-bar">
-            <span class="ob-tag">What OS Hub adds</span>
-            Names every channel · adds pressure where things are stuck · routes around what's missing.
-          </div>
-        </details>
-
-        <!-- Collective decision-making panel -->
-        <div class="vote-panel" id="sec-consent">
-          <div class="vp-head">▌ Consent gate · live collective decision <span class="new-badge" style="background:rgba(255,255,255,0.2); color:white; border-color:rgba(255,255,255,0.3);">✶ NEW</span></div>
-          <h3>12 rights holders are choosing the accountability path to push forward</h3>
-          <p class="vp-sub">Affected workers and their reps decide where the campaign goes next. The advocate doesn't move until they've reached consensus.</p>
-          <div class="vote-row">
-            <span class="opt">File with Speak Up + Pakistan Wages Authority in parallel</span>
-            <div class="vote-bar"><div class="vote-fill" style="width: 73%"></div></div>
-            <span class="pct">73%</span>
-          </div>
-          <div class="vote-row">
-            <span class="opt">Speak Up first · escalate after 30 days</span>
-            <div class="vote-bar"><div class="vote-fill" style="width: 18%"></div></div>
-            <span class="pct">18%</span>
-          </div>
-          <div class="vote-row">
-            <span class="opt">Bring in Fair Wear + media immediately</span>
-            <div class="vote-bar"><div class="vote-fill" style="width: 9%"></div></div>
-            <span class="pct">9%</span>
-          </div>
-          <div class="vote-meta">
-            <div class="voter-dots">
-              <span class="vd">A</span><span class="vd">B</span><span class="vd">F</span><span class="vd">M</span><span class="vd">N</span><span class="vd">+7</span>
-            </div>
-            <span>12 rights-holder reps · vote closes in 38 min</span>
-          </div>
-          <div class="where-it-happens">Signal group · async voting in Urdu · running in parallel on WhatsApp for reps without Signal</div>
+    <!-- Module 3 — the collective layer -->
+    <div class="module-card" id="sec-consent">
+      <div class="mod-head">
+        <span class="ss-n">3</span>
+        <div>
+          <h3>The collective layer</h3>
+          <p>Workers aren't a data source — they're part of the process. Decisions happen with the community, in person and online, and the campaign connects to the people already working on the same chain.</p>
         </div>
-
-        <!-- Connect & collaborate — collapsed -->
-        <details class="fold">
-          <summary>
-            Connect &amp; collaborate
-            <span class="chip new"><span class="d"></span>5 advocates on this chain</span>
-            <span class="fold-hint"><span class="open-lbl">Open ⌄</span><span class="close-lbl">Close ⌃</span></span>
-          </summary>
-          <div class="fold-body">
-          <div class="collab-row">
+      </div>
+      <div class="decision-card">
+        <div class="dc-lbl">▌ The community decides</div>
+        <div class="dc-main">12 worker representatives reviewed the three accountability pathways with the affected workers — in person at the Legal Aid Centre and over WhatsApp.</div>
+        <div class="dc-result">
+          <span class="chip ok"><span class="d"></span>Decision recorded · Jun 10</span>
+          <span>Proceed with parallel filing — Eastwell Speak Up + Payment of Wages Authority. The campaign doesn't move without this step.</span>
+        </div>
+      </div>
+      <div class="ws-section-h" style="margin-top:18px;">
+        <h3 style="font-size:14px;">Connected to the people already working on this chain</h3>
+      </div>
+      <div class="collab-row">
             <span class="av-c">FZ</span>
             <div class="info">
               <b>Faiza Zafar · NTUF Karachi</b>
@@ -2466,128 +2475,33 @@
             </div>
             <button class="outlined">Open contact</button>
           </div>
-          </div>
-        </details>
+      <div class="outcome-strip">
+        <span class="os-lbl">▌ Modelled outcome</span>
+        <span><b>PKR 4.26M</b> wages back to 347 workers</span>
+        <span><b>Retaliation protection</b> + 12 months monitoring</span>
+        <span class="os-note">Illustrative — modelled from past campaigns, not promised.</span>
+      </div>
+    </div>
 
-        <!-- Projected outcome -->
-        <div class="ws-section-h">
-          <h3 id="sec-outcome">Projected outcome <span class="new-badge">✶ NEW</span></h3>
-          <span class="source">Modelled from similar past campaigns — illustrative</span>
-        </div>
-        <div class="outcome-card-mini">
-          <div class="o-meta">
-            Closest match: <b>Bahawalpur 2024 · Eastwell wage theft</b>
-            <a class="data-ref">↗ GRC playbook 2024-PK-117</a>
-          </div>
-          <div class="outcome-stats">
-            <div class="outcome-stat money">
-              <div class="label-mini">Money</div>
-              <div class="v">PKR 4.26M</div>
-              <div class="l">Wages projected to recover</div>
-            </div>
-            <div class="outcome-stat safety">
-              <div class="label-mini">Safety</div>
-              <div class="v">347 workers</div>
-              <div class="l">Retaliation protection added</div>
-            </div>
-            <div class="outcome-stat safety">
-              <div class="label-mini">Safety</div>
-              <div class="v">12 months</div>
-              <div class="l">Independent monitoring</div>
-            </div>
-          </div>
-          <div class="disclaim"><b>Illustrative.</b> Outcomes are modelled from past campaigns, not promised. Real campaigns can take longer and recover less — the workspace shows what the data supports, and workers decide what to push for.</div>
+    <!-- Teaser — co-pilot -->
+    <div class="module-card teaser">
+      <div class="mod-head">
+        <span class="ss-n" style="background:var(--purple);">✦</span>
+        <div>
+          <h3>…and ask all of it in plain language</h3>
+          <p>The same data, conversational — in Urdu or English, with every answer citing its sources.</p>
         </div>
       </div>
-
-      <!-- Co-pilot mode -->
-      <div class="copilot-mode" id="copilotMode">
-        <div class="copilot-card">
-          <div class="copilot-head">
-            <div class="ch-left">
-              <div class="ch-ico">✦</div>
-              <div>
-                <h4>Campaign Co-pilot · Apex Garments</h4>
-                <div class="ch-sub">Querying 12 datasets · sources cited on every claim</div>
-              </div>
-            </div>
-            <div class="lang-pill">🌐 Urdu · English</div>
-          </div>
-          <div class="copilot-body">
-            <div class="chat-message">
-              <div class="chat-avatar user">AK</div>
-              <div class="chat-bubble user-bubble">
-                <div class="who">Aisha · PILER</div>
-                <div class="urdu-q">اس کیس میں اصل طاقت کس کے پاس ہے، اور کہاں دباؤ ڈالنا چاہیے؟</div>
-                <div class="urdu-trans">"Where does the real power sit in this campaign, and where should we apply pressure?"</div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <div class="chat-avatar ai">✦</div>
-              <div class="chat-bubble">
-                <div class="who">Campaign Co-pilot</div>
-                <div class="speed-mini">12 datasets queried · 14 sources cited</div>
-                <h5>Power &amp; money</h5>
-                <ul>
-                  <li><b>Parent Eastwell Holdings PLC</b> — £4.2B market cap · board-level reputational exposure <a class="data-ref">↗ Companies House 09487123</a></li>
-                  <li><b>EU revenue €510M (2024)</b> — inside CSDDD scope <a class="data-ref">↗ Annual Report 2024 p.42</a></li>
-                  <li><b>Sourcing volume from Apex:</b> ~12% of Pakistan output · meaningful but droppable <a class="data-ref">↗ OS Hub supply chain</a></li>
-                  <li><b>AGM 18 Sep 2026</b> — shareholder Q&amp;A filed publicly <a class="data-ref">↗ investor calendar</a></li>
-                </ul>
-                <h5>Pathways — required and optional</h5>
-                <ul>
-                  <li><b>Required:</b> Pakistan Payment of Wages Authority (60-day avg) <a class="data-ref">↗ AC pathway PK-POWA</a></li>
-                  <li><b>Optional:</b> Eastwell Speak Up (90-day SLA, 3rd-party OK) <a class="data-ref">↗ Spotlight: eastwell-speakup</a></li>
-                  <li><b>Optional:</b> Fair Wear Worker Info Line (~120 days) <a class="data-ref">↗ AC pathway FWF-WIL</a></li>
-                  <li><b>Helpful:</b> UK OECD NCP for cross-border escalation if needed <a class="data-ref">↗ AC pathway UK-NCP</a></li>
-                </ul>
-                <h5>Recommended sequence</h5>
-                <p style="margin:0;font-size:13px;color:var(--navy);">Parallel filing — Eastwell Speak Up + Pakistan Wages Authority — within 7 days. Coordinate with Fair Wear at day 21 if response is slow. Hold OECD NCP as escalation lever for day 60+ if needed.</p>
-                <div class="citations-row">
-                  <b>12 datasets queried:</b> Companies House · OS Hub supply chain · Eastwell public filings · Spotlight policy scrape · Accountability Counsel pathway DB · MyVox report data · WRAP audit register · EUR-Lex · ILO · Pakistan Labour Dept register · Fair Wear member registry · TTCU playbook archive
-                </div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <div class="chat-avatar user">AK</div>
-              <div class="chat-bubble user-bubble">
-                <div class="who">Aisha · PILER</div>
-                <div style="font-size:14px; color:var(--navy);">Show me the Bahawalpur 2024 campaign — what worked?</div>
-              </div>
-            </div>
-            <div class="chat-message">
-              <div class="chat-avatar ai">✦</div>
-              <div class="chat-bubble">
-                <div class="who">Campaign Co-pilot</div>
-                <div style="font-size:13.5px; color:var(--navy);">
-                  <b>Bahawalpur 2024</b> <a class="data-ref">↗ GRC playbook 2024-PK-117</a>: Eastwell wage-theft campaign · 410 workers · resolved 73 days.
-                  <ul>
-                    <li>Parallel filing: Eastwell Speak Up + Pakistan Wages Authority on the same day</li>
-                    <li>Fair Wear coordination triggered at day 21 (member-leverage)</li>
-                    <li>Resolution: back-wages + retaliation clause added to supplier contract + quarterly monitoring for 12 months</li>
-                    <li>Same brand, region, and issue type — the closest precedent in the playbook archive</li>
-                  </ul>
-                  Priya Anand at TTCU led the Bahawalpur work — <a href="#">message her ✦</a>
-                </div>
-              </div>
-            </div>
-            <div class="followup-chips">
-              <span class="followup-chip">Draft Speak Up filing in Urdu →</span>
-              <span class="followup-chip">Show similar campaigns at other UK retailers →</span>
-              <span class="followup-chip">Cross-reference EU CSDDD reporting →</span>
-              <span class="followup-chip">Find media contacts who've covered Eastwell →</span>
-            </div>
-          </div>
-          <div class="copilot-input-row">
-            <input type="text" placeholder="Ask in Urdu or English — every answer cites its sources" />
-            <button>Send ✦</button>
-          </div>
+      <div class="copilot-mini">
+        <div class="cm-q"><span class="who">Aisha · PILER</span>"Where does the real power sit in this campaign, and where should we apply pressure?"</div>
+        <div class="cm-a"><span class="who">Co-pilot</span>Parent company <b>Eastwell Holdings PLC</b> carries the reputational exposure <a class="data-ref">↗ Companies House 09487123</a> — EU revenue puts it in CSDDD scope <a class="data-ref">↗ EUR-Lex 32024L1760</a>. Strongest sequence: parallel filing now, Fair Wear leverage at day 21. <a class="data-ref">↗ 12 datasets · 14 sources</a></div>
+        <div class="copilot-input-row" style="border-top:1px solid var(--line); padding:12px 0 0; background:transparent;">
+          <input type="text" placeholder="Ask in Urdu or English — every answer cites its sources" />
+          <button>Ask</button>
         </div>
       </div>
     </div>
 
-    </div>
-   </div>
   </div>
 </div>
 
@@ -2600,7 +2514,7 @@
     <div class="container">
       <div class="crumb"><a>Open Supply Hub</a> › <a>Community Monitoring</a> › <b>Region Dashboard</b></div>
       <h1>PILER · Pakistan apparel region</h1>
-      <p class="sub">Strategic view across Karachi, Lahore, and Faisalabad. Multi-campaign patterns, priority issue areas, peer-team coordination. Aggregate only — individual campaigns stay private.</p>
+      <p class="sub">Communities managing their own due diligence at regional level — the infrastructure for collaborative, region-wide accountability work. Aggregate only; individual campaigns stay private.</p>
       <div class="team-line">
         <span class="av">AK</span>
         <span><b>Aisha Khan</b> · CBDD lead · PILER team of 17 paralegals · regional view</span>
@@ -2616,6 +2530,28 @@
       <div class="rd-stat"><div class="lbl">Wages recovered</div><div class="v">PKR 81M</div><div class="d">≈ $289k USD</div></div>
       <div class="rd-stat"><div class="lbl">Brands implicated</div><div class="v">200+</div><div class="d warn">↑ 24% top brand</div></div>
       <div class="rd-stat"><div class="lbl">Avg. campaign time</div><div class="v">112d</div><div class="d">−24d vs 2024</div></div>
+    </div>
+
+    <div class="section-title"><h2>Issues to elevate</h2><span class="meta">Patterns no one could see before — auto-surfaced across thousands of reports</span></div>
+    <div class="campaigns-grid">
+        <div class="elevate-card">
+          <div class="lbl">▌ Highest leverage · audit-system challenge</div>
+          <h4>WRAP-certified factories account for 31% of wage-theft cases in Faisalabad</h4>
+          <p>Eight factories with active campaigns. Path to certifier accountability — challenging WRAP itself may yield broader change than per-brand action.</p>
+          <a href="#">Open elevation brief →</a>
+        </div>
+        <div class="elevate-card" style="background:linear-gradient(135deg, #ffe5ec, #fff0f6); border-color: var(--pink);">
+          <div class="lbl" style="color:#9a1a4d;">▌ Geographic concentration · Karachi industrial zone</div>
+          <h4>3× the national wage-theft rate since Q1 2026</h4>
+          <p>Coordinated with NTUF Karachi. Sector-wide brief in progress. Likely warrants region-specific brand pressure.</p>
+          <a href="#">Open elevation brief →</a>
+        </div>
+        <div class="elevate-card" style="background:linear-gradient(135deg, #f0e5ff, #fff0f6); border-color: var(--purple);">
+          <div class="lbl" style="color:var(--purple);">▌ Invisible tier · across multiple chains</div>
+          <h4>Pearl River Sourcing flagged in 12% of all cases</h4>
+          <p>An undisclosed sourcing agent recurring across many brand chains. Worth mapping all the brands whose chains it touches and raising at sector level.</p>
+          <a href="#">Open agent profile →</a>
+        </div>
     </div>
 
     <!-- Map -->
@@ -2699,19 +2635,19 @@
       </div>
     </div>
 
+      </div>
+    </div>
+
     <div class="rd-grid">
       <div class="panel">
-        <h4>Your escalation framework <span class="new-badge">✶ NEW</span></h4>
-        <div class="panel-sub">Customised by PILER at program setup. Every new campaign auto-fills each step with matching mechanisms from the Accountability Counsel database — 47 matched in your region.</div>
-        <div class="fw-step"><span class="fn">1</span><span><b>Facility level</b> — internal grievance channels, worker committees</span></div>
-        <div class="fw-step"><span class="fn">2</span><span><b>Brand channels</b> — Speak Up programmes, supplier codes, audit challenges</span></div>
-        <div class="fw-step"><span class="fn">3</span><span><b>State &amp; legal (Pakistan)</b> — Wages Authority · Sindh Wages Act · labour courts</span></div>
-        <div class="fw-step"><span class="fn">4</span><span><b>Regional &amp; multi-stakeholder</b> — Fair Wear · peer-team coordination</span></div>
-        <div class="fw-step"><span class="fn">5</span><span><b>International</b> — EU CSDDD · UK MSA · OECD National Contact Points</span></div>
-        <div class="fw-foot">
-          <span>Used by 23 active campaigns · last edited Mar 2026</span>
-          <button>✎ Customise framework</button>
-        </div>
+        <h4>Where violations cluster</h4>
+        <div class="panel-sub">Pakistan apparel · last 12 mo · all partners</div>
+        <div class="bar-row"><span class="lc">Wage theft</span><div class="bar-track"><div class="bar-fill" style="width: 84%"></div></div><span class="pct">1,449</span></div>
+        <div class="bar-row"><span class="lc">Unfair dismissal</span><div class="bar-track"><div class="bar-fill" style="width: 53%"></div></div><span class="pct">914</span></div>
+        <div class="bar-row"><span class="lc">Contract violations</span><div class="bar-track"><div class="bar-fill" style="width: 49%"></div></div><span class="pct">847</span></div>
+        <div class="bar-row"><span class="lc">Employment benefits</span><div class="bar-track"><div class="bar-fill" style="width: 29%"></div></div><span class="pct">499</span></div>
+        <div class="bar-row"><span class="lc">Overtime &amp; hours</span><div class="bar-track"><div class="bar-fill" style="width: 18%"></div></div><span class="pct">319</span></div>
+        <div class="bar-row"><span class="lc">Harassment</span><div class="bar-track"><div class="bar-fill" style="width: 5%"></div></div><span class="pct">93</span></div>
       </div>
       <div class="partner-panel">
         <h4>Partner network</h4>
@@ -2736,23 +2672,7 @@
           <div><b>Pakistan Labour Department</b><div class="pm">Public register · syncs daily</div></div>
           <span class="live-tag">Live</span>
         </div>
-      </div>
-    </div>
-
-    <div class="rd-grid">
-      <div class="panel">
-        <h4>Where violations cluster</h4>
-        <div class="panel-sub">Pakistan apparel · last 12 mo · all partners</div>
-        <div class="bar-row"><span class="lc">Wage theft</span><div class="bar-track"><div class="bar-fill" style="width: 84%"></div></div><span class="pct">1,449</span></div>
-        <div class="bar-row"><span class="lc">Unfair dismissal</span><div class="bar-track"><div class="bar-fill" style="width: 53%"></div></div><span class="pct">914</span></div>
-        <div class="bar-row"><span class="lc">Contract violations</span><div class="bar-track"><div class="bar-fill" style="width: 49%"></div></div><span class="pct">847</span></div>
-        <div class="bar-row"><span class="lc">Employment benefits</span><div class="bar-track"><div class="bar-fill" style="width: 29%"></div></div><span class="pct">499</span></div>
-        <div class="bar-row"><span class="lc">Overtime &amp; hours</span><div class="bar-track"><div class="bar-fill" style="width: 18%"></div></div><span class="pct">319</span></div>
-        <div class="bar-row"><span class="lc">Harassment</span><div class="bar-track"><div class="bar-fill" style="width: 5%"></div></div><span class="pct">93</span></div>
-      </div>
-      <div class="peers-panel">
-        <h4>Connect with peer CBDD teams</h4>
-        <div class="pp-sub">Other community-based DD programs in the region</div>
+        <div class="pp-sub" style="margin-top:14px;">Peer CBDD teams in the region</div>
         <div class="peer-row">
           <div><b>NTUF Karachi</b><div class="pm">Industrial belt · 12 active campaigns · shared 4 patterns with you</div></div>
           <button class="pr-btn">Open</button>
@@ -2765,38 +2685,7 @@
           <div><b>Labour Education Foundation</b><div class="pm">Training + paralegal support · cross-region</div></div>
           <button class="pr-btn">Open</button>
         </div>
-        <div class="peer-row">
-          <div><b>Label Behind the Label</b><div class="pm">UK-side brand engagement · Eastwell focus</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
-        <div class="peer-row">
-          <div><b>TTCU · Tamil Nadu (India)</b><div class="pm">Regional peer · shared Eastwell campaign learnings</div></div>
-          <button class="pr-btn">Open</button>
-        </div>
-      </div>
-    </div>
 
-    <div class="section-title"><h2>Issues to elevate</h2><span class="meta">Strategic priorities · auto-surfaced from patterns</span></div>
-    <div class="campaigns-grid">
-        <div class="elevate-card">
-          <div class="lbl">▌ Highest leverage · audit-system challenge</div>
-          <h4>WRAP-certified factories account for 31% of wage-theft cases in Faisalabad</h4>
-          <p>Eight factories with active campaigns. Path to certifier accountability — challenging WRAP itself may yield broader change than per-brand action.</p>
-          <a href="#">Open elevation brief →</a>
-        </div>
-        <div class="elevate-card" style="background:linear-gradient(135deg, #ffe5ec, #fff0f6); border-color: var(--pink);">
-          <div class="lbl" style="color:#9a1a4d;">▌ Geographic concentration · Karachi industrial zone</div>
-          <h4>3× the national wage-theft rate since Q1 2026</h4>
-          <p>Coordinated with NTUF Karachi. Sector-wide brief in progress. Likely warrants region-specific brand pressure.</p>
-          <a href="#">Open elevation brief →</a>
-        </div>
-        <div class="elevate-card" style="background:linear-gradient(135deg, #f0e5ff, #fff0f6); border-color: var(--purple);">
-          <div class="lbl" style="color:var(--purple);">▌ Invisible tier · across multiple chains</div>
-          <h4>Pearl River Sourcing flagged in 12% of all cases</h4>
-          <p>An undisclosed sourcing agent recurring across many brand chains. Worth mapping all the brands whose chains it touches and raising at sector level.</p>
-          <a href="#">Open agent profile →</a>
-        </div>
-    </div>
 
   </div>
 </div>
@@ -2809,8 +2698,9 @@
   <div class="bd-hero">
     <div class="container">
       <div class="crumb"><a>Open Supply Hub</a> › <b>Brand Subscriber View · Eastwell &amp; Co.</b></div>
-      <h1>Your Pakistan supply chain due diligence</h1>
-      <p class="sub">Subscribed to the PILER community-based due diligence program. PILER's regional team runs continuous due diligence on the facilities you source from — you get the data you need for reporting and the priority actions that need your response.</p>
+      <span class="chip new" style="background:rgba(27,33,80,0.10); color:var(--navy); margin-bottom:10px;"><span class="d"></span>Pakistan · Apparel module</span>
+      <h1>Your due diligence toolkit</h1>
+      <p class="sub">Subscribed to the PILER community-based due diligence program — continuous due diligence on the 42 facilities you source from, feeding your reporting and surfacing the risks that need your attention.</p>
       <div class="sub-line">
         <span class="av">MP</span>
         <span><b>Maya Patel</b> · Compliance Lead · Eastwell &amp; Co.</span>
@@ -2820,16 +2710,7 @@
 
   <div class="ws-canvas">
 
-    <div class="bd-sub-banner">
-      <div>
-        <div class="lbl">▌ Subscription · PILER community-based DD program · since 2024</div>
-        <h3>You're not buying a report. You're funding the community infrastructure that produces the truth.</h3>
-        <p>€48k / year funds 4 PILER paralegals, a women workers café, and regional pattern monitoring across the 42 Pakistani facilities you source from — continuous due diligence, not annual audit snapshots.</p>
-      </div>
-      <button style="background: var(--navy); color: var(--yellow); border: none; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; white-space: nowrap;">View subscription →</button>
-    </div>
-
-    <div class="bd-stats">
+    <div class="bd-stats" style="margin-top:26px;">
       <div class="bd-stat coral">
         <div class="lbl">Facilities under DD</div>
         <div class="v">42</div>
@@ -2841,9 +2722,9 @@
         <div class="sub">PKR 18.4M wages recovered to workers</div>
       </div>
       <div class="bd-stat purple">
-        <div class="lbl">Actions needed from you</div>
+        <div class="lbl">Risks to investigate</div>
         <div class="v">7</div>
-        <div class="sub">3 high-priority · earliest due in 3 days</div>
+        <div class="sub">3 elevated · surfaced from community data</div>
       </div>
       <div class="bd-stat yellow">
         <div class="lbl">Reporting periods covered</div>
@@ -2852,33 +2733,43 @@
       </div>
     </div>
 
-    <!-- Action items -->
+    <!-- Reporting: exports first -->
+    <div class="section-title"><h2>Reporting</h2><span class="meta">Structured, source-linked data for your frameworks — ready to export</span></div>
+    <div class="export-row">
+      <button class="export-btn">↓ Export CSRD / ESRS S2 report</button>
+      <button class="export-btn">↓ Export EU CSDDD report</button>
+      <button class="export-btn">↓ Export German LkSG report</button>
+      <button class="export-btn ghost">↓ UK MSA §54</button>
+      <button class="export-btn ghost">Pull via API ↗</button>
+    </div>
+
+    <!-- Risks surfaced -->
     <div class="action-card">
       <div class="ac-h">
-        <h3>Actions needing your response <span class="new-badge">✶ NEW</span></h3>
+        <h3>Risks surfaced — to investigate &amp; prioritise</h3>
         <a href="#" style="font-size: 12px;">View all 7 →</a>
       </div>
       <div class="action-row">
         <span class="priority high"></span>
         <div class="info">
-          <b>Apex Garments Mills — wage-theft campaign opened</b>
+          <b>Wage-theft risk elevated — Apex Garments cluster</b>
           <div class="ci">
-            <span class="meta-chip" style="background:var(--coral-soft);color:#7a1717;font-weight:700;">● New this week</span>
+            <span class="meta-chip" style="background:var(--coral-soft);color:#7a1717;font-weight:700;">● Elevated · new this week</span>
             <span class="meta-chip">340 workers affected</span>
-            <span class="meta-chip">PKR 4.26M projected · CSDDD-in-scope</span>
-            <span class="meta-chip">Filed via your Speak Up programme</span>
+            <span class="meta-chip">CSDDD-in-scope</span>
+            <span class="meta-chip">Remediation in progress via community program</span>
           </div>
         </div>
         <div class="due">
-          <b>Due in 3 days</b>
-          <span>Day 14 of 90 Speak Up SLA</span>
+          <b>Salient risk</b>
+          <span>prioritise this quarter</span>
         </div>
-        <button>Open response</button>
+        <button>View brief</button>
       </div>
       <div class="action-row">
         <span class="priority high"></span>
         <div class="info">
-          <b>WRAP audit gap signal · 8 of your Faisalabad suppliers</b>
+          <b>Audit-reliance risk — 8 WRAP-certified suppliers contradicted by community data</b>
           <div class="ci">
             <span class="meta-chip">Audit-certification mismatch</span>
             <span class="meta-chip">Reputational risk</span>
@@ -2886,47 +2777,57 @@
           </div>
         </div>
         <div class="due">
-          <b>Recommended this week</b>
-          <span>Re-evaluate audit reliance</span>
+          <b>Elevated risk</b>
+          <span>re-evaluate audit reliance</span>
         </div>
         <button class="outlined">View brief</button>
       </div>
       <div class="action-row">
         <span class="priority med"></span>
         <div class="info">
-          <b>Pearl River Sourcing — undisclosed agent across 12 chains</b>
+          <b>Transparency risk — undisclosed agent across 12 chains</b>
           <div class="ci">
             <span class="meta-chip">Supply-chain transparency gap</span>
             <span class="meta-chip">Affects your CSDDD risk assessment</span>
           </div>
         </div>
         <div class="due">
-          <b>Recommended Q3</b>
-          <span>Surface to supplier disclosure</span>
+          <b>Moderate risk</b>
+          <span>review supplier disclosure</span>
         </div>
         <button class="outlined">View brief</button>
       </div>
       <div class="action-row">
         <span class="priority low"></span>
         <div class="info">
-          <b>Sapphire Mills — unfair dismissal cases resolved</b>
+          <b>Sapphire Mills — remediation completed</b>
           <div class="ci">
             <span class="meta-chip">3 workers reinstated</span>
-            <span class="meta-chip">No further action required from you</span>
+            <span class="meta-chip">Risk level returned to baseline</span>
           </div>
         </div>
         <div class="due">
-          <b>Closed</b>
-          <span>For your records</span>
+          <b>Resolved</b>
+          <span>for your records</span>
         </div>
         <button class="outlined">Mark reviewed</button>
       </div>
     </div>
 
-    <!-- Reporting layer -->
+    <!-- Collaborative due diligence -->
+    <div class="collab-dd">
+      <div>
+        <div class="lbl">▌ Collaborative due diligence</div>
+        <h3>You and 4 other brands share elevated wage-theft risk in Faisalabad.</h3>
+        <p>Same region, overlapping suppliers, similar risk scores — coordinating due diligence is cheaper and more effective than running it alone.</p>
+      </div>
+      <button>Explore shared due diligence →</button>
+    </div>
+
+    <!-- Reporting layer (structured fields preview) -->
     <div class="report-card">
       <div class="rc-h">
-        <h3>Reporting layer · structured data for your frameworks <span class="new-badge">✶ NEW</span></h3>
+        <h3>Preview · the structured fields behind the exports</h3>
         <div class="rc-sub">We don't fill out your reports — you have your own systems with information we don't have. We provide the structured data fields you can plug into them.</div>
       </div>
       <div class="report-tabs">
