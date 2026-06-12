@@ -1763,6 +1763,81 @@
   .intro-outcome .io-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .intro-outcome .io-item { font-size: 12.5px; line-height: 1.5; }
 
+  /* Campaign hero: compact data key in the right column */
+  .hero-key {
+    background: white; border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    padding: 13px 16px; align-self: start; min-width: 270px;
+    font-size: 11px; color: var(--ink-soft);
+  }
+  .hero-key .hk-t { font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--ink-faint); margin-bottom: 8px; }
+  .hero-key .hk-i { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; font-weight: 600; }
+  .hero-key .hk-i i { width: 9px; height: 9px; border-radius: 3px; border: 1.5px solid; display: inline-block; font-style: normal; flex-shrink: 0; }
+  .hero-key .hk-n { font-size: 10px; color: var(--ink-faint); margin-top: 7px; }
+
+  /* Slim progress timeline pointed at the goal */
+  .tl-slim {
+    background: white; border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    padding: 12px 18px 10px; margin-bottom: 24px;
+  }
+  .tls-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12px; color: var(--ink-soft); margin-bottom: 10px; }
+  .tls-top b { color: var(--ink); }
+  .tls-row { display: flex; align-items: center; gap: 14px; }
+  .tls-track { position: relative; flex: 1; height: 7px; background: var(--cream); border-radius: 4px; border: 1px solid var(--line); }
+  .tls-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 31%; background: var(--navy); border-radius: 4px 0 0 4px; }
+  .tls-head { position: absolute; left: 31%; top: 50%; transform: translate(-3px, -50%); color: var(--navy); font-size: 13px; line-height: 1; }
+  .tls-tick { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 9px; height: 9px; border-radius: 50%; background: white; border: 2px solid var(--line); }
+  .tls-tick.done { background: var(--green); border-color: var(--green); }
+  .tls-tick.now { background: var(--yellow); border-color: var(--navy); }
+  .tls-tick.now::before { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--yellow); animation: ping 2s ease infinite; }
+  .tls-goal { font-size: 11.5px; font-weight: 700; color: var(--mint-dark); white-space: nowrap; }
+  .tls-labels { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; font-size: 10.5px; color: var(--ink-faint); flex-wrap: wrap; }
+  .tls-labels .ok { color: #1c6b38; }
+  .tls-labels .now { color: var(--navy); font-weight: 700; }
+
+  /* View toggle: examples vs chat */
+  .view-toggle { display: inline-flex; gap: 4px; background: white; border: 1px solid var(--line); border-radius: 999px; padding: 4px; box-shadow: var(--shadow-sm); }
+  .view-toggle .vt { border: none; background: transparent; border-radius: 999px; padding: 8px 16px; font-size: 12.5px; font-weight: 700; color: var(--ink-soft); }
+  .view-toggle .vt.on { background: var(--navy); color: var(--yellow); }
+  .vt-note { font-size: 11.5px; color: var(--ink-faint); margin: -8px 0 18px; }
+
+  /* Module summary cards -> expanding detail */
+  .mod-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+  .mod-sum {
+    border-radius: 18px; border: 2px solid rgba(27,33,80,0.15);
+    padding: 18px 20px; cursor: pointer; position: relative;
+    box-shadow: 0 2px 0 0 var(--navy);
+    transition: transform 0.12s ease;
+  }
+  .mod-sum:hover { transform: translateY(-2px); }
+  .mod-sum.v1 { background: var(--pink-soft); }
+  .mod-sum.v2 { background: var(--yellow-soft); }
+  .mod-sum.v3 { background: var(--green-soft); }
+  .mod-sum.active { border-color: var(--navy); box-shadow: var(--shadow); }
+  .mod-sum .ms-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .mod-sum .ms-top .ss-n { margin-bottom: 0; }
+  .mod-sum .ms-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-soft); }
+  .mod-sum h3 { margin: 0 0 6px; font-family: "Darker Grotesque", "Inter", sans-serif; font-size: 23px; font-weight: 800; line-height: 1; color: var(--navy); }
+  .mod-sum p { margin: 0 0 10px; font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+  .mod-sum .ms-open { font-size: 11px; font-weight: 800; color: var(--navy); }
+  .mod-sum .ms-open .c, .mod-sum.active .ms-open .o { display: none; }
+  .mod-sum.active .ms-open .c { display: inline; }
+  .mod-detail {
+    background: white; border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: 22px 26px; margin-bottom: 22px;
+  }
+  .mod-intro { margin: 0 0 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.55; max-width: 820px; }
+
+  /* Worker power strip */
+  .wp-strip { display: flex; align-items: stretch; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .wp-chip {
+    flex: 1; min-width: 150px; background: var(--cream); border: 1px solid var(--line);
+    border-radius: 12px; padding: 10px 14px; font-size: 11.5px; color: var(--ink-soft);
+  }
+  .wp-chip b { display: block; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
+  .wp-arr { display: flex; align-items: center; color: var(--ink-faint); font-weight: 700; }
+
   /* Page 2 — example modules */
   .module-card {
     background: white; border: 1px solid var(--line); border-radius: 20px;
@@ -1907,21 +1982,6 @@
   <span class="group-divider"></span>
   <button onclick="goPage(3)" data-page="3">Regional Dashboard <span style="color:var(--ink-faint);font-weight:400;">· the CBDD program</span></button>
   <button onclick="goPage(4)" data-page="4">Brand Subscriber View <span style="color:var(--ink-faint);font-weight:400;">· the brand</span></button>
-</div>
-
-<!-- Impact pathway ribbon — lights up per page -->
-<div class="stage-ribbon" id="stageRibbon" style="display:none;">
-  <span class="sr-label">The impact pathway</span>
-  <span class="sr-stage" data-stage="awareness">1 · Awareness</span>
-  <span class="sr-arr">→</span>
-  <span class="sr-stage" data-stage="use">2 · Active use</span>
-  <span class="sr-arr">→</span>
-  <span class="sr-stage" data-stage="action">3 · Action taken</span>
-  <span class="sr-arr">→</span>
-  <span class="sr-stage" data-stage="outcome">4 · Outcome achieved</span>
-  <span class="sr-arr">→</span>
-  <span class="sr-stage" data-stage="system">5 · Systems change</span>
-  <span class="sr-note" id="srNote"></span>
 </div>
 
 <!-- ============================================================
@@ -2145,51 +2205,77 @@
             <button>Copy link</button>
           </div>
         </div>
-
+        <div class="hero-key">
+          <div class="hk-t">Understanding the data</div>
+          <div class="hk-i"><i style="background:var(--green-soft);border-color:var(--green);"></i>Claimed · from the company</div>
+          <div class="hk-i"><i style="background:#fdeede;border-color:#e09a4e;"></i>Rights-holder · from workers, via partners</div>
+          <div class="hk-i"><i style="background:var(--purple-soft);border-color:var(--purple);"></i>Spotlight · partner datasets</div>
+          <div class="hk-n">Every claim names its source</div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="ws-canvas">
 
-    <!-- Understanding the data — taught once, used everywhere -->
-    <div class="data-key">
-      <span class="dk-label">Understanding the data</span>
-      <span class="dk-item"><i style="background:var(--green-soft);border:1.5px solid var(--green);"></i>Claimed — from the company</span>
-      <span class="dk-item"><i style="background:#fdeede;border:1.5px solid #e09a4e;"></i>Rights-holder — from workers, via partners</span>
-      <span class="dk-item"><i style="background:var(--purple-soft);border:1.5px solid var(--purple);"></i>Spotlight — partner datasets</span>
-      <span style="margin-left:auto; font-size:11px; color:var(--ink-faint);">Every claim names its source</span>
-    </div>
-
-    <!-- Campaign timeline — recency + momentum -->
-    <div class="cw-timeline" id="sec-evidence">
-      <div class="tl-head">
+    <!-- Campaign progress — slim, pointed at the goal -->
+    <div class="tl-slim" id="sec-evidence">
+      <div class="tls-top">
         <span><b>Day 14 of est. 90</b> · surfaced via MyVox · Urdu + English</span>
-        <span class="chip live"><span class="d"></span>3 new reports this week · +18% this month</span>
+        <span class="chip live"><span class="d"></span>3 new reports this week</span>
       </div>
-      <div class="tl-track">
-        <div class="tl-step done"><span class="td"></span><b>Testimony received</b>Jun 9 · MyVox</div>
-        <div class="tl-step done"><span class="td"></span><b>Data assembled</b>Jun 10 · OS Hub</div>
-        <div class="tl-step now"><span class="td"></span><b>Consent vote</b>live · closes 38 min</div>
-        <div class="tl-step"><span class="td"></span><b>File mechanisms</b>next · in parallel</div>
-        <div class="tl-step"><span class="td"></span><b>Response due</b>day 30 · Speak Up SLA</div>
+      <div class="tls-row">
+        <div class="tls-track">
+          <div class="tls-fill"></div>
+          <span class="tls-head">➤</span>
+          <span class="tls-tick done" style="left:8%"></span>
+          <span class="tls-tick done" style="left:19%"></span>
+          <span class="tls-tick now" style="left:31%"></span>
+          <span class="tls-tick" style="left:56%"></span>
+        </div>
+        <div class="tls-goal">⚑ Wages recovered + protection in place</div>
+      </div>
+      <div class="tls-labels">
+        <span class="ok">✓ Testimony · Jun 9</span>
+        <span class="ok">✓ Data assembled · Jun 10</span>
+        <span class="now">● Consent vote · closes 38 min</span>
+        <span>Next · file mechanisms in parallel</span>
       </div>
     </div>
 
     <div class="section-title" style="margin-top:30px;">
-      <h2>Three examples of what this unlocks</h2>
-      <span class="meta">Not the finished tool — the kinds of capabilities the open data layer makes possible</span>
+      <h2>What this unlocks</h2>
+      <div class="view-toggle">
+        <button class="vt on" id="vt-ex" onclick="setView('examples')">Three working examples</button>
+        <button class="vt" id="vt-chat" onclick="setView('chat')">✦ Chat through it</button>
+      </div>
     </div>
+    <div class="vt-note">Working examples built on the open data layer. Not the finished tool, which gets shaped with the people who will use it.</div>
 
-    <!-- Module 1 — who needs to be held accountable -->
-    <div class="module-card" id="sec-chain">
-      <div class="mod-head">
-        <span class="ss-n">1</span>
-        <div>
+    <div id="modulesView">
+      <div class="mod-cards">
+        <div class="mod-sum v1 active" id="mod-sum-1" onclick="openModule(1)">
+          <div class="ms-top"><span class="ss-n">1</span><span class="ms-tag">Who</span></div>
           <h3>Who needs to be held accountable</h3>
-          <p>One report from a worker, matched against the open data layer — the full chain of influence and the evidence behind it, assembled in hours instead of months.</p>
+          <p>The chain of influence and the evidence behind it, assembled in hours.</p>
+          <span class="ms-open"><span class="o">Open ⌄</span><span class="c">Close ⌃</span></span>
+        </div>
+        <div class="mod-sum v2" id="mod-sum-2" onclick="openModule(2)">
+          <div class="ms-top"><span class="ss-n">2</span><span class="ms-tag">How</span></div>
+          <h3>How to hold them accountable</h3>
+          <p>Every applicable mechanism in one view. Workers choose which to pursue.</p>
+          <span class="ms-open"><span class="o">Open ⌄</span><span class="c">Close ⌃</span></span>
+        </div>
+        <div class="mod-sum v3" id="mod-sum-3" onclick="openModule(3)">
+          <div class="ms-top"><span class="ss-n">3</span><span class="ms-tag">Together</span></div>
+          <h3>The worker power layer</h3>
+          <p>Workers report, decide, and benefit. Advocates connect across the chain.</p>
+          <span class="ms-open"><span class="o">Open ⌄</span><span class="c">Close ⌃</span></span>
         </div>
       </div>
+
+      <div class="mod-detail" id="mod-detail-1">
+        <p class="mod-intro">One report from a worker, matched against the open data layer. The full chain of influence and the evidence behind it, assembled in hours instead of months.</p>
         <div class="chain-tiles">
           <div class="chain-tile">
             <div class="role">Factory</div>
@@ -2280,17 +2366,9 @@
         </div>
       </div>
     </div>
-    </div>
-
-    <!-- Module 2 — how to hold them accountable -->
-    <div class="module-card" id="sec-path">
-      <div class="mod-head">
-        <span class="ss-n">2</span>
-        <div>
-          <h3>How to hold them accountable</h3>
-          <p>Every mechanism that applies to this campaign, named in one view — drawn from the program's escalation framework and the Accountability Counsel database. Workers and advocates choose which to pursue; the landscape stays visible either way.</p>
-        </div>
       </div>
+      <div class="mod-detail" id="mod-detail-2" style="display:none;">
+        <p class="mod-intro">Every mechanism that applies to this campaign, named in one view and drawn from the program's escalation framework and the Accountability Counsel database. Workers and advocates choose which to pursue; the landscape stays visible either way.</p>
       <div class="status-legend">
         <span><i style="background:var(--green-soft);border-color:var(--green);"></i>Exists &amp; working — use it</span>
         <span><i style="background:var(--yellow-soft);border-color:var(--yellow);"></i>Exists · stuck or not trusted — add pressure</span>
@@ -2440,16 +2518,15 @@
           </details>
 
         </div>
-    </div>
-
-    <!-- Module 3 — the collective layer -->
-    <div class="module-card" id="sec-consent">
-      <div class="mod-head">
-        <span class="ss-n">3</span>
-        <div>
-          <h3>The collective layer</h3>
-          <p>Workers aren't a data source — they're part of the process. Decisions happen with the community, in person and online, and the campaign connects to the people already working on the same chain.</p>
-        </div>
+      </div>
+      <div class="mod-detail" id="mod-detail-3" style="display:none;">
+        <p class="mod-intro">Workers are not a data source. They report through people they trust, they decide which pathways the campaign pursues, and the outcomes flow back to them. The campaign also connects to the advocates already working on the same chain.</p>
+      <div class="wp-strip">
+        <span class="wp-chip"><b>Report</b>through people they trust</span>
+        <span class="wp-arr">→</span>
+        <span class="wp-chip"><b>Decide</b>workers choose the pathways</span>
+        <span class="wp-arr">→</span>
+        <span class="wp-chip"><b>Benefit</b>outcomes flow back to workers</span>
       </div>
       <div class="decision-card">
         <div class="dc-lbl">▌ The community decides</div>
@@ -2493,24 +2570,20 @@
         <span><b>Retaliation protection</b> + 12 months monitoring</span>
         <span class="os-note">Illustrative — modelled from past campaigns, not promised.</span>
       </div>
+      </div>
     </div>
 
-    <!-- Teaser — co-pilot -->
-    <div class="module-card teaser">
-      <div class="mod-head">
-        <span class="ss-n" style="background:var(--purple);">✦</span>
-        <div>
-          <h3>…and ask all of it in plain language</h3>
-          <p>The same data, conversational — in Urdu or English, with every answer citing its sources.</p>
-        </div>
-      </div>
-      <div class="copilot-mini">
+    <div id="chatView" style="display:none;">
+      <div class="module-card" style="margin-bottom:22px;">
+        <p class="mod-intro" style="margin-bottom:14px;">The same data, conversational. In Urdu or English, with every answer citing its sources.</p>
+        <div class="copilot-mini">
         <div class="cm-q"><span class="who">Aisha · PILER</span>"Where does the real power sit in this campaign, and where should we apply pressure?"</div>
         <div class="cm-a"><span class="who">Co-pilot</span>Parent company <b>Eastwell Holdings PLC</b> carries the reputational exposure <a class="data-ref">↗ Companies House 09487123</a> — EU revenue puts it in CSDDD scope <a class="data-ref">↗ EUR-Lex 32024L1760</a>. Strongest sequence: parallel filing now, Fair Wear leverage at day 21. <a class="data-ref">↗ 12 datasets · 14 sources</a></div>
         <div class="copilot-input-row" style="border-top:1px solid var(--line); padding:12px 0 0; background:transparent;">
           <input type="text" placeholder="Ask in Urdu or English — every answer cites its sources" />
           <button>Ask</button>
         </div>
+      </div>
       </div>
     </div>
 
@@ -2913,17 +2986,6 @@
 </footer>
 
 <script>
-  const stageMap = {
-    1: [],
-    2: ['awareness', 'use', 'action', 'outcome'],
-    3: ['system'],
-    4: ['system']
-  };
-  const stageNotes = {
-    2: 'This page: stages 1–4 — one campaign, from surfaced to outcome',
-    3: 'This page: stage 5 — patterns become program strategy',
-    4: 'This page: stage 5 — patterns become brand accountability'
-  };
 
   function goPage(n) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
@@ -2943,17 +3005,6 @@
     // Real map boots the first time the Regional Dashboard opens
     if (n === 3) setTimeout(initRegionMap, 60);
 
-    // Stage ribbon — hidden on the intro page (it tells the full story itself)
-    const ribbon = document.getElementById('stageRibbon');
-    if (n === 1) {
-      ribbon.style.display = 'none';
-    } else {
-      ribbon.style.display = 'flex';
-      document.querySelectorAll('.sr-stage').forEach(s => {
-        s.classList.toggle('lit', stageMap[n].includes(s.dataset.stage));
-      });
-      document.getElementById('srNote').textContent = stageNotes[n];
-    }
 
     // Swap user pill for page 4 (brand context)
     const userPill = document.getElementById('userPill');
@@ -3008,6 +3059,22 @@
       }
     });
     regionMapObj.fitBounds([[24.6, 66.8], [32.7, 74.8]], { padding: [18, 18] });
+  }
+
+  function setView(v) {
+    document.getElementById('modulesView').style.display = v === 'chat' ? 'none' : 'block';
+    document.getElementById('chatView').style.display = v === 'chat' ? 'block' : 'none';
+    document.getElementById('vt-ex').classList.toggle('on', v !== 'chat');
+    document.getElementById('vt-chat').classList.toggle('on', v === 'chat');
+  }
+
+  function openModule(n) {
+    const isOpen = document.getElementById('mod-detail-' + n).style.display !== 'none';
+    for (let i = 1; i <= 3; i++) {
+      const show = (i === n) && !isOpen;
+      document.getElementById('mod-detail-' + i).style.display = show ? 'block' : 'none';
+      document.getElementById('mod-sum-' + i).classList.toggle('active', show);
+    }
   }
 
   function setMode(mode) {
