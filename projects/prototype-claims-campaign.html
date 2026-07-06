@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claims Campaigns — OS Hub Prototype v0.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --osh-purple:#8428FA;
+    --osh-purple-dark:#6a1fd0;
+    --osh-purple-tint:#f3ebfe;
+    --osh-pink:#FFA6D0;
+    --osh-gold:#FFCF3F;
+    --ink:#191919;
+    --ink-2:#4a4a4a;
+    --ink-3:#6f6f6f;
+    --surface:#fcfcfb;
+    --card:#ffffff;
+    --line:#e6e2dd;
+    --status-good:#1E8E3E;      --status-good-bg:#e6f4ea;
+    --status-warn:#C77700;      --status-warn-bg:#fdf1dc;
+    --status-bad:#C5221F;       --status-bad-bg:#fce8e6;
+    --status-neutral:#79818D;   --status-neutral-bg:#eef0f2;
+    --radius:6px;
+    --shadow:0 1px 3px rgba(25,25,25,.08),0 1px 2px rgba(25,25,25,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:17px}
+  body{
+    font-family:'Darker Grotesque',sans-serif;
+    background:var(--surface);
+    color:var(--ink);
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem}
+
+  /* ---------- demo control bar ---------- */
+  .demo-bar{
+    background:var(--ink);color:#fff;
+    display:flex;align-items:center;gap:.6rem;
+    padding:.45rem 1.2rem;font-size:.95rem;
+    position:sticky;top:0;z-index:50;
+  }
+  .demo-bar .tag{
+    background:var(--osh-gold);color:var(--ink);
+    font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:.1rem .5rem;border-radius:3px;
+  }
+  .demo-bar .spacer{flex:1}
+  .demo-bar button{
+    font-family:inherit;font-size:.92rem;font-weight:600;
+    background:transparent;color:#cfcfcf;border:1px solid #4a4a4a;
+    padding:.18rem .8rem;border-radius:99px;cursor:pointer;transition:all .15s;
+  }
+  .demo-bar button:hover{color:#fff;border-color:#8a8a8a}
+  .demo-bar button.active{background:var(--osh-purple);border-color:var(--osh-purple);color:#fff}
+
+  /* ---------- OS Hub header mimic ---------- */
+  header.osh{
+    background:var(--card);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:2rem;
+    padding:.65rem 2rem;
+  }
+  .logo{display:flex;align-items:baseline;gap:.4rem;font-weight:800;font-size:1.35rem;letter-spacing:-.01em}
+  .logo .dot{width:.72rem;height:.72rem;border-radius:50%;background:var(--osh-purple);display:inline-block;transform:translateY(-.05rem)}
+  header.osh nav{display:flex;gap:1.4rem;font-weight:600;color:var(--ink-2);font-size:1.02rem}
+  header.osh nav span{cursor:default}
+  header.osh nav span:hover{color:var(--ink)}
+  header.osh .spacer{flex:1}
+  .user-chip{
+    display:flex;align-items:center;gap:.55rem;font-weight:600;color:var(--ink-2);
+    border:1px solid var(--line);border-radius:99px;padding:.2rem .85rem .2rem .3rem;cursor:default;font-size:.95rem;
+  }
+  .avatar{
+    width:1.7rem;height:1.7rem;border-radius:50%;
+    background:var(--osh-purple);color:#fff;font-weight:700;font-size:.85rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* account sub-nav (the tab row) */
+  .account-nav{
+    background:var(--card);border-bottom:1px solid var(--line);
+    display:flex;gap:1.7rem;padding:0 2rem;font-weight:600;color:var(--ink-3);font-size:1rem;
+  }
+  .account-nav span{padding:.55rem 0 .45rem;border-bottom:3px solid transparent;cursor:default}
+  .account-nav span.on{color:var(--osh-purple);border-bottom-color:var(--osh-purple)}
+  .flag-note{margin-left:auto;align-self:center;font-size:.8rem;color:var(--ink-3)}
+  .flag-note code{font-family:'IBM Plex Mono',monospace;font-size:.7rem;background:var(--osh-purple-tint);color:var(--osh-purple-dark);padding:.08rem .35rem;border-radius:3px}
+
+  main{max-width:1080px;margin:0 auto;padding:1.6rem 2rem 4rem}
+  .view{display:none}
+  .view.on{display:block;animation:rise .35s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  h1{font-size:2.1rem;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+  h2{font-size:1.45rem;font-weight:700;margin-bottom:.4rem}
+  .sub{color:var(--ink-3);font-size:1.02rem}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:inherit;font-weight:700;font-size:.95rem;letter-spacing:.02em;
+    border:none;border-radius:4px;padding:.42rem 1.05rem;cursor:pointer;transition:all .15s;
+  }
+  .btn.primary{background:var(--osh-purple);color:#fff}
+  .btn.primary:hover{background:var(--osh-purple-dark)}
+  .btn.ghost{background:transparent;color:var(--osh-purple);border:1.5px solid var(--osh-purple)}
+  .btn.ghost:hover{background:var(--osh-purple-tint)}
+  .btn.quiet{background:transparent;color:var(--ink-3);border:1px solid var(--line)}
+  .btn.quiet:hover{color:var(--ink);border-color:var(--ink-3)}
+
+  /* ---------- campaign list ---------- */
+  .page-head{display:flex;align-items:flex-end;gap:1rem;margin-bottom:1.1rem}
+  .page-head .grow{flex:1}
+  .camp-row{
+    display:flex;align-items:center;gap:1.3rem;
+    padding:1rem 1.3rem;cursor:pointer;transition:background .12s;
+  }
+  .camp-row:hover{background:var(--osh-purple-tint)}
+  .camp-row + .camp-row{border-top:1px solid var(--line)}
+  .camp-row .name{font-weight:700;font-size:1.18rem}
+  .camp-row .meta{color:var(--ink-3);font-size:.92rem}
+  .minimeter{display:flex;height:8px;width:180px;border-radius:99px;overflow:hidden;gap:2px;background:transparent}
+  .minimeter i{display:block;height:100%}
+  .camp-row .pct{font-weight:800;font-size:1.25rem;width:3.2rem;text-align:right}
+  .pill{
+    font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    padding:.14rem .55rem;border-radius:99px;white-space:nowrap;
+  }
+  .pill.active{background:var(--osh-purple-tint);color:var(--osh-purple-dark)}
+  .pill.closed{background:var(--status-neutral-bg);color:#535a64}
+
+  /* ---------- campaign detail ---------- */
+  .crumb{font-size:.95rem;color:var(--ink-3);margin-bottom:.4rem;cursor:pointer;font-weight:600}
+  .crumb:hover{color:var(--osh-purple)}
+  .code-chip{
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:var(--osh-purple-tint);border:1px dashed var(--osh-purple);
+    border-radius:4px;padding:.28rem .7rem;
+  }
+  .code-chip b{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--osh-purple-dark);font-weight:500}
+  .copy{
+    background:none;border:none;cursor:pointer;color:var(--osh-purple);
+    font-family:inherit;font-weight:700;font-size:.82rem;padding:0;
+  }
+  .copy:hover{text-decoration:underline}
+
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;margin:1.2rem 0 .9rem}
+  .kpi{padding:.75rem 1rem .6rem}
+  .kpi .n{font-size:2rem;font-weight:800;line-height:1}
+  .kpi .l{font-size:.88rem;color:var(--ink-3);font-weight:600;margin-top:.15rem;display:flex;align-items:center;gap:.35rem}
+  .swatch{width:.6rem;height:.6rem;border-radius:2px;display:inline-block}
+
+  .meter-block{padding:1rem 1.2rem 1.1rem;margin-bottom:1.2rem}
+  .meter-block .mt{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:1rem}
+  .meter-block .mt small{color:var(--ink-3);font-weight:600}
+  .meter{display:flex;height:22px;border-radius:5px;overflow:hidden;gap:2px;margin:.55rem 0 .45rem}
+  .meter i{display:flex;align-items:center;justify-content:center;color:#fff;font-size:.72rem;font-weight:700;min-width:1.4rem;transition:flex-basis .6s ease}
+  .legend{display:flex;gap:1.2rem;font-size:.88rem;color:var(--ink-2);font-weight:600;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:.35rem}
+
+  .table-tools{display:flex;align-items:center;gap:.7rem;margin:1.3rem 0 .6rem}
+  .table-tools h2{margin:0;flex:1}
+  select{
+    font-family:inherit;font-size:.95rem;font-weight:600;color:var(--ink-2);
+    border:1px solid var(--line);border-radius:4px;padding:.3rem .5rem;background:var(--card);
+  }
+  table{width:100%;border-collapse:collapse;font-size:.98rem}
+  thead th{
+    text-align:left;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:700;padding:.6rem .9rem;border-bottom:2px solid var(--line);
+    white-space:nowrap;
+  }
+  tbody td{padding:.55rem .9rem;border-bottom:1px solid var(--line);vertical-align:middle}
+  tbody tr:hover{background:#faf7ff}
+  td .fac{font-weight:700;font-size:1.05rem;color:var(--osh-purple-dark)}
+  td .osid{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--ink-3)}
+  .chip{
+    display:inline-flex;align-items:center;gap:.32rem;
+    font-size:.74rem;font-weight:700;letter-spacing:.05em;
+    padding:.16rem .6rem;border-radius:99px;white-space:nowrap;
+  }
+  .chip::before{content:'';width:.5rem;height:.5rem;border-radius:50%;background:currentColor}
+  .chip.APPROVED{background:var(--status-good-bg);color:var(--status-good)}
+  .chip.PENDING{background:var(--status-warn-bg);color:var(--status-warn)}
+  .chip.DENIED{background:var(--status-bad-bg);color:var(--status-bad)}
+  .chip.NOT_STARTED{background:var(--status-neutral-bg);color:#535a64}
+  td .linkcell{display:flex;align-items:center;gap:.5rem}
+  td .tok{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--ink-3);background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:.1rem .4rem}
+
+  .footnote{font-size:.85rem;color:var(--ink-3);margin-top:.8rem}
+
+  /* ---------- supplier view ---------- */
+  .mode-toggle{display:inline-flex;border:1.5px solid var(--osh-purple);border-radius:99px;overflow:hidden;margin:.4rem 0 1.2rem}
+  .mode-toggle button{
+    font-family:inherit;font-weight:700;font-size:.92rem;border:none;cursor:pointer;
+    padding:.32rem 1.1rem;background:transparent;color:var(--osh-purple);
+  }
+  .mode-toggle button.active{background:var(--osh-purple);color:#fff}
+
+  .browser{border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:var(--shadow);background:var(--card)}
+  .browser .chrome{
+    background:#f1efec;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:.6rem;padding:.45rem .8rem;
+  }
+  .chrome .dots{display:flex;gap:.3rem}
+  .chrome .dots i{width:.6rem;height:.6rem;border-radius:50%;background:#d5d1cb;display:block}
+  .chrome .url{
+    flex:1;background:#fff;border:1px solid var(--line);border-radius:99px;
+    font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--ink-2);
+    padding:.22rem .8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .chrome .url b{color:var(--osh-purple-dark);font-weight:500}
+
+  .claim-wrap{padding:1.6rem 2rem 2rem;max-width:760px;margin:0 auto}
+  .campaign-banner{
+    background:var(--osh-purple-tint);border:1px solid var(--osh-purple);
+    border-radius:var(--radius);padding:.8rem 1.1rem;display:flex;gap:.8rem;align-items:flex-start;
+    margin-bottom:1.3rem;
+  }
+  .campaign-banner .ic{
+    background:var(--osh-purple);color:#fff;border-radius:50%;
+    width:1.6rem;height:1.6rem;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;
+  }
+  .campaign-banner b{font-weight:700}
+  .campaign-banner .mono-inline{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--osh-purple-dark)}
+
+  .stepper{display:flex;align-items:center;gap:.4rem;margin:1.2rem 0 1.5rem;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:.45rem;font-weight:600;font-size:.92rem;color:var(--ink-3)}
+  .step .num{
+    width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--line);color:var(--ink-3);font-size:.8rem;font-weight:700;
+  }
+  .step.on{color:var(--ink)}
+  .step.on .num{background:var(--osh-purple);color:#fff}
+  .step-line{flex:1;height:1.5px;background:var(--line);min-width:1.2rem}
+
+  .field{margin-bottom:1rem}
+  .field label{display:block;font-weight:700;font-size:.95rem;margin-bottom:.25rem}
+  .field label small{font-weight:600;color:var(--ink-3)}
+  .field input[type=text],.field select{
+    width:100%;font-family:inherit;font-size:1rem;
+    border:1px solid #c9c4bd;border-radius:4px;padding:.5rem .7rem;background:#fff;color:var(--ink);
+  }
+  .field input:focus,.field select:focus{outline:2px solid var(--osh-purple);outline-offset:0;border-color:var(--osh-purple)}
+  .checkrow{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.7rem;font-size:.98rem}
+  .checkrow input{margin-top:.3rem;accent-color:var(--osh-purple);width:1rem;height:1rem}
+  .prefill{
+    background:var(--surface);border:1px solid var(--line);border-radius:4px;
+    padding:.5rem .7rem;font-size:1rem;color:var(--ink-2);display:flex;justify-content:space-between;align-items:center;
+  }
+  .prefill .lock{font-size:.75rem;font-weight:700;color:var(--status-good);letter-spacing:.04em}
+  .form-actions{display:flex;justify-content:flex-end;gap:.8rem;margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1.2rem}
+  .helper{font-size:.85rem;color:var(--ink-3);margin-top:.3rem}
+
+  /* ---------- implementation map ---------- */
+  .impl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.2rem 0 1.6rem}
+  .dbtable{overflow:hidden}
+  .dbtable .th{
+    background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:.75rem;
+    padding:.45rem .8rem;display:flex;justify-content:space-between;align-items:center;
+  }
+  .dbtable .th .new{background:var(--osh-gold);color:var(--ink);font-family:'Darker Grotesque',sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.06em;padding:.06rem .4rem;border-radius:3px;text-transform:uppercase}
+  .dbtable .th .mod{background:var(--osh-pink);color:var(--ink)}
+  .dbtable ul{list-style:none;font-family:'IBM Plex Mono',monospace;font-size:.7rem;padding:.5rem .8rem;color:var(--ink-2)}
+  .dbtable li{padding:.14rem 0;border-bottom:1px dotted var(--line)}
+  .dbtable li:last-child{border:none}
+  .dbtable li .fk{color:var(--osh-purple-dark)}
+  .dbtable li .hl{background:var(--osh-purple-tint);color:var(--osh-purple-dark);padding:0 .25rem;border-radius:2px}
+  .dbtable li .dim{color:#9a9a9a}
+
+  .impl-table td:first-child{font-weight:600}
+  .size{font-size:.74rem;font-weight:800;letter-spacing:.05em;padding:.14rem .6rem;border-radius:99px;white-space:nowrap}
+  .size.g{background:var(--status-good-bg);color:var(--status-good)}
+  .size.y{background:var(--status-warn-bg);color:var(--status-warn)}
+  .callout{
+    border-left:4px solid var(--osh-purple);background:var(--osh-purple-tint);
+    border-radius:0 var(--radius) var(--radius) 0;padding:.8rem 1.1rem;margin:1.2rem 0;font-size:.98rem;
+  }
+  .callout.warn{border-left-color:var(--status-warn);background:var(--status-warn-bg)}
+  .callout b{font-weight:700}
+  .nochange{columns:2;column-gap:2.5rem;font-size:.98rem;color:var(--ink-2);margin:.5rem 0 0 1.1rem}
+  .nochange li{margin-bottom:.25rem}
+
+  /* toast */
+  #toast{
+    position:fixed;bottom:1.4rem;left:50%;transform:translate(-50%,20px);
+    background:var(--ink);color:#fff;font-weight:600;font-size:.92rem;
+    padding:.5rem 1.2rem;border-radius:99px;opacity:0;transition:all .25s;pointer-events:none;z-index:99;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:820px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .impl-grid{grid-template-columns:1fr}
+    header.osh nav{display:none}
+    .nochange{columns:1}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ DEMO CONTROL BAR ============ -->
+<div class="demo-bar">
+  <span class="tag">Prototype</span>
+  <span style="color:#9a9a9a">Claims Campaigns v0.1 · fake data · nothing is saved</span>
+  <span class="spacer"></span>
+  <button class="active" data-view="brand" onclick="show('brand',this)">1 · Brand dashboard</button>
+  <button data-view="supplier" onclick="show('supplier',this)">2 · Supplier claim</button>
+  <button data-view="mod" onclick="show('mod',this)">3 · OS Hub team view</button>
+  <button data-view="impl" onclick="show('impl',this)">4 · How this merges</button>
+</div>
+
+<!-- ============ OS HUB HEADER MIMIC ============ -->
+<header class="osh">
+  <span class="logo"><span class="dot"></span>Open Supply Hub</span>
+  <nav><span>Explore</span><span>Contribute</span><span>Claims</span><span>API</span></nav>
+  <span class="spacer"></span>
+  <span class="user-chip" id="userChip"><span class="avatar" id="userAvatar">C</span><span id="userName">Company Example Sourcing Team</span></span>
+</header>
+
+<div class="account-nav" id="accountNav">
+  <span>My Lists</span>
+  <span>My Facilities</span>
+  <span class="on">Claims Campaigns</span>
+  <span>Settings</span>
+  <span class="flag-note">visible because waffle switch <code>claim_campaigns</code> is ON for this account</span>
+</div>
+
+<main>
+
+<!-- ============ VIEW 1 · BRAND DASHBOARD ============ -->
+<section class="view on" id="view-brand">
+
+  <!-- campaign list -->
+  <div id="campList">
+    <div class="page-head">
+      <div class="grow">
+        <h1>Claims Campaigns</h1>
+        <p class="sub">Track which of your suppliers have claimed their production location profiles.</p>
+      </div>
+      <button class="btn quiet" title="v0.1: campaigns are set up by the OS Hub team when a campaign is purchased" onclick="toast('In v0.1, the OS Hub team creates campaigns for you (Django admin) — no self-serve yet')">+ New campaign</button>
+    </div>
+    <div class="card" id="campRows"></div>
+    <p class="footnote">Campaigns are created for you by the OS Hub team when you purchase a claims campaign. Questions? <span style="color:var(--osh-purple);font-weight:700">Contact your account manager.</span></p>
+  </div>
+
+  <!-- campaign detail -->
+  <div id="campDetail" style="display:none">
+    <div class="crumb" onclick="closeDetail()">← All campaigns</div>
+    <div class="page-head">
+      <div class="grow">
+        <h1 id="dName"></h1>
+        <p class="sub" id="dMeta"></p>
+      </div>
+      <span class="code-chip">Campaign code&nbsp;<b id="dCode"></b><button class="copy" onclick="copyText(D.code,'Campaign code copied')">Copy</button></span>
+    </div>
+
+    <div class="kpis" id="dKpis"></div>
+
+    <div class="card meter-block">
+      <div class="mt"><span>Campaign progress</span><small id="dPct"></small></div>
+      <div class="meter" id="dMeter" role="img" aria-label="Campaign progress by claim status"></div>
+      <div class="legend" id="dLegend"></div>
+    </div>
+
+    <div class="table-tools">
+      <h2>Suppliers</h2>
+      <select id="statusFilter" onchange="renderRows()">
+        <option value="ALL">All statuses</option>
+        <option value="APPROVED">Claimed</option>
+        <option value="PENDING">Pending review</option>
+        <option value="DENIED">Denied</option>
+        <option value="NOT_STARTED">Not started</option>
+      </select>
+      <button class="btn ghost" onclick="toast('CSV export — visual affordance only in this prototype')">Download CSV</button>
+    </div>
+
+    <div class="card" style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>Facility</th><th>Country</th><th>Claim status</th><th>Last update</th><th>Unique claim link</th>
+        </tr></thead>
+        <tbody id="dRows"></tbody>
+      </table>
+    </div>
+    <p class="footnote">Each supplier gets a unique link — it opens the normal OS Hub claim form with this campaign already attached. Statuses come from the same claim review process OS Hub runs today; this dashboard is read-only.</p>
+  </div>
+</section>
+
+<!-- ============ VIEW 2 · SUPPLIER CLAIM ============ -->
+<section class="view" id="view-supplier">
+  <h1>What the supplier sees</h1>
+  <p class="sub">The claim form is unchanged — the unique link just pre-attaches the campaign.</p>
+
+  <div class="mode-toggle">
+    <button class="active" id="mode-link" onclick="supplierMode('link')">Arrived via unique link</button>
+    <button id="mode-nolink" onclick="supplierMode('nolink')">Found the form on their own</button>
+  </div>
+
+  <div class="browser">
+    <div class="chrome">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="url" id="supUrl">opensupplyhub.org/claim/BD2024199KXPL2M<b>?campaign=tk_8f3ka92x</b></span>
+    </div>
+
+    <div class="claim-wrap">
+      <div class="campaign-banner" id="supBanner">
+        <span class="ic">✓</span>
+        <span>This claim is part of <b>Company Example — Fresh Produce Suppliers 2026</b>. Your progress will be visible to the campaign organizer. <span class="mono-inline">code EXAMPLE-FRESH-26</span></span>
+      </div>
+
+      <h2 style="font-size:1.7rem">Claim this production location</h2>
+      <div class="stepper">
+        <span class="step on"><span class="num">1</span>Eligibility</span><span class="step-line"></span>
+        <span class="step"><span class="num">2</span>Contact Info</span><span class="step-line"></span>
+        <span class="step"><span class="num">3</span>Business</span><span class="step-line"></span>
+        <span class="step"><span class="num">4</span>Profile</span>
+      </div>
+
+      <div class="field">
+        <label>Production location</label>
+        <div class="prefill"><span>Green Delta Produce Ltd — Jashore, Bangladesh <span class="osid">&nbsp;BD2024199KXPL2M</span></span><span class="lock" id="prefillLock">FROM YOUR LINK</span></div>
+      </div>
+
+      <div class="field">
+        <label>Your relationship to this location</label>
+        <select><option>Owner</option><option selected>Manager</option><option>Employee</option><option>Other</option></select>
+      </div>
+
+      <div class="field">
+        <label>How can we verify your employment?</label>
+        <select><option selected>Company email domain</option><option>Employment letter</option><option>Company ID badge</option><option>LinkedIn profile</option><option>Company website listing</option></select>
+      </div>
+
+      <div class="field" id="codeField" style="display:none">
+        <label>Campaign code <small>(optional)</small></label>
+        <input type="text" placeholder="e.g. EXAMPLE-FRESH-26">
+        <p class="helper">Been asked to claim by a brand or organization? Enter the code from their email so your claim counts toward their campaign.</p>
+      </div>
+
+      <div class="checkrow"><input type="checkbox" checked><span>I confirm I am an owner or manager of this production location, or authorized to act on its behalf.</span></div>
+      <div class="checkrow"><input type="checkbox"><span>I understand OS Hub will review my claim and may request verification documents.</span></div>
+
+      <div class="form-actions">
+        <button class="btn quiet" onclick="toast('Prototype — form does not submit')">Back</button>
+        <button class="btn primary" onclick="toast('Prototype — form does not submit')">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:1.4rem">
+    <b>What changed vs. today's form?</b> Almost nothing. With a link: one banner, facility pre-selected, campaign attached silently. Without a link: today's form, exactly. The manual "campaign code" field shown in that mode is a <b>v2 candidate</b> (Jira ticket <b>OSDEV-2215</b>'s brand dropdown, upgraded to a code) — kept here for discussion, cut from the v1 build.
+  </div>
+</section>
+
+<!-- ============ VIEW 3 · OS HUB TEAM (MODERATION) ============ -->
+<section class="view" id="view-mod">
+  <h1>Dashboard / Facility Claims <span style="font-size:1rem;font-weight:600;color:var(--ink-3)">— the existing internal moderation dashboard</span></h1>
+  <p class="sub">Same queue your team works today. Two additions: a <b>Campaign</b> filter and a <b>Campaign</b> column — so the team can work through one campaign's claims as a batch (and honor campaign SLAs).</p>
+
+  <div class="table-tools" style="margin-top:1.2rem">
+    <h2 style="font-size:1.1rem;color:var(--ink-2)">2,847 claims</h2>
+    <select id="modStatus" onchange="renderMod()">
+      <option value="ALL">All statuses</option>
+      <option value="PENDING" selected>Pending</option>
+      <option value="APPROVED">Approved</option>
+      <option value="DENIED">Denied</option>
+    </select>
+    <select id="modCountry" onchange="renderMod()">
+      <option value="ALL">All countries</option>
+      <option>Bangladesh</option><option>Vietnam</option><option>Türkiye</option><option>India</option><option>Brazil</option>
+    </select>
+    <select id="modCampaign" onchange="renderMod()" style="border-color:var(--osh-purple);color:var(--osh-purple-dark);font-weight:700">
+      <option value="ALL">All campaigns</option>
+      <option value="EXAMPLE-FRESH-26">Company Example — Fresh Produce 2026</option>
+      <option value="EXAMPLE-NONFOOD-25">Company Example — Non-Food 2025</option>
+      <option value="NONE">No campaign</option>
+    </select>
+  </div>
+
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr>
+        <th>Claim ID</th><th>Facility</th><th>Claimant org</th><th>Country</th><th>Campaign</th><th>Created</th><th>Status</th>
+      </tr></thead>
+      <tbody id="modRows"></tbody>
+    </table>
+  </div>
+  <p class="footnote">Clicking a claim opens the normal claim review page (approve / deny / message claimant) — completely unchanged. The campaign filter just controls which claims are in front of you.</p>
+
+  <div class="callout">
+    <b>What changed vs. today's dashboard?</b> One optional filter parameter on the existing list endpoint and one column in the table — this is Jira ticket <b>OSDEV-2220</b>'s "what brand has sent you?" filter, resurrected. Permissions are untouched: this dashboard stays OS Hub staff–only. With it, the team can batch-work a campaign's queue and track it against the SLA the brand paid for.
+  </div>
+</section>
+
+<!-- ============ VIEW 4 · HOW THIS MERGES ============ -->
+<section class="view" id="view-impl">
+  <h1>How this merges into the codebase</h1>
+  <p class="sub">Everything on the other three screens maps to the changes below — <b>1 new table, 1 new column, 0 new API endpoints</b>. Nothing about moderation or existing claims changes.</p>
+
+  <h2 style="margin-top:1.5rem">Data model — 1 new table, 1 new column</h2>
+  <div class="impl-grid">
+    <div class="card dbtable">
+      <div class="th">api_claimcampaign <span class="new">new</span></div>
+      <ul>
+        <li>id <span class="dim">bigint PK</span></li>
+        <li>uuid <span class="dim">uuid unique</span></li>
+        <li><span class="fk">contributor_id → api_contributor</span></li>
+        <li>name <span class="dim">varchar(200)</span></li>
+        <li><span class="hl">code</span> <span class="dim">varchar unique · "EXAMPLE-FRESH-26"</span></li>
+        <li>status <span class="dim">ACTIVE / CLOSED</span></li>
+        <li>created_at · updated_at</li>
+      </ul>
+    </div>
+    <div class="card dbtable">
+      <div class="th">the campaign roster <span class="new" style="background:var(--status-good-bg);color:var(--status-good)">existing · reused</span></div>
+      <ul>
+        <li class="dim">no new table — the roster IS the brand's uploaded supplier list (api_facilitylist)</li>
+        <li>no tokens stored: per-supplier links are generated on the fly</li>
+        <li><span class="hl">/claim/{os_id}?campaign=CODE</span></li>
+        <li>"not started" = on the list, no campaign claim yet</li>
+        <li class="dim">bonus: running a campaign requires sharing your list</li>
+      </ul>
+    </div>
+    <div class="card dbtable">
+      <div class="th">api_facilityclaim <span class="new mod">1 new column</span></div>
+      <ul>
+        <li class="dim">…all 60+ existing columns untouched…</li>
+        <li><span class="hl">+ campaign_id</span> <span class="fk">→ api_claimcampaign</span> <span class="dim">nullable</span></li>
+        <li class="dim">status enum unchanged: PENDING / APPROVED / DENIED / REVOKED</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>The build, sized</h2>
+  <div class="card" style="overflow-x:auto;margin-top:.6rem">
+    <table class="impl-table">
+      <thead><tr><th>Change</th><th>Where</th><th>Size</th></tr></thead>
+      <tbody>
+        <tr><td>1 new table + 1 nullable column — one Django migration</td><td class="mono">api/models/ + api/migrations/</td><td><span class="size g">GREEN</span></td></tr>
+        <tr><td>Campaigns created in Django admin (v1 — no self-serve; roster = the brand's existing list, nothing to load)</td><td class="mono">api/admin.py</td><td><span class="size g">GREEN</span></td></tr>
+        <tr><td>Brand dashboard reads TWO existing APIs — roster from legacy list endpoints, claim status from the public v1 field <span class="mono">claim_status</span> (unclaimed / pending / claimed). <b>No new endpoints.</b> The frontend already mixes both APIs today</td><td class="mono">/api/facility-lists/ · /api/v1/production-locations/</td><td><span class="size g">GREEN</span></td></tr>
+        <tr><td>Claim form reads <span class="mono">?campaign=</span> + campaign banner (Formik). Manual code-entry field deferred to v2</td><td class="mono">src/react/src/components/InitialClaimFlow/ClaimForm/</td><td><span class="size g">GREEN</span></td></tr>
+        <tr><td>Claim submit accepts 1 optional field (existing endpoint, not a new one)</td><td class="mono">facility_create_claim_serializer.py</td><td><span class="size g">GREEN</span></td></tr>
+        <tr><td>New dashboard page + "Claims Campaigns" tab, behind waffle switch <span class="mono">claim_campaigns</span> (same pattern as <span class="mono">claim_a_facility</span>)</td><td class="mono">src/react/src/components/ClaimCampaigns/ <span style="color:#9a9a9a">(new folder)</span></td><td><span class="size y">YELLOW</span></td></tr>
+        <tr><td>Internal moderation dashboard: optional <span class="mono">?campaigns=</span> filter on the existing list endpoint + campaign column &amp; dropdown (OSDEV-2220 resurrected; permissions unchanged)</td><td class="mono">facility_claim_view_set.py · DashboardClaims.jsx</td><td><span class="size g">GREEN</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <b>⚠ Compliance note:</b> the brand dashboard displays only data that is <b>already public</b> — claim status comes from the same public search API anyone can query. No new data access is granted to brands, which removes the SOC-2 access question the earlier design carried. Internal campaign attribution (<span class="mono">campaign_id</span>) is visible to OS Hub staff only. Standard feature review still applies.
+  </div>
+
+  <h2>What this does NOT touch</h2>
+  <ul class="nochange">
+    <li>Moderation permissions — <span class="mono">/api/facility-claims/</span> stays superuser-only (the team view only adds an optional campaign filter to it)</li>
+    <li>Claim review, approve / deny / revoke logic</li>
+    <li>Promotion logic on production location pages</li>
+    <li>Existing claims — <span class="mono">campaign_id</span> is null for all of them</li>
+    <li>The v1 / OpenSearch API code — the dashboard calls it, we don't extend it</li>
+    <li>Claim form steps 2–4 (Contact, Business, Profile)</li>
+  </ul>
+
+  <div class="callout">
+    <b>Why this is a point-one:</b> campaigns are a <b>label + a lens</b>. The label: one nullable column and a code. The lens: two existing APIs read side by side — roster from legacy, status from v1. All the hard machinery — the claim form, verification, moderation, automation — already exists and is reused as-is. It also closes the gap the Asda experiment exposed: brands could only track their campaign by being handed the whole admin queue.
+    <br><br><b>Known v1 trade-offs (upgrades with evidence, not up front):</b> statuses refresh with the search index (minutes, not instant) — a dedicated real-time endpoint is the v2 upgrade if a customer demands it; the public field doesn't distinguish "denied" (shows as unclaimed to the brand — your team still sees it in the moderation view); campaign links use the guessable campaign code instead of secret tokens (harmless — every claim is verified before approval).
+  </div>
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+/* ------------------------------------------------------------------
+   FAKE DATA — statuses use the real enum from api/constants.py:
+   FacilityClaimStatuses: PENDING / APPROVED / DENIED / REVOKED
+   NOT_STARTED = campaignlink row where claim_id is still null
+------------------------------------------------------------------- */
+const STATUS_META = {
+  APPROVED:    {label:'Claimed',        color:'#1E8E3E'},
+  PENDING:     {label:'Pending review', color:'#C77700'},
+  DENIED:      {label:'Denied',         color:'#C5221F'},
+  NOT_STARTED: {label:'Not started',    color:'#79818D'},
+};
+
+const CAMPAIGNS = [
+  {
+    id:1, name:'Fresh Produce Suppliers 2026', code:'EXAMPLE-FRESH-26', status:'ACTIVE',
+    created:'12 May 2026',
+    suppliers:[
+      {fac:'Green Delta Produce Ltd',        osid:'BD2024199KXPL2M', country:'Bangladesh', st:'APPROVED',    upd:'28 Jun 2026', tok:'tk_8f3ka92x'},
+      {fac:'Mekong Fresh Farms JSC',         osid:'VN2023087QRT4NA', country:'Vietnam',    st:'APPROVED',    upd:'25 Jun 2026', tok:'tk_2mc0d71p'},
+      {fac:'Anatolia Citrus Cooperative',    osid:'TR2022310FANR6N', country:'Türkiye',    st:'APPROVED',    upd:'21 Jun 2026', tok:'tk_9qze55k1'},
+      {fac:'Chittagong AgroExport Ltd',      osid:'BD2021113R7R87P', country:'Bangladesh', st:'APPROVED',    upd:'19 Jun 2026', tok:'tk_v4hh20mn'},
+      {fac:'Nashik Grape Growers Assn',      osid:'IN2023445GHKW2B', country:'India',      st:'APPROVED',    upd:'15 Jun 2026', tok:'tk_pl83xj0d'},
+      {fac:'Dhaka Horticulture Partners',    osid:'BD2025021MMQ9TE', country:'Bangladesh', st:'PENDING',     upd:'02 Jul 2026', tok:'tk_66aq1rvz'},
+      {fac:'Hai Phong Packhouse Co',         osid:'VN2024310ZZL8KD', country:'Vietnam',    st:'PENDING',     upd:'01 Jul 2026', tok:'tk_r0snn3we'},
+      {fac:'Izmir Dried Fruits SA',          osid:'TR2023188BVCX4Q', country:'Türkiye',    st:'PENDING',     upd:'29 Jun 2026', tok:'tk_ka77m2hf'},
+      {fac:'Sylhet Valley Tea &amp; Produce',    osid:'BD2022307JJPL5W', country:'Bangladesh', st:'DENIED',      upd:'24 Jun 2026', tok:'tk_03dwq9xb'},
+      {fac:'Pune FreshPack Industries',      osid:'IN2024102TREW8N', country:'India',      st:'NOT_STARTED', upd:'—',           tok:'tk_zy51c4mt'},
+      {fac:'Can Tho Rice &amp; Veg Export',      osid:'VN2025044NBAQ7C', country:'Vietnam',    st:'NOT_STARTED', upd:'—',           tok:'tk_e8jj67os'},
+      {fac:'Antalya Greenhouse Collective',  osid:'TR2024277LKMD3Y', country:'Türkiye',    st:'NOT_STARTED', upd:'—',           tok:'tk_1wmv98af'},
+    ]
+  },
+  {
+    id:2, name:'Non-Food Suppliers 2025', code:'EXAMPLE-NONFOOD-25', status:'CLOSED',
+    created:'03 Oct 2025',
+    suppliers:[
+      {fac:'Gazipur Knitwear Ltd',           osid:'BD2020871PPQR2A', country:'Bangladesh', st:'APPROVED', upd:'18 Dec 2025', tok:'tk_ge01aa2b'},
+      {fac:'Narayanganj Textile Mills',      osid:'BD2019334WWEP9K', country:'Bangladesh', st:'APPROVED', upd:'12 Dec 2025', tok:'tk_ge02cc3d'},
+      {fac:'Ho Chi Minh Garments JSC',       osid:'VN2021208MMTR5E', country:'Vietnam',    st:'APPROVED', upd:'05 Dec 2025', tok:'tk_ge03ee4f'},
+      {fac:'Bursa Home Textiles SA',         osid:'TR2020155QQZX8H', country:'Türkiye',    st:'APPROVED', upd:'28 Nov 2025', tok:'tk_ge04gg5h'},
+      {fac:'Tirupur Cotton Works',           osid:'IN2021990HHJK3L', country:'India',      st:'APPROVED', upd:'20 Nov 2025', tok:'tk_ge05ii6j'},
+      {fac:'Da Nang Footwear Co',            osid:'VN2022761SSDF4M', country:'Vietnam',    st:'APPROVED', upd:'14 Nov 2025', tok:'tk_ge06kk7l'},
+      {fac:'Khulna Jute Products Ltd',       osid:'BD2021456TTGB6N', country:'Bangladesh', st:'APPROVED', upd:'08 Nov 2025', tok:'tk_ge07mm8n'},
+      {fac:'Denizli Towel Manufacturing',    osid:'TR2019822UUHN7P', country:'Türkiye',    st:'DENIED',   upd:'30 Oct 2025', tok:'tk_ge08oo9p'},
+    ]
+  }
+];
+
+let D = null; // currently open campaign
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const ORDER = ['APPROVED','PENDING','DENIED','NOT_STARTED'];
+
+function counts(c){
+  const n = {APPROVED:0,PENDING:0,DENIED:0,NOT_STARTED:0};
+  c.suppliers.forEach(s=>n[s.st]++);
+  return n;
+}
+
+function toast(msg){
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('show'),2200);
+}
+function copyText(txt,msg){
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject())
+    .then(()=>toast(msg)).catch(()=>toast(msg+' (demo)'));
+}
+
+/* ---------- view switching ---------- */
+const PERSONA = {
+  brand:   {av:'C', name:'Company Example Sourcing Team'},
+  supplier:{av:'R', name:'Rahim Chowdhury · Green Delta Produce'},
+  mod:     {av:'D', name:'OS Hub Data Team'},
+  impl:    {av:'D', name:'OS Hub Data Team'},
+};
+function show(view,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  $('view-'+view).classList.add('on');
+  document.querySelectorAll('.demo-bar button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  $('accountNav').style.display = (view==='brand') ? 'flex' : 'none';
+  $('userAvatar').textContent = PERSONA[view].av;
+  $('userName').textContent = PERSONA[view].name;
+  if(view==='mod') renderMod();
+}
+
+/* ---------- campaign list ---------- */
+function renderList(){
+  $('campRows').innerHTML = CAMPAIGNS.map(c=>{
+    const n = counts(c), tot = c.suppliers.length;
+    const pct = Math.round(n.APPROVED/tot*100);
+    const seg = ORDER.filter(k=>n[k]>0)
+      .map(k=>`<i style="width:${n[k]/tot*100}%;background:${STATUS_META[k].color}" title="${STATUS_META[k].label}: ${n[k]}"></i>`).join('');
+    return `<div class="camp-row" onclick="openDetail(${c.id})">
+      <div style="flex:1">
+        <div class="name">${c.name}</div>
+        <div class="meta">Code <b class="mono" style="color:var(--osh-purple-dark)">${c.code}</b> · ${tot} suppliers · created ${c.created}</div>
+      </div>
+      <span class="pill ${c.status.toLowerCase()}">${c.status}</span>
+      <span class="minimeter">${seg}</span>
+      <span class="pct">${pct}%</span>
+    </div>`;
+  }).join('');
+}
+
+/* ---------- campaign detail ---------- */
+function openDetail(id){
+  D = CAMPAIGNS.find(c=>c.id===id);
+  $('campList').style.display='none';
+  $('campDetail').style.display='block';
+  $('dName').textContent = D.name;
+  const n = counts(D), tot = D.suppliers.length;
+  $('dMeta').textContent = `${tot} suppliers invited · ${D.status==='ACTIVE'?'Active campaign':'Campaign closed'} · created ${D.created}`;
+  $('dCode').textContent = D.code;
+  $('dPct').textContent = `${Math.round(n.APPROVED/tot*100)}% of suppliers claimed`;
+
+  $('dKpis').innerHTML =
+    `<div class="card kpi"><div class="n">${tot}</div><div class="l">Suppliers invited</div></div>` +
+    ORDER.map(k=>`<div class="card kpi"><div class="n">${counts(D)[k]}</div>
+      <div class="l"><span class="swatch" style="background:${STATUS_META[k].color}"></span>${STATUS_META[k].label}</div></div>`).join('');
+
+  $('dMeter').innerHTML = ORDER.filter(k=>n[k]>0)
+    .map(k=>`<i style="flex:${n[k]} 1 0;background:${STATUS_META[k].color}" title="${STATUS_META[k].label}: ${n[k]}">${n[k]}</i>`).join('');
+
+  $('dLegend').innerHTML = ORDER
+    .map(k=>`<span><span class="swatch" style="background:${STATUS_META[k].color}"></span>${STATUS_META[k].label} (${n[k]})</span>`).join('');
+
+  $('statusFilter').value='ALL';
+  renderRows();
+  window.scrollTo({top:0});
+}
+
+function closeDetail(){
+  $('campDetail').style.display='none';
+  $('campList').style.display='block';
+}
+
+function renderRows(){
+  const f = $('statusFilter').value;
+  const rows = D.suppliers.filter(s=>f==='ALL'||s.st===f);
+  $('dRows').innerHTML = rows.map(s=>{
+    const link = `opensupplyhub.org/claim/${s.osid}?campaign=${s.tok}`;
+    return `<tr>
+      <td><div class="fac">${s.fac}</div><div class="osid">${s.osid}</div></td>
+      <td>${s.country}</td>
+      <td><span class="chip ${s.st}">${STATUS_META[s.st].label}</span></td>
+      <td>${s.upd}</td>
+      <td><span class="linkcell"><span class="tok">?campaign=${s.tok}</span>
+        <button class="copy" onclick="copyText('https://${link}','Unique link copied — send it to ${s.fac.replace(/'/g,'')}')">Copy link</button></span></td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--ink-3);padding:1.4rem">No suppliers with this status.</td></tr>`;
+}
+
+/* ---------- supplier view mode ---------- */
+function supplierMode(m){
+  const link = m==='link';
+  $('mode-link').classList.toggle('active',link);
+  $('mode-nolink').classList.toggle('active',!link);
+  $('supBanner').style.display = link?'flex':'none';
+  $('codeField').style.display = link?'none':'block';
+  $('supUrl').innerHTML = link
+    ? 'opensupplyhub.org/claim/BD2024199KXPL2M<b>?campaign=tk_8f3ka92x</b>'
+    : 'opensupplyhub.org/claim/BD2024199KXPL2M';
+  $('prefillLock').textContent = link ? 'FROM YOUR LINK' : 'FROM SEARCH';
+}
+
+/* ---------- OS Hub team (moderation) view ---------- */
+/* campaign claims + a few ordinary claims with no campaign, like the real queue */
+const MOD_EXTRA = [
+  {id:2841, fac:'Ceará Leather Goods SA',    org:'Ceará Leather Goods',    osid:'BR2023551WWQA1Z', country:'Brazil',     st:'PENDING', created:'03 Jul 2026', camp:null},
+  {id:2839, fac:'Tiruppur Dye Works',        org:'TDW Textiles Pvt',       osid:'IN2022874BNMK7C', country:'India',      st:'PENDING', created:'02 Jul 2026', camp:null},
+  {id:2822, fac:'Hanoi Precision Plastics',  org:'HPP Manufacturing JSC',  osid:'VN2021663QQPR9D', country:'Vietnam',    st:'APPROVED',created:'26 Jun 2026', camp:null},
+];
+function modData(){
+  let rows = [...MOD_EXTRA];
+  let id = 2800;
+  CAMPAIGNS.forEach(c=>c.suppliers.forEach(s=>{
+    if(s.st==='NOT_STARTED') return;            // no claim exists yet — nothing in the queue
+    rows.push({id:--id, fac:s.fac, org:s.fac, osid:s.osid, country:s.country, st:s.st, created:s.upd, camp:c.code, campName:c.name});
+  }));
+  return rows.sort((a,b)=>b.id-a.id);
+}
+function renderMod(){
+  const st=$('modStatus').value, co=$('modCountry').value, ca=$('modCampaign').value;
+  const rows = modData().filter(r=>
+    (st==='ALL'||r.st===st) && (co==='ALL'||r.country===co) &&
+    (ca==='ALL' || (ca==='NONE' ? !r.camp : r.camp===ca)));
+  $('modRows').innerHTML = rows.map(r=>`<tr style="cursor:pointer" onclick="toast('Opens the normal claim review page for #${r.id} — approve / deny / message claimant, unchanged')">
+      <td class="mono" style="color:var(--ink-3)">#${r.id}</td>
+      <td><div class="fac">${r.fac}</div><div class="osid">${r.osid}</div></td>
+      <td>${r.org}</td>
+      <td>${r.country}</td>
+      <td>${r.camp?`<span class="pill active" title="${r.campName||''}">${r.camp}</span>`:'<span style="color:var(--ink-3)">—</span>'}</td>
+      <td>${r.created}</td>
+      <td><span class="chip ${r.st}">${STATUS_META[r.st].label}</span></td>
+    </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--ink-3);padding:1.4rem">No claims match these filters.</td></tr>`;
+}
+
+renderList();
+
+/* deep links: #supplier, #mod, #impl, #detail (opens first campaign) */
+const h = location.hash.replace('#','');
+if(h==='supplier'||h==='mod'||h==='impl') show(h, document.querySelector(`.demo-bar button[data-view="${h}"]`));
+if(h==='detail') openDetail(1);
+</script>
+</body>
+</html>
