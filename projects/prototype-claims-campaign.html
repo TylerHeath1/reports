@@ -528,10 +528,11 @@
       </ul>
     </div>
     <div class="card dbtable">
-      <div class="th">api_facilityclaim <span class="new mod">1 new column</span></div>
+      <div class="th">api_facilityclaim <span class="new mod">2 new columns</span></div>
       <ul>
         <li class="dim">…all 60+ existing columns untouched…</li>
-        <li><span class="hl">+ campaign_id</span> <span class="fk">→ api_claimcampaign</span> <span class="dim">nullable</span></li>
+        <li><span class="hl">+ campaign_id</span> <span class="fk">→ api_claimcampaign</span> <span class="dim">nullable · auto-tagged</span></li>
+        <li><span class="hl">+ via_link</span> <span class="dim">bool · true = used the campaign link</span></li>
         <li class="dim">status enum unchanged: PENDING / APPROVED / DENIED / REVOKED</li>
       </ul>
     </div>
@@ -546,7 +547,7 @@
         <tr><td>Campaigns created in Django admin (v1 — no self-serve; roster = the brand's existing list, nothing to load)</td><td class="mono">api/admin.py</td><td><span class="size g">GREEN</span></td></tr>
         <tr><td>Brand dashboard reads TWO existing APIs — roster from legacy list endpoints, claim status from the public v1 field <span class="mono">claim_status</span> (unclaimed / pending / claimed). <b>No new endpoints.</b> The frontend already mixes both APIs today</td><td class="mono">/api/facility-lists/ · /api/v1/production-locations/</td><td><span class="size g">GREEN</span></td></tr>
         <tr><td>Claim form reads <span class="mono">?campaign=</span> + campaign banner (Formik). Manual code-entry field deferred to v2</td><td class="mono">src/react/src/components/InitialClaimFlow/ClaimForm/</td><td><span class="size g">GREEN</span></td></tr>
-        <tr><td>Claim submit accepts 1 optional field (existing endpoint, not a new one)</td><td class="mono">facility_create_claim_serializer.py</td><td><span class="size g">GREEN</span></td></tr>
+        <tr><td>Claim submit accepts optional campaign code + <b>auto-attribution rule</b>: any claim for a facility on an active campaign's roster gets tagged, link or no link (<span class="mono">via_link</span> records which). On the existing endpoint — not a new one</td><td class="mono">facility_create_claim_serializer.py</td><td><span class="size g">GREEN</span></td></tr>
         <tr><td>New dashboard page + "Claims Campaigns" tab, behind waffle switch <span class="mono">claim_campaigns</span> (same pattern as <span class="mono">claim_a_facility</span>)</td><td class="mono">src/react/src/components/ClaimCampaigns/ <span style="color:#9a9a9a">(new folder)</span></td><td><span class="size y">YELLOW</span></td></tr>
         <tr><td>Internal moderation dashboard: optional <span class="mono">?campaigns=</span> filter on the existing list endpoint + campaign column &amp; dropdown (OSDEV-2220 resurrected; permissions unchanged)</td><td class="mono">facility_claim_view_set.py · DashboardClaims.jsx</td><td><span class="size g">GREEN</span></td></tr>
       </tbody>
@@ -569,6 +570,7 @@
 
   <div class="callout">
     <b>Why this is a point-one:</b> campaigns are a <b>label + a lens</b>. The label: one nullable column and a code. The lens: two existing APIs read side by side — roster from legacy, status from v1. All the hard machinery — the claim form, verification, moderation, automation — already exists and is reused as-is. It also closes the gap the Asda experiment exposed: brands could only track their campaign by being handed the whole admin queue.
+    <br><br><b>Attribution (solved in v1):</b> every incoming claim is checked against active campaign rosters and auto-tagged — so a supplier who claims without the link still counts toward the campaign. <span class="mono">via_link</span> separates "definitely campaign-driven" (clicked the link) from "on the roster, claimed on their own." If a facility is on 2+ active rosters and no link was used, no campaign is credited (don't guess). ROI reporting gets two honest numbers instead of one fuzzy one.
     <br><br><b>Known v1 trade-offs (upgrades with evidence, not up front):</b> statuses refresh with the search index (minutes, not instant) — a dedicated real-time endpoint is the v2 upgrade if a customer demands it; the public field doesn't distinguish "denied" (shows as unclaimed to the brand — your team still sees it in the moderation view); campaign links use the guessable campaign code instead of secret tokens (harmless — every claim is verified before approval).
   </div>
 </section>
