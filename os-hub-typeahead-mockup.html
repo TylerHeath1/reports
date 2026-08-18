@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OS Hub — Processing Type search: flat index, hierarchy as context</title>
+<style>
+  :root{
+    --bg:#faf9f7; --card:#ffffff; --line:#e6e2dd; --line-soft:#f0ece7;
+    --ink:#1b1a17; --ink-2:#57534e; --ink-3:#8b8681;
+    --accent:#0f6b62; --accent-soft:#e6f2f0; --accent-line:#a9d3cd;
+    --warn:#a2570b; --warn-soft:#fdf3e4; --warn-line:#eccfa0;
+    --violet:#5b4b8a; --violet-soft:#efecf7;
+    --radius:10px;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:15px/1.55 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 28px 90px}
+
+  /* ---------- header ---------- */
+  header.top{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:34px}
+  .eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:650}
+  h1{font-size:29px;line-height:1.2;margin:10px 0 10px;letter-spacing:-.02em;font-weight:660}
+  .lede{color:var(--ink-2);max-width:70ch;margin:0;font-size:15.5px}
+  .lede b{color:var(--ink);font-weight:620}
+
+  /* ---------- layout ---------- */
+  .cols{display:grid;grid-template-columns:minmax(0,1fr) 306px;gap:30px;align-items:start}
+  @media(max-width:940px){.cols{grid-template-columns:1fr}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+  .card-pad{padding:22px 24px}
+
+  h2{font-size:19px;margin:0 0 6px;letter-spacing:-.01em;font-weight:640}
+  h3{font-size:13px;margin:0 0 10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:650}
+  .sec{margin-top:52px}
+  .sec-intro{color:var(--ink-2);max-width:74ch;margin:0 0 18px}
+
+  /* ---------- search widget ---------- */
+  .panel-head{display:flex;justify-content:space-between;align-items:center;gap:14px;
+    padding:13px 20px;border-bottom:1px solid var(--line-soft);background:#fcfbfa;border-radius:var(--radius) var(--radius) 0 0}
+  .panel-title{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:650}
+
+  .fieldwrap{padding:22px 24px 24px}
+  label.fld{display:block;font-size:12.5px;font-weight:650;color:var(--ink-2);margin-bottom:7px}
+  label.fld .hint{font-weight:450;color:var(--ink-3)}
+
+  .combo{position:relative}
+  .inputbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+    border:1.5px solid var(--line);border-radius:9px;background:#fff;padding:7px 9px;min-height:46px;
+    transition:border-color .13s, box-shadow .13s}
+  .inputbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3.5px var(--accent-soft)}
+  .inputbox input{flex:1;min-width:150px;border:0;outline:0;font:inherit;font-size:15px;padding:5px 4px;background:transparent;color:var(--ink)}
+  .inputbox input::placeholder{color:#a8a29d}
+
+  .chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:#0b544d;
+    border:1px solid var(--accent-line);border-radius:6px;padding:3px 6px 3px 9px;font-size:13.5px;font-weight:550;white-space:nowrap}
+  .chip.unmapped{background:var(--warn-soft);border-color:var(--warn-line);color:#7a4108}
+  .chip button{border:0;background:transparent;cursor:pointer;color:inherit;opacity:.6;font-size:15px;line-height:1;padding:0 2px}
+  .chip button:hover{opacity:1}
+
+  /* dropdown */
+  .menu{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 6px);background:#fff;
+    border:1px solid var(--line);border-radius:10px;box-shadow:0 14px 40px -12px rgba(28,25,23,.24),0 2px 6px rgba(28,25,23,.05);
+    max-height:400px;overflow-y:auto;display:none}
+  .menu.open{display:block}
+  .grp{padding:11px 15px 5px;display:flex;align-items:baseline;gap:8px;position:sticky;top:0;background:#fff}
+  .grp .gt{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+  .grp.alt .gt{color:var(--warn)}
+  .grp .gd{font-size:11.5px;color:var(--ink-3)}
+  .opt{display:flex;align-items:center;gap:12px;padding:8px 15px;cursor:pointer;border-left:3px solid transparent}
+  .opt:hover{background:#faf9f8}
+  .opt.active{background:var(--accent-soft);border-left-color:var(--accent)}
+  .opt.alt.active{background:var(--warn-soft);border-left-color:var(--warn)}
+  .opt .main{flex:1;min-width:0}
+  .opt .term{font-size:14.5px;font-weight:530;color:var(--ink)}
+  .opt .term mark{background:#fff0b8;color:inherit;padding:0 1px;border-radius:2px;font-weight:680}
+  .opt .crumb{font-size:12px;color:var(--ink-3);margin-top:2px;display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+  .opt .crumb .arr{opacity:.5}
+  .tag{font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;padding:2px 5px;border-radius:4px;white-space:nowrap}
+  .tag.new{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn-line)}
+  .tag.multi{background:var(--violet-soft);color:var(--violet);border:1px solid #d5cee9}
+  .opt .cnt{font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--ink-2);text-align:right;white-space:nowrap;flex-shrink:0}
+  .opt .cnt b{font-weight:640;color:var(--ink);display:block;font-size:13.5px}
+  .opt .cnt span{font-size:10.5px;color:var(--ink-3)}
+  .opt.dim{opacity:.52}
+
+  .emptystate{padding:18px 16px}
+  .emptystate .eh{font-size:14px;font-weight:600;margin-bottom:3px}
+  .emptystate .es{font-size:13px;color:var(--ink-2);margin-bottom:13px}
+  .dym{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-bottom:6px}
+
+  .menu-foot{border-top:1px solid var(--line-soft);padding:9px 15px;font-size:12px;color:var(--ink-3);
+    display:flex;justify-content:space-between;gap:10px;background:#fcfbfa;position:sticky;bottom:0}
+  kbd{font:600 10.5px var(--mono);background:#f2efec;border:1px solid var(--line);border-bottom-width:2px;
+    border-radius:4px;padding:1px 4px;color:var(--ink-2)}
+
+  /* derived facility type readout */
+  .derived{margin-top:20px;border:1px dashed var(--line);border-radius:9px;padding:13px 15px;background:#fcfcfb}
+  .derived .dl{font-size:12.5px;font-weight:650;color:var(--ink-2);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+  .auto{font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:var(--accent);
+    background:var(--accent-soft);border:1px solid var(--accent-line);padding:1.5px 5px;border-radius:4px}
+  .derived .vals{display:flex;flex-wrap:wrap;gap:6px}
+  .derived .none{font-size:13px;color:var(--ink-3);font-style:italic}
+
+  /* facets */
+  .facets{padding:15px 24px;border-top:1px solid var(--line-soft);background:#fcfbfa;border-radius:0 0 var(--radius) var(--radius)}
+  .facet-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .facet-lab{font-size:12px;font-weight:650;color:var(--ink-2);margin-right:4px}
+  .fchip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12.5px;
+    cursor:pointer;color:var(--ink-2);font-weight:520;transition:.12s}
+  .fchip:hover{border-color:#c9c3bc}
+  .fchip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .facet-note{font-size:11.5px;color:var(--ink-3);margin-top:9px;line-height:1.5}
+
+  /* toggle */
+  .toggle{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#fff}
+  .toggle button{border:0;background:#fff;padding:5px 11px;font:inherit;font-size:12px;font-weight:580;
+    color:var(--ink-3);cursor:pointer}
+  .toggle button+button{border-left:1px solid var(--line)}
+  .toggle button.on{background:var(--ink);color:#fff}
+
+  /* scenarios */
+  .scen{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .scen button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 12px;font:inherit;
+    font-size:12.5px;cursor:pointer;text-align:left;transition:.12s}
+  .scen button:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .scen button b{display:block;font-weight:640;font-size:13px}
+  .scen button span{color:var(--ink-3);font-size:11.5px}
+
+  /* annotations */
+  .anno{position:sticky;top:22px}
+  .anno .card-pad{padding:18px 19px}
+  .note{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid var(--line-soft)}
+  .note:last-child{border-bottom:0;padding-bottom:2px}
+  .note .n{flex-shrink:0;width:21px;height:21px;border-radius:50%;background:var(--ink);color:#fff;
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .note .t{font-size:13.2px;line-height:1.5;color:var(--ink-2)}
+  .note .t b{color:var(--ink);font-weight:640}
+
+  /* generic tables */
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+    font-weight:700;padding:0 12px 9px;border-bottom:1px solid var(--line)}
+  td{padding:10px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  tbody tr:last-child td{border-bottom:0}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .term-cell{font-weight:560}
+
+  /* rules */
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:840px){.rules{grid-template-columns:1fr}}
+  .rule{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:19px 20px}
+  .rule .rn{font:700 11px var(--mono);color:var(--accent);letter-spacing:.08em;margin-bottom:8px}
+  .rule h4{margin:0 0 7px;font-size:15.5px;letter-spacing:-.01em;font-weight:640}
+  .rule p{margin:0;font-size:13.4px;color:var(--ink-2);line-height:1.55}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+  @media(max-width:760px){.compare{grid-template-columns:1fr}}
+  .compare>div{padding:19px 21px}
+  .compare>div+div{border-left:1px solid var(--line)}
+  @media(max-width:760px){.compare>div+div{border-left:0;border-top:1px solid var(--line)}}
+  .compare .ch{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:11px}
+  .compare .now .ch{color:var(--ink-3)}
+  .compare .next .ch{color:var(--accent)}
+  .compare ul{margin:0;padding-left:17px}
+  .compare li{font-size:13.4px;color:var(--ink-2);margin-bottom:8px;line-height:1.5}
+  .compare li:last-child{margin-bottom:0}
+  .compare .next{background:#fbfdfd}
+
+  .callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 17px;border-radius:0 8px 8px 0;
+    font-size:13.6px;color:#0b544d;margin-top:18px}
+  .callout b{font-weight:660}
+
+  footer.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">Open Supply Hub · search UX mockup</div>
+  <h1>Processing Type search: flat index, hierarchy as context</h1>
+  <p class="lede">The taxonomy is a <b>display model</b>, not a <b>search model</b>. Every value that exists in the data — the ~130 apparel taxonomy terms <i>and</i> the free-text values contributors have uploaded — lives in one flat, searchable index. The parent shows up as a breadcrumb on the result row, never as a gate in front of it. Values with no parent simply don't render a breadcrumb, and stay perfectly findable.</p>
+</header>
+
+<div class="cols">
+  <!-- ============ LEFT: interactive demo ============ -->
+  <div>
+    <div class="scen" id="scen"></div>
+
+    <div class="card">
+      <div class="panel-head">
+        <div class="panel-title">Facility search — filters</div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <span style="font-size:11.5px;color:var(--ink-3);font-weight:560">Facility type behaviour</span>
+          <div class="toggle" id="modeToggle">
+            <button data-mode="filter">Hard filter (today)</button>
+            <button data-mode="rank" class="on">Rank only (proposed)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fieldwrap">
+        <label class="fld" for="ftSel">Facility type <span class="hint">— optional, and never required first</span></label>
+        <select id="ftSel" style="width:100%;padding:11px 10px;font:inherit;font-size:14.5px;border:1.5px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)">
+          <option value="">Any facility type</option>
+        </select>
+
+        <div style="height:20px"></div>
+
+        <label class="fld" for="ptInput">Processing type <span class="hint">— type to search all values in the data</span></label>
+        <div class="combo">
+          <div class="inputbox" id="inputbox">
+            <input id="ptInput" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="e.g. dyeing, embroidery, kombucha brewing…"
+                   aria-expanded="false" aria-autocomplete="list" role="combobox">
+          </div>
+          <div class="menu" id="menu" role="listbox"></div>
+        </div>
+
+        <div class="derived">
+          <div class="dl">Facility type on your results <span class="auto">inferred upward</span></div>
+          <div class="vals" id="derivedVals"><span class="none">Pick a processing type and its parent(s) fill in here automatically.</span></div>
+        </div>
+      </div>
+
+      <div class="facets">
+        <div class="facet-row">
+          <span class="facet-lab">Sector</span>
+          <span id="sectorChips" style="display:contents"></span>
+        </div>
+        <div class="facet-note">Sector narrows results <i>after</i> you search — it is never a required first step. Each value's sectors are <b>derived from the facilities that actually use it</b>, so unmapped values get sector facets for free, with no manual classification.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <b>Try the toggle above.</b> Set Facility type to “Printing, Product Dyeing and Laundering”, then search <i>“wash”</i>. On <b>Hard filter</b>, Garment Wash disappears the moment your facility-type guess is slightly off, and every contributor value vanishes entirely. On <b>Rank only</b>, matching values sort to the top and everything else stays reachable, greyed but present.
+    </div>
+  </div>
+
+  <!-- ============ RIGHT: annotations ============ -->
+  <aside class="anno">
+    <div class="card card-pad">
+      <h3 style="margin-bottom:4px">What to look at</h3>
+      <div class="note"><div class="n">1</div><div class="t"><b>One index, two groups.</b> Results split by <i>match source</i> — “Standard types” vs “Contributor values” — not by taxonomy. Honest about what we know, and requires inventing no new ontology.</div></div>
+      <div class="note"><div class="n">2</div><div class="t"><b>Badge, not bucket.</b> Unmapped values carry a <span class="tag new" style="display:inline-block">Not in taxonomy</span> badge. An “Other” <i>category</i> would make a false claim about where the value belongs, become your largest node, and churn with every new sector.</div></div>
+      <div class="note"><div class="n">3</div><div class="t"><b>Counts answer the real question.</b> “Is this a match for your data set?” is a volume question. 4,210 facilities and 3 facilities are both “matches” — the user needs to tell them apart <i>before</i> committing.</div></div>
+      <div class="note"><div class="n">4</div><div class="t"><b>Index the data, not the schema.</b> Only values with at least one facility appear. If nobody ever uploaded it, it never autocompletes.</div></div>
+      <div class="note"><div class="n">5</div><div class="t"><b>Multi-parent works for free.</b> Embroidery, Embellishment and Pressing already sit under two facility types <span class="tag multi" style="display:inline-block">2 parents</span>. A flat index shows both; a cascade has to pick one and hide the other.</div></div>
+      <div class="note"><div class="n">6</div><div class="t"><b>Upward inference, not downward restriction.</b> Choosing a processing type fills in its parent(s). Choosing a facility type only <i>ranks</i> — it never removes a value that exists.</div></div>
+      <div class="note"><div class="n">7</div><div class="t"><b>The empty state is the teaching moment.</b> Search “garment washing” or “xylophone” — nearest neighbours with counts do more to convey the shape of the data than any help text.</div></div>
+    </div>
+  </aside>
+</div>
+
+<!-- ============ WHY NOT THE SECTOR GATE ============ -->
+<section class="sec">
+  <h2>Why not gate on sector first</h2>
+  <p class="sec-intro">Both sector-gate options relocate the problem instead of solving it, and charge every user a step to do it.</p>
+  <div class="rules">
+    <div class="rule">
+      <div class="rn">01</div>
+      <h4>The gate needs the answer it's meant to produce</h4>
+      <p>To route “kombucha brewing” into a non-apparel branch you must already know its sector — the same classification work as assigning it a parent. The unmapped pile is unmapped precisely <i>because</i> nobody has classified it. A gate moves the pile up one level.</p>
+    </div>
+    <div class="rule">
+      <div class="rn">02</div>
+      <h4>A cost on every single search</h4>
+      <p>Users often don't know the sector. Facilities genuinely span sectors — a mill dyeing both apparel fabric and upholstery. And a required first step in front of the thing people came to do is the classic place searches get abandoned.</p>
+    </div>
+    <div class="rule">
+      <div class="rn">03</div>
+      <h4>Sector is a great facet, a bad gate</h4>
+      <p>Same information, applied after results instead of before: multi-select, removable, reversible, and derivable from facility records you already hold. You keep the scoping benefit and drop the dead end.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE BACKLOG ============ -->
+<section class="sec">
+  <h2>The side effect: parentless values become a ranked work queue</h2>
+  <p class="sec-intro">Sort unmapped values by facility count and by how often people search for them, and the “problem” turns into a prioritised backlog for growing the taxonomy. These stop being a permanent class and start being a queue — which fits the all-sectors direction far better than freezing them into an “Other” node. <i>(Counts below are illustrative placeholders.)</i></p>
+  <div class="card" style="padding:20px 12px">
+    <table>
+      <thead><tr><th>Unmapped value</th><th>Sectors observed</th><th class="num">Facilities</th><th class="num">Searches / 90d</th><th>Likely home</th></tr></thead>
+      <tbody id="backlogBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section class="sec">
+  <h2>Today vs. proposed</h2>
+  <div class="compare">
+    <div class="now">
+      <div class="ch">Today</div>
+      <ul>
+        <li>Exact match only — a value must be typed perfectly to be found.</li>
+        <li>Facility type <b>removes</b> processing type options, hiding values that exist.</li>
+        <li>Contributor values with no parent are effectively invisible in search.</li>
+        <li>No signal about whether a term returns 4,000 facilities or 3.</li>
+        <li>Values under two parents have to pick a side.</li>
+        <li>Zero results is a dead end with no next move.</li>
+      </ul>
+    </div>
+    <div class="next">
+      <div class="ch">Proposed</div>
+      <ul>
+        <li>Prefix-of-any-word type-ahead over one flat index of every value in the data.</li>
+        <li>Facility type <b>ranks</b>; processing type <b>infers</b> its parent upward.</li>
+        <li>Unmapped values are first-class results, badged rather than bucketed.</li>
+        <li>Facility count on every suggestion; zero-count values never appear.</li>
+        <li>Multi-parent values show all their breadcrumbs.</li>
+        <li>Empty state offers nearest neighbours with counts.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  Taxonomy terms sourced from the Open Supply Hub Facility &amp; Processing Type Taxonomy sheet (apparel). Contributor values, facility counts and search volumes are <b>invented placeholders</b> for demonstration — swap in real aggregates before putting this in front of users. Mockup is static and client-side only.
+</footer>
+
+</div>
+
+<script>
+/* ============================================================
+   1. TAXONOMY  (facility type -> processing types)
+   ============================================================ */
+const TAXONOMY = {
+ "Raw Material Processing or Production":["Biological Recycling","Boiling","Breeding","Chemical Recycling","Chemical Synthesis","Collecting","Concentrating","Disassembly","Down Processing","Dry Spinning","Extrusion","Ginning","Hatchery","Mechanical Recycling","Melt Spinning","Preparation","Preparatory Processing Site","Pulp making","Raw Material Processing or Production","Retting","Scouring","Shredding","Slaughterhouse","Slaughtering","Sorting","Spinning","Standardization / Chemical finishing","Synthetic Leather Production","Tannery","Tanning","Textile Recycling","Top making","Twisting / Texturizing Facility","Wet Spinning","Yarn spinning"],
+ "Textile or Material Production":["Blending","Bonding","Buffing","Components","Doubling","Embellishment","Embossing","Embroidery","Fabric Mill","Flat Knit","Fusing","Garment Accessories Manufacturing","Knitting","Circular Knitting","Lace Knitting","Knitting Seamless","Knitting V Bed","Knitting Warp","Laminating","Material Creation","Material Production","Mill","Non woven manufacturing","Non-woven Processing","Painting","Pressing","Pelletizing","Spraying","Straight bar knitting","Textile or Material Production","Textile Mill","Weaving","Welding"],
+ "Printing, Product Dyeing and Laundering":["Batch Dyeing","Coating","Continuous dyeing","Direct Digital Ink Printing","Dyeing","Fabric All Over Print","Fabric Chemical Finishing","Finishing","Fiber Dye","Flat Screen Printing","Garment Dyeing","Garment Place Print","Garment Wash","Garment Finishing","Hand Dye","Laundering","Laundry","Pre-treatment","Printing","Printing, Product Dyeing and Laundering","Product Dyeing","Rotary Printing","Screen Printing","Spray Dye","Sublimation","Textile Dyeing","Textile Printing","Textile Chemical Finishing","Textile Mechanical Finishing","Tye Dye","Washing","Wet Processing","Wet roller printing","Yarn Dyeing"],
+ "Final Product Assembly":["Assembly","Cutting","Cut & Sew","Embellishment","Embroidery","Final Product Assembly","Finished Goods","Ironing","Knitwear Assembly","Knit Composite","Linking","Manufacturing","Making up","Marker Making","Molding","Packaging","Pattern Grading","Pleating","Pressing","Product Finishing","Ready Made Garment","Sample Making","Seam taping","Sewing","Steaming","Stitching","Tailoring"],
+ "Office / HQ":["Headquarters","No processing","Office","Office / HQ","Recruitment Agency","Sourcing Agent","Trading","Union Headquarters / Office"],
+ "Warehousing / Distribution":["Packing","Warehousing / Distribution"],
+ "Recruitment Agency":["Recruitment Agency"]
+};
+
+/* ============================================================
+   2. UNMAPPED CONTRIBUTOR VALUES  (illustrative placeholders)
+      [term, facilities, sectors, likelyHome, searches90d]
+   ============================================================ */
+const UNMAPPED = [
+ ["Dye house",340,["Apparel"],"Printing, Product Dyeing and Laundering",412],
+ ["CMT (cut, make, trim)",286,["Apparel"],"Final Product Assembly",305],
+ ["Sandblasting",151,["Apparel"],"Printing, Product Dyeing and Laundering",96],
+ ["Stone wash",143,["Apparel"],"Printing, Product Dyeing and Laundering",88],
+ ["Laser finishing",97,["Apparel"],"Printing, Product Dyeing and Laundering",74],
+ ["Reactive dyeing",64,["Apparel"],"Printing, Product Dyeing and Laundering",51],
+ ["Zipper manufacturing",128,["Apparel"],"Textile or Material Production",63],
+ ["Button manufacturing",91,["Apparel"],"Textile or Material Production",34],
+ ["Trims manufacturing",176,["Apparel"],"Textile or Material Production",119],
+ ["Sock knitting",73,["Apparel"],"Textile or Material Production",29],
+ ["Denim mill",112,["Apparel"],"Textile or Material Production",147],
+ ["Sole molding",88,["Apparel","Rubber & Plastics"],"Final Product Assembly",41],
+ ["Leather cutting",134,["Apparel"],"Final Product Assembly",57],
+ ["Vulcanization",79,["Rubber & Plastics","Apparel"],"—",44],
+ ["Latex processing",52,["Rubber & Plastics","Agriculture"],"—",31],
+ ["Quality control / inspection",204,["Apparel","Electronics"],"Office / HQ",88],
+ ["Palm oil mill",312,["Agriculture","Food & Beverage"],"—",268],
+ ["Cocoa fermentation",187,["Agriculture","Food & Beverage"],"—",142],
+ ["Coffee washing station",166,["Agriculture","Food & Beverage"],"—",121],
+ ["Rice mill",243,["Agriculture","Food & Beverage"],"—",97],
+ ["Sugar refining",108,["Food & Beverage"],"—",62],
+ ["Cold pressing",71,["Food & Beverage","Agriculture"],"—",38],
+ ["Roasting",129,["Food & Beverage"],"—",73],
+ ["Fermentation",95,["Food & Beverage"],"—",66],
+ ["Pasteurization",84,["Food & Beverage"],"—",45],
+ ["Canning",117,["Food & Beverage"],"—",52],
+ ["Freezing / cold storage",156,["Food & Beverage","Agriculture"],"—",81],
+ ["Aquaculture pond",203,["Food & Beverage","Agriculture"],"—",134],
+ ["Kombucha brewing",6,["Food & Beverage"],"—",3],
+ ["Grain milling",138,["Food & Beverage","Agriculture"],"—",59],
+ ["PCB assembly",221,["Electronics"],"—",287],
+ ["Wafer fabrication",47,["Electronics"],"—",176],
+ ["SMT line",93,["Electronics"],"—",64],
+ ["Injection molding",264,["Electronics","Rubber & Plastics"],"—",193],
+ ["Die casting",118,["Electronics","Mining & Minerals"],"—",71],
+ ["Semiconductor packaging",58,["Electronics"],"—",103],
+ ["Battery cell assembly",76,["Electronics"],"—",158],
+ ["Ore crushing",141,["Mining & Minerals"],"—",84],
+ ["Smelting",167,["Mining & Minerals"],"—",129],
+ ["Concentrator plant",89,["Mining & Minerals"],"—",47],
+ ["Artisanal mining site",211,["Mining & Minerals"],"—",176],
+ ["Refinery",132,["Mining & Minerals","Food & Beverage"],"—",92],
+ ["Corrugation",104,["Packaging & Paper"],"—",38],
+ ["Carton printing",149,["Packaging & Paper"],"—",56],
+ ["Label printing",183,["Packaging & Paper","Apparel"],"—",112],
+ ["Flexographic printing",67,["Packaging & Paper"],"—",29]
+];
+
+/* ============================================================
+   3. BUILD THE FLAT INDEX
+   ============================================================ */
+function hashInt(s,min,max){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return min+((h>>>0)%(max-min))}
+const BOOST={"Sewing":18400,"Cutting":15900,"Final Product Assembly":14200,"Knitting":9100,"Dyeing":8760,"Washing":7420,"Embroidery":6980,"Printing":6110,"Packaging":5840,"Weaving":5330,"Finishing":4980,"Spinning":4110,"Office":3870,"Warehousing / Distribution":3240,"Tailoring":2890,"Garment Wash":2410,"Textile Dyeing":2260,"Laundering":1980};
+
+const INDEX=new Map();
+for(const [ft,pts] of Object.entries(TAXONOMY)){
+  for(const pt of pts){
+    if(!INDEX.has(pt)) INDEX.set(pt,{term:pt,parents:[],mapped:true,count:BOOST[pt]||hashInt(pt,60,3400),sectors:["Apparel"]});
+    INDEX.get(pt).parents.push(ft);
+  }
+}
+for(const [term,count,sectors,home,searches] of UNMAPPED){
+  INDEX.set(term,{term,parents:[],mapped:false,count,sectors,home,searches});
+}
+const ALL=[...INDEX.values()];
+const SECTORS=[...new Set(ALL.flatMap(o=>o.sectors))].sort();
+
+/* ============================================================
+   4. MATCHING  —  prefix-of-any-word, then substring, then fuzzy
+   ============================================================ */
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+function score(term,q){
+  const t=norm(term), words=t.split(" ");
+  // tiered: match quality decides the tier, facility count breaks ties (see sort)
+  if(t===q) return 1000;
+  if(t.startsWith(q)) return 900;
+  for(let i=0;i<words.length;i++) if(words[i].startsWith(q)) return 800-i*10;
+  if(t.includes(q)) return 500;
+  return -1;
+}
+function lev(a,b){
+  const m=a.length,n=b.length;let prev=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){const cur=[i];
+    for(let j=1;j<=n;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev=cur}
+  return prev[n];
+}
+function highlight(term,q){
+  if(!q) return escapeHtml(term);
+  const t=norm(term);let idx=t.indexOf(q);
+  if(idx<0) return escapeHtml(term);
+  // map normalised index back onto the raw string (they align 1:1 in length)
+  return escapeHtml(term.slice(0,idx))+"<mark>"+escapeHtml(term.slice(idx,idx+q.length))+"</mark>"+escapeHtml(term.slice(idx+q.length));
+}
+const escapeHtml=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ============================================================
+   5. STATE + RENDER
+   ============================================================ */
+const state={q:"",selected:[],facilityType:"",sectors:new Set(),mode:"rank",active:0,open:false};
+
+const $=id=>document.getElementById(id);
+const input=$("ptInput"), menu=$("menu"), box=$("inputbox");
+
+// facility type select
+const ftSel=$("ftSel");
+Object.keys(TAXONOMY).forEach(ft=>{const o=document.createElement("option");o.value=ft;o.textContent=ft;ftSel.appendChild(o)});
+ftSel.addEventListener("change",e=>{state.facilityType=e.target.value;render()});
+
+// sector chips
+const sc=$("sectorChips");
+SECTORS.forEach(s=>{
+  const b=document.createElement("button");b.className="fchip";b.textContent=s;
+  b.onclick=()=>{state.sectors.has(s)?state.sectors.delete(s):state.sectors.add(s);
+    b.classList.toggle("on");render()};
+  sc.appendChild(b);
+});
+
+// scenarios
+const SCENARIOS=[
+ ["dye","Both groups at once","standard + contributor values"],
+ ["embroidery","Multi-parent value","two breadcrumbs, no cascade needed"],
+ ["kombucha","Long tail","6 facilities — findable, honestly labelled"],
+ ["mill","Ambiguous across sectors","rice, palm oil, denim, fabric"],
+ ["garment washing","Near miss","empty state with did-you-mean"],
+ ["xylophone","No match anywhere","the honest dead end, done well"]
+];
+const scen=$("scen");
+SCENARIOS.forEach(([q,title,sub])=>{
+  const b=document.createElement("button");
+  b.innerHTML=`<b>“${q}”</b><span>${sub}</span>`;
+  b.onclick=()=>{input.value=q;state.q=q;state.open=true;state.active=0;input.focus();render()};
+  scen.appendChild(b);
+});
+
+// mode toggle
+$("modeToggle").querySelectorAll("button").forEach(b=>{
+  b.onclick=()=>{$("modeToggle").querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");state.mode=b.dataset.mode;render()};
+});
+
+function candidates(){
+  const q=norm(state.q);
+  let pool=ALL.filter(o=>!state.selected.includes(o.term));
+  if(state.sectors.size) pool=pool.filter(o=>o.sectors.some(s=>state.sectors.has(s)));
+  if(state.facilityType && state.mode==="filter") pool=pool.filter(o=>o.parents.includes(state.facilityType));
+  let scored=pool.map(o=>({...o,s:q?score(o.term,q):(o.mapped?600:400)})).filter(o=>o.s>=0);
+  if(state.facilityType && state.mode==="rank")
+    scored.forEach(o=>{if(o.parents.includes(state.facilityType)) o.s+=250; else o.dim=true});
+  scored.sort((a,b)=> b.s-a.s || b.count-a.count);
+  return scored.slice(0,40);
+}
+
+function didYouMean(){
+  const q=norm(state.q); if(!q) return [];
+  return ALL.map(o=>{
+    const t=norm(o.term);
+    const best=Math.min(lev(q,t),...t.split(" ").map(w=>lev(q,w)));
+    return {...o,d:best};
+  }).filter(o=>o.d<=Math.max(3,Math.ceil(q.length*0.45)))
+    .sort((a,b)=>a.d-b.d||b.count-a.count).slice(0,3);
+}
+
+function optHtml(o,i){
+  const q=norm(state.q);
+  const crumbs=o.parents.length
+    ? o.parents.map(p=>escapeHtml(p)).join(' <span class="arr">·</span> ')
+    : '<span class="tag new">Not in taxonomy</span>';
+  const multi=o.parents.length>1?` <span class="tag multi">${o.parents.length} parents</span>`:"";
+  return `<div class="opt ${o.mapped?"":"alt"} ${i===state.active?"active":""} ${o.dim?"dim":""}" data-i="${i}" role="option">
+    <div class="main">
+      <div class="term">${highlight(o.term,q)}${multi}</div>
+      <div class="crumb">${crumbs}</div>
+    </div>
+    <div class="cnt"><b>${o.count.toLocaleString()}</b><span>facilities</span></div>
+  </div>`;
+}
+
+function render(){
+  // chips
+  box.querySelectorAll(".chip").forEach(n=>n.remove());
+  state.selected.forEach(t=>{
+    const o=INDEX.get(t);
+    const el=document.createElement("span");
+    el.className="chip"+(o.mapped?"":" unmapped");
+    el.innerHTML=escapeHtml(t)+' <button aria-label="Remove">&times;</button>';
+    el.querySelector("button").onclick=()=>{state.selected=state.selected.filter(x=>x!==t);render()};
+    box.insertBefore(el,input);
+  });
+
+  // derived facility types
+  const dv=$("derivedVals");
+  const parents=[...new Set(state.selected.flatMap(t=>INDEX.get(t).parents))];
+  const orphans=state.selected.filter(t=>!INDEX.get(t).parents.length);
+  if(!state.selected.length){
+    dv.innerHTML='<span class="none">Pick a processing type and its parent(s) fill in here automatically.</span>';
+  } else {
+    dv.innerHTML=parents.map(p=>`<span class="chip">${escapeHtml(p)}</span>`).join("")
+      + orphans.map(t=>`<span class="chip unmapped">No parent yet — ${escapeHtml(t)}</span>`).join("")
+      + (!parents.length&&!orphans.length?'<span class="none">—</span>':"");
+  }
+
+  // menu
+  if(!state.open){menu.classList.remove("open");input.setAttribute("aria-expanded","false");return}
+  const list=candidates();
+  let html="";
+  if(list.length){
+    const mapped=list.filter(o=>o.mapped), un=list.filter(o=>!o.mapped);
+    let i=0;
+    if(mapped.length){
+      html+=`<div class="grp"><span class="gt">Standard types</span><span class="gd">in the OS Hub taxonomy</span></div>`;
+      mapped.forEach(o=>{html+=optHtml(o,i++)});
+    }
+    if(un.length){
+      html+=`<div class="grp alt"><span class="gt">Contributor values</span><span class="gd">used in the data, not yet mapped</span></div>`;
+      un.forEach(o=>{html+=optHtml(o,i++)});
+    }
+    html+=`<div class="menu-foot"><span>${list.length} of ${ALL.length} values${state.facilityType&&state.mode==="rank"?" · matching facility type ranked first, none hidden":""}</span><span><kbd>↑</kbd><kbd>↓</kbd> <kbd>↵</kbd></span></div>`;
+  } else {
+    const dym=didYouMean();
+    html+=`<div class="emptystate">
+      <div class="eh">No facilities use “${escapeHtml(state.q)}”</div>
+      <div class="es">${dym.length?"Nothing in the data matches that exactly. These are the closest values we do hold:":"Nothing in the data is close to that. Try a shorter or more general term."}</div>
+      ${dym.length?`<div class="dym">Did you mean</div>`:""}
+    </div>`;
+    dym.forEach((o,i)=>{html+=optHtml(o,i)});
+    html+=`<div class="menu-foot"><span>Searched all ${ALL.length} values across every sector</span><span>Suggest a new value →</span></div>`;
+  }
+  menu.innerHTML=html;
+  menu.classList.add("open");
+  input.setAttribute("aria-expanded","true");
+
+  const opts=[...menu.querySelectorAll(".opt")];
+  const pool=list.length?list:didYouMean();
+  opts.forEach(el=>{
+    const i=+el.dataset.i;
+    el.onmouseenter=()=>{state.active=i;opts.forEach(x=>x.classList.toggle("active",+x.dataset.i===i))};
+    el.onmousedown=e=>{e.preventDefault();choose(pool[i])};
+  });
+}
+
+function choose(o){
+  if(!o) return;
+  if(!state.selected.includes(o.term)) state.selected.push(o.term);
+  state.q="";input.value="";state.active=0;render();input.focus();
+}
+
+input.addEventListener("input",e=>{state.q=e.target.value;state.active=0;state.open=true;render()});
+input.addEventListener("focus",()=>{state.open=true;render()});
+input.addEventListener("blur",()=>{setTimeout(()=>{state.open=false;render()},120)});
+input.addEventListener("keydown",e=>{
+  const list=candidates();
+  const pool=list.length?list:didYouMean();
+  if(e.key==="ArrowDown"){e.preventDefault();state.active=Math.min(state.active+1,pool.length-1);render()}
+  else if(e.key==="ArrowUp"){e.preventDefault();state.active=Math.max(state.active-1,0);render()}
+  else if(e.key==="Enter"){e.preventDefault();choose(pool[state.active])}
+  else if(e.key==="Escape"){state.open=false;render()}
+  else if(e.key==="Backspace"&&!input.value&&state.selected.length){state.selected.pop();render()}
+});
+box.addEventListener("click",()=>input.focus());
+
+/* backlog table */
+$("backlogBody").innerHTML=[...UNMAPPED]
+  .sort((a,b)=>(b[4]+b[1]*0.5)-(a[4]+a[1]*0.5)).slice(0,14)
+  .map(([t,c,s,home,q])=>`<tr>
+    <td class="term-cell">${escapeHtml(t)}</td>
+    <td style="color:var(--ink-3);font-size:12.5px">${s.join(", ")}</td>
+    <td class="num">${c.toLocaleString()}</td>
+    <td class="num">${q.toLocaleString()}</td>
+    <td style="color:${home==="—"?"var(--ink-3)":"var(--ink-2)"};font-size:12.5px">${home==="—"?"needs a new sector branch":escapeHtml(home)}</td>
+  </tr>`).join("");
+
+render();
+</script>
+</body>
+</html>
